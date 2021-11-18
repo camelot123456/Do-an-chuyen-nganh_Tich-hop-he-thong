@@ -1,0 +1,59 @@
+1/
+xem tài liệu 4, 7
+mục địch, phạm vi giữu nghuyên
+làm mục 2, đọc mục 1,3
+
+
+quy trình:
++xác định actor
+
+actor: 
++Quản trị viên: giám đốc(kiêm quản lý nhân sự) 
++Khách hàng: khách hàng tiềm năng, thành viên(kiêm khách hàng)
++bộ phận nhân viên: lễ tân, kế toán(kiêm lương), kinh doanh
+
+
++giám đốc(quản lý nhân sự): ---Bảo
+ -Đăng nhập(đăng xuất, thay đổi thông tin)
+ -tạo quyền(thêm , sửa, xóa, xem)
+ -quản lý tài khoản(xem, sửa, xóa, phân quyền, tạo tài khoản cho nhân viên nội bộ)
+
++kế toán(quản lý lương): ---Bảo
+ -Đăng nhập(đăng xuất, thay đổi thông tin)
+ -Thống kê theo (ngày, tháng, quý, năm)
+ -Hóa đơn(tìm kiếm, xem)
+
++kinh doanh: ---Bảo
+ -Đăng nhập(đăng xuất, thay đổi thông tin)
+ -quản lý phòng(thêm, sửa, xóa ,xem thông tin, tìm)
+ -quán lý khách hàng(xem, sửa, xóa, tìm)
+
++lễ tân: ---Thống
+ -Đăng nhập(đăng xuất, thay đổi thông tin)
+ -quản lý phòng(thuê, đặt, tìm, thông tin)
+ -kiểm tra tình trạng phòng
+ -quản lý hóa đơn(lập, in)
+ -tạo phiếu dịch vụ
+
++khách hàng(guest): ---Thống
+ -truy cập hệ thống(không cần account)
+ -xem ,tìm phòng
+ -chat CSKH
+
++thành viên(khách hàng có account): ---Thống
+ -đăng ký, đăng nhập (đăng xuất, thay đổi thông tin)
+ -truy cập hệ thống(không cần account)
+ -xem ,tìm, đặt, lưu phòng
+ -chat CSKH
+ -dịch vụ thanh toán
+ -xem lịch sử giao dịch(hóa đơn)
+
+
+
+tài liệu:
+
+link lưu trữ project: https://drive.google.com/drive/folders/1GHgXgHS1EhzVeN_JLajk71OZMSHXwjv-?usp=sharing
+
+ví dụ về đề tài: http://luanvan.net.vn/luan-van/de-tai-phan-mem-quan-ly-khach-san-70109/
+
+ví dụ về đề tài: https://www.bravo.com.vn/vi/Tin-tuc/Quan-tri-doanh-nghiep/Dac-ta-so-do-use-case-quan-ly-khach-san
