@@ -15,13 +15,14 @@ actor:
 
 +giám đốc(quản lý nhân sự): ---Bảo
  -Đăng nhập(đăng xuất, thay đổi thông tin)
- -tạo quyền(thêm , sửa, xóa, xem)
+ -quản lý nội bộ(authorization)(thêm , sửa, xóa, xem)
  -quản lý tài khoản(xem, sửa, xóa, phân quyền, tạo tài khoản cho nhân viên nội bộ)
+ -xem dashboard(thống kê khách hàng, doanh thu theo (ngày, tháng, quý, năm))
 
 +kế toán(quản lý lương): ---Bảo
  -Đăng nhập(đăng xuất, thay đổi thông tin)
- -Thống kê theo (ngày, tháng, quý, năm)
- -Hóa đơn(tìm kiếm, xem)
+ -quản lý thống kê theo (ngày, tháng, quý, năm)
+ -quản lý hóa đơn(tìm kiếm, xem)
 
 +kinh doanh: ---Bảo
  -Đăng nhập(đăng xuất, thay đổi thông tin)
@@ -30,10 +31,9 @@ actor:
 
 +lễ tân: ---Thống
  -Đăng nhập(đăng xuất, thay đổi thông tin)
- -quản lý phòng(thuê, đặt, tìm, thông tin)
- -kiểm tra tình trạng phòng
+ -quản lý phòng(thuê, đặt, trả, tìm, kiểm tra tình trạng, thông tin)
  -quản lý hóa đơn(lập, in)
- -tạo phiếu dịch vụ
+ -tạo phiếu dịch vụ(ăn uống, taxi, đặt xe tàu, máy bay, .....)
 
 +khách hàng(guest): ---Thống
  -truy cập hệ thống(không cần account)
