@@ -37,6 +37,8 @@ public class InvoiceEntity extends AbstractEntity{
 	@Column(name = "[RENTAL_HOURS]", columnDefinition = "int default 0")
 	private Integer rentalHours;
 	
+	
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "[INVOICE_SERVICE]",
