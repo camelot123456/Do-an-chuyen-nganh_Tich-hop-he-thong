@@ -1,11 +1,4 @@
-1/
-xem tài liệu 4, 7
-mục địch, phạm vi giữu nghuyên
-làm mục 2, đọc mục 1,3
 
-
-quy trình:
-+xác định actor
 
 actor: 
 +Quản trị viên: giám đốc(kiêm quản lý nhân sự) 

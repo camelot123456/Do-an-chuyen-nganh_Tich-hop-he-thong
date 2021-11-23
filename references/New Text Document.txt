@@ -1,0 +1,5 @@
+ĐỐI TƯỢNG NỘI BỘ:
++MỚI VÀO XÁC THỰC:USER, ROLE, USER_ROLE
+
+ROLE: 
+ : 
