@@ -11,7 +11,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,10 +29,14 @@ import lombok.ToString;
 @Table(name="[ACCOUNT]")
 public class AccountEntity extends AbstractEntity{
 	
+//	@Id
+//	@Column(name = "[ID]", columnDefinition = "varchar(10)")
+//	private String id;
+	
 	@Column(name = "[NAME]", columnDefinition = "nvarchar(60) not null")
 	private String name;
 	
-	@Column(name = "GENDER", columnDefinition = "bit default 1")
+	@Column(name = "[GENDER]", columnDefinition = "bit default 1")
 	private Boolean gender;
 	
 	@Column(name = "[BIRTHDAY]", columnDefinition = "datetime")
@@ -45,7 +48,7 @@ public class AccountEntity extends AbstractEntity{
 	@Column(name = "[EMAIL]", columnDefinition = "varchar(255) not null")
 	private String email;
 	
-	@Column(name = "[AVATAR]", columnDefinition = "ntext default ")
+	@Column(name = "[AVATAR]", columnDefinition = "ntext")
 	private String avatar;
 	
 	@Column(name = "[USERNAME]", columnDefinition = "varchar(255) not null unique")
@@ -54,18 +57,20 @@ public class AccountEntity extends AbstractEntity{
 	@Column(name = "[PASSWORD]", columnDefinition = "varchar(255) not null")
 	private String password;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
-			name = "[ACCOUNT_ROLE]",
-			joinColumns = @JoinColumn(name = "ID_ACCOUNT"),
-			inverseJoinColumns = @JoinColumn(name = "ID_ROLE")
+			name = "ACCOUNT_ROLE",
+			joinColumns = @JoinColumn(
+					name = "[ID]",
+					referencedColumnName = "[ID]"),
+			
+			inverseJoinColumns = @JoinColumn(
+					name = "ID_ROLE",
+					referencedColumnName = "[ID]")
 	)
 	private List<RoleEntity> roles;
 	
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "[INVOICE]")
+	@OneToMany(mappedBy = "account")
 	private List<InvoiceEntity> invoices;
 	
-	@Transient
-	private Integer age;
 }

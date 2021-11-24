@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +28,10 @@ import lombok.ToString;
 @Entity
 @Table(name="[INVOICE]")
 public class InvoiceEntity extends AbstractEntity{
+	
+//	@Id
+//	@Column(name = "[ID]", columnDefinition = "varchar(10)")
+//	private String id;
 
 	@Column(name = "[START_TIME]", columnDefinition = "datetime")
 	private Date startTime;
@@ -37,15 +42,19 @@ public class InvoiceEntity extends AbstractEntity{
 	@Column(name = "[RENTAL_HOURS]", columnDefinition = "int default 0")
 	private Integer rentalHours;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "[ID_ACCOUNT]")
+	private AccountEntity account;
 	
-	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
-			name = "[INVOICE_SERVICE]",
-			joinColumns = @JoinColumn(name = "[ID_INVOICE]"),
-			inverseJoinColumns = @JoinColumn(name = "[ID_SERVICE]")
+			name = "INVOICE_SERVICE",
+			joinColumns = @JoinColumn(name = "ID_INVOICE"),
+			inverseJoinColumns = @JoinColumn(name = "ID_SERVICE")
 	)
 	private List<ServiceEntity> services;
 	
+	@ManyToMany(mappedBy = "invoices")
+	private List<RoomTypeEntity> roomTypes;
 	
 }

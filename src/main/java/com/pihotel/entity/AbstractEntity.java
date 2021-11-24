@@ -3,9 +3,9 @@ package com.pihotel.entity;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,12 +20,11 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @MappedSuperclass
-public abstract class AbstractEntity {
+public class AbstractEntity {
 
 	@Id
-	@Column(name = "[ID]")
+	@Column(name = "[ID]", columnDefinition = "varchar(10)")
 	private String id;
 	
 	@Column(name = "[CREATE_AT]", columnDefinition = "datetime")
@@ -52,4 +51,6 @@ public abstract class AbstractEntity {
 	@Column(name = "[STATE]", columnDefinition = "bit default 1")
 	private Boolean state;
 	
+	@Transient
+	private String[] ids;
 }

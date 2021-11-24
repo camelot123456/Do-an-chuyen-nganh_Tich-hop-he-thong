@@ -23,12 +23,19 @@ import lombok.ToString;
 @Entity
 @Table(name="[SERVICE]")
 public class ServiceEntity extends AbstractEntity{
+	
+//	@Id
+//	@Column(name = "[ID]", columnDefinition = "varchar(10)")
+//	private String id;
 
 	@Column(name = "[NAME]", columnDefinition = "nvarchar(64)")
 	private String name;
 	
 	@Column(name = "[PRICE]", columnDefinition = "float default 0")
 	private Double price;
+	
+	@Column(name = "[QUANTITY]", columnDefinition = "int default 0")
+	private Integer quantity;
 	
 	@ManyToMany(mappedBy = "services")
 	private List<InvoiceEntity> invoices;
