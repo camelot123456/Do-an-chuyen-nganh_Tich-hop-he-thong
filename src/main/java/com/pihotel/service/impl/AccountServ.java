@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.pihotel.entity.AccountEntity;
@@ -25,6 +26,9 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 	@Autowired
 	private IAccountRepo accountRepo;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
@@ -35,7 +39,7 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 		}
 		
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		account.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getCode())));
+		account.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getCode())));
 		
 		UserDetails userDetails = new User(account.getUsername(), account.getPassword(), authorities);
 		return userDetails;
@@ -50,16 +54,21 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 	@Override
 	public AccountEntity save(AccountEntity account) {
 		// TODO Auto-generated method stub
-		return accountRepo.save(account);
+		if (!accountRepo.existsById(account.getId())) {
+			account.setPassword(passwordEncoder.encode(account.getPassword()));
+			return accountRepo.save(account);
+		}
+		else return null;
 	}
 
 	@Override
 	public AccountEntity update(AccountEntity account) {
 		// TODO Auto-generated method stub
-		if (!accountRepo.existsById(account.getId())) {
+		if (accountRepo.existsById(account.getId())) {
+			account.setPassword(passwordEncoder.encode(account.getPassword()));
 			return accountRepo.save(account);
 		}
-		return null;
+		else return null;
 	}
 
 	@Override

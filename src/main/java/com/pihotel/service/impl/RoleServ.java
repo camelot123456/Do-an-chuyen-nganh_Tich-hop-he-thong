@@ -24,7 +24,10 @@ public class RoleServ implements IRoleServ{
 	@Override
 	public RoleEntity save(RoleEntity role) {
 		// TODO Auto-generated method stub
-		return roleRepo.save(role);
+		if (roleRepo.existsById(role.getId())) {
+			return roleRepo.save(role);
+		}
+		else return null;
 	}
 
 	@Override
@@ -33,7 +36,7 @@ public class RoleServ implements IRoleServ{
 		if (!roleRepo.existsById(role.getId())) {
 			return roleRepo.save(role);
 		}
-		return null;
+		else return null;
 	}
 
 	@Override

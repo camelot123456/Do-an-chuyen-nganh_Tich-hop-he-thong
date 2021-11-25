@@ -24,16 +24,19 @@ public class InvoiceServ implements IInvoiceServ{
 	@Override
 	public InvoiceEntity save(InvoiceEntity invoice) {
 		// TODO Auto-generated method stub
-		return invoiceRepo.save(invoice);
+		if (!invoiceRepo.existsById(invoice.getId())) {
+			return invoiceRepo.save(invoice);
+		}
+		else return null;
 	}
 
 	@Override
 	public InvoiceEntity update(InvoiceEntity invoice) {
 		// TODO Auto-generated method stub
-		if (!invoiceRepo.existsById(invoice.getId())) {
+		if (invoiceRepo.existsById(invoice.getId())) {
 			return invoiceRepo.save(invoice);
 		}
-		return null;
+		else return null;
 	}
 
 	@Override

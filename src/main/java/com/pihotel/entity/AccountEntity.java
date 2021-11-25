@@ -57,7 +57,7 @@ public class AccountEntity extends AbstractEntity{
 	@Column(name = "[PASSWORD]", columnDefinition = "varchar(255) not null")
 	private String password;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "ACCOUNT_ROLE",
 			joinColumns = @JoinColumn(
