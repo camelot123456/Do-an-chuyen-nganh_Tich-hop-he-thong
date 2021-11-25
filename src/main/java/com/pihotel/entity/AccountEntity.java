@@ -5,12 +5,16 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.pihotel.entity.enums.EAuthenticationProvider;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -57,13 +61,16 @@ public class AccountEntity extends AbstractEntity{
 	@Column(name = "[PASSWORD]", columnDefinition = "varchar(255) not null")
 	private String password;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "[AUTH_PROVIDER]", columnDefinition = "varchar(15)")
+	private EAuthenticationProvider authProvider;
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "ACCOUNT_ROLE",
 			joinColumns = @JoinColumn(
 					name = "[ID]",
 					referencedColumnName = "[ID]"),
-			
 			inverseJoinColumns = @JoinColumn(
 					name = "ID_ROLE",
 					referencedColumnName = "[ID]")

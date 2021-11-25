@@ -13,6 +13,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import com.pihotel.oauth2.CustomOAuth2UserService;
+
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
@@ -30,9 +32,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private UserDetailsService userDetailService;
 	
+	@Autowired
+	private CustomOAuth2UserService customerOAuth2UserService;
+	
+	@Autowired
+	private CustomOAuth2LoginSuccessHandler customOAuth2LoginSuccessHandler;
+	
 	@Bean
 	public AuthenticationSuccessHandler successHandler() {
-		return new MyCustomLoginSuccessHandler("/error/500");
+		return new MyCustomLoginSuccessHandler("/error/401");
 	}
 	
 	@Bean
@@ -70,6 +78,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		.loginProcessingUrl("/handle_login")
 		.successHandler(successHandler())
 		.failureUrl("/login?error=True");
+		
+//		authentication oauth2
+		http.authorizeRequests().and().oauth2Login().loginPage("/login")
+		.userInfoEndpoint().userService(customerOAuth2UserService)
+		.and().successHandler(customOAuth2LoginSuccessHandler);
 		
 //		logout
 		http.authorizeRequests().and().logout().logoutUrl("/logout").logoutSuccessUrl("/home");

@@ -24,7 +24,7 @@ import lombok.ToString;
 public class AbstractEntity {
 
 	@Id
-	@Column(name = "[ID]", columnDefinition = "varchar(10)")
+	@Column(name = "[ID]", columnDefinition = "varchar(255)")
 	private String id;
 	
 	@Column(name = "[CREATE_AT]", columnDefinition = "datetime")

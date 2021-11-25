@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.pihotel.entity.AccountEntity;
+import com.pihotel.entity.enums.EAuthenticationProvider;
 import com.pihotel.repository.IAccountRepo;
 import com.pihotel.service.IAccountServ;
 
@@ -77,6 +78,39 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 		for (String id : ids) {
 			accountRepo.deleteById(id);
 		}
+	}
+
+	@Override
+	public AccountEntity findOneById(String id) {
+		// TODO Auto-generated method stub
+		return accountRepo.findOneById(id);
+	}
+
+	@Override
+	public void saveOneNewAccountByOAuth2(String id, String name, String email, String avatar,
+			EAuthenticationProvider provider) {
+		// TODO Auto-generated method stub
+		AccountEntity account = AccountEntity.builder()
+				.username(email)
+				.email(email)
+				.name(name)
+				.avatar(avatar)
+				.authProvider(provider)
+				.password(email)
+				.build();
+		account.setId(id);
+		accountRepo.save(account);
+	}
+
+	@Override
+	public void updateOneAccountByOAuth2(AccountEntity account, String name, String email, String avatar,
+			EAuthenticationProvider provider) {
+		// TODO Auto-generated method stub
+		account.setName(name);
+		account.setEmail(email);
+		account.setAvatar(avatar);
+		account.setAuthProvider(provider);
+		accountRepo.save(account);
 	}
 
 }
