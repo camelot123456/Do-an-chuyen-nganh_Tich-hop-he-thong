@@ -50,9 +50,20 @@ public class CustomOAuth2User implements OAuth2User{
 		return this.clientName;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public String getAvatar() {
 		if (clientName == "Google") {
 			return oAuth2User.getAttribute("picture");
+		} else if (clientName == "Facebook") {
+			if(oAuth2User.getAttributes().containsKey("picture")) {
+	            Map<String, Object> pictureObj =  (Map<String, Object>) oAuth2User.getAttributes().get("picture");
+	            if(pictureObj.containsKey("data")) {
+	                Map<String, Object>  dataObj = (Map<String, Object>) pictureObj.get("data");
+	                if(dataObj.containsKey("url")) {
+	                    return (String) dataObj.get("url");
+	                }
+	            }
+	        }
 		}
 		return null;
 	}
@@ -60,6 +71,8 @@ public class CustomOAuth2User implements OAuth2User{
 	public EAuthenticationProvider getAuthenticationProvider() {
 		if (clientName == "Google") {
 			return EAuthenticationProvider.GOOGLE;
+		} else if(clientName == "Facebook") {
+			return EAuthenticationProvider.FACEBOOK;
 		}
 		return null;
 	}
@@ -67,6 +80,8 @@ public class CustomOAuth2User implements OAuth2User{
 	public String getId() {
 		if (clientName == "Google") {
 			return oAuth2User.getAttribute("sub").toString();
+		} else if (clientName == "Facebook") {
+			return oAuth2User.getAttribute("id");
 		}
 		return ""; 
 	}

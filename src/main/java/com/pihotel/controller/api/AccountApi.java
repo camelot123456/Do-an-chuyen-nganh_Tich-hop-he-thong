@@ -17,28 +17,28 @@ import com.pihotel.entity.AccountEntity;
 import com.pihotel.service.IAccountServ;
 
 @RestController
-@RequestMapping(value = {"/api"}, consumes = {"application/json"})
+@RequestMapping(value = { "/api" })
 public class AccountApi {
 
 	@Autowired
 	private IAccountServ accountServ;
 	
-	@GetMapping(value = "/account")
+	@GetMapping(value = "/account", consumes = {"application/json"})
 	public ResponseEntity<List<AccountEntity>> show(){
 		return ResponseEntity.ok().body(accountServ.findAll());
 	}
 	
-	@PostMapping(value = "/account")
+	@PostMapping(value = "/account", consumes = {"application/json"})
 	public ResponseEntity<AccountEntity> insert(@RequestBody AccountEntity account){
 		return ResponseEntity.ok().body(accountServ.save(account));
 	}
 	
-	@PutMapping(value = "/account")
+	@PutMapping(value = "/account", consumes = {"application/json"})
 	public ResponseEntity<AccountEntity> update(@RequestBody AccountEntity account){
 		return ResponseEntity.ok().body(accountServ.update(account));
 	}
 	
-	@DeleteMapping(value = "/account")
+	@DeleteMapping(value = "/account", consumes = {"application/json"})
 	public ResponseEntity<String> delete(@RequestBody AccountEntity account){
 		accountServ.delete(account.getIds());
 		return new ResponseEntity<String>("Product deleted successfully!", HttpStatus.OK);

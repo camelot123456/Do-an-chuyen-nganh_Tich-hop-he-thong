@@ -91,12 +91,12 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 			EAuthenticationProvider provider) {
 		// TODO Auto-generated method stub
 		AccountEntity account = AccountEntity.builder()
-				.username(email)
+				.username(String.valueOf(System.currentTimeMillis()))
+				.password(String.valueOf(System.currentTimeMillis()))
 				.email(email)
 				.name(name)
 				.avatar(avatar)
 				.authProvider(provider)
-				.password(email)
 				.build();
 		account.setId(id);
 		accountRepo.save(account);
