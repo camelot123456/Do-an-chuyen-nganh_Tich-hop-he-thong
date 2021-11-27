@@ -11,9 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
+import com.pihotel.constant.SystemConstant;
 import com.pihotel.repository.IAccountRepo;
 
-public class MyCustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
+public class MyCustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
 	@Autowired
 	private IAccountRepo accountRepo;
@@ -31,6 +32,7 @@ public class MyCustomLoginSuccessHandler extends SavedRequestAwareAuthentication
 		
 //		all handle in here
 		request.getSession().setAttribute("account", accountRepo.findByUsername(authentication.getName()));
+		SystemConstant.EMAIL_AUDITING = accountRepo.findByUsername(authentication.getName()).getEmail();
 		if (session != null) {
 			String redirectUrl = (String) session.getAttribute("redirectUrl");
 			if (redirectUrl != null) {

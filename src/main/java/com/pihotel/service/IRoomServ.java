@@ -2,6 +2,8 @@ package com.pihotel.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.pihotel.entity.RoomEntity;
 
 public interface IRoomServ {
@@ -13,5 +15,6 @@ public interface IRoomServ {
 	public RoomEntity update(RoomEntity room);
 
 	public void delete(String[] ids);
-
+	
+	public Page<RoomEntity> findAll(int numPage, String sortField, String sortDir, String keyword);
 }

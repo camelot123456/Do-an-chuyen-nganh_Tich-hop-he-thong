@@ -3,9 +3,21 @@ package com.pihotel.entity;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,23 +33,33 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)//Lắng nghe sự kiện auditing
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")//Xử lý lỗi đệ quy vô hạn trong jackson khi đối tượng có thuộc tính tham chiếu đến đối tượng khác
 public class AbstractEntity {
 
 	@Id
 	@Column(name = "[ID]", columnDefinition = "varchar(255)")
 	private String id;
 	
-	@Column(name = "[CREATE_AT]", columnDefinition = "datetime")
+	@CreatedDate
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "[CREATE_AT]", columnDefinition = "datetime", updatable = false)//cờ updatable giúp cập nhập bản khi thay vì bị ghi đè 
 	private Date createAt;
 	
+	@CreatedBy
+	@Column(name = "[CREATE_BY]", columnDefinition = "nvarchar(60)", updatable = false)
+	private String createBy;
+	
+	@LastModifiedBy
 	@Column(name = "[MODIFIED_BY]", columnDefinition = "nvarchar(60)")
 	private String modifiedBy;
 	
+	@LastModifiedDate
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "[MODIFIED_AT]", columnDefinition = "datetime")
 	private Date modifiedAt;
-	
-	@Column(name = "[CREATE_BY]", columnDefinition = "nvarchar(60)")
-	private String createBy;
 	
 	@Column(name = "[DELETE_BY]", columnDefinition = "nvarchar(60)")
 	private String deleteBy;
@@ -51,6 +73,6 @@ public class AbstractEntity {
 	@Column(name = "[STATE]", columnDefinition = "bit default 1")
 	private Boolean state;
 	
-	@Transient
+	@Transient //Transient giúp thêm thuộc tính cho đối tượng nhưng sẽ không thêm thuộc tính vào table trong cơ sở sữ liệu
 	private String[] ids;
 }

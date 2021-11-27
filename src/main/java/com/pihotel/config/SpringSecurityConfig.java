@@ -40,7 +40,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Bean
 	public AuthenticationSuccessHandler successHandler() {
-		return new MyCustomLoginSuccessHandler("/error/401");
+		return new MyCustomLoginSuccessHandler("/home");
 	}
 	
 	@Bean
@@ -63,10 +63,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 //		access control
 		http.authorizeRequests().antMatchers("/", "/login**", "/logout**", "/home**", "/register**", "/error**").permitAll();
 		
-//		http.authorizeRequests().antMatchers("/api/", "/admin**")
+//		http.authorizeRequests().antMatchers("/api", "/admin**")
 //			.hasAnyAuthority("ROLE_DIRECTOR", "ROLE_ACCOUNTANT", "ROLE_BUSINESS", "ROLE_RECEPTIONIST");
 		
-		http.authorizeRequests().antMatchers("/api/", "/admin**")
+		http.authorizeRequests().antMatchers("/api", "/admin**")
 		.access("hasAnyRole('ROLE_DIRECTOR', 'ROLE_ACCOUNTANT', 'ROLE_BUSINESS', 'ROLE_RECEPTIONIST')");
 		
 		http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/error/403");

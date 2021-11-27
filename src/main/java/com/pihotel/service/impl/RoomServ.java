@@ -3,6 +3,10 @@ package com.pihotel.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.pihotel.entity.RoomEntity;
@@ -46,7 +50,18 @@ public class RoomServ implements IRoomServ{
 			roomRepo.deleteById(id);
 		}
 	}
-	
-	
+
+	@Override
+	public Page<RoomEntity> findAll(int numPage, String sortField, String sortDir,
+			String keyword) {
+		// TODO Auto-generated method stub
+		Sort sort = Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		Pageable pageable = PageRequest.of(numPage - 1, 10, sort);	
+		if (keyword != null) {
+			return roomRepo.search(keyword, pageable);
+		}
+		return roomRepo.findAll(pageable);
+	}
 	
 }

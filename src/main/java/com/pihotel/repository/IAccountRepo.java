@@ -10,4 +10,6 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 	
 	public AccountEntity findOneById(String id);
 	
+	
+	
 }
