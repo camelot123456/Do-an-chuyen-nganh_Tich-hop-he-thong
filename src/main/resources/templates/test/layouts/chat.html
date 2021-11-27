@@ -1,91 +1,53 @@
 <!DOCTYPE html>
 <html>
+  <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+      <title>Spring Boot WebSocket Chat Application</title>
+      <link rel="stylesheet" href="/chat/css/main.css" />
+  </head>
+  <body>
+    <noscript>
+      <h2>Sorry! Your browser doesn't support Javascript</h2>
+    </noscript>
 
-<head>
-    <title>Demo websocket</title>
-</head>
+    <div id="username-page">
+        <div class="username-page-container">
+            <h1 class="title">Type your username</h1>
+            <form id="usernameForm" name="usernameForm">
+                <div class="form-group">
+                    <input type="text" id="name" placeholder="Username" autocomplete="off" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="accent username-submit">Start Chatting</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-<body>
-    <h1>Demo WebSocket</h1>
-    <input onclick="connect()" value="Connect" type="button" />
-    <input onclick="disconnect()" value="Disconnect" type="button" /> <br /><br />
+    <div id="chat-page" class="hidden">
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2>Spring WebSocket Chat Demo</h2>
+            </div>
+            <div class="connecting">
+                Connecting...
+            </div>
+            <ul id="messageArea">
 
-    <input id="textMessage" type="text" />
-    <input onclick="sendMessage()" value="Send Message" type="button" /> <br /><br />
+            </ul>
+            <form id="messageForm" name="messageForm">
+                <div class="form-group">
+                    <div class="input-group clearfix">
+                        <input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
+                        <button type="submit" class="primary">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    <textarea id="textAreaMessage" rows="10" cols="50"></textarea>
-
-    <script type="text/javascript">
-        var websocket;
-
-        // function connect(){
-        // 	websocket = new WebSocket('ws://localhost:8081/WebSocket1/server1')
-        //     websocket.onopen = mes => doOpen(mes);
-        //     websocket.onmessage = mes => doMessage(mes);
-        //     websocket.onclose = mes => doClose(mes);
-        //     websocket.onerror = mes => doError(mes);
-        // }
-
-        // function doOpen(mes){
-        //     textAreaMessage.value += 'Server đã kết nối ................ \n'
-        // }
-
-        // function doMessage(mes) {
-        //     textAreaMessage.value += `Phản hồi từ Server: ${mes.data} \n`
-        // }
-
-        // function onClose(mes) {
-        //     textAreaMessage.value += `Server đã đóng kết nối ................ \n`
-        // }
-
-        // function onError(mes) {
-        //     textAreaMessage.value += `Lỗi ................ ${mes} \n`
-        // }
-
-        // function sendMessage() {
-        //     if (typeof websocket != 'undefined' && websocket.readyState == WebSocket.OPEN) {
-        //         websocket.send(textMessage.value)
-        //         textAreaMessage.value += `Gửi đến Server: ${textAreaMessage.value} \n`
-        //         textMessage.value = ''
-        //     }
-        // }
-        var $ = document.querySelector.bind(document)
-        var textAreaMessage = $('#textAreaMessage')
-        var textMessage = $('#textMessage')
-
-        function connect() {
-            websocket = new WebSocket("ws://localhost:8081/server1");
-            websocket.onopen = function (message) { processOpen(message); };
-            websocket.onmessage = function (message) { processMessage(message); };
-            websocket.onclose = function (message) { processClose(message); };
-            websocket.onerror = function (message) { processError(message); };
-        }
-        function disconnect() {
-            websocket.close();
-        }
-
-        function processOpen(message) {
-            textAreaMessage.value += "Server connect... \n";
-        }
-        function processMessage(message) {
-            console.log(message);
-            textAreaMessage.value += "Response From Server ==> " + message.data + " \n";
-        }
-        function processClose(message) {
-            textAreaMessage.value += "Server Disconnect... \n";
-        }
-        function processError(message) {
-            textAreaMessage.value += "Error... " + message + " \n";
-        }
-        function sendMessage() {
-            if (typeof websocket != 'undefined' && websocket.readyState == WebSocket.OPEN) {
-                websocket.send(textMessage.value);
-                textAreaMessage.value += "Send to Server ==> " + textMessage.value + " \n";
-                textMessage.value = "";
-            }
-        }
-    </script>
-
-</body>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="/chat/js/main.js"></script>
+  </body>
 </html>

@@ -45,6 +45,8 @@ actor:
 
 tài liệu:
 
+Tài liệu về websocket: https://www.callicoder.com/spring-boot-websocket-chat-example/
+
 link lưu trữ project: https://drive.google.com/drive/folders/1GHgXgHS1EhzVeN_JLajk71OZMSHXwjv-?usp=sharing
 
 ví dụ về đề tài: http://luanvan.net.vn/luan-van/de-tai-phan-mem-quan-ly-khach-san-70109/

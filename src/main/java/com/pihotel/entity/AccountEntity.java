@@ -73,6 +73,9 @@ public class AccountEntity extends AbstractEntity {
 	@Transient
 	private String sender;
 	
+	@Transient
+	private String time;
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "ACCOUNT_ROLE", 
