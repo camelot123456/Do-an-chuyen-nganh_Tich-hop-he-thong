@@ -14,8 +14,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.pihotel.entity.enums.EAuthenticationProvider;
+import com.pihotel.entity.enums.EMessageType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,6 +64,15 @@ public class AccountEntity extends AbstractEntity {
 	@Column(name = "[AUTH_PROVIDER]", columnDefinition = "varchar(15)")
 	private EAuthenticationProvider authProvider;
 
+	@Transient
+	private EMessageType type;
+	
+	@Transient
+	private String content;
+	
+	@Transient
+	private String sender;
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "ACCOUNT_ROLE", 
@@ -76,5 +87,5 @@ public class AccountEntity extends AbstractEntity {
 	
 	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<InvoiceEntity> invoices;
-
+	
 }

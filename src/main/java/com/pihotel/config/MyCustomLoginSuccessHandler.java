@@ -33,6 +33,7 @@ public class MyCustomLoginSuccessHandler extends SavedRequestAwareAuthentication
 //		all handle in here
 		request.getSession().setAttribute("account", accountRepo.findByUsername(authentication.getName()));
 		SystemConstant.EMAIL_AUDITING = accountRepo.findByUsername(authentication.getName()).getEmail();
+		request.getSession().setAttribute("username", accountRepo.findByUsername(authentication.getName()).getName());
 		if (session != null) {
 			String redirectUrl = (String) session.getAttribute("redirectUrl");
 			if (redirectUrl != null) {
