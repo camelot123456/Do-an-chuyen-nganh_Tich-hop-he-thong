@@ -70,8 +70,8 @@ public class AbstractEntity {
 	@Column(name = "[DELETED]", columnDefinition = "bit default 0")
 	private Boolean deleted;
 	
-	@Column(name = "[STATE]", columnDefinition = "bit default 1")
-	private Boolean state;
+	@Column(name = "[ENABLED]", columnDefinition = "bit default 0")
+	private Boolean enabled;
 	
 	@Transient //Transient giúp thêm thuộc tính cho đối tượng nhưng sẽ không thêm thuộc tính vào table trong cơ sở sữ liệu
 	private String[] ids;

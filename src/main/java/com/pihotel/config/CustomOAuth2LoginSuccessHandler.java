@@ -35,9 +35,11 @@ public class CustomOAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSucc
 		String name = oAuth2User.getName();
 		String avatar = oAuth2User.getAvatar();
 		String email = oAuth2User.getEmail();
+		Boolean gender = oAuth2User.getGender();
+		String phone = oAuth2User.getPhone();
 		EAuthenticationProvider provider = oAuth2User.getAuthenticationProvider();
 		
-		log.info("id: {}, name: {}, avatar: {}, email: {}, provider: {}", id, name, avatar, email, provider);
+		log.info("id: {}, name: {}, avatar: {}, email: {}, provider: {}, Phone: {}, gender: {}", id, name, avatar, email, provider, phone, gender);
 		
 		AccountEntity account = accountServ.findOneById(id);
 		request.getSession().setAttribute("account", account);

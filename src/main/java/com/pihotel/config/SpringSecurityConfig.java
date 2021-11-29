@@ -38,6 +38,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private CustomOAuth2LoginSuccessHandler customOAuth2LoginSuccessHandler;
 	
+	@Autowired
+	private MyCustomLogoutSuccessHandler myCustomLogoutSuccessHandler;
+	
 	@Bean
 	public AuthenticationSuccessHandler successHandler() {
 		return new MyCustomLoginSuccessHandler("/home");
@@ -85,8 +88,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		.and().successHandler(customOAuth2LoginSuccessHandler);
 		
 //		logout
-		http.authorizeRequests().and().logout().logoutUrl("/logout").logoutSuccessUrl("/home");
-		http.authorizeRequests().and().logout().deleteCookies("JSESSIONID", "remember-me");
+		http.authorizeRequests().and().logout()
+		.logoutSuccessHandler(myCustomLogoutSuccessHandler).logoutSuccessUrl("/home").permitAll();
+		http.authorizeRequests().and().logout()
+		.deleteCookies("JSESSIONID", "remember-me");
 		
 //		remember-me config
 		http.authorizeRequests().and().rememberMe().rememberMeParameter("remember-me")

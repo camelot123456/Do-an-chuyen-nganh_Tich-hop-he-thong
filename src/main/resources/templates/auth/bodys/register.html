@@ -1,0 +1,97 @@
+<th:block layout:fragment="content" layout:decorate="~{auth/layouts/index}">
+
+    <form class="border rounded shadow h-auto mx-auto p-4" style="width: 35%" id="form-register" name="form-register">
+        <h3 class="text-center text-primary my-3">
+            ĐĂNG KÝ
+        </h3>
+
+        <div class="mb-3">
+            <label for="name" class="form-label text-primary">Họ & tên</label>
+            <input type="text" class="form-control" name="name" id="name">
+        </div>
+
+        <div class="mb-3">
+            <label for="username" class="form-label text-primary">Tên đăng nhập</label>
+            <input type="text" class="form-control" name="username" id="username">
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label text-primary">Email</label>
+            <input type="email" class="form-control" name="email" id="email">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label text-primary">Mật khẩu</label>
+            <input type="password" class="form-control" id="password">
+        </div>
+
+        <div class="mb-3">
+            <label for="re-password" class="form-label text-primary">Xác nhận mật khẩu</label>
+            <input type="password" class="form-control" name="password" id="re-password">
+        </div>
+
+        <div class="d-grid gap-2">
+            <button type="button" id="btn-register" class="btn btn-primary my-4 ">Đăng ký</button>
+            <a href="/login" class="text-center">Bạn đã có tài khoản?</a>
+            <hr>
+        </div>
+
+
+        <div class="d-flex justify-content-between">
+            <a href="/oauth2/authorization/google" style="width: 45%" class="btn btn-outline-danger">
+                <i class="fa fa-google" aria-hidden="true"></i> GOOGLE
+            </a>
+            <a href="/oauth2/authorization/facebook" style="width: 45%" class="btn btn-outline-primary">
+                <i class="fa fa-facebook" aria-hidden="true"></i> FACEBOOK
+            </a>
+        </div>
+    </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <script>
+        var $ = document.querySelector.bind(document);
+        var $$ = document.querySelectorAll.bind(document);
+
+        var formRegister = $('#form-register')
+        var btnRegister = $('#btn-register')
+
+        btnRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('hello')
+            var formData = new FormData(formRegister);
+
+            formData.append("account", new Blob(
+                [JSON.stringify({
+                    'name': formData.get('name'),
+                    'username': formData.get('username'),
+                    'email': formData.get('email'),
+                    'password': formData.get('password')
+                })], {
+                type: "application/json"
+            }))
+
+            fetch('/register', {
+                method: 'POST',
+                body: formData
+            })
+                .then(resp => {
+                    // if (resp.status === 200) {
+                    //     alert("Success Validate")
+                    // } else {
+                    //     alert("Fail Validate")
+                    // }
+                    
+                })
+                .catch(err => {
+                    alert("Error")
+                })
+
+            window.location.href = "http://localhost:8081/register/success"
+        })
+
+    </script>
+</th:block>

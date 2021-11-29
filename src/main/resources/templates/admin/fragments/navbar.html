@@ -1,0 +1,47 @@
+<th:block th:fragment="navbar">
+    <div class="hstack gap-4 px-3 py-2 bg-light shadow">
+        <div class="">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Recipient's username"
+                    aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-primary" type="button" id="button-addon2">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <div class="ms-auto">
+            <a href="#" class="position-relative">
+                <i class="fa fa-bell" aria-hidden="true"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    4
+                    <span class="visually-hidden">unread messages</span>
+                </span>
+            </a>
+        </div>
+        <div class="">
+            <a href="#" class="position-relative">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    4
+                    <span class="visually-hidden">unread messages</span>
+                </span>
+            </a>
+        </div>
+        <div class="vr"></div>
+        <div class="dropdown">
+            <a class="nav-link" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Hinata Chan<img class="rounded-circle ms-2" style="width: 40px;"
+                    src="https://i.pinimg.com/474x/bb/d3/57/bbd35765095ddfc19693ea3a66ab1ec8.jpg" alt="">
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
+                <li><a class="dropdown-item" href="#">Cài đặt</a></li>
+                <li><a class="dropdown-item" href="#">Blog</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
+            </ul>
+        </div>
+    </div>
+</th:block>

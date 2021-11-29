@@ -21,10 +21,10 @@ import lombok.ToString;
 
 @Getter
 @Setter
+@Builder
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
 @Table(name="[INVOICE]")
 public class InvoiceEntity extends AbstractEntity{

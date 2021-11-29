@@ -64,6 +64,9 @@ public class AccountEntity extends AbstractEntity {
 	@Column(name = "[AUTH_PROVIDER]", columnDefinition = "varchar(15)")
 	private EAuthenticationProvider authProvider;
 
+	@Column(name = "[VERIFICATION_CODE]", columnDefinition = "varchar(64)")
+	private String verificationCode;
+	
 	@Transient
 	private EMessageType type;
 	
@@ -75,6 +78,7 @@ public class AccountEntity extends AbstractEntity {
 	
 	@Transient
 	private String time;
+	
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(

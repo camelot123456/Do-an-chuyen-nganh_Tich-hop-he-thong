@@ -1,0 +1,65 @@
+<th:block th:fragment="nav_checked">
+    <div class="mt-4 bg-light shadow py-2">
+        <div class="container hstack gap-4 d-flex align-items-center justify-content-between">
+            <div class="">
+                <label for="date-start">Nhận phòng</label>
+                <input type="datetime-local" class="form-control" id="date-start">
+            </div>
+            <div class="">
+                <label for="date-end">Trả phòng</label>
+                <input type="datetime-local" class="form-control" id="date-end">
+            </div>
+            <div class="">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Loại phòng
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Vip
+                            <span class="badge bg-primary rounded-pill">14</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Tour
+                            <span class="badge bg-primary rounded-pill">2</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Gia đình
+                            <span class="badge bg-primary rounded-pill">1</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Dịch vụ
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li class="list-group">
+                        <label class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" value="">
+                            Ăn uống
+                        </label>
+                        <label class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" value="">
+                            Thuê xe
+                        </label>
+                        <label class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" value="">
+                            Giặt ủi
+                        </label>
+                        <label class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" value="">
+                            Dịch vụ khác
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="">
+                <button class="btn btn-outline-primary" type="submit">Kiểm tra</button>
+            </div>
+        </div>
+    </div>
+</th:block>

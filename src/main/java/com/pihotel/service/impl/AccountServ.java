@@ -1,9 +1,16 @@
 package com.pihotel.service.impl;
 
+import org.springframework.data.domain.Pageable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -17,8 +24,10 @@ import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.enums.EAuthenticationProvider;
 import com.pihotel.repository.IAccountRepo;
 import com.pihotel.service.IAccountServ;
+import com.pihotel.service.IJavaSenderService;
 
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.utility.RandomString;
 
 @Service
 @Slf4j
@@ -26,6 +35,9 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 
 	@Autowired
 	private IAccountRepo accountRepo;
+	
+	@Autowired
+	private IJavaSenderService senderService;
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -98,6 +110,7 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 				.avatar(avatar)
 				.authProvider(provider)
 				.build();
+		account.setEnabled(email == null ? false : true);
 		account.setId(id);
 		accountRepo.save(account);
 	}
@@ -111,6 +124,51 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 		account.setAvatar(avatar);
 		account.setAuthProvider(provider);
 		accountRepo.save(account);
+	}
+
+	@Override
+	public void register(AccountEntity account, String siteURL)
+			throws MessagingException, UnsupportedEncodingException {
+		// TODO Auto-generated method stub
+		String verifyCode = RandomString.make(64);
+		
+		account.setEnabled(false);
+		account.setId(String.valueOf(System.currentTimeMillis()));
+		account.setVerificationCode(verifyCode);
+		account.setAuthProvider(EAuthenticationProvider.LOCAL);
+		
+		save(account);
+		
+		senderService.sendVerificationEmail(account, siteURL);
+	}
+
+	@Override
+	public Boolean verify(String verificationCode) {
+		// TODO Auto-generated method stub
+		AccountEntity account = accountRepo.findByVerificationCode(verificationCode);
+		if (account == null || account.getEnabled() == true) {
+			return false;
+		} else {
+			account.setVerificationCode(null);
+			account.setEnabled(true);
+			
+			accountRepo.save(account);
+			
+			return true;
+		}
+	}
+
+	@Override
+	public Page<AccountEntity> findAll(int numPage, String sortField, String sortDir, String keyword) {
+		// TODO Auto-generated method stub
+		Sort sort = Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		Pageable pageable = PageRequest.of(numPage - 1, 10, sort);
+		if (keyword == "") {
+			return accountRepo.findAll(pageable);
+		}
+		return accountRepo.search(keyword, pageable);
+		
 	}
 
 }

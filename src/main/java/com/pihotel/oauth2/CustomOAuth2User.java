@@ -85,4 +85,22 @@ public class CustomOAuth2User implements OAuth2User{
 		}
 		return ""; 
 	}
+	
+	public Boolean getGender() {
+		if (clientName == "Facebook") {
+			return oAuth2User.getAttribute("gender");
+		} else if(clientName == "Google") {
+			return oAuth2User.getAttribute("gender");
+		}
+		return false;
+	}
+	
+	public String getPhone() {
+		if (clientName == "Facebook") {
+			return oAuth2User.getAttribute("phone");
+		} else if(clientName == "Google") {
+			return oAuth2User.getAttribute("phone");
+		}
+		return null;
+	}
 }

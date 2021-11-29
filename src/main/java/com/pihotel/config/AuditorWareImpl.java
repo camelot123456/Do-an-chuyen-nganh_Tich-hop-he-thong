@@ -17,7 +17,7 @@ public class AuditorWareImpl implements AuditorAware<String>{
 	public Optional<String> getCurrentAuditor() {
 		// TODO Auto-generated method stub
 //		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		return Optional.of(SystemConstant.EMAIL_AUDITING);
+		return Optional.of(SystemConstant.EMAIL_AUDITING == null ? "GUEST" : SystemConstant.EMAIL_AUDITING);
 	}
 
 }

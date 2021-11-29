@@ -1,0 +1,76 @@
+<th:block th:fragment="canvas">
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="20" id="offcanvasWithBothOptions"
+        aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header">
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="">
+            <h5 class="text-primary text-center">
+                Đặt phòng
+            </h5>
+        </div>
+        <div class="offcanvas-body">
+
+            <div class="mb-3 row">
+                <label for="inputPassword" class="col-sm-4 col-form-label">Nhận phòng</label>
+                <div class="col-sm-8">
+                    <input type="datetime-local" class="form-control" id="inputPassword">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="inputPassword" class="col-sm-4 col-form-label">Trả phòng</label>
+                <div class="col-sm-8">
+                    <input type="datetime-local" class="form-control" id="inputPassword">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="inputPassword" class="col-sm-4 col-form-label">Loại phòng</label>
+                <div class="col-sm-8">
+                    <select class="form-select form-select" aria-label=".form-select-lg example">
+                        <option selected>Vip</option>
+                        <option value="2">Bình thường</option>
+                        <option value="3">Gia đình</option>
+                        <option value="1">Cặp đôi</option>
+                        <option value="2">Tour</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="inputPassword" class="col-sm-4 col-form-label">Người lớn</label>
+                <div class="col-sm-8">
+                    <select class="form-select form-select" aria-label=".form-select-lg example">
+                        <option selected>1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="1">4</option>
+                        <option value="2">5</option>
+                        <option value="3">6</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="inputPassword" class="col-sm-4 col-form-label">The thành viên</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="inputPassword">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="inputPassword" class="col-sm-4 col-form-label">Mã ưu đãi</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="inputPassword">
+                </div>
+            </div>
+
+            <div class="my-4 row">
+                <button class="mx-auto btn btn-outline-primary w-35" type="submit">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Đặt phòng
+                </button>
+            </div>
+        </div>
+    </div>
+</th:block>
