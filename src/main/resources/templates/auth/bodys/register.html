@@ -31,7 +31,10 @@
         </div>
 
         <div class="d-grid gap-2">
-            <button type="button" id="btn-register" class="btn btn-primary my-4 ">Đăng ký</button>
+            <button class="btn btn-primary my-4 " type="button" id="btn-register">
+                <span class="spinner-register" role="status" aria-hidden="true"></span>
+                Đăng ký
+            </button>
             <a href="/login" class="text-center">Bạn đã có tài khoản?</a>
             <hr>
         </div>
@@ -56,12 +59,13 @@
         var $ = document.querySelector.bind(document);
         var $$ = document.querySelectorAll.bind(document);
 
+        var spinnerRegister = $('.spinner-register');
         var formRegister = $('#form-register')
         var btnRegister = $('#btn-register')
 
         btnRegister.addEventListener('click', (e) => {
-            e.preventDefault();
-            console.log('hello')
+            btnRegister.setAttribute('disabled', 'disabled');
+
             var formData = new FormData(formRegister);
 
             formData.append("account", new Blob(
@@ -74,23 +78,26 @@
                 type: "application/json"
             }))
 
+            spinnerRegister.className = "spinner-border spinner-border-sm"
+
             fetch('/register', {
                 method: 'POST',
                 body: formData
             })
                 .then(resp => {
-                    // if (resp.status === 200) {
-                    //     alert("Success Validate")
-                    // } else {
-                    //     alert("Fail Validate")
-                    // }
-                    
+                    console.log(resp.status)
+                    if (resp.status === 200) {
+                        window.location.href = "http://localhost:8081/register/success"
+                    } else {
+                    	btnRegister.removeAttribute('disabled');
+                    	spinnerRegister.className = 'spinner-register'
+                        alert("Fail Validate")
+                    }
                 })
                 .catch(err => {
                     alert("Error")
                 })
 
-            window.location.href = "http://localhost:8081/register/success"
         })
 
     </script>

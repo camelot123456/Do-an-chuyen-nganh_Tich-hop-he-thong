@@ -51,6 +51,10 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 			throw new UsernameNotFoundException("Username not found!!");
 		}
 		
+		if (account.getEnabled() == false) {
+			return null;
+		}
+		
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		account.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getCode())));
 		
@@ -168,7 +172,6 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 			return accountRepo.findAll(pageable);
 		}
 		return accountRepo.search(keyword, pageable);
-		
 	}
 
 }
