@@ -1,0 +1,47 @@
+<th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
+
+  <div class="vstack gap-3">
+    <div>
+      <h3 class="text-primary fw-bolder text-uppercase">Quản lý nội bộ</h3>
+    </div>
+
+    <hr>
+
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+          type="button" role="tab" aria-controls="nav-profile" aria-selected="true">Quyền truy cập</button>
+
+        <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button"
+          role="tab" aria-controls="nav-home" aria-selected="false">Thành viên nội bộ</button>
+
+        <button class="nav-link" id="nav-test-tab" data-bs-toggle="tab" data-bs-target="#nav-test" type="button"
+          role="tab" aria-controls="nav-contact" aria-selected="false">Quản lý nội bộ</button>
+
+        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button"
+          role="tab" aria-controls="nav-contact" aria-selected="false">Quản lý nội bộ</button>
+      </div>
+    </nav>
+
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <th:block th:insert="admin/bodys/internal_managements/im_role.html :: im_role"></th:block>
+      </div>
+
+      <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <th:block th:insert="admin/bodys/internal_managements/im_account.html :: im_account"></th:block>
+      </div>
+
+      <div class="tab-pane fade" id="nav-test" role="tabpanel" aria-labelledby="nav-test-tab">
+        test
+      </div>
+
+      <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+        Sắp ra mắt...
+      </div>
+
+    </div>
+
+  </div>
+
+</th:block>

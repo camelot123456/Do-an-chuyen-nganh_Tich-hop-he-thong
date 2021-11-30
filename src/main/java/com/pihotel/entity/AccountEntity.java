@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.pihotel.entity.enums.EAuthenticationProvider;
 import com.pihotel.entity.enums.EMessageType;
 
@@ -42,7 +44,8 @@ public class AccountEntity extends AbstractEntity {
 	@Column(name = "[GENDER]", columnDefinition = "bit default 1")
 	private Boolean gender;
 
-	@Column(name = "[BIRTHDAY]", columnDefinition = "datetime")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Column(name = "[BIRTHDAY]", columnDefinition = "date")
 	private Date birthday;
 
 	@Column(name = "[PHONE_NUM]", columnDefinition = "varchar(15)")
@@ -53,6 +56,9 @@ public class AccountEntity extends AbstractEntity {
 
 	@Column(name = "[AVATAR]", columnDefinition = "ntext")
 	private String avatar;
+	
+	@Column(name = "[ADDRESS]", columnDefinition = "nvarchar(255)")
+	private String address;
 
 	@Column(name = "[USERNAME]", columnDefinition = "varchar(255) not null unique")
 	private String username;

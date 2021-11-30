@@ -8,6 +8,7 @@ import javax.mail.MessagingException;
 import org.springframework.data.domain.Page;
 
 import com.pihotel.entity.AccountEntity;
+import com.pihotel.entity.RoleEntity;
 import com.pihotel.entity.enums.EAuthenticationProvider;
 
 public interface IAccountServ {
@@ -23,6 +24,8 @@ public interface IAccountServ {
 	public AccountEntity update(AccountEntity account);
 	
 	public void delete(String[] ids);
+	
+	public void addRoleToAccount(String idAccount, List<RoleEntity> roles);
 	
 	public AccountEntity findOneById(String id);
 	

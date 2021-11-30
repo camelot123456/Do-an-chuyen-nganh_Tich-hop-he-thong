@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
+import com.pihotel.entity.RoleEntity;
 import com.pihotel.entity.enums.EAuthenticationProvider;
 import com.pihotel.repository.IAccountRepo;
 import com.pihotel.service.IAccountServ;
@@ -176,6 +177,18 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 			return accountRepo.findAll(pageable);
 		}
 		return accountRepo.search(keyword, pageable);
+	}
+
+	@Override
+	public void addRoleToAccount(String idAccount, List<RoleEntity> roles) {
+		// TODO Auto-generated method stub
+		AccountEntity account = accountRepo.findOneById(idAccount);
+		List<RoleEntity> listRole = new ArrayList<RoleEntity>();
+		roles.forEach((role) -> {
+			listRole.add(role);
+		});
+		account.setRoles(roles);
+		accountRepo.save(account);
 	}
 
 }

@@ -39,7 +39,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             <th:block th:insert="admin/fragments/navbar.html :: navbar"></th:block>
 
             <!-- Content -->
-            <div class="p-4" style="height: 100vh">
+            <div class="p-4 overflow-auto" style="height: 100vh">
                 <th:block layout:fragment="content"></th:block>
             </div>
 

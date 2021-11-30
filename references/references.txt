@@ -45,6 +45,8 @@ actor:
 
 tài liệu:
 
+mau-trang chi tiet: https://files.muzli.space/b60914141b7ef3c967080e1c44cc9d0d.jpeg
+
 logo-rank: https://leagueoflegends.fandom.com/wiki/Rank_(League_of_Legends)
 		 : https://rankedboost.com/season-rewards/summoner-icon/
 

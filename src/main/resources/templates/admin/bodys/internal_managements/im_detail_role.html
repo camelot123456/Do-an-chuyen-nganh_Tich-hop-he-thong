@@ -1,0 +1,153 @@
+<th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
+    <div class="vstack gap-3">
+        <div>
+            <h3 class="text-primary fw-bolder text-uppercase">Chi tiết tài khoản</h3>
+        </div>
+
+        <hr>
+
+        <div class="vstack gap-3">
+            <div>
+                <div class="hstack gap-3 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
+                    <div class="hstack gap-3 py-auto">
+                        <a href="#" class="me-3">
+                            <img style="width: 100px;" class="rounded-circle" th:src="${account.avatar}" alt="">
+                        </a>
+                        <div class="d-flex flex-column">
+                            <h3 class="text-primary">[[${account.name}]]</h3>
+                            <p>[[${account.avatar}]]</p>
+                        </div>
+                    </div>
+                    <div>
+                        <td th:if="${account.enabled} == true"><span class="badge rounded-pill bg-success">Đã kích
+                                hoạt</span></td>
+                        <td th:unless="${account.enabled} == true"><span class="badge rounded-pill bg-danger">Vô hiệu
+                                hoá</span></td>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-primary text-uppercase">Thông tin kiểm toán</h3>
+                <hr>
+                <div class="hstack gap-3 mb-4">
+                    <div class="form-floating w-50 ">
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Mã tài khoản"
+                            th:value="${account.createAt}" disabled>
+                        <label for="floatingInputValue">Thời gian tạo</label>
+                    </div>
+                    <div class="form-floating w-50">
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Tên tài khoản"
+                            th:value="${account.modifiedAt}" disabled>
+                        <label for="floatingInputValue">Thời gian cập nhập</label>
+                    </div>
+                    <div class="form-floating w-50 ">
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Loại tài khoản"
+                            th:value="${account.deleteAt}" disabled>
+                        <label for="floatingInputValue">Thời gian xóa nháp</label>
+                    </div>
+                    <div class="form-floating w-50 ">
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Loại tài khoản"
+                            th:value="${account.deleted}" disabled>
+                        <label for="floatingInputValue">Xóa nháp</label>
+                    </div>
+                </div>
+                <div class="hstack gap-3 mb-4">
+                    <div class="form-floating w-50 ">
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Mã tài khoản"
+                            th:value="${account.createBy}" disabled>
+                        <label for="floatingInputValue">Người tạo(email)</label>
+                    </div>
+                    <div class="form-floating w-50 ">
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Loại tài khoản"
+                            th:value="${account.modifiedBy}" disabled>
+                        <label for="floatingInputValue">Người cập nhập(email)</label>
+                    </div>
+                    <div class="form-floating w-50">
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Tên tài khoản"
+                            th:value="${account.deleteBy}" disabled>
+                        <label for="floatingInputValue">Người xóa nháp(email)</label>
+                    </div>
+                </div>
+                <h3 class="text-primary text-uppercase">Thông tin cụ thể</h3>
+                <hr>
+                <div class="vstack gap-3">
+                    <div class="hstack gap-3">
+                        <div class="form-floating w-50 ">
+                            <input type="text" class="form-control" id="floatingInputValue" placeholder="Mã tài khoản"
+                                th:value="${account.id}" disabled>
+                            <label for="floatingInputValue">Mã tài khoản</label>
+                        </div>
+                        <div class="form-floating w-50">
+                            <input type="text" class="form-control" id="floatingInputValue" placeholder="Tên tài khoản"
+                                th:value="${account.username}" disabled>
+                            <label for="floatingInputValue">Tên tài khoản</label>
+                        </div>
+                        <div class="form-floating w-50 ">
+                            <input type="text" class="form-control" id="floatingInputValue" placeholder="Loại tài khoản"
+                                th:value="${account.authProvider}" disabled>
+                            <label for="floatingInputValue">Loại tài khoản</label>
+                        </div>
+                    </div>
+                    <div class="hstack gap-3">
+                        <div class="form-floating w-50">
+                            <input type="text" class="form-control" id="floatingInputValue" placeholder="Họ & tên"
+                                th:value="${account.name}">
+                            <label for="floatingInputValue">Họ & tên</label>
+                        </div>
+                        <div class="form-floating w-50">
+                            <input type="email" class="form-control" id="floatingInputValue" placeholder="Email"
+                                th:value="${account.email}">
+                            <label for="floatingInputValue">Email</label>
+                        </div>
+                    </div>
+                    <div class="hstack gap-3">
+                        <div class="form-floating w-50">
+                            <input type="text" class="form-control" id="floatingInputValue" placeholder="Địa chỉ"
+                                th:value="${account.address}">
+                            <label for="floatingInputValue">Địa chỉ</label>
+                        </div>
+                        <div class="form-floating w-50">
+                            <input type="text" class="form-control" id="floatingInputValue" placeholder="Số điện thoại"
+                                th:value="${account.phoneNum}">
+                            <label for="floatingInputValue">Số điện thoại</label>
+                        </div>
+                    </div>
+                    <div class="hstack gap-3">
+                        <div class="form-floating w-50">
+                            <input type="date" class="form-control" id="floatingInputValue" placeholder="Ngày sinh"
+                                th:value="${#dates.format(account.birthday, 'yyyy-MM-dd')}">
+                            <label for="floatingInputValue">Ngày sinh</label>
+                        </div>
+                        <input id="account-gender" type="hidden" th:value="${account.gender}">
+                        <div class="form-floating w-50">
+                            <select class="form-select form-select-gender" id="floatingSelect"
+                                aria-label="Floating label select example">
+                                <option value="">Chọn giới tính</option>
+                                <option value="1">Nam</option>
+                                <option value="0">Nữ</option>
+                            </select>
+                            <label for="floatingSelect">Giới tính</label>
+                        </div>
+                    </div>
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                            style="height: 100px"></textarea>
+                        <label for="floatingTextarea2">Thông tin riêng</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        var formSelectgender = document.querySelector('.form-select-gender')
+        var accountGender = document.querySelector('#account-gender')
+        console.log(accountBirthday.value)
+        if (accountGender.value == 'true') {
+            formSelectgender.selectedIndex = '1'
+        } else if (accountGender.value == 'false') {
+            formSelectgender.selectedIndex = '2'
+        }
+    </script>
+</th:block>

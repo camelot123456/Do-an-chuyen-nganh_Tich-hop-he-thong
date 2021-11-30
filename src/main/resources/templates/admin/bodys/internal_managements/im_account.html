@@ -1,0 +1,75 @@
+<th:block th:fragment="im_account">
+    <div class="hstack gap-2 my-3">
+        <div class="input-group w-50">
+            <input type="text" class="form-control form-control-sm" placeholder="Tìm kiếm ..."
+                aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button class="btn btn-outline-primary btn-sm" type="button" id="button-addon2">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="hstack gap-2 ms-auto">
+            <button type="button" class="btn btn-primary btn-sm">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-danger btn-sm">
+                <i class="fa fa-eraser" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-success btn-sm">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+
+    <table class="table table-hover table-striped border shadow rounded-3 mb-3">
+        <thead>
+            <tr>
+                <th scope="col">
+                    <input class="form-check-input" type="checkbox" value="">
+                </th>
+                <th scope="col">No.</th>
+                <th scope="col">Id</th>
+                <th scope="col">Ảnh</th>
+                <th scope="col">Tên</th>
+                <th scope="col">Loại</th>
+                <th scope="col">Email</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col" class="text-center">Công cụ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:each="account, state : ${accounts}">
+                <tr>
+                    <td><input class="form-check-input" type="checkbox" value=""></td>
+                    <th scope="row">[[${state.count}]]</th>
+                    <th scope="row">[[${account.id}]]</th>
+                    <td>
+                        <img class="rounded-circle" style="width: 50px;" th:src="${account.avatar}" />
+                    </td>
+                    <td>[[${account.name}]]</td>
+                    <td>[[${account.authProvider}]]</td>
+                    <td>[[${account.email}]]</td>
+                    <td th:if="${account.enabled} == true"><span class="badge rounded-pill bg-success">Đã kích hoạt</span></td>
+                    <td th:unless="${account.enabled} == true"><span class="badge rounded-pill bg-danger">Vô hiệu hoá</span></td>
+                    <td class="text-center">
+                        <a th:href="@{/admin/internal-managements/account/{id}(id=${account.id})}" class="btn btn-sm btn-info">Xem</a>
+                        <a th:href="@{/admin/internal-managements/account/{id}(id=${account.id})}" class="btn btn-sm btn-danger">Xóa</a>
+                    </td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+            <li class="page-item disabled">
+                <a class="page-link">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</th:block>

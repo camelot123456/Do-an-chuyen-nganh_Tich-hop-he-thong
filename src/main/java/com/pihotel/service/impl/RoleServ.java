@@ -46,5 +46,11 @@ public class RoleServ implements IRoleServ{
 			roleRepo.deleteById(id);
 		}
 	}
+	
+	@Override
+	public RoleEntity findOneById(String id) {
+		// TODO Auto-generated method stub
+		return roleRepo.findOneById(id);
+	}
 
 }
