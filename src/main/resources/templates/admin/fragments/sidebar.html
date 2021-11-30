@@ -8,13 +8,13 @@
         <hr class="text-light">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item  hover-link">
-                <a href="/public-are/index.html" class="nav-link text-light">
+                <a href="/home" class="nav-link text-light">
                     <i class="me-2 fa fa-home" aria-hidden="true"></i>
                     Trang chủ
                 </a>
             </li>
             <li class="nav-item  hover-link">
-                <a href="#" class="nav-link text-light">
+                <a href="/admin/dashboard" class="nav-link text-light">
                     <i class="me-2 fa fa-tachometer" aria-hidden="true"></i>
                     Dashboard
                 </a>
@@ -26,7 +26,7 @@
                 </a>
             </li>
             <li class="nav-item  hover-link">
-                <a href="#" class="nav-link text-light">
+                <a href="/admin/internal-managements/role" class="nav-link text-light">
                     <i class="me-2 fa fa-users" aria-hidden="true"></i>
                     Nội bộ
                 </a>
@@ -60,16 +60,20 @@
         </div>
         <hr class="text-light">
         <div class="dropdown d-flex align-items-center">
-            <img src="https://i.pinimg.com/474x/bb/d3/57/bbd35765095ddfc19693ea3a66ab1ec8.jpg" class="rounded-circle"
-                style="width: 35px" alt="">
+            <img th:src="${session.account.avatar}" class="rounded-circle"
+                style="width: 35px" th:alt="${session.account.name}">
             <a class="dropdown nav-link text-light fs-6" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Hinata Chan
+                aria-expanded="false" th:text="${session.account.name}">
             </a>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><a class="dropdown-item" href="#" th:text="${session.account.name}"></a></li>
+                <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
+                <li><a class="dropdown-item" href="#">Cài đặt</a></li>
+                <li><a class="dropdown-item" href="#">Blog</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
             </ul>
         </div>
     </div>

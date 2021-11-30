@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.enums.EAuthenticationProvider;
 import com.pihotel.repository.IAccountRepo;
@@ -140,6 +141,9 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 		account.setId(String.valueOf(System.currentTimeMillis()));
 		account.setVerificationCode(verifyCode);
 		account.setAuthProvider(EAuthenticationProvider.LOCAL);
+		if (account.getAvatar() == null) {
+			account.setAvatar(SystemConstant.AVATAR_ACCOUNT_DEFAULT_LINK);
+		}
 		
 		save(account);
 		

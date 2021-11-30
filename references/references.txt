@@ -45,6 +45,9 @@ actor:
 
 tài liệu:
 
+logo-rank: https://leagueoflegends.fandom.com/wiki/Rank_(League_of_Legends)
+		 : https://rankedboost.com/season-rewards/summoner-icon/
+
 verify email: https://www.codejava.net/frameworks/spring-boot/email-verification-example
 
 Tài liệu về websocket: https://www.callicoder.com/spring-boot-websocket-chat-example/

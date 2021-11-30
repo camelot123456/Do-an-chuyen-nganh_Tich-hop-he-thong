@@ -34,6 +34,12 @@ public class RoleEntity extends AbstractEntity{
 	@Column(name = "[CODE]", columnDefinition = "varchar(128) not null unique")
 	private String code;
 	
+	@Column(name = "[DESCRIPTION]", columnDefinition = "ntext")
+	private String description;
+	
+	@Column(name = "[LOGO]", columnDefinition = "ntext")
+	private String logo;
+	
 	@ManyToMany(mappedBy = "roles")
 	private List<AccountEntity> accounts;
 	
