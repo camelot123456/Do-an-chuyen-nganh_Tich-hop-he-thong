@@ -1,6 +1,7 @@
 package com.pihotel.service;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -23,7 +24,12 @@ public interface IAccountServ {
 	
 	public AccountEntity update(AccountEntity account);
 	
+	public int updateCustom(String id, String name, String email, String address,
+			String phoneNum, Date birthday, Boolean gender);
+	
 	public void delete(String[] ids);
+	
+	public void deleteById(String id);
 	
 	public void addRoleToAccount(String idAccount, List<RoleEntity> roles);
 	

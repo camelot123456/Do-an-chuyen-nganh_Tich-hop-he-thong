@@ -3,6 +3,7 @@ package com.pihotel.service.impl;
 import org.springframework.data.domain.Pageable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -109,8 +110,8 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 			EAuthenticationProvider provider) {
 		// TODO Auto-generated method stub
 		AccountEntity account = AccountEntity.builder()
-				.username(String.valueOf(System.currentTimeMillis()))
-				.password(String.valueOf(System.currentTimeMillis()))
+				.username(RandomString.make(32))
+				.password(RandomString.make(32))
 				.email(email)
 				.name(name)
 				.avatar(avatar)
@@ -136,11 +137,9 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 	public void register(AccountEntity account, String siteURL)
 			throws MessagingException, UnsupportedEncodingException {
 		// TODO Auto-generated method stub
-		String verifyCode = RandomString.make(64);
-		
 		account.setEnabled(false);
-		account.setId(String.valueOf(System.currentTimeMillis()));
-		account.setVerificationCode(verifyCode);
+		account.setId(RandomString.make(16));
+		account.setVerificationCode(RandomString.make(64));
 		account.setAuthProvider(EAuthenticationProvider.LOCAL);
 		if (account.getAvatar() == null) {
 			account.setAvatar(SystemConstant.AVATAR_ACCOUNT_DEFAULT_LINK);
@@ -189,6 +188,19 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 		});
 		account.setRoles(roles);
 		accountRepo.save(account);
+	}
+
+	@Override
+	public int updateCustom(String id, String name, String email, String address, String phoneNum,
+			Date birthday, Boolean gender) {
+		// TODO Auto-generated method stub
+		return accountRepo.updateCustom(id, name, email, address, phoneNum, birthday, gender);
+	}
+
+	@Override
+	public void deleteById(String id) {
+		// TODO Auto-generated method stub
+		accountRepo.deleteById(id);
 	}
 
 }

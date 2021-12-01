@@ -6,7 +6,7 @@
 
         <hr>
 
-        <div class="vstack gap-3">
+        <form class="vstack gap-3" id="form-account">
             <div>
                 <div class="hstack gap-3 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
                     <div class="hstack gap-3 py-auto">
@@ -77,83 +77,200 @@
                             <input type="text" class="form-control" id="floatingInputValue" placeholder="Mã tài khoản"
                                 th:value="${account.id}" disabled>
                             <label for="floatingInputValue">Mã tài khoản</label>
+                            <input type="hidden" name="id" th:value="${account.id}">
                         </div>
                         <div class="form-floating w-50">
                             <input type="text" class="form-control" id="floatingInputValue" placeholder="Tên tài khoản"
                                 th:value="${account.username}" disabled>
                             <label for="floatingInputValue">Tên tài khoản</label>
+                            <input type="hidden" name="username" th:value="${account.username}">
                         </div>
                         <div class="form-floating w-50 ">
                             <input type="text" class="form-control" id="floatingInputValue" placeholder="Loại tài khoản"
                                 th:value="${account.authProvider}" disabled>
                             <label for="floatingInputValue">Loại tài khoản</label>
+                            <input type="hidden" name="authProvider" th:value="${account.authProvider}">
                         </div>
                     </div>
                     <div class="hstack gap-3">
                         <div class="form-floating w-50">
-                            <input type="text" class="form-control" id="floatingInputValue" placeholder="Họ & tên"
-                                th:value="${account.name}">
-                            <label for="floatingInputValue">Họ & tên</label>
+                            <input type="text" class="form-control" id="name" placeholder="Họ & tên"
+                                th:value="${account.name}" name="name">
+                            <label for="name">Họ & tên</label>
                         </div>
                         <div class="form-floating w-50">
-                            <input type="email" class="form-control" id="floatingInputValue" placeholder="Email"
-                                th:value="${account.email}">
-                            <label for="floatingInputValue">Email</label>
-                        </div>
-                    </div>
-                    <div class="hstack gap-3">
-                        <div class="form-floating w-50">
-                            <input type="text" class="form-control" id="floatingInputValue" placeholder="Địa chỉ"
-                                th:value="${account.address}">
-                            <label for="floatingInputValue">Địa chỉ</label>
-                        </div>
-                        <div class="form-floating w-50">
-                            <input type="text" class="form-control" id="floatingInputValue" placeholder="Số điện thoại"
-                                th:value="${account.phoneNum}">
-                            <label for="floatingInputValue">Số điện thoại</label>
+                            <input type="email" class="form-control" id="email" placeholder="Email"
+                                th:value="${account.email}" name="email">
+                            <label for="email">Email</label>
                         </div>
                     </div>
                     <div class="hstack gap-3">
                         <div class="form-floating w-50">
-                            <input type="date" class="form-control" id="floatingInputValue" placeholder="Ngày sinh"
-                                th:value="${#dates.format(account.birthday, 'yyyy-MM-dd')}">
-                            <label for="floatingInputValue">Ngày sinh</label>
+                            <input type="text" class="form-control" id="address" placeholder="Địa chỉ"
+                                th:value="${account.address}" name="address">
+                            <label for="address">Địa chỉ</label>
+                        </div>
+                        <div class="form-floating w-50">
+                            <input type="text" class="form-control" id="phoneNum" placeholder="Số điện thoại"
+                                th:value="${account.phoneNum}" name="phoneNum">
+                            <label for="phoneNum">Số điện thoại</label>
+                        </div>
+                    </div>
+                    <div class="hstack gap-3">
+                        <div class="form-floating w-50">
+                            <input type="date" class="form-control" id="birthday" placeholder="Ngày sinh"
+                                th:value="${#dates.format(account.birthday, 'yyyy-MM-dd')}" name="birthday">
+                            <label for="birthday">Ngày sinh</label>
                         </div>
                         <input id="account-gender" type="hidden" th:value="${account.gender}">
                         <div class="form-floating w-50">
-                            <select class="form-select form-select-gender" id="floatingSelect"
-                                aria-label="Floating label select example">
+                            <select class="form-select form-select-gender" id="gender"
+                                aria-label="Floating label select example" name="gender">
                                 <option value="">Chọn giới tính</option>
-                                <option value="1">Nam</option>
-                                <option value="0">Nữ</option>
+                                <option value="true">Nam</option>
+                                <option value="false">Nữ</option>
                             </select>
-                            <label for="floatingSelect">Giới tính</label>
+                            <label for="gender">Giới tính</label>
                         </div>
                     </div>
-                    <div class="form-floating">
-                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
-                            style="height: 100px"></textarea>
-                        <label for="floatingTextarea2">Thông tin riêng</label>
+                    <div class="">
+                        <textarea class="form-control" style="height: 100px" name="editor1" id="editor1"></textarea>
+                        <label for="editor1">Thông tin riêng</label>
                     </div>
                 </div>
             </div>
 
             <div class="hstack gap-3 d-flex flex-row-reverse">
-                <button type="button w-100" class="btn btn-outline-primary">Cập nhập quyền truy cập</button>
-                <button type="button w-100" class="btn btn-outline-success">Lưu</button>
-                <button type="button w-100" class="btn btn-outline-danger">Xóa</button>
+                <button type="button" class="btn btn-outline-primary">Cập nhập quyền truy cập</button>
+                <button type="button" id="btn-save" class="btn btn-outline-success">Lưu</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">Xóa</button>
             </div>
 
+        </form>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Xóa tài khoản</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="vstack gap-3  w-100 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
+                        <div class="hstack gap-3 py-auto">
+                            <a href="#" class="me-3">
+                                <img style="width: 100px;" class="rounded-circle" th:src="${account.avatar}" alt="">
+                            </a>
+                            <div class="d-flex flex-column">
+                                <h5 class="text-primary">[[${account.name}]]</h5>
+                                <div>
+                                    <td th:if="${account.enabled} == true"><span
+                                            class="badge rounded-pill bg-success">Đã kích
+                                            hoạt</span></td>
+                                    <td th:unless="${account.enabled} == true"><span
+                                            class="badge rounded-pill bg-danger">Vô hiệu
+                                            hoá</span></td>
+                                </div>
+                            </div>
+                        </div>
+                        <p>Bạn có muốn xóa tài khoản này không?</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="btn-del">Xóa</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                </div>
+            </div>
         </div>
     </div>
     <script>
-        var formSelectgender = document.querySelector('.form-select-gender')
-        var accountGender = document.querySelector('#account-gender')
-        console.log(accountBirthday.value)
+        CKEDITOR.replace('editor1')
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        var formSelectgender = $('.form-select-gender')
+        var accountGender = $('#account-gender')
+
         if (accountGender.value == 'true') {
             formSelectgender.selectedIndex = '1'
         } else if (accountGender.value == 'false') {
             formSelectgender.selectedIndex = '2'
         }
+
+        var btnSave = $('#btn-save')
+        var btnDel = $('#btn-del')
+        var formAccount = $('#form-account')
+
+        console.log(formAccount)
+
+        function fetchAPI(url, method, body, redirect) {
+            console.log(redirect)
+            fetch(url, {
+                method: method,
+                body: body
+            })
+                .then(resp => {
+                    if (resp.status === 200) {
+                        window.location.href = redirect
+                    } else {
+                        alert("Fail Validate!")
+                    }
+                })
+                .catch(err => {
+                    alert("Error!")
+                })
+        }
+
+        btnSave.addEventListener('click', (e) => {
+            e.preventDefault();
+            var formData = new FormData(formAccount)
+
+            formData.append('account', new Blob([
+                JSON.stringify({
+                    'id': formData.get('id'),
+                    'name': formData.get('name'),
+                    'email': formData.get('email'),
+                    'address': formData.get('address'),
+                    'phoneNum': formData.get('phoneNum'),
+                    'birthday': formData.get('birthday'),
+                    'gender': formData.get('gender')
+                })
+            ], {
+                type: "application/json"
+            }))
+
+            fetchAPI(
+                '/admin/internal-managements/account',
+                'PUT',
+                formData,
+                `http://localhost:8081/admin/internal-managements/account/${formData.get('id')}`)
+        })
+
+
+
+        btnDel.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('delete')
+            var formData = new FormData(formAccount)
+
+            formData.append('account', new Blob([
+                JSON.stringify({
+                    'id': formData.get('id')
+                })
+            ], {
+                type: "application/json"
+            }))
+
+            fetchAPI(
+                `/admin/internal-managements/account`,
+                'DELETE',
+                formData,
+                `http://localhost:8081/admin/internal-managements`)
+        })
+
     </script>
 </th:block>

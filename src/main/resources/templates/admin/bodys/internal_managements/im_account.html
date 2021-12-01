@@ -52,7 +52,8 @@
                     <td th:unless="${account.enabled} == true"><span class="badge rounded-pill bg-danger">Vô hiệu hoá</span></td>
                     <td class="text-center">
                         <a th:href="@{/admin/internal-managements/account/{id}(id=${account.id})}" class="btn btn-sm btn-info">Xem</a>
-                        <a th:href="@{/admin/internal-managements/account/{id}(id=${account.id})}" class="btn btn-sm btn-danger">Xóa</a>
+                        <button class="btn btn-sm btn-danger btn-del">Xóa</button>
+                        <input type="hidden" id="account-id" th:value="${account.id}">
                     </td>
                 </tr>
             </th:block>
@@ -72,4 +73,6 @@
             </li>
         </ul>
     </nav>
+    
 </th:block>
+
