@@ -25,7 +25,6 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 	@Query("select a from AccountEntity a where a.name like %?1% "
 			+ "or a.authProvider like %?1% "
 			+ "or a.email like %?1% "
-			+ "or concat(a.gender, '') like %?1% "
 			+ "or a.phoneNum like %?1%")
 	public Page<AccountEntity> search(String keyword, Pageable pageable);
 	

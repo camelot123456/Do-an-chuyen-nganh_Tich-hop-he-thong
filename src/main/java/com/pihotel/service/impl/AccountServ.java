@@ -1,6 +1,5 @@
 package com.pihotel.service.impl;
 
-import org.springframework.data.domain.Pageable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,17 +33,17 @@ import net.bytebuddy.utility.RandomString;
 
 @Service
 @Slf4j
-public class AccountServ implements IAccountServ, UserDetailsService{
+public class AccountServ implements IAccountServ, UserDetailsService {
 
 	@Autowired
 	private IAccountRepo accountRepo;
-	
+
 	@Autowired
 	private IJavaSenderService senderService;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
@@ -53,14 +52,14 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 			log.warn("Username {} is not exist in database", username);
 			throw new UsernameNotFoundException("Username not found!!");
 		}
-		
+
 		if (account.getEnabled() == false) {
 			return null;
 		}
-		
+
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		account.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getCode())));
-		
+		account.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getCode())));
+
 		UserDetails userDetails = new User(account.getUsername(), account.getPassword(), authorities);
 		return userDetails;
 	}
@@ -77,8 +76,8 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 		if (!accountRepo.existsById(account.getId())) {
 			account.setPassword(passwordEncoder.encode(account.getPassword()));
 			return accountRepo.save(account);
-		}
-		else return null;
+		} else
+			return null;
 	}
 
 	@Override
@@ -87,8 +86,8 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 		if (accountRepo.existsById(account.getId())) {
 			account.setPassword(passwordEncoder.encode(account.getPassword()));
 			return accountRepo.save(account);
-		}
-		else return null;
+		} else
+			return null;
 	}
 
 	@Override
@@ -109,14 +108,8 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 	public void saveOneNewAccountByOAuth2(String id, String name, String email, String avatar,
 			EAuthenticationProvider provider) {
 		// TODO Auto-generated method stub
-		AccountEntity account = AccountEntity.builder()
-				.username(RandomString.make(32))
-				.password(RandomString.make(32))
-				.email(email)
-				.name(name)
-				.avatar(avatar)
-				.authProvider(provider)
-				.build();
+		AccountEntity account = AccountEntity.builder().username(RandomString.make(32)).password(RandomString.make(32))
+				.email(email).name(name).avatar(avatar).authProvider(provider).build();
 		account.setEnabled(email == null ? false : true);
 		account.setId(id);
 		accountRepo.save(account);
@@ -144,9 +137,9 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 		if (account.getAvatar() == null) {
 			account.setAvatar(SystemConstant.AVATAR_ACCOUNT_DEFAULT_LINK);
 		}
-		
+
 		save(account);
-		
+
 		senderService.sendVerificationEmail(account, siteURL);
 	}
 
@@ -159,9 +152,9 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 		} else {
 			account.setVerificationCode(null);
 			account.setEnabled(true);
-			
+
 			accountRepo.save(account);
-			
+
 			return true;
 		}
 	}
@@ -171,11 +164,11 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 		// TODO Auto-generated method stub
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
-		Pageable pageable = PageRequest.of(numPage - 1, 10, sort);
-		if (keyword == "") {
-			return accountRepo.findAll(pageable);
+		PageRequest pageable = PageRequest.of(numPage - 1, 10, sort);
+		if (keyword != null) {
+			return accountRepo.search(keyword, pageable);
 		}
-		return accountRepo.search(keyword, pageable);
+		return accountRepo.findAll(pageable);
 	}
 
 	@Override
@@ -191,8 +184,8 @@ public class AccountServ implements IAccountServ, UserDetailsService{
 	}
 
 	@Override
-	public int updateCustom(String id, String name, String email, String address, String phoneNum,
-			Date birthday, Boolean gender) {
+	public int updateCustom(String id, String name, String email, String address, String phoneNum, Date birthday,
+			Boolean gender) {
 		// TODO Auto-generated method stub
 		return accountRepo.updateCustom(id, name, email, address, phoneNum, birthday, gender);
 	}

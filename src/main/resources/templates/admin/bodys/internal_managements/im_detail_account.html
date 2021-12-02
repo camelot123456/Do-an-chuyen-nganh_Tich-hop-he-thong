@@ -207,6 +207,8 @@
 
         console.log(formAccount)
 
+        //Tạo hàm gọi api
+
         function fetchAPI(url, method, body, redirect) {
             console.log(redirect)
             fetch(url, {
@@ -224,6 +226,8 @@
                     alert("Error!")
                 })
         }
+
+        //Xử lý tạo tài khoản
 
         btnSave.addEventListener('click', (e) => {
             e.preventDefault();
@@ -244,14 +248,14 @@
             }))
 
             fetchAPI(
-                '/admin/internal-managements/account',
+                '/admin/internal-managements/account/tran',
                 'PUT',
                 formData,
-                `http://localhost:8081/admin/internal-managements/account/${formData.get('id')}`)
+                `/admin/internal-managements/account/${formData.get('id')}`)
         })
 
 
-
+        //Xử lý xóa tài khoản
         btnDel.addEventListener('click', (e) => {
             e.preventDefault();
             console.log('delete')
@@ -266,11 +270,13 @@
             }))
 
             fetchAPI(
-                `/admin/internal-managements/account`,
+                `/admin/internal-managements/account/tran`,
                 'DELETE',
                 formData,
-                `http://localhost:8081/admin/internal-managements`)
+                `/admin/internal-managements/account`)
         })
+
+        
 
     </script>
 </th:block>

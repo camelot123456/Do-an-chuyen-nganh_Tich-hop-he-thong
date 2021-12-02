@@ -13,6 +13,8 @@ public interface IRoleServ {
 	public RoleEntity update(RoleEntity role);
 
 	public void delete(String[] ids);
+	
+	public void deleteById(String id);
 
 	public RoleEntity findOneById(String id);
 }

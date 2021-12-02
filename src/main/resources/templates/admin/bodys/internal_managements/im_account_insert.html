@@ -1,0 +1,157 @@
+<th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
+    <div class="vstack gap-3">
+        <div>
+            <h3 class="text-primary fw-bolder text-uppercase">Tạo tài khoản</h3>
+        </div>
+
+        <hr>
+
+        <form class="vstack gap-3" id="form-account">
+            <div>
+                <div class="hstack gap-3 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
+                    <div class="hstack gap-3 py-auto">
+                        <a href="#" class="me-3">
+                            <img id="avatar" style="width: 100px;" class="rounded-circle" src="" alt="">
+                        </a>
+                        <div class="mb-3">
+                            <label for="form-file" class="form-label">Ảnh đại diện</label>
+                            <input class="form-control" type="file" id="form-file">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-primary text-uppercase">Thông tin cụ thể</h4>
+                <hr>
+                <div class="vstack gap-3">
+                    <div class="hstack gap-3">
+                        <div class="form-floating w-50">
+                            <input type="text" class="form-control" id="username" placeholder="Tên tài khoản"
+                                name="username">
+                            <label for="username">Tên đăng nhập</label>
+                        </div>
+                        <div class="form-floating w-50">
+                            <input type="text" class="form-control" id="name" placeholder="Họ & tên" name="name">
+                            <label for="name">Họ & tên</label>
+                        </div>
+                        <div class="form-floating w-50">
+                            <input type="email" class="form-control" id="email" placeholder="Email" name="email">
+                            <label for="email">Email</label>
+                        </div>
+                    </div>
+                    <div class="hstack gap-3">
+                        <div class="form-floating w-50">
+                            <input type="text" class="form-control" id="password" placeholder="Mật khẩu">
+                            <label for="password">Mật khẩu</label>
+                        </div>
+                        <div class="form-floating w-50">
+                            <input type="text" class="form-control" id="re-password" placeholder="Xác nhận mật khẩu"
+                                name="password">
+                            <label for="re-password">Xác thực mật khẩu</label>
+                        </div>
+                    </div>
+                    <div class="hstack gap-3">
+                        <div class="form-floating w-50">
+                            <input type="text" class="form-control" id="address" placeholder="Địa chỉ" name="address">
+                            <label for="address">Địa chỉ</label>
+                        </div>
+                        <div class="form-floating w-50">
+                            <input type="text" class="form-control" id="phoneNum" placeholder="Số điện thoại"
+                                name="phoneNum">
+                            <label for="phoneNum">Số điện thoại</label>
+                        </div>
+                    </div>
+                    <div class="hstack gap-3">
+                        <div class="form-floating w-50">
+                            <input type="date" class="form-control" id="birthday" placeholder="Ngày sinh"
+                                name="birthday">
+                            <label for="birthday">Ngày sinh</label>
+                        </div>
+                        <div class="form-floating w-50">
+                            <select class="form-select form-select-gender" id="gender"
+                                aria-label="Floating label select example" name="gender">
+                                <option value="">Chọn giới tính</option>
+                                <option value="true">Nam</option>
+                                <option value="false">Nữ</option>
+                            </select>
+                            <label for="gender">Giới tính</label>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label for="editor1">Thông tin riêng</label>
+                        <textarea class="form-control" style="height: 100px" name="editor1" id="editor1"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hstack gap-3 d-flex flex-row-reverse">
+                <button type="button" id="btn-save" class="btn btn-outline-success">Lưu</button>
+                <button type="button" class="btn btn-outline-primary">Làm mới</button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        CKEDITOR.replace('editor1')
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        var btnSave = $('#btn-save')
+        var formAccount = $('#form-account')
+        var avatar = $('#avatar')
+        var formFile = $('#form-file')
+
+        formFile.addEventListener('change', (e) => {
+            var file = e.target.files[0]
+            avatar.src = window.URL.createObjectURL(new Blob([file],{type: "application/zip"}))
+        })
+
+
+        function fetchAPI(url, method, body, redirect) {
+            console.log(redirect)
+            fetch(url, {
+                method: method,
+                body: body
+            })
+                .then(resp => {
+                    if (resp.status === 200) {
+                        window.location.href = redirect
+                    } else {
+                        alert("Fail Validate!")
+                    }
+                })
+                .catch(err => {
+                    alert("Error!")
+                })
+        }
+
+        btnSave.addEventListener('click', (e) => {
+            e.preventDefault();
+            var formData = new FormData(formAccount)
+
+            formData.append('account', new Blob([
+                JSON.stringify({
+                    'username': formData.get('username'),
+                    'password': formData.get('password'),
+                    'name': formData.get('name'),
+                    'email': formData.get('email'),
+                    'address': formData.get('address'),
+                    'phoneNum': formData.get('phoneNum'),
+                    'birthday': formData.get('birthday'),
+                    'gender': formData.get('gender')
+                })
+            ], {
+                type: "application/json"
+            }))
+
+            fetchAPI(
+                '/admin/internal-managements/account',
+                'POST',
+                formData,
+                `/admin/internal-managements/account/${formData.get('id')}`)
+        })
+
+    </script>
+</th:block>
