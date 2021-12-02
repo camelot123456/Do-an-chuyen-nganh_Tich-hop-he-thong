@@ -23,10 +23,12 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 	public AccountEntity findByVerificationCode(String code);
 	
 	@Query("select a from AccountEntity a where a.name like %?1% "
-			+ "or a.authProvider like %?1% "
+//			+ "or a.authProvider like %?1% "
 			+ "or a.email like %?1% "
-			+ "or a.phoneNum like %?1%")
+			+ "or a.phoneNum like %?1% "
+			+ "or a.id like %?1%")
 	public Page<AccountEntity> search(String keyword, Pageable pageable);
+
 	
 	@Modifying
 	@Transactional

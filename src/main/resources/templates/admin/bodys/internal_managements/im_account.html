@@ -22,7 +22,8 @@
         </ul>
 
         <div class="hstack gap-2 my-3">
-            <form class="input-group w-50" id="form-search" th:action="@{'/admin/internal-managements/account/page/'+${currentPage}}">
+            <form class="input-group w-50" id="form-search" th:action="@{'/admin/internal-managements/account/page/'+${currentPage}}"
+                required>
                 <input type="hidden" name="sortField" th:value="${sortField}">
                 <input type="hidden" name="sortDir" th:value="${sortDir}">
                 <input type="text" class="form-control form-control-sm" placeholder="Tìm kiếm ..."
@@ -31,6 +32,7 @@
                     <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
             </form>
+            <div class="hstack gap-2 ms-auto button-group-tool"></div>
         </div>
 
         <table class="table table-hover table-striped border shadow rounded-3 mb-3">
@@ -62,6 +64,14 @@
                 </tr>
             </thead>
             <tbody>
+                <th:block th:if="${totalElement == 0}">
+                    <tr>
+                        <th colspan="9">
+                            <p class="text-center">Danh sách tài khoản trống. <a href="/admin/internal-managements/account/add">Thêm tài khoản mới</a></p>
+                        </th>
+                    </tr>
+                </th:block>
+
                 <th:block th:each="account, state : ${accounts}">
                     <tr>
                         <td id="row-checkbox">
@@ -163,18 +173,6 @@
 
         var btnDels = Array.from($$('.btn-del'))
 
-        // var formSearch = $('#form-search')
-        // var btnSearch = $('#btn-search')
-
-        // btnSearch.addEventListener('click', (e) => {
-        //     var uri =  `${$('#current-page').value}?sortField=${$('#sort-field').value}&sortDir=${$('#sort-dir').value}&keyword=${$('#keyword').value}`
-        //     formSearch.action = uri
-        //     formSearch.method = 'GET'
-        //     console.log(uri)
-
-        //     formSearch.submit()
-        // })
-
         //Hàm gọi api
         function fetchAPI(url, method, body, redirect) {
             fetch(url, {
@@ -253,7 +251,7 @@
                     <button type="button" class="btn btn-primary btn-sm">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </button>
-                    <a href='/admin/internal-managements/account' class="btn btn-success btn-sm">
+                    <a href='/admin/internal-managements/account/add' class="btn btn-success btn-sm">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </a>`
 
@@ -290,7 +288,7 @@
                     <button type="button" class="btn btn-primary btn-sm">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </button>
-                    <a href='/admin/internal-managements/account' class="btn btn-success btn-sm">
+                    <a href='/admin/internal-managements/account/add' class="btn btn-success btn-sm">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </a>`
             }

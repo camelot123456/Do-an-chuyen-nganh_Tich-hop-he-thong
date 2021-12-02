@@ -3,8 +3,10 @@
         <div>
             <h3 class="text-primary fw-bolder text-uppercase">Chi tiết quyền</h3>
         </div>
+
         <hr>
-        <div class="vstack gap-3">
+
+        <form class="vstack gap-3" id="form-role">
             <div>
                 <div class="hstack gap-3 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
                     <div class="hstack gap-3 py-auto">
@@ -12,89 +14,194 @@
                             <img style="width: 100px;" class="rounded-circle" th:src="${role.logo}" alt="">
                         </a>
                         <div class="d-flex flex-column">
-                            <h3 class="text-primary">[[${role.name}]]</h3>
+                            <h5 class="text-primary">[[${role.name}]]</h5>
                             <p>[[${role.logo}]]</p>
                         </div>
                     </div>
                 </div>
             </div>
+
             <h4 class="text-primary text-uppercase">Thông tin kiểm toán</h4>
-                <hr>
-                <div class="hstack gap-3 mb-4">
-                    <div class="form-floating w-50 ">
-                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Mã tài khoản"
-                            th:value="${role.createAt}" disabled>
-                        <label for="floatingInputValue">Thời gian tạo</label>
-                    </div>
-                    <div class="form-floating w-50">
-                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Tên tài khoản"
-                            th:value="${role.modifiedAt}" disabled>
-                        <label for="floatingInputValue">Thời gian cập nhập</label>
-                    </div>
-                    <div class="form-floating w-50 ">
-                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Loại tài khoản"
-                            th:value="${role.deleteAt}" disabled>
-                        <label for="floatingInputValue">Thời gian xóa nháp</label>
-                    </div>
-                    <div class="form-floating w-50 ">
-                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Loại tài khoản"
-                            th:value="${role.deleted}" disabled>
-                        <label for="floatingInputValue">Xóa nháp</label>
-                    </div>
+            <hr>
+            <div class="hstack gap-3 mb-4">
+                <div class="form-floating w-50 ">
+                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Thời gian tạo"
+                        th:value="${role.createAt}" disabled>
+                    <label for="floatingInputValue">Thời gian tạo</label>
                 </div>
-                <div class="hstack gap-3 mb-4">
-                    <div class="form-floating w-50 ">
-                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Mã tài khoản"
-                            th:value="${role.createBy}" disabled>
-                        <label for="floatingInputValue">Người tạo(email)</label>
-                    </div>
-                    <div class="form-floating w-50 ">
-                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Loại tài khoản"
-                            th:value="${role.modifiedBy}" disabled>
-                        <label for="floatingInputValue">Người cập nhập(email)</label>
-                    </div>
-                    <div class="form-floating w-50">
-                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Tên tài khoản"
-                            th:value="${role.deleteBy}" disabled>
-                        <label for="floatingInputValue">Người xóa nháp(email)</label>
-                    </div>
+                <div class="form-floating w-50">
+                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Thời gian cập nhập"
+                        th:value="${role.modifiedAt}" disabled>
+                    <label for="floatingInputValue">Thời gian cập nhập</label>
                 </div>
+                <div class="form-floating w-50 ">
+                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Thời gian xóa nháp"
+                        th:value="${role.deleteAt}" disabled>
+                    <label for="floatingInputValue">Thời gian xóa nháp</label>
+                </div>
+                <div class="form-floating w-50 ">
+                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Xóa nháp"
+                        th:value="${role.deleted}" disabled>
+                    <label for="floatingInputValue">Xóa nháp</label>
+                </div>
+            </div>
+            <div class="hstack gap-3 mb-4">
+                <div class="form-floating w-50 ">
+                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Người tạo(email)"
+                        th:value="${role.createBy}" disabled>
+                    <label for="floatingInputValue">Người tạo(email)</label>
+                </div>
+                <div class="form-floating w-50 ">
+                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Người cập nhập(email)"
+                        th:value="${role.modifiedBy}" disabled>
+                    <label for="floatingInputValue">Người cập nhập(email)</label>
+                </div>
+                <div class="form-floating w-50">
+                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Người xóa nháp(email)"
+                        th:value="${role.deleteBy}" disabled>
+                    <label for="floatingInputValue">Người xóa nháp(email)</label>
+                </div>
+            </div>
             <h3 class="text-primary text-uppercase">Thông tin cụ thể</h3>
             <hr>
             <div class="hstack gap-3 mb-4">
                 <div class="form-floating w-50 ">
-                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Mã tài khoản"
+                    <input type="hidden" th:value="${role.id}" name="id">
+                    <input type="text" class="form-control" id="id" placeholder="Mã quyền"
                         th:value="${role.id}" disabled>
-                    <label for="floatingInputValue">Mã quyền</label>
+                    <label for="id">Mã quyền</label>
                 </div>
                 <div class="form-floating w-50 ">
-                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Loại tài khoản"
-                        th:value="${role.name}">
-                    <label for="floatingInputValue">Tên quyền</label>
+                    <input type="text" class="form-control" id="name" placeholder="Tên quyền"
+                        th:value="${role.name}" name="name">
+                    <label for="name">Tên quyền</label>
                 </div>
                 <div class="form-floating w-50">
-                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Tên tài khoản"
-                        th:value="${role.code}">
-                    <label for="floatingInputValue">Tên code</label>
+                    <input type="text" class="form-control" id="code" placeholder="Tên code"
+                        th:value="${role.code}" name="code">
+                    <label for="code">Tên code</label>
+                </div>
+            </div>
+            <div class="">
+                <label for="editor1">Thông tin riêng</label>
+                <textarea class="form-control" style="height: 100px" name="editor1" id="editor1"></textarea>
+            </div>
+
+            <div class="hstack gap-3 d-flex flex-row-reverse">
+                <button type="button" class="btn btn-outline-primary">Cập nhập quyền truy cập</button>
+                <button type="button" id="btn-save" class="btn btn-outline-success">Lưu</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">Xóa</button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Xóa quyền</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="vstack gap-3  w-100 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
+                        <div class="hstack gap-3 py-auto">
+                            <a href="#" class="me-3">
+                                <img style="width: 100px;" class="rounded-circle" th:src="${role.logo}" alt="">
+                            </a>
+                            <div class="d-flex flex-column">
+                                <h5 class="text-primary">[[${role.name}]]</h5>
+                            </div>
+                        </div>
+                        <p>Bạn có muốn xóa quyền này không?</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="btn-del">Xóa</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                 </div>
             </div>
         </div>
-
-        <div class="hstack gap-3 d-flex flex-row-reverse">
-            <button type="button w-100" class="btn btn-outline-primary">Cập nhập quyền truy cập</button>
-            <button type="button w-100" class="btn btn-outline-success">Lưu</button>
-            <button type="button w-100" class="btn btn-outline-danger">Xóa</button>
-        </div>
-        
     </div>
+    
     <script>
-        var formSelectgender = document.querySelector('.form-select-gender')
-        var accountGender = document.querySelector('#account-gender')
-        console.log(accountBirthday.value)
-        if (accountGender.value == 'true') {
-            formSelectgender.selectedIndex = '1'
-        } else if (accountGender.value == 'false') {
-            formSelectgender.selectedIndex = '2'
+        CKEDITOR.replace('editor1')
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        var btnSave = $('#btn-save')
+        var btnDel = $('#btn-del')
+        var formRole = $('#form-role')
+
+        //Tạo hàm gọi api
+
+        function fetchAPI(url, method, body, redirect) {
+            
+            fetch(url, {
+                method: method,
+                body: body
+            })
+                .then(resp => {
+                    if (resp.status === 200) {
+                        window.location.href = redirect
+                    } else {
+                        alert("Fail Validate!")
+                    }
+                })
+                .catch(err => {
+                    alert("Error!")
+                })
         }
+
+        //Xử lý tạo role
+
+        btnSave.addEventListener('click', (e) => {
+            e.preventDefault();
+            var formData = new FormData(formRole)
+
+            formData.append('role', new Blob([
+                JSON.stringify({
+                    'id': formData.get('id'),
+                    'name': formData.get('name'),
+                    'code': formData.get('code')
+                })
+            ], {
+                type: "application/json"
+            }))
+
+            fetchAPI(
+                '/admin/internal-managements/role/tran',
+                'PUT',
+                formData,
+                `/admin/internal-managements/role/${formData.get('id')}`)
+        })
+
+
+        //Xử lý xóa role
+        btnDel.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('delete')
+            var formData = new FormData(formRole)
+
+            formData.append('role', new Blob([
+                JSON.stringify({
+                    'id': formData.get('id')
+                })
+            ], {
+                type: "application/json"
+            }))
+
+            fetchAPI(
+                `/admin/internal-managements/role/tran`,
+                'DELETE',
+                formData,
+                `/admin/internal-managements/role`)
+        })
+
+
+
     </script>
 </th:block>

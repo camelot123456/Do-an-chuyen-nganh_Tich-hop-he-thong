@@ -29,7 +29,7 @@ public class AccountApi {
 	public ResponseEntity<List<AccountEntity>> show(HttpServletResponse response){
 		return ResponseEntity.ok().body(accountServ.findAll());
 	}
-	
+
 	@PostMapping(value = "/account")
 	public ResponseEntity<AccountEntity> insert(@RequestBody AccountEntity account){
 		return ResponseEntity.ok().body(accountServ.save(account));

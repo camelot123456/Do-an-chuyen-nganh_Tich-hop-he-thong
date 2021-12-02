@@ -28,7 +28,7 @@ public class AccountController {
 //	private IRoleServ roleServ;
 
 	@RequestMapping(value = "/admin/internal-managements/account")
-	public String accountInsertShow(Model model) {
+	public String accountRedirectPagination(Model model) {
 		return this.accountPagination(model, 1, "id", "asc", "");
 	}
 
@@ -60,6 +60,11 @@ public class AccountController {
 		AccountEntity account = accountServ.findOneById(id);
 		model.addAttribute(SystemConstant.ACCOUNT, account);
 		return "admin/bodys/internal_managements/im_detail_account";
+	}
+	
+	@RequestMapping(value = "/admin/internal-managements/account/add")
+	public String accountInsertShow(Model model) {
+		return "admin/bodys/internal_managements/im_account_insert";
 	}
 
 	@RequestMapping(value = "/admin/internal-managements/account/tran", method = RequestMethod.PUT)
