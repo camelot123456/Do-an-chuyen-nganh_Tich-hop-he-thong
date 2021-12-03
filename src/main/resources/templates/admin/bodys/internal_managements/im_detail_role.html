@@ -7,16 +7,14 @@
         <hr>
 
         <form class="vstack gap-3" id="form-role">
-            <div>
-                <div class="hstack gap-3 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
-                    <div class="hstack gap-3 py-auto">
-                        <a href="#" class="me-3">
-                            <img style="width: 100px;" class="rounded-circle" th:src="${role.logo}" alt="">
-                        </a>
-                        <div class="d-flex flex-column">
-                            <h5 class="text-primary">[[${role.name}]]</h5>
-                            <p>[[${role.logo}]]</p>
-                        </div>
+            <div class="hstack gap-3 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3 border">
+                <div class="hstack gap-3 py-auto">
+                    <a href="#" class="me-3">
+                        <img style="width: 100px;" class="rounded-circle" th:src="${role.logo}" alt="">
+                    </a>
+                    <div class="d-flex flex-column">
+                        <h5 class="text-primary">[[${role.name}]]</h5>
+                        <p>[[${role.logo}]]</p>
                     </div>
                 </div>
             </div>
@@ -67,18 +65,18 @@
             <div class="hstack gap-3 mb-4">
                 <div class="form-floating w-50 ">
                     <input type="hidden" th:value="${role.id}" name="id">
-                    <input type="text" class="form-control" id="id" placeholder="Mã quyền"
-                        th:value="${role.id}" disabled>
+                    <input type="text" class="form-control" id="id" placeholder="Mã quyền" th:value="${role.id}"
+                        disabled>
                     <label for="id">Mã quyền</label>
                 </div>
                 <div class="form-floating w-50 ">
-                    <input type="text" class="form-control" id="name" placeholder="Tên quyền"
-                        th:value="${role.name}" name="name">
+                    <input type="text" class="form-control" id="name" placeholder="Tên quyền" th:value="${role.name}"
+                        name="name">
                     <label for="name">Tên quyền</label>
                 </div>
                 <div class="form-floating w-50">
-                    <input type="text" class="form-control" id="code" placeholder="Tên code"
-                        th:value="${role.code}" name="code">
+                    <input type="text" class="form-control" id="code" placeholder="Tên code" th:value="${role.code}"
+                        name="code">
                     <label for="code">Tên code</label>
                 </div>
             </div>
@@ -126,7 +124,7 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         CKEDITOR.replace('editor1')
         var $ = document.querySelector.bind(document)
@@ -139,7 +137,7 @@
         //Tạo hàm gọi api
 
         function fetchAPI(url, method, body, redirect) {
-            
+
             fetch(url, {
                 method: method,
                 body: body

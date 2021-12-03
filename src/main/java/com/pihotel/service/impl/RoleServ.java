@@ -29,8 +29,8 @@ public class RoleServ implements IRoleServ{
 		// TODO Auto-generated method stub
 		if (!roleRepo.existsById(role.getId())) {
 			return roleRepo.save(role);
-		}
-		else return null;
+		} 
+		return null;
 	}
 
 	@Override

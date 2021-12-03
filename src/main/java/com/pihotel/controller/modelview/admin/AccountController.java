@@ -1,5 +1,9 @@
 package com.pihotel.controller.modelview.admin;
 
+import java.io.IOException;
+import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,19 +17,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.service.IAccountServ;
+import com.pihotel.service.IRoleServ;
+import com.pihotel.utils.UploadFileUtil;
+
+import net.bytebuddy.utility.RandomString;
 
 @Controller
 public class AccountController {
 
+	public static final String PATH_AVATAR = "src/main/resources/static/img/user/";
+	
 	@Autowired
 	private IAccountServ accountServ;
 
-//	@Autowired
-//	private IRoleServ roleServ;
+	@Autowired
+	private IRoleServ roleServ;
 
 	@RequestMapping(value = "/admin/internal-managements/account")
 	public String accountRedirectPagination(Model model) {
@@ -58,19 +69,26 @@ public class AccountController {
 	@RequestMapping(value = "/admin/internal-managements/account/{id}")
 	public String accountDetail(Model model, @PathVariable("id") String id) {
 		AccountEntity account = accountServ.findOneById(id);
+		model.addAttribute(SystemConstant.ACCOUNT_ROLE, account.getRoles());
 		model.addAttribute(SystemConstant.ACCOUNT, account);
+		model.addAttribute(SystemConstant.ROLES, roleServ.findAll());
 		return "admin/bodys/internal_managements/im_detail_account";
 	}
 	
 	@RequestMapping(value = "/admin/internal-managements/account/add")
-	public String accountInsertShow(Model model) {
+	public String accountInsertShow(Model model, Principal principal) {
+		model.addAttribute("CREATE_AT", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS").format(new Date()));
+		model.addAttribute("RANDOM_ID", RandomString.make(16));
+		model.addAttribute("AUTH_PROVIDER", "LOCAL");
+		model.addAttribute("EMAIL", "nguyensybao1403@gmail.com");//accountServ.findOneByUsername(principal.getName()).getEmail()
+		model.addAttribute(SystemConstant.ROLES, roleServ.findAll());
 		return "admin/bodys/internal_managements/im_account_insert";
 	}
 
 	@RequestMapping(value = "/admin/internal-managements/account/tran", method = RequestMethod.PUT)
 	public String accountUpdate(@RequestPart("account") AccountEntity account) {
 		accountServ.updateCustom(account.getId(), account.getName(), account.getEmail(), account.getAddress(),
-				account.getPhoneNum(), account.getBirthday(), account.getGender());
+				account.getPhoneNum(), account.getBirthday(), account.getGender(), account.getRoles());
 		return "redirect:/admin/internal-managements/account/" + account.getId();
 	}
 
@@ -86,10 +104,13 @@ public class AccountController {
 		return "redirect:/admin/internal-managements/account";
 	}
 
-	@RequestMapping(value = "/admin/internal-managements/account-role", method = RequestMethod.POST)
-	public String doAccountAddRoleToAccount(@RequestPart("account") AccountEntity account) {
-		accountServ.addRoleToAccount(account.getId(), account.getRoles());
-		return "redirect:/admin/internal-managements/account-role";
+	@RequestMapping(value = "/admin/internal-managements/account/tran", method = RequestMethod.POST, consumes = {"multipart/form-data", "application/json"})
+	public String doAccountAddRoleToAccount(@RequestPart("account") AccountEntity account,
+			@RequestPart("avatar") MultipartFile multipartFile) throws IOException {
+		account.setAvatar(multipartFile.getOriginalFilename());
+		UploadFileUtil.saveFile(PATH_AVATAR, multipartFile.getOriginalFilename(), multipartFile);
+		accountServ.saveWithFile(account);
+		return "redirect:/admin/internal-managements/im_detail_account";
 	}
 
 }

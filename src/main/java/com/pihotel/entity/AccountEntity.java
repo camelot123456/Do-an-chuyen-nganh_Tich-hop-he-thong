@@ -72,21 +72,8 @@ public class AccountEntity extends AbstractEntity {
 
 	@Column(name = "[VERIFICATION_CODE]", columnDefinition = "varchar(64)")
 	private String verificationCode;
-	
-	@Transient
-	private EMessageType type;
-	
-	@Transient
-	private String content;
-	
-	@Transient
-	private String sender;
-	
-	@Transient
-	private String time;
-	
-	
-	@ManyToMany(fetch = FetchType.EAGER)
+
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "ACCOUNT_ROLE", 
 			joinColumns = @JoinColumn(
@@ -100,5 +87,26 @@ public class AccountEntity extends AbstractEntity {
 	
 	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<InvoiceEntity> invoices;
+	
+	@Transient
+	private EMessageType type;
+	
+	@Transient
+	private String content;
+	
+	@Transient
+	private String sender;
+	
+	@Transient
+	private String time;
+	
+	@Transient
+	public String getAvatar() {
+		if (avatar.startsWith("http://") || avatar.startsWith("https://")) {
+			return avatar;
+		} 
+		return "/img/user/" + avatar;
+	}
+	
 	
 }

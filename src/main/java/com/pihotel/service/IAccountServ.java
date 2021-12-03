@@ -25,7 +25,11 @@ public interface IAccountServ {
 	public AccountEntity update(AccountEntity account);
 	
 	public int updateCustom(String id, String name, String email, String address,
-			String phoneNum, Date birthday, Boolean gender);
+			String phoneNum, Date birthday, Boolean gender, List<RoleEntity> roles);
+	
+	public void saveWithFile(AccountEntity account);
+	
+	public AccountEntity findOneByUsername(String username);
 	
 	public void delete(String[] ids);
 	

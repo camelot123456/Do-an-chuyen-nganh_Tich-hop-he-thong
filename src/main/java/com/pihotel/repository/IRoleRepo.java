@@ -33,5 +33,5 @@ public interface IRoleRepo extends JpaRepository<RoleEntity, String>{
 			String name,
 			String code
 	);
-	
+
 }

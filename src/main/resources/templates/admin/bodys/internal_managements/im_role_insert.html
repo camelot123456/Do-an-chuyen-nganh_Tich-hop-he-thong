@@ -1,0 +1,112 @@
+<th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
+    <div class="vstack gap-3">
+        <div>
+            <h3 class="text-primary fw-bolder text-uppercase">Chi tiết quyền</h3>
+        </div>
+
+        <hr>
+
+        <form class="vstack gap-3" id="form-role" name="form-role" enctype="multipart/form-data">
+            <div class="hstack gap-3 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
+                <div class="hstack gap-3 py-auto">
+                    <a href="#" class="me-3">
+                        <img id="role-logo" style="width: 100px;" class="rounded-circle" src="" alt="">
+                    </a>
+                    <div class="mb-3">
+                        <label for="form-file" class="form-label">Ảnh đại diện</label>
+                        <input class="form-control" type="file" id="form-file" name="logo">
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-primary text-uppercase">Thông tin cụ thể</h3>
+            <hr>
+            <div class="hstack gap-3 mb-4">
+                <div class="form-floating w-50 ">
+                    <input type="hidden" th:value="${RANDOM_ID}" name="id">
+                    <input type="text" class="form-control" id="_id" placeholder="Mã quyền" th:value="${RANDOM_ID}"
+                        disabled>
+                    <label for="_id">Mã quyền</label>
+                </div>
+                <div class="form-floating w-50 ">
+                    <input type="text" class="form-control" id="name" placeholder="Tên quyền" name="name">
+                    <label for="name">Tên quyền</label>
+                </div>
+                <div class="form-floating w-50">
+                    <input type="text" class="form-control" id="code" placeholder="Tên code" name="code">
+                    <label for="code">Tên code</label>
+                </div>
+            </div>
+            <div class="">
+                <label for="editor1">Thông tin riêng</label>
+                <textarea class="form-control" style="height: 100px" name="description" id="editor1"></textarea>
+            </div>
+
+            <div class="hstack gap-3 d-flex flex-row-reverse">
+                <button type="button" id="btn-save" class="btn btn-outline-success">Lưu</button>
+                <button type="button" class="btn btn-outline-primary">Làm mới</button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        CKEDITOR.replace('editor1')
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        var btnSave = $('#btn-save')
+        var formRole = $('#form-role')
+        var logo = $('#role-logo')
+        var formFile = $('#form-file')
+
+        formFile.addEventListener('change', (e) => {
+            var file = e.target.files[0]
+            logo.src = window.URL.createObjectURL(new Blob([file], { type: "application/zip" }))
+        })
+
+
+        function fetchAPI(url, method, body, redirect) {
+            console.log(redirect)
+            fetch(url, {
+                method: method,
+                body: body
+            })
+                .then(resp => {
+                    if (resp.status === 200) {
+                        window.location.href = redirect
+                    } else {
+                        alert("Fail Validate!")
+                    }
+                })
+                .catch(err => {
+                    alert("Error!")
+                })
+        }
+
+        btnSave.addEventListener('click', (e) => {
+            e.preventDefault();
+            var formData = new FormData(formRole)
+
+            formData.append('logo', document.forms['form-role'].logo.files[0])
+            console.log(document.forms['form-role'])
+            formData.append('role', new Blob([
+                JSON.stringify({
+                    'id': formData.get('id'),
+                    'name': formData.get('name'),
+                    'code': formData.get('code'),
+                    'description': CKEDITOR.instances.editor1.getData()
+                })
+            ], {
+                type: "application/json"
+            }))
+
+            fetchAPI(
+                '/admin/internal-managements/role/tran',
+                'POST',
+                formData,
+                `/admin/internal-managements/role`)
+        })
+
+    </script>
+</th:block>

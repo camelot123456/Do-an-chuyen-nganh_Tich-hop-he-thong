@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,5 +43,13 @@ public class RoleEntity extends AbstractEntity{
 	
 	@ManyToMany(mappedBy = "roles")
 	private List<AccountEntity> accounts;
+	
+	@Transient
+	public String getLogo() {
+		if (logo.startsWith("http://") || logo.startsWith("https://")) {
+			return logo;
+		} 
+		return "/img/role/" + logo;
+	}
 	
 }

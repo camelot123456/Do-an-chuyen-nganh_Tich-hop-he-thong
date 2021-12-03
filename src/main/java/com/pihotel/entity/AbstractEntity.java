@@ -75,4 +75,7 @@ public class AbstractEntity {
 	
 	@Transient //Transient giúp thêm thuộc tính cho đối tượng nhưng sẽ không thêm thuộc tính vào table trong cơ sở sữ liệu
 	private String[] ids;
+	
+	@Transient
+	private String fileName;
 }

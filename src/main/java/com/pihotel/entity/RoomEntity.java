@@ -23,10 +23,6 @@ import lombok.ToString;
 @Entity
 @Table(name = "[ROOM]")
 public class RoomEntity extends AbstractEntity{
-	
-//	@Id
-//	@Column(name = "[ID]", columnDefinition = "varchar(10)")
-//	private String id;
 
 	@Column(name = "[NAME]", columnDefinition = "nvarchar(60)")
 	private String name;
@@ -45,6 +41,9 @@ public class RoomEntity extends AbstractEntity{
 	
 	@Column(name = "[PRICE]", columnDefinition = "float default 0")
 	private Double price;
+	
+	@Column(name = "[FLOOR]", columnDefinition = "int default 1")
+	private Integer floor;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_ROOM_TYPE")

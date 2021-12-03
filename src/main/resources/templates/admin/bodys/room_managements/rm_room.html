@@ -1,0 +1,92 @@
+<th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
+    <div class="vstack gap-3">
+        <h3>Quản lý phòng</h3>
+        <hr>
+        <div class="border rounded-3 shadow bg-light p-3">
+            <div class="hstack gap-3 mb-3">
+                <a href="#" class="btn text-light text-center bg-primary border rounded-3 p-2 w-25 fs-6">Trống: 100</a>
+                <a href="#" class="btn text-light text-center bg-success border rounded-3 p-2 w-25 fs-6">Đang ở: 12</a>
+                <a href="#" class="btn text-light text-center bg-warning border rounded-3 p-2 w-25 fs-6">Đặt cọc: 5</a>
+                <a href="#" class="btn text-light text-center bg-info border rounded-3 p-2 w-25 fs-6">Checkin: 2</a>
+                <a href="#" class="btn text-light text-center bg-danger border rounded-3 p-2 w-25 fs-6">Checkout: 5</a>
+                <a href="#" class="btn text-light text-center bg-secondary border rounded-3 p-2 w-25 fs-6">Sửa chữa: 1</a>
+            </div>
+    
+            <div class="hstack gap-3 d-flex justify-content-between">
+                <div class="hstack gap-4 w-50">
+                    <div class="btn-group w-25">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Tầng (8)
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Tất cả</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Tầng 1</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 2</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 3</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 4</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 5</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 6</a></li>
+                          </ul>
+                    </div>
+                    <div class="btn-group  w-25">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Loại phòng (6)
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Tất cả</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                          </ul>
+                    </div>
+                </div>
+                <form class="input-group" id="form-search" style="width: 40%;" required>
+                    <input type="hidden" name="sortField" th:value="${sortField}">
+                    <input type="hidden" name="sortDir" th:value="${sortDir}">
+                    <input type="text" class="form-control form-control-sm" placeholder="Tìm kiếm ..."
+                        aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword"
+                        th:value="${keyword}">
+                    <button class="btn btn-outline-primary btn-sm" type="submit">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <div class="mb-3 p-3 border shadow rounded-3">
+            <div class="row g-4">
+                <div class="col-2">
+                    <div class="border bg-light rounded-3 vstack gap text-center p-2" style="font-size: 12px; color: black">
+                        <div class="hstack gap-1 d-flex justify-content-between">
+                            <i class="fa fa-gift" aria-hidden="true"></i>
+                            <div class="hstack gap-1">
+                                <a class="btn btn-outline-secondary btn-sm" href="#"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                                <a class="btn btn-outline-secondary btn-sm" href="#"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                        <h5>Phòng TS04-SA1</h5>
+                        <p class="">Trống</p>
+                        <p class="">Khoa Pug</p>
+                        <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-24 17:56:12.212</p>
+                        <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-28 17:56:12.212</p>
+                        <div class="hstack gap-1 d-flex justify-content-center">
+                            <a class="btn btn-outline-secondary btn-sm" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                            <a class="btn btn-outline-secondary btn-sm" href="#" title="checkout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                            <a class="btn btn-outline-secondary btn-sm" href="#" title="checkin"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+                            <a class="btn btn-outline-secondary btn-sm" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
+                            <a class="btn btn-outline-secondary btn-sm" href="#" title="dịch vụ"><i class="fa fa-diamond" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+
+
+    </div>
+</th:block>

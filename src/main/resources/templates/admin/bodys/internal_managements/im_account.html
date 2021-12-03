@@ -13,12 +13,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="/admin/internal-managements/role">Quyền truy cập</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
-            </li>
         </ul>
 
         <div class="hstack gap-2 my-3">
@@ -59,7 +53,7 @@
                         <a
                             th:href="@{'/admin/internal-managements/account/page/'+${currentPage}+'?sortField=email&sortDir='+${sortDir}+'&keyword='}">Email</a>
                     </th>
-                    <th scope="col">Trạng thái</th>
+                    <th scope="col">Xác thực</th>
                     <th scope="col" class="text-center">Công cụ</th>
                 </tr>
             </thead>
@@ -73,7 +67,7 @@
                 </th:block>
 
                 <th:block th:each="account, state : ${accounts}">
-                    <tr>
+                    <tr style="line-height: 50px;">
                         <td id="row-checkbox">
                             <input class="form-check-input checkbox-all" th:id="${account.id}" type="checkbox" value="">
                         </td>
@@ -85,10 +79,8 @@
                         <td>[[${account.name}]]</td>
                         <td>[[${account.authProvider}]]</td>
                         <td>[[${account.email}]]</td>
-                        <td th:if="${account.enabled} == true"><span class="badge rounded-pill bg-success">Đã kích
-                                hoạt</span></td>
-                        <td th:unless="${account.enabled} == true"><span class="badge rounded-pill bg-danger">Vô hiệu
-                                hoá</span></td>
+                        <td th:if="${account.enabled} == true"><span class="badge rounded-pill bg-success">Đã xác thực</span></td>
+                        <td th:unless="${account.enabled} == true"><span class="badge rounded-pill bg-secondary">Chưa xác thực</span></td>
                         <td class="text-center">
                             <a th:href="@{/admin/internal-managements/account/{id}(id=${account.id})}"
                                 class="btn btn-sm btn-info">Xem</a>

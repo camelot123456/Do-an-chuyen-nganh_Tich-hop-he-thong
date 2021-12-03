@@ -13,5 +13,6 @@ public class SystemConstant {
 	public static final String ROLES = "roles";
 	public static final String ACCOUNT = "account";
 	public static final String ROLE = "role";
+	public static final String ACCOUNT_ROLE = "account_role";
 	
 }

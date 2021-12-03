@@ -25,6 +25,7 @@ import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.RoleEntity;
 import com.pihotel.entity.enums.EAuthenticationProvider;
 import com.pihotel.repository.IAccountRepo;
+import com.pihotel.repository.IRoleRepo;
 import com.pihotel.service.IAccountServ;
 import com.pihotel.service.IJavaSenderService;
 
@@ -37,6 +38,9 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 
 	@Autowired
 	private IAccountRepo accountRepo;
+	
+	@Autowired
+	private IRoleRepo roleRepo;
 
 	@Autowired
 	private IJavaSenderService senderService;
@@ -73,11 +77,9 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 	@Override
 	public AccountEntity save(AccountEntity account) {
 		// TODO Auto-generated method stub
-		if (!accountRepo.existsById(account.getId())) {
-			account.setPassword(passwordEncoder.encode(account.getPassword()));
-			return accountRepo.save(account);
-		} else
-			return null;
+		account.setId(RandomString.make(16));
+		account.setPassword(passwordEncoder.encode(account.getPassword()));
+		return accountRepo.save(account);
 	}
 
 	@Override
@@ -108,7 +110,7 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 	public void saveOneNewAccountByOAuth2(String id, String name, String email, String avatar,
 			EAuthenticationProvider provider) {
 		// TODO Auto-generated method stub
-		AccountEntity account = AccountEntity.builder().username(RandomString.make(32)).password(RandomString.make(32))
+		AccountEntity account = AccountEntity.builder().username(RandomString.make(16)).password(RandomString.make(32))
 				.email(email).name(name).avatar(avatar).authProvider(provider).build();
 		account.setEnabled(email == null ? false : true);
 		account.setId(id);
@@ -170,30 +172,57 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		}
 		return accountRepo.findAll(pageable);
 	}
-	
+
 	@Override
 	public void addRoleToAccount(String idAccount, List<RoleEntity> roles) {
 		// TODO Auto-generated method stub
 		AccountEntity account = accountRepo.findOneById(idAccount);
-		List<RoleEntity> listRole = new ArrayList<RoleEntity>();
-		roles.forEach((role) -> {
-			listRole.add(role);
-		});
 		account.setRoles(roles);
 		accountRepo.save(account);
 	}
 
 	@Override
-	public int updateCustom(String id, String name, String email, String address, String phoneNum, Date birthday,
-			Boolean gender) {
+	public int updateCustom(String id, String name, String email, String address,
+			String phoneNum, Date birthday, Boolean gender, List<RoleEntity> roles) {
 		// TODO Auto-generated method stub
-		return accountRepo.updateCustom(id, name, email, address, phoneNum, birthday, gender);
+		AccountEntity account = accountRepo.findOneById(id);
+		account.setId(id);
+		account.setName(name);
+		account.setEmail(email);
+		account.setAddress(address);
+		account.setPhoneNum(phoneNum);
+		account.setBirthday(birthday);
+		account.setGender(gender);
+		List<RoleEntity> roleArr = new ArrayList<RoleEntity>();
+		roles.forEach(role -> {
+			roleArr.add(roleRepo.findOneById(role.getId()));
+		});
+		account.setRoles(roleArr);
+		accountRepo.save(account);
+		return 1;
 	}
 
 	@Override
 	public void deleteById(String id) {
 		// TODO Auto-generated method stub
 		accountRepo.deleteById(id);
+	}
+
+	@Override
+	public void saveWithFile(AccountEntity account) {
+		// TODO Auto-generated method stub
+		List<RoleEntity> roleArr = new ArrayList<RoleEntity>();
+		account.getRoles().forEach(role -> {
+			roleArr.add(roleRepo.findOneById(role.getId()));
+		});
+		account.setRoles(roleArr);
+		accountRepo.save(account);
+	}
+
+	@Override
+	public AccountEntity findOneByUsername(String username) {
+		// TODO Auto-generated method stub
+		return accountRepo.findByUsername(username);
 	}
 
 }

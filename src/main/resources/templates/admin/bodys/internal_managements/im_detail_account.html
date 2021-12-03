@@ -7,23 +7,21 @@
         <hr>
 
         <form class="vstack gap-3" id="form-account">
-            <div>
-                <div class="hstack gap-3 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
-                    <div class="hstack gap-3 py-auto">
-                        <a href="#" class="me-3">
-                            <img style="width: 100px;" class="rounded-circle" th:src="${account.avatar}" alt="">
-                        </a>
-                        <div class="d-flex flex-column">
-                            <h5 class="text-primary">[[${account.name}]]</h5>
-                            <p>[[${account.avatar}]]</p>
-                        </div>
+            <div class="hstack gap-3 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3 border">
+                <div class="hstack gap-3 py-auto">
+                    <a href="#" class="me-3">
+                        <img style="width: 100px;" class="rounded-circle" th:src="${account.getAvatar()}" alt="">
+                    </a>
+                    <div class="d-flex flex-column">
+                        <h5 class="text-primary">[[${account.name}]]</h5>
+                        <p>[[${account.avatar}]]</p>
                     </div>
-                    <div>
-                        <td th:if="${account.enabled} == true"><span class="badge rounded-pill bg-success">Đã kích
-                                hoạt</span></td>
-                        <td th:unless="${account.enabled} == true"><span class="badge rounded-pill bg-danger">Vô hiệu
-                                hoá</span></td>
-                    </div>
+                </div>
+                <div>
+                    <td th:if="${account.enabled} == true"><span class="badge rounded-pill bg-success">Đã kích
+                            hoạt</span></td>
+                    <td th:unless="${account.enabled} == true"><span class="badge rounded-pill bg-danger">Vô hiệu
+                            hoá</span></td>
                 </div>
             </div>
 
@@ -71,13 +69,13 @@
                 </div>
                 <h4 class="text-primary text-uppercase">Thông tin cụ thể</h4>
                 <hr>
-                <div class="vstack gap-3">
+                <div class="vstack gap-3 mb-4">
                     <div class="hstack gap-3">
                         <div class="form-floating w-50 ">
                             <input type="text" class="form-control" id="floatingInputValue" placeholder="Mã tài khoản"
                                 th:value="${account.id}" disabled>
                             <label for="floatingInputValue">Mã tài khoản</label>
-                            <input type="hidden" name="id" th:value="${account.id}">
+                            <input type="hidden" id="id" name="id" th:value="${account.id}">
                         </div>
                         <div class="form-floating w-50">
                             <input type="text" class="form-control" id="floatingInputValue" placeholder="Tên tài khoản"
@@ -133,11 +131,35 @@
                             <label for="gender">Giới tính</label>
                         </div>
                     </div>
-                    <div class="">
-                        <textarea class="form-control" style="height: 100px" name="editor1" id="editor1"></textarea>
+                    <div class="vstack gap-3 p-3 border rounded-3 bg-light">
                         <label for="editor1">Thông tin riêng</label>
+                        <textarea class="form-control" style="height: 100px" name="editor1" id="editor1"></textarea>
                     </div>
                 </div>
+
+                <h4 class="text-primary text-uppercase">Quyền truy cập</h4>
+                <hr>
+                <table class="table table-striped table-hover border rounded-3 shadow">
+                    <tbody>
+                        <th:block th:each="role, state : ${roles}">
+                            <tr style="line-height: 50px;">
+                                <th scope="row">[[${state.count}]]</th>
+                                <td>
+                                    <img style="width: 50px;" class="rounded-circle" th:src="${role.logo}" alt="">
+                                </td>
+                                <td>[[${role.name}]]</td>
+                                <td>[[${role.code}]]</td>
+                                <td class="text-center">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input checkbox-role me-4" type="checkbox" role="switch"
+                                            th:id="${role.id}" style="margin-top: 19px; cursor: pointer;">
+                                        <label class="form-check-label label-role" th:for="${role.id}"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </th:block>
+                    </tbody>
+                </table>
             </div>
 
             <div class="hstack gap-3 d-flex flex-row-reverse">
@@ -163,7 +185,7 @@
                     <div class="vstack gap-3  w-100 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
                         <div class="hstack gap-3 py-auto">
                             <a href="#" class="me-3">
-                                <img style="width: 100px;" class="rounded-circle" th:src="${account.avatar}" alt="">
+                                <img style="width: 100px;" class="rounded-circle" th:src="${account.getAvatar()}" alt="">
                             </a>
                             <div class="d-flex flex-column">
                                 <h5 class="text-primary">[[${account.name}]]</h5>
@@ -205,10 +227,39 @@
         var btnDel = $('#btn-del')
         var formAccount = $('#form-account')
 
-        console.log(formAccount)
+
+        fetch(`http://localhost:8081/api/account/${$('#id').value}`, {
+            method: 'GET'
+        })
+            .then(resp => resp.json())
+            .then(account => {
+                var accountRoleIds = []
+                account.roles.forEach(role => {
+                    accountRoleIds.push(role.id)
+
+                })
+
+                var idRoles = Array.from($$('.checkbox-role'))
+                idRoles.forEach((element) => {
+                    if (accountRoleIds.includes(element.id)) {
+                        element.checked = true
+                        element.nextElementSibling.innerHTML = `<span class="badge rounded-pill bg-success">Đã kích hoạt</span>`
+                    } else {
+                        element.checked = false
+                        element.nextElementSibling.innerHTML = `<span class="badge rounded-pill bg-secondary">Vô hiệu hóa</span>`
+
+                    }
+                    element.addEventListener('change', (e) => {
+                        if (element.checked) {
+                            element.nextElementSibling.innerHTML = `<span class="badge rounded-pill bg-success">Đã kích hoạt</span>`
+                        } else {
+                            element.nextElementSibling.innerHTML = `<span class="badge rounded-pill bg-secondary">Vô hiệu hóa</span>`
+                        }
+                    })
+                })
+            })
 
         //Tạo hàm gọi api
-
         function fetchAPI(url, method, body, redirect) {
             console.log(redirect)
             fetch(url, {
@@ -228,11 +279,20 @@
         }
 
         //Xử lý tạo tài khoản
-
         btnSave.addEventListener('click', (e) => {
             e.preventDefault();
             var formData = new FormData(formAccount)
 
+            var roles = []
+            var role = {}
+            Array.from($$('.checkbox-role')).forEach((element)=>{
+                if (element.checked) {
+                    role = {id: element.id}
+                    roles.push(role)
+                    console.log(role)
+                }
+            })
+            
             formData.append('account', new Blob([
                 JSON.stringify({
                     'id': formData.get('id'),
@@ -241,7 +301,8 @@
                     'address': formData.get('address'),
                     'phoneNum': formData.get('phoneNum'),
                     'birthday': formData.get('birthday'),
-                    'gender': formData.get('gender')
+                    'gender': formData.get('gender'),
+                    'roles': roles
                 })
             ], {
                 type: "application/json"

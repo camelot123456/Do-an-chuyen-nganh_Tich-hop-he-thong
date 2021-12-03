@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pihotel.entity.AccountEntity;
 
 @Repository
+@Transactional
 public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 
 	public AccountEntity findByUsername(String username);
