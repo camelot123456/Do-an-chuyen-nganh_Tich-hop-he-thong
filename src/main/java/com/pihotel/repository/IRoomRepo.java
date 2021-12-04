@@ -18,4 +18,5 @@ public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 			+ "or concat(r.price, '') like %?1% ")
 	public Page<RoomEntity> search(String keyword, Pageable pageable);
 	
+	public RoomEntity findOneById(String id);
 }

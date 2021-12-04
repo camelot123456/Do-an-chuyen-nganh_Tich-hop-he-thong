@@ -23,10 +23,9 @@
             <hr>
             <div class="hstack gap-3 mb-4">
                 <div class="form-floating w-50 ">
-                    <input type="hidden" th:value="${RANDOM_ID}" name="id">
-                    <input type="text" class="form-control" id="_id" placeholder="Mã quyền" th:value="${RANDOM_ID}"
-                        disabled>
-                    <label for="_id">Mã quyền</label>
+                    <input type="text" class="form-control" id="id" placeholder="Mã quyền" th:value="${RANDOM_ID}"
+                        name="id">
+                    <label for="id">Mã quyền</label>
                 </div>
                 <div class="form-floating w-50 ">
                     <input type="text" class="form-control" id="name" placeholder="Tên quyền" name="name">

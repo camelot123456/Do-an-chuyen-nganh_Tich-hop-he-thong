@@ -19,12 +19,35 @@ public class RoomServ implements IRoomServ{
 	@Autowired
 	private IRoomRepo roomRepo;
 
+//	---------------------------------------SELECT---------------------------------------
+	
 	@Override
 	public List<RoomEntity> findAll() {
 		// TODO Auto-generated method stub
 		return roomRepo.findAll();
 	}
-
+	
+	@Override
+	public Page<RoomEntity> findAll(int numPage, String sortField, String sortDir,
+			String keyword) {
+		// TODO Auto-generated method stub
+		Sort sort = Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		Pageable pageable = PageRequest.of(numPage - 1, 42, sort);	
+		if (keyword != null) {
+			return roomRepo.search(keyword, pageable);
+		}
+		return roomRepo.findAll(pageable);
+	}
+	
+	@Override
+	public RoomEntity findOneById(String id) {
+		// TODO Auto-generated method stub
+		return roomRepo.findOneById(id);
+	}
+	
+//	---------------------------------------INSERT---------------------------------------
+	
 	@Override
 	public RoomEntity save(RoomEntity room) {
 		// TODO Auto-generated method stub
@@ -33,7 +56,9 @@ public class RoomServ implements IRoomServ{
 		}
 		else return null;
 	}
-
+	
+//	---------------------------------------UPDATE---------------------------------------
+	
 	@Override
 	public RoomEntity update(RoomEntity room) {
 		// TODO Auto-generated method stub
@@ -42,6 +67,8 @@ public class RoomServ implements IRoomServ{
 		}
 		else return null;
 	}
+	
+//	---------------------------------------DELETE---------------------------------------
 
 	@Override
 	public void delete(String[] ids) {
@@ -51,17 +78,5 @@ public class RoomServ implements IRoomServ{
 		}
 	}
 
-	@Override
-	public Page<RoomEntity> findAll(int numPage, String sortField, String sortDir,
-			String keyword) {
-		// TODO Auto-generated method stub
-		Sort sort = Sort.by(sortField);
-		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
-		Pageable pageable = PageRequest.of(numPage - 1, 10, sort);	
-		if (keyword != null) {
-			return roomRepo.search(keyword, pageable);
-		}
-		return roomRepo.findAll(pageable);
-	}
 	
 }

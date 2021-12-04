@@ -27,16 +27,15 @@ import lombok.ToString;
 @Entity
 @Table(name="[ROOM_TYPE]")
 public class RoomTypeEntity extends AbstractEntity{
-	
-//	@Id
-//	@Column(name = "[ID]", columnDefinition = "varchar(10)")
-//	private String id;
 
 	@Column(name = "[NAME]", columnDefinition = "nvarchar(100)")
 	private String name;
 	
-	@Column(name = "[ID_PARENT]", columnDefinition = "varchar(10) not null")
-	private String idParent;
+	@Column(name = "[DESCRIPTION]", columnDefinition = "ntext")
+	private String description;
+	
+	@Column(name = "[LOGO]", columnDefinition = "ntext")
+	private String logo;
 	
 	@OneToMany(mappedBy = "room")
 	private List<RoomEntity> rooms;

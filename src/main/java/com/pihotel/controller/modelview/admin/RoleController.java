@@ -31,6 +31,8 @@ public class RoleController {
 
 	public static final String PATH_IMG = "src/main/resources/static/img/role";
 
+//	---------------------------------------GET---------------------------------------
+	
 	@RequestMapping(value = "/admin/internal-managements/role")
 	public String accountRedirectPagination(Model model) {
 		return this.rolePagination(model, 1, "id", "asc", "");
@@ -41,13 +43,14 @@ public class RoleController {
 			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword) {
 
 		Page<RoleEntity> page = roleServ.findAll(currentPage, sortField, sortDir, keyword);
-
+		String reverseSort = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("currentPage", (int) currentPage);
 		map.put("sortField", (String) sortField);
-		map.put("sortDir", (String) (sortDir.equalsIgnoreCase("desc") ? "asc" : "desc"));
+		map.put("reverseSort", (String) reverseSort);
+		map.put("sortDir", (String) sortDir);
 		map.put("keyword", (String) keyword);
-		map.put("totalPage", (int) page.getTotalPages());
+		map.put("totalPage", (int) page.getTotalPages() < 1 ? 1 : page.getTotalPages());
 		map.put("totalElement", (int) page.getTotalElements());
 		map.put(SystemConstant.ROLES, page.getContent());
 
@@ -68,25 +71,9 @@ public class RoleController {
 		model.addAttribute(SystemConstant.ROLE, role);
 		return "admin/bodys/internal_managements/im_detail_role";
 	}
-
-	@RequestMapping(value = "/admin/internal-managements/role/tran", method = RequestMethod.PUT)
-	public String roleIMUpdateAccount(@RequestPart("role") RoleEntity role) {
-		roleServ.updateCustom(role.getId(), role.getName(), role.getCode());
-		return "redirect:/admin/internal-managements/role";
-	}
-
-	@RequestMapping(value = "/admin/internal-managements/role/tran", method = RequestMethod.DELETE)
-	public String roleDeleteAccount(@RequestPart("role") RoleEntity role) {
-		roleServ.deleteById(role.getId());
-		return "redirect:/admin/internal-managements/role";
-	}
-
-	@RequestMapping(value = "/admin/internal-managements/roles/tran", method = RequestMethod.DELETE)
-	public String roleDeleteManyAccount(@RequestBody RoleEntity role) {
-		roleServ.delete(role.getIds());
-		return "redirect:/admin/internal-managements/role";
-	}
-
+	
+//	---------------------------------------POST---------------------------------------
+	
 	@RequestMapping(value = "/admin/internal-managements/role/tran", method = RequestMethod.POST, consumes = {
 			"multipart/form-data", "application/json" })
 	public String roleInsert(@RequestPart("logo") MultipartFile multipartFile, @RequestPart("role") RoleEntity role)
@@ -96,5 +83,29 @@ public class RoleController {
 		roleServ.save(role);
 		return "redirect:/admin/internal-managements/role";
 	}
-
+	
+//	---------------------------------------PUT---------------------------------------
+	
+	@RequestMapping(value = "/admin/internal-managements/role/tran", method = RequestMethod.PUT)
+	public String roleIMUpdateAccount(@RequestPart("role") RoleEntity role) {
+		roleServ.updateCustom(role.getId(), role.getName(), role.getCode());
+		return "redirect:/admin/internal-managements/role";
+	}
+	
+//	---------------------------------------PATCH---------------------------------------
+	
+//	---------------------------------------DELETE---------------------------------------
+	
+	@RequestMapping(value = "/admin/internal-managements/role/tran", method = RequestMethod.DELETE)
+	public String roleDeleteAccount(@RequestPart("role") RoleEntity role) {
+		roleServ.deleteById(role.getId());
+		return "redirect:/admin/internal-managements/role";
+	}
+	
+	@RequestMapping(value = "/admin/internal-managements/roles/tran", method = RequestMethod.DELETE)
+	public String roleDeleteManyAccount(@RequestBody RoleEntity role) {
+		roleServ.delete(role.getIds());
+		return "redirect:/admin/internal-managements/role";
+	}
+	
 }

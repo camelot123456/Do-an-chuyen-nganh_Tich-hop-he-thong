@@ -17,7 +17,7 @@ import com.pihotel.entity.RoomTypeEntity;
 import com.pihotel.service.IRoomTypeServ;
 
 @RestController
-@RequestMapping(value = "/api", consumes = "application/json")
+@RequestMapping(value = "/api")
 public class RoomTypeApi {
 
 	@Autowired

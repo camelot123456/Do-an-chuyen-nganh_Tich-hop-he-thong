@@ -20,9 +20,8 @@
                 th:action="@{'/admin/internal-managements/role/page/'+${currentPage}}" required>
                 <input type="hidden" name="sortField" th:value="${sortField}">
                 <input type="hidden" name="sortDir" th:value="${sortDir}">
-                <input type="text" class="form-control form-control-sm" placeholder="Tìm kiếm ..."
-                    aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword"
-                    th:value="${keyword}">
+                <input class="form-control form-control-sm" placeholder="Tìm kiếm ..." aria-describedby="button-addon2"
+                    name="keyword" th:value="${keyword}" type="search" aria-label="Search">
                 <button class="btn btn-outline-primary btn-sm" type="submit">
                     <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
@@ -39,16 +38,16 @@
                     <th scope="col">No.</th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/internal-managements/role/page/'+${currentPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">Id</a>
+                            th:href="@{'/admin/internal-managements/role/page/'+${currentPage}+'?sortField=id&sortDir='+${reverseSort}+'&keyword='}">Id</a>
                     </th>
                     <th scope="col">Logo</th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/internal-managements/role/page/'+${currentPage}+'?sortField=name&sortDir='+${sortDir}+'&keyword='}">Tên</a>
+                            th:href="@{'/admin/internal-managements/role/page/'+${currentPage}+'?sortField=name&sortDir='+${reverseSort}+'&keyword='}">Tên</a>
                     </th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/internal-managements/role/page/'+${currentPage}+'?sortField=code&sortDir='+${sortDir}+'&keyword='}">Tên
+                            th:href="@{'/admin/internal-managements/role/page/'+${currentPage}+'?sortField=code&sortDir='+${reverseSort}+'&keyword='}">Tên
                             code</a>
                     </th>
                     <th scope="col" class="text-center">Công cụ</th>

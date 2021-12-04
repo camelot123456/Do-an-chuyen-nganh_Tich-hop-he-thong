@@ -37,10 +37,14 @@ import lombok.ToString;
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
 		  property = "id")//Xử lý lỗi đệ quy vô hạn trong jackson khi đối tượng có thuộc tính tham chiếu đến đối tượng khác
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class AbstractEntity {
+	
 
 	@Id
-	@Column(name = "[ID]", columnDefinition = "varchar(255)")
+	@Column(name = "[ID]", columnDefinition = "varchar(64)")
 	private String id;
 	
 	@CreatedDate

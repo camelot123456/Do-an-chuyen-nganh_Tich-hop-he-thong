@@ -2,8 +2,6 @@ package com.pihotel.controller.api;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +25,7 @@ public class AccountApi {
 	private IAccountServ accountServ;
 	
 	@GetMapping(value = "/account")
-	public ResponseEntity<List<AccountEntity>> show(HttpServletResponse response){
+	public ResponseEntity<List<AccountEntity>> show(){
 		return ResponseEntity.ok().body(accountServ.findAll());
 	}
 

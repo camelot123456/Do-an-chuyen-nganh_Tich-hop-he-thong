@@ -2,10 +2,14 @@ package com.pihotel.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.pihotel.entity.enums.ERoomState;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,8 +31,9 @@ public class RoomEntity extends AbstractEntity{
 	@Column(name = "[NAME]", columnDefinition = "nvarchar(60)")
 	private String name;
 
-	@Column(name = "[ROOM_STATE]", columnDefinition = "bit default 0")
-	private Boolean roomState;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "[ROOM_STATE]", columnDefinition = "varchar(16) default 'EMPTY'")
+	private ERoomState roomState;
 	
 	@Column(name = "[AVATAR]", columnDefinition = "nvarchar(255)")
 	private String avatar;
@@ -36,13 +41,13 @@ public class RoomEntity extends AbstractEntity{
 	@Column(name = "[DESCRIPTION]", columnDefinition = "ntext")
 	private String description;
 	
-	@Column(name = "[QUANTITY]", columnDefinition = "int default 0")
+	@Column(name = "[QUANTITY]", columnDefinition = "tinyint default 0")
 	private Integer quantity;
 	
 	@Column(name = "[PRICE]", columnDefinition = "float default 0")
 	private Double price;
 	
-	@Column(name = "[FLOOR]", columnDefinition = "int default 1")
+	@Column(name = "[FLOOR]", columnDefinition = "tinyint default 1")
 	private Integer floor;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

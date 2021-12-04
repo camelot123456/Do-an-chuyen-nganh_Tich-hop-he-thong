@@ -17,4 +17,6 @@ public interface IRoomServ {
 	public void delete(String[] ids);
 	
 	public Page<RoomEntity> findAll(int numPage, String sortField, String sortDir, String keyword);
+	
+	public RoomEntity findOneById(String id);
 }

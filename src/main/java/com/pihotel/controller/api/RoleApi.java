@@ -17,7 +17,7 @@ import com.pihotel.entity.RoleEntity;
 import com.pihotel.service.IRoleServ;
 
 @RestController
-@RequestMapping(value = "/api", consumes = {"application/json"})
+@RequestMapping(value = "/api")
 public class RoleApi {
 
 	@Autowired

@@ -24,20 +24,13 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 	public AccountEntity findByVerificationCode(String code);
 	
 	@Query("select a from AccountEntity a where a.name like %?1% "
-//			+ "or a.authProvider like %?1% "
 			+ "or a.email like %?1% "
 			+ "or a.phoneNum like %?1% "
 			+ "or a.id like %?1%")
 	public Page<AccountEntity> search(String keyword, Pageable pageable);
 
-	
 	@Modifying
 	@Transactional
-//	@Query(value = "update account set "
-//			+ "name=?2, email=?3, "
-//			+ "address=?4, phone_num=?5, "
-//			+ "birthday=?6, gender=?7 where id=?1",
-//			nativeQuery = true)
 	@Query(value = "update AccountEntity a set "
 			+ "a.name=?2, a.email=?3, "
 			+ "a.address=?4, a.phoneNum=?5, "
@@ -51,4 +44,24 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 			Date birthday,
 			Boolean gender
 	);
+	
+	@Query(value = "insert into account(id, name, email, [address], phone_num, birthday, avatar, gender) "
+			+ "values('?1', N'?2', '?3', N'?4', '?5', cast('?6' as DATETIME2), '?7', '?8')", nativeQuery = true)
+	public AccountEntity saveCustommer(
+			String id,
+			String name,
+			String email,
+			String address,
+			String phoneNum,
+			Date birthday,
+			String avatar,
+			Boolean gender
+		);
+	
+//	https://stackoverflow.com/questions/31857491/custom-query-in-spring-jpa-repository-with-pagination
+//	@Query(value = "select a from AccountEntity a where a.authProvier=''")
+//	public Page<AccountEntity> findAllAndPageCustom(Pageable pageable);
+//	
+//	public Page<AccountEntity> searchAndPageCustom(String keyword, Pageable pageable);
+	
 }

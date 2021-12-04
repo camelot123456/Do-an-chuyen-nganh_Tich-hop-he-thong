@@ -16,10 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.pihotel.entity.enums.EAuthenticationProvider;
-import com.pihotel.entity.enums.EMessageType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,7 +41,6 @@ public class AccountEntity extends AbstractEntity {
 	@Column(name = "[GENDER]", columnDefinition = "bit default 1")
 	private Boolean gender;
 
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "[BIRTHDAY]", columnDefinition = "date")
 	private Date birthday;
 
@@ -56,14 +52,14 @@ public class AccountEntity extends AbstractEntity {
 
 	@Column(name = "[AVATAR]", columnDefinition = "ntext")
 	private String avatar;
-	
+
 	@Column(name = "[ADDRESS]", columnDefinition = "nvarchar(255)")
 	private String address;
 
-	@Column(name = "[USERNAME]", columnDefinition = "varchar(255) not null unique")
+	@Column(name = "[USERNAME]", columnDefinition = "varchar(255)")
 	private String username;
 
-	@Column(name = "[PASSWORD]", columnDefinition = "varchar(255) not null")
+	@Column(name = "[PASSWORD]", columnDefinition = "varchar(255)")
 	private String password;
 
 	@Enumerated(EnumType.STRING)
@@ -74,39 +70,31 @@ public class AccountEntity extends AbstractEntity {
 	private String verificationCode;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "ACCOUNT_ROLE", 
-			joinColumns = @JoinColumn(
-					name = "[ID]", 
-					referencedColumnName = "[ID]"), 
-			inverseJoinColumns = @JoinColumn(
-					name = "ID_ROLE", 
-					referencedColumnName = "[ID]")
-			)
+	@JoinTable(name = "ACCOUNT_ROLE", joinColumns = @JoinColumn(name = "[ID]", referencedColumnName = "[ID]"), inverseJoinColumns = @JoinColumn(name = "ID_ROLE", referencedColumnName = "[ID]"))
 	private List<RoleEntity> roles;
-	
-	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<InvoiceEntity> invoices;
-	
-	@Transient
-	private EMessageType type;
-	
-	@Transient
-	private String content;
-	
-	@Transient
-	private String sender;
-	
-	@Transient
-	private String time;
-	
+
 	@Transient
 	public String getAvatar() {
 		if (avatar.startsWith("http://") || avatar.startsWith("https://")) {
 			return avatar;
-		} 
+		}
 		return "/img/user/" + avatar;
 	}
-	
-	
+
+//	
+//	@Transient
+//	private EMessageType type;
+//	
+//	@Transient
+//	private String content;
+//	
+//	@Transient
+//	private String sender;
+//	
+//	@Transient
+//	private String time;
+
 }

@@ -9,9 +9,10 @@
                 <a href="#" class="btn text-light text-center bg-warning border rounded-3 p-2 w-25 fs-6">Đặt cọc: 5</a>
                 <a href="#" class="btn text-light text-center bg-info border rounded-3 p-2 w-25 fs-6">Checkin: 2</a>
                 <a href="#" class="btn text-light text-center bg-danger border rounded-3 p-2 w-25 fs-6">Checkout: 5</a>
-                <a href="#" class="btn text-light text-center bg-secondary border rounded-3 p-2 w-25 fs-6">Sửa chữa: 1</a>
+                <a href="#" class="btn text-light text-center bg-secondary border rounded-3 p-2 w-25 fs-6">Sửa chữa:
+                    1</a>
             </div>
-    
+
             <div class="hstack gap-3 d-flex justify-content-between">
                 <div class="hstack gap-4 w-50">
                     <div class="btn-group w-25">
@@ -21,14 +22,16 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Tất cả</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="#">Tầng 1</a></li>
                             <li><a class="dropdown-item" href="#">Tầng 2</a></li>
                             <li><a class="dropdown-item" href="#">Tầng 3</a></li>
                             <li><a class="dropdown-item" href="#">Tầng 4</a></li>
                             <li><a class="dropdown-item" href="#">Tầng 5</a></li>
                             <li><a class="dropdown-item" href="#">Tầng 6</a></li>
-                          </ul>
+                        </ul>
                     </div>
                     <div class="btn-group  w-25">
                         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -37,11 +40,38 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Tất cả</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                             <li><a class="dropdown-item" href="#">Separated link</a></li>
-                          </ul>
+                        </ul>
+                    </div>
+                    <div class="btn-group w-25">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Sắp xếp
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Tất cả</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 1</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 2</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 3</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 4</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 5</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 6</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group  w-25">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Chiều
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Tăng dần</a></li>
+                            <li><a class="dropdown-item" href="#">Giảm dần</a></li>
+                        </ul>
                     </div>
                 </div>
                 <form class="input-group" id="form-search" style="width: 40%;" required>
@@ -59,34 +89,182 @@
         <hr>
         <div class="mb-3 p-3 border shadow rounded-3">
             <div class="row g-4">
-                <div class="col-2">
-                    <div class="border bg-light rounded-3 vstack gap text-center p-2" style="font-size: 12px; color: black">
-                        <div class="hstack gap-1 d-flex justify-content-between">
-                            <i class="fa fa-gift" aria-hidden="true"></i>
-                            <div class="hstack gap-1">
-                                <a class="btn btn-outline-secondary btn-sm" href="#"><i class="fa fa-refresh" aria-hidden="true"></i></a>
-                                <a class="btn btn-outline-secondary btn-sm" href="#"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
+                <th:block th:each="room, state : ${rooms}">
+                    <div class="col-2">
+                        <div class="border bg-light rounded-3 vstack gap text-center p-2"
+                            style="font-size: 12px; color: black">
+                            <div class="hstack gap-1 d-flex justify-content-between">
+                                [[${state.count}]]
+                                <div class="hstack gap-1">
+                                    <a class="btn btn-outline-secondary btn-sm" href="#"><i class="fa fa-refresh"
+                                            aria-hidden="true"></i></a>
+                                    <a class="btn btn-outline-secondary btn-sm" href="#"><i class="fa fa-floppy-o"
+                                            aria-hidden="true"></i></a>
+                                </div>
                             </div>
-                        </div>
-                        <h5>Phòng TS04-SA1</h5>
-                        <p class="">Trống</p>
-                        <p class="">Khoa Pug</p>
-                        <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-24 17:56:12.212</p>
-                        <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-28 17:56:12.212</p>
-                        <div class="hstack gap-1 d-flex justify-content-center">
-                            <a class="btn btn-outline-secondary btn-sm" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                            <a class="btn btn-outline-secondary btn-sm" href="#" title="checkout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
-                            <a class="btn btn-outline-secondary btn-sm" href="#" title="checkin"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
-                            <a class="btn btn-outline-secondary btn-sm" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
-                            <a class="btn btn-outline-secondary btn-sm" href="#" title="dịch vụ"><i class="fa fa-diamond" aria-hidden="true"></i></a>
+                            <h5>[[${room.name}]]</h5>
+                            <p class="">[[${room.roomState}]]</p>
+                            <p class="">Bao Nguyen</p>
+                            <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-24 17:56:12.212</p>
+                            <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-28 17:56:12.212</p>
+                            <!-- .valueOf("ENUM_ITEM").ordinal() -->
+                            <!-- <th:block th:if="${room.roomState.valueOf('EMPTY').ordinal() == 3}">
+                                <div class="hstack gap-1 d-flex justify-content-center">
+                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="đặt"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></a>
+                                </div>
+                            </th:block>
+                            <th:block th:unless="${room.roomState.valueOf('REPAIR').ordinal() == 4}">
+                                <div class="hstack gap-1 d-flex justify-content-center">
+                                    <p>---</p>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${room.roomState.equals('USING')}">
+                                <div class="hstack gap-1 d-flex justify-content-center">
+                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="checkout"><i
+                                        class="fa fa-sign-out" aria-hidden="true"></i></a>
+                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="dịch vụ"><i
+                                        class="fa fa-diamond" aria-hidden="true"></i></a>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${room.roomState.equals('CHECKIN')}">
+                                <div class="hstack gap-1 d-flex justify-content-center">
+                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="đặt"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></a>
+                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="dịch vụ"><i
+                                        class="fa fa-diamond" aria-hidden="true"></i></a>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${room.roomState.equals('CHECKOUT')}">
+                                <div class="hstack gap-1 d-flex justify-content-center">
+                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="hủy"><i class="fa fa-ban"
+                                        aria-hidden="true"></i></a>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${room.roomState.equals('DEPOSIT')}">
+                                <div class="hstack gap-1 d-flex justify-content-center">
+                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="đặt"><i class="fa fa-plus"
+                                        aria-hidden="true"></i></a>
+                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="checkin"><i
+                                        class="fa fa-sign-in" aria-hidden="true"></i></a>
+                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="hủy"><i class="fa fa-ban"
+                                        aria-hidden="true"></i></a>
+                                </div>
+                            </th:block> -->
                         </div>
                     </div>
-                </div>
+                </th:block>
+            </div>
+            <div class="row g-4" id="table-room">
 
-                
+            </div>
+
+            <!-- Xử lý phân trang -->
+            <div class="hstack gap-3 d-flex justify-content-between">
+                <p>Số trang: [[${totalPage}]] - Số phòng: [[${totalElement}]] - Hiện tại: [[${currentPage}]] - Sắp xếp:
+                    [[${sortField}]] - Chiều: [[${sortDir}]]</p>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item disabled" th:if="${currentPage == 1}">
+                            <a class="page-link"
+                                th:href="@{'/admin/internal-managements/account/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="page-item" th:unless="${currentPage == 1}">
+                            <a class="page-link"
+                                th:href="@{'/admin/internal-managements/account/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="page-item disabled" th:if="${currentPage == 1}">
+                            <a class="page-link"
+                                th:href="@{'/admin/internal-managements/account/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="page-item" th:unless="${currentPage == 1}">
+                            <a class="page-link"
+                                th:href="@{'/admin/internal-managements/account/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <th:block th:each="i : ${#numbers.sequence(1, totalPage)}">
+                            <li class="page-item active" th:if="${currentPage == i}">
+                                <span class="page-link">[[${i}]]</span>
+                            </li>
+                            <li class="page-item" th:unless="${currentPage == i}">
+                                <a class="page-link"
+                                    th:href="@{'/admin/internal-managements/account/page/'+${i}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">[[${i}]]</a>
+                            </li>
+                        </th:block>
+                        <li class="page-item disabled" th:if="${currentPage == totalPage}">
+                            <a class="page-link"
+                                th:href="@{'/admin/internal-managements/account/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="page-item" th:unless="${currentPage == totalPage}">
+                            <a class="page-link"
+                                th:href="@{'/admin/internal-managements/account/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="page-item disabled" th:if="${currentPage == totalPage}">
+                            <a class="page-link"
+                                th:href="@{'/admin/internal-managements/account/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="page-item" th:unless="${currentPage == totalPage}">
+                            <a class="page-link"
+                                th:href="@{'/admin/internal-managements/account/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
 
 
     </div>
+
+    <script>
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        var tableRoom = $('#table-room')
+
+        fetch('http://localhost:8081/api/room', {
+            method: 'GET',
+        })
+        .then(resp => resp.json())
+        .then(rooms => {
+            console.log(rooms)
+            rooms.map((room, i) => {
+                tableRoom.innerHTML += `
+                <div class="col-2">
+                        <div class="border bg-light rounded-3 vstack gap text-center p-2"
+                            style="font-size: 12px; color: black">
+                            <div class="hstack gap-1 d-flex justify-content-between">
+                                ${i}
+                                <div class="hstack gap-1">
+                                    <a class="btn btn-outline-secondary btn-sm" href="#"><i class="fa fa-refresh"
+                                            aria-hidden="true"></i></a>
+                                    <a class="btn btn-outline-secondary btn-sm" href="#"><i class="fa fa-floppy-o"
+                                            aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            <h5>${room.name}</h5>
+                            <p class="">${room.roomState}</p>
+                            <p class="">Bao Nguyen</p>
+                            <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-24 17:56:12.212</p>
+                            <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-28 17:56:12.212</p>
+                        </div>
+                    </div>
+                `
+            })
+        })
+    </script>
 </th:block>

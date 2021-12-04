@@ -1,23 +1,12 @@
 <th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
     <div class="vstack gap-3">
         <div>
-            <h3 class="text-primary fw-bolder text-uppercase">Tạo tài khoản</h3>
+            <h3 class="text-primary fw-bolder text-uppercase">Thêm khách hàng</h3>
         </div>
 
         <hr>
 
-        <form class="vstack gap-3" id="form-account" name="form-account" enctype="multipart/form-data">
-            <div class="hstack gap-3 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
-                <div class="hstack gap-3 py-auto">
-                    <a href="#" class="me-3">
-                        <img id="account-avatar" style="width: 100px;" class="rounded-circle" src="" alt="">
-                    </a>
-                    <div class="mb-3">
-                        <label for="form-file" class="form-label">Ảnh đại diện</label>
-                        <input class="form-control" type="file" id="form-file" name="avatar">
-                    </div>
-                </div>
-            </div>
+        <form class="vstack gap-3" id="form-customer" name="form-customer">
 
             <div>
                 <h4 class="text-primary text-uppercase">Thông tin kiểm toán</h4>
@@ -55,19 +44,6 @@
                                 th:value="${RANDOM_ID}" name="id">
                             <label for="id">Mã tài khoản</label>
                         </div>
-                        <div class="form-floating w-50 ">
-                            <input type="text" class="form-control" id="_auth-provider" placeholder="Loại tài khoản"
-                                th:value="${AUTH_PROVIDER}" disabled>
-                            <label for="_auth-provider">Loại tài khoản</label>
-                            <input type="hidden" name="authProvider" th:value="${AUTH_PROVIDER}">
-                        </div>
-                        <div class="form-floating w-50">
-                            <input type="text" class="form-control" id="username" placeholder="Tên tài khoản"
-                                name="username">
-                            <label for="username">Tên tài khoản</label>
-                        </div>
-                    </div>
-                    <div class="hstack gap-3">
                         <div class="form-floating w-50">
                             <input type="text" class="form-control" id="name" placeholder="Họ & tên" name="name">
                             <label for="name">Họ & tên</label>
@@ -104,45 +80,11 @@
                             <label for="gender">Giới tính</label>
                         </div>
                     </div>
-                    <div class="hstack gap-3">
-                        <div class="form-floating w-50">
-                            <input type="password" class="form-control" id="password" placeholder="Mật khẩu">
-                            <label for="name">Mật khẩu</label>
-                        </div>
-                        <div class="form-floating w-50">
-                            <input type="password" class="form-control" id="re-password" placeholder="Xác nhận mật khẩu" name="password">
-                            <label for="re-password">Xác nhận mật khẩu</label>
-                        </div>
-                    </div>
                     <div class="vstack gap-3 p-3 border rounded-3 bg-light">
                         <label for="editor1">Thông tin riêng</label>
                         <textarea class="form-control" style="height: 100px" name="editor1" id="editor1"></textarea>
                     </div>
                 </div>
-
-                <h4 class="text-primary text-uppercase">Quyền truy cập</h4>
-                <hr>
-                <table class="table table-striped table-hover border rounded-3 shadow">
-                    <tbody>
-                        <th:block th:each="role, state : ${roles}">
-                            <tr style="line-height: 50px;">
-                                <th scope="row">[[${state.count}]]</th>
-                                <td>
-                                    <img style="width: 50px;" class="rounded-circle" th:src="${role.logo}" alt="">
-                                </td>
-                                <td>[[${role.name}]]</td>
-                                <td>[[${role.code}]]</td>
-                                <td class="text-center">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input checkbox-role me-4" type="checkbox" role="switch"
-                                            th:id="${role.id}" style="margin-top: 19px; cursor: pointer;">
-                                        <label class="form-check-label label-role" th:for="${role.id}"></label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </th:block>
-                    </tbody>
-                </table>
             </div>
 
             <div class="hstack gap-3 d-flex flex-row-reverse">
@@ -159,28 +101,8 @@
         var $$ = document.querySelectorAll.bind(document)
 
         var btnSave = $('#btn-save')
-        var avatar = $('#account-avatar')
-        var formAccount = $('#form-account')
-        var formFile = $('#form-file')
+        var formCustomer = $('#form-customer')
 
-        formFile.addEventListener('change', (e) => {
-            console.log("test")
-            var file = e.target.files[0]
-            avatar.src = window.URL.createObjectURL(new Blob([file], { type: "application/zip" }))
-        })
-
-
-        var idRoles = Array.from($$('.checkbox-role'))
-        idRoles.forEach((element) => {
-            element.nextElementSibling.innerHTML = `<span class="badge rounded-pill bg-secondary">Vô hiệu hóa</span>`
-            element.addEventListener('change', (e) => {
-                if (element.checked == true) {
-                    element.nextElementSibling.innerHTML = `<span class="badge rounded-pill bg-success">Đã kích hoạt</span>`
-                } else {
-                    element.nextElementSibling.innerHTML = `<span class="badge rounded-pill bg-secondary">Vô hiệu hóa</span>`
-                }
-            })
-        })
 
         //Tạo hàm gọi api
         function fetchAPI(url, method, body, redirect) {
@@ -204,19 +126,10 @@
         //Xử lý tạo tài khoản
         btnSave.addEventListener('click', (e) => {
             e.preventDefault();
-            var formData = new FormData(formAccount)
+            var formData = new FormData(formCustomer)
+            console.log(formData.get('birthday'))
 
-            var roles = []
-            var role = {}
-            Array.from($$('.checkbox-role')).forEach((element) => {
-                if (element.checked) {
-                    role = { id: element.id }
-                    roles.push(role)
-                    console.log(role)
-                }
-            })
-            formData.append('avatar', document.forms['form-account'].avatar.files[0])
-            formData.append('account', new Blob([
+            formData.append('customer', new Blob([
                 JSON.stringify({
                     'id': formData.get('id'),
                     'name': formData.get('name'),
@@ -224,20 +137,17 @@
                     'address': formData.get('address'),
                     'phoneNum': formData.get('phoneNum'),
                     'birthday': formData.get('birthday'),
-                    'gender': formData.get('gender'),
-                    'password': formData.get('password'),
-                    'username': formData.get('username'),
-                    'roles': roles
+                    'gender': formData.get('gender')
                 })
             ], {
                 type: "application/json"
             }))
 
             fetchAPI(
-                '/admin/internal-managements/account/tran',
+                '/admin/customer-managements/account/customer/tran',
                 'POST',
                 formData,
-                `/admin/internal-managements/account/${formData.get('id')}`)
+                `/admin/customer-managements/account/customer/${formData.get('id')}`)
         })
 
     </script>

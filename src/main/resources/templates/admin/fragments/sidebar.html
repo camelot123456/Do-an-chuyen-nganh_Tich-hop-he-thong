@@ -1,80 +1,74 @@
 <th:block th:fragment="sidebar">
-    <div class="d-flex flex-column p-3 text-white bg-dark" style="width: 280px; height: 100vh">
-        <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-            <img style="width:40px"
-                src="https://b.thumbs.redditmedia.com/49mRBNOkrrQG87BAMPebUiPNUba44YnOFKxRkBNAMFo.png" alt="">
-            <div class="ms-2 text-light">Pi Network</div>
-        </a>
-        <hr class="text-light">
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item  hover-link">
-                <a href="/home" class="nav-link text-light">
-                    <i class="me-2 fa fa-home" aria-hidden="true"></i>
-                    Trang chủ
-                </a>
-            </li>
-            <li class="nav-item  hover-link">
-                <a href="/admin/dashboard" class="nav-link text-light">
-                    <i class="me-2 fa fa-tachometer" aria-hidden="true"></i>
-                    Dashboard
-                </a>
-            </li>
-            <li class="nav-item  hover-link">
-                <a href="#" class="nav-link text-light">
-                    <i class="me-2 fa fa-user-circle-o" aria-hidden="true"></i>
-                    Khách hàng
-                </a>
-            </li>
-            <li class="nav-item  hover-link">
-                <a href="/admin/internal-managements/account" class="nav-link text-light">
-                    <i class="me-2 fa fa-users" aria-hidden="true"></i>
-                    Nội bộ
-                </a>
-            </li>
-            <li class="nav-item  hover-link">
-                <a href="/admin/room-managements/room" class="nav-link text-light">
-                    <i class="me-2 fa fa-bed" aria-hidden="true"></i>
-                    Phòng
-                </a>
-            </li>
-            <li class="nav-item  hover-link">
-                <a href="#" class="nav-link text-light">
-                    <i class="me-2 fa fa-credit-card" aria-hidden="true"></i>
-                    Hoá đơn
-                </a>
-            </li>
-            <li class="nav-item  hover-link">
-                <a href="#" class="nav-link text-light">
-                    <i class="me-2 fa fa-futbol-o" aria-hidden="true"></i>
-                    Dịch vụ
-                </a>
-            </li>
-        </ul>
-        <div class="">
-            <div style="width: 50px; height: 50px; "
-                class="d-flex justìy-content-center align-items-center mx-auto bg-primary rounded-circle">
-                <a href="#" class="d-flex mx-auto text-light nav-link fs-4">
-                    <i class="fa fa-angle-left" aria-hidden="true"></i>
-                </a>
-            </div>
-        </div>
-        <hr class="text-light">
-        <!-- <div class="dropdown d-flex align-items-center">
-            <img th:src="${session.account.avatar}" class="rounded-circle"
-                style="width: 35px" th:alt="${session.account.name}">
-            <a class="dropdown nav-link text-light fs-6" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                aria-expanded="false" th:text="${session.account.name}">
+    <div class="collapsing collapse-horizontal" id="myCollapse" style="border-radius: 0px;">
+        <div class="card card-body d-flex flex-column p-3 text-white bg-dark" style="width: 280px; height: 100vh">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none">
+                <img style="width:40px"
+                    src="https://b.thumbs.redditmedia.com/49mRBNOkrrQG87BAMPebUiPNUba44YnOFKxRkBNAMFo.png" alt="">
+                <div class="ms-2 text-light">Pi Network</div>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#" th:text="${session.account.name}"></a></li>
-                <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
-                <li><a class="dropdown-item" href="#">Cài đặt</a></li>
-                <li><a class="dropdown-item" href="#">Blog</a></li>
-                <li>
-                    <hr class="dropdown-divider">
+            <hr class="text-light">
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item  hover-link">
+                    <a href="/home" class="nav-link text-light">
+                        <i class="me-2 fa fa-home" aria-hidden="true"></i>
+                        Trang chủ
+                    </a>
                 </li>
-                <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
+                <li class="nav-item  hover-link">
+                    <a href="/admin/dashboard" class="nav-link text-light">
+                        <i class="me-2 fa fa-tachometer" aria-hidden="true"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item  hover-link">
+                    <a href="/admin/customer-managements/account/customer" class="nav-link text-light">
+                        <i class="me-2 fa fa-user-circle-o" aria-hidden="true"></i>
+                        Khách hàng
+                    </a>
+                </li>
+                <li class="nav-item  hover-link">
+                    <a href="/admin/internal-managements/account" class="nav-link text-light">
+                        <i class="me-2 fa fa-users" aria-hidden="true"></i>
+                        Nội bộ
+                    </a>
+                </li>
+                <li class="nav-item  hover-link">
+                    <a href="/admin/room-managements/room" class="nav-link text-light">
+                        <i class="me-2 fa fa-bed" aria-hidden="true"></i>
+                        Phòng
+                    </a>
+                </li>
+                <li class="nav-item  hover-link">
+                    <a href="#" class="nav-link text-light">
+                        <i class="me-2 fa fa-credit-card" aria-hidden="true"></i>
+                        Hoá đơn
+                    </a>
+                </li>
+                <li class="nav-item  hover-link">
+                    <a href="#" class="nav-link text-light">
+                        <i class="me-2 fa fa-futbol-o" aria-hidden="true"></i>
+                        Dịch vụ
+                    </a>
+                </li>
             </ul>
-        </div> -->
+            <hr class="text-light">
+            <!-- <div class="dropdown d-flex align-items-center">
+                    <img th:src="${session.account.avatar}" class="rounded-circle"
+                        style="width: 35px" th:alt="${session.account.name}">
+                    <a class="dropdown nav-link text-light fs-6" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                        aria-expanded="false" th:text="${session.account.name}">
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#" th:text="${session.account.name}"></a></li>
+                        <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
+                        <li><a class="dropdown-item" href="#">Cài đặt</a></li>
+                        <li><a class="dropdown-item" href="#">Blog</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
+                    </ul>
+                </div> -->
+        </div>
     </div>
 </th:block>

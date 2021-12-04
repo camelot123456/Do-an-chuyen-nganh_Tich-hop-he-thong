@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,7 @@ import com.pihotel.entity.RoomEntity;
 import com.pihotel.service.IRoomServ;
 
 @RestController
-@RequestMapping(value = "/api", consumes = "application/json")
+@RequestMapping(value = {"/api"})
 public class RoomApi {
 
 	@Autowired
@@ -42,6 +43,11 @@ public class RoomApi {
 	public ResponseEntity<String> delete(@RequestBody RoomEntity room){
 		roomServ.delete(room.getIds());
 		return new ResponseEntity<String>("Product deleted successfully!", HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/room/{id}")
+	public ResponseEntity<RoomEntity> find(@PathVariable("id") String id){
+		return ResponseEntity.ok().body(roomServ.findOneById(id));
 	}
 	
 }
