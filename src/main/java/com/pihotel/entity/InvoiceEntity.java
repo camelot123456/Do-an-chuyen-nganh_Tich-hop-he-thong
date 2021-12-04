@@ -1,9 +1,7 @@
 package com.pihotel.entity;
 
-import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -28,21 +26,12 @@ import lombok.ToString;
 @Entity
 @Table(name="[INVOICE]")
 public class InvoiceEntity extends AbstractEntity{
-
-	@Column(name = "[START_TIME]", columnDefinition = "datetime")
-	private Date startTime;
-	
-	@Column(name = "[END_DATE]", columnDefinition = "datetime")
-	private Date endTime;
-	
-	@Column(name = "[RENTAL_HOURS]", columnDefinition = "int default 0")
-	private Integer rentalHours;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "INVOICE_SERVICE",
-			joinColumns = @JoinColumn(name = "ID_INVOICE"),
-			inverseJoinColumns = @JoinColumn(name = "ID_SERVICE")
+			joinColumns = @JoinColumn(name = "[ID_INVOICE]", referencedColumnName = "[ID]"),
+			inverseJoinColumns = @JoinColumn(name = "[ID_SERVICE]", referencedColumnName = "[ID]")
 	)
 	private List<ServiceEntity> services;
 	

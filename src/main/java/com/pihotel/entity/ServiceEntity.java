@@ -23,10 +23,6 @@ import lombok.ToString;
 @Entity
 @Table(name="[SERVICE]")
 public class ServiceEntity extends AbstractEntity{
-	
-//	@Id
-//	@Column(name = "[ID]", columnDefinition = "varchar(10)")
-//	private String id;
 
 	@Column(name = "[NAME]", columnDefinition = "nvarchar(64)")
 	private String name;

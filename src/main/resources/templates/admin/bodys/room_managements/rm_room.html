@@ -88,74 +88,7 @@
         </div>
         <hr>
         <div class="mb-3 p-3 border shadow rounded-3">
-            <div class="row g-4">
-                <th:block th:each="room, state : ${rooms}">
-                    <div class="col-2">
-                        <div class="border bg-light rounded-3 vstack gap text-center p-2"
-                            style="font-size: 12px; color: black">
-                            <div class="hstack gap-1 d-flex justify-content-between">
-                                [[${state.count}]]
-                                <div class="hstack gap-1">
-                                    <a class="btn btn-outline-secondary btn-sm" href="#"><i class="fa fa-refresh"
-                                            aria-hidden="true"></i></a>
-                                    <a class="btn btn-outline-secondary btn-sm" href="#"><i class="fa fa-floppy-o"
-                                            aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                            <h5>[[${room.name}]]</h5>
-                            <p class="">[[${room.roomState}]]</p>
-                            <p class="">Bao Nguyen</p>
-                            <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-24 17:56:12.212</p>
-                            <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-28 17:56:12.212</p>
-                            <!-- .valueOf("ENUM_ITEM").ordinal() -->
-                            <!-- <th:block th:if="${room.roomState.valueOf('EMPTY').ordinal() == 3}">
-                                <div class="hstack gap-1 d-flex justify-content-center">
-                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="đặt"><i class="fa fa-plus"
-                                            aria-hidden="true"></i></a>
-                                </div>
-                            </th:block>
-                            <th:block th:unless="${room.roomState.valueOf('REPAIR').ordinal() == 4}">
-                                <div class="hstack gap-1 d-flex justify-content-center">
-                                    <p>---</p>
-                                </div>
-                            </th:block>
-                            <th:block th:if="${room.roomState.equals('USING')}">
-                                <div class="hstack gap-1 d-flex justify-content-center">
-                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="checkout"><i
-                                        class="fa fa-sign-out" aria-hidden="true"></i></a>
-                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="dịch vụ"><i
-                                        class="fa fa-diamond" aria-hidden="true"></i></a>
-                                </div>
-                            </th:block>
-                            <th:block th:if="${room.roomState.equals('CHECKIN')}">
-                                <div class="hstack gap-1 d-flex justify-content-center">
-                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="đặt"><i class="fa fa-plus"
-                                            aria-hidden="true"></i></a>
-                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="dịch vụ"><i
-                                        class="fa fa-diamond" aria-hidden="true"></i></a>
-                                </div>
-                            </th:block>
-                            <th:block th:if="${room.roomState.equals('CHECKOUT')}">
-                                <div class="hstack gap-1 d-flex justify-content-center">
-                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="hủy"><i class="fa fa-ban"
-                                        aria-hidden="true"></i></a>
-                                </div>
-                            </th:block>
-                            <th:block th:if="${room.roomState.equals('DEPOSIT')}">
-                                <div class="hstack gap-1 d-flex justify-content-center">
-                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="đặt"><i class="fa fa-plus"
-                                        aria-hidden="true"></i></a>
-                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="checkin"><i
-                                        class="fa fa-sign-in" aria-hidden="true"></i></a>
-                                    <a class="btn btn-outline-secondary btn-sm" href="#" title="hủy"><i class="fa fa-ban"
-                                        aria-hidden="true"></i></a>
-                                </div>
-                            </th:block> -->
-                        </div>
-                    </div>
-                </th:block>
-            </div>
-            <div class="row g-4" id="table-room">
+            <div class="row g-4 mb-3" id="table-room">
 
             </div>
 
@@ -239,11 +172,11 @@
         fetch('http://localhost:8081/api/room', {
             method: 'GET',
         })
-        .then(resp => resp.json())
-        .then(rooms => {
-            console.log(rooms)
-            rooms.map((room, i) => {
-                tableRoom.innerHTML += `
+            .then(resp => resp.json())
+            .then(rooms => {
+                console.log(rooms)
+                rooms.map((room, i) => {
+                    tableRoom.innerHTML += `
                 <div class="col-2">
                         <div class="border bg-light rounded-3 vstack gap text-center p-2"
                             style="font-size: 12px; color: black">
@@ -256,7 +189,7 @@
                                             aria-hidden="true"></i></a>
                                 </div>
                             </div>
-                            <h5>${room.name}</h5>
+                            <h5>${room.id}</h5>
                             <p class="">${room.roomState}</p>
                             <p class="">Bao Nguyen</p>
                             <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-24 17:56:12.212</p>
@@ -264,7 +197,16 @@
                         </div>
                     </div>
                 `
+                })
             })
-        })
     </script>
+
+    <a class="btn btn-outline-secondary btn-sm" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
+    <a class="btn btn-outline-secondary btn-sm" href="#" title="checkout"><i class="fa fa-sign-out"
+            aria-hidden="true"></i></a>
+    <a class="btn btn-outline-secondary btn-sm" href="#" title="dịch vụ"><i class="fa fa-diamond"
+            aria-hidden="true"></i></a>
+    <a class="btn btn-outline-secondary btn-sm" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
+    <a class="btn btn-outline-secondary btn-sm" href="#" title="checkin"><i class="fa fa-sign-in"
+            aria-hidden="true"></i></a>
 </th:block>

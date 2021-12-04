@@ -17,6 +17,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
@@ -37,7 +38,7 @@ import lombok.ToString;
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
 		  property = "id")//Xử lý lỗi đệ quy vô hạn trong jackson khi đối tượng có thuộc tính tham chiếu đến đối tượng khác
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 //@JsonIgnoreProperties(ignoreUnknown = true)
 //@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class AbstractEntity {

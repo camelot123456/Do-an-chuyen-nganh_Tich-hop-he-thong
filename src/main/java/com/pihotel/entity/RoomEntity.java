@@ -1,5 +1,7 @@
 package com.pihotel.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pihotel.entity.enums.ERoomState;
 
 import lombok.AllArgsConstructor;
@@ -50,7 +53,20 @@ public class RoomEntity extends AbstractEntity{
 	@Column(name = "[FLOOR]", columnDefinition = "tinyint default 1")
 	private Integer floor;
 	
+	@Column(name = "[START_TIME]", columnDefinition = "datetime")
+	private Date startTime;
+	
+	@Column(name = "[END_DATE]", columnDefinition = "datetime")
+	private Date endTime;
+	
+	@Column(name = "[ADULTS]", columnDefinition = "tinyint default 0")
+	private Integer adults;
+	
+	@Column(name = "[CHILDREN]", columnDefinition = "tinyint default 0")
+	private Integer children;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_ROOM_TYPE")
+	@JsonManagedReference
 	private RoomTypeEntity room;
 }
