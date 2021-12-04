@@ -8,6 +8,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,6 +40,7 @@ public class RoleEntity extends AbstractEntity{
 	private String logo;
 	
 	@ManyToMany(mappedBy = "roles")
+	@JsonIgnoreProperties("roles")
 	private List<AccountEntity> accounts;
 	
 	@Transient

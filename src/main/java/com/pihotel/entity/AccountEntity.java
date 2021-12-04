@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.pihotel.entity.enums.EAuthenticationProvider;
 
 import lombok.AllArgsConstructor;
@@ -70,7 +71,10 @@ public class AccountEntity extends AbstractEntity {
 	private String verificationCode;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "ACCOUNT_ROLE", joinColumns = @JoinColumn(name = "[ID]", referencedColumnName = "[ID]"), inverseJoinColumns = @JoinColumn(name = "ID_ROLE", referencedColumnName = "[ID]"))
+	@JoinTable(name = "ACCOUNT_ROLE", 
+	joinColumns = @JoinColumn(name = "[ID]", referencedColumnName = "[ID]"), 
+	inverseJoinColumns = @JoinColumn(name = "ID_ROLE", referencedColumnName = "[ID]"))
+	@JsonIgnoreProperties("accounts")
 	private List<RoleEntity> roles;
 
 	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
