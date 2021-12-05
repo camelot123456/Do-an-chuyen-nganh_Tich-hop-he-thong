@@ -7,12 +7,14 @@
 
         <div class="mb-3">
             <label for="username" class="form-label text-primary">Tên đăng nhập</label>
-            <input type="text" class="form-control" id="username" name="username">
+            <input type="text" class="form-control" id="username" name="username" required>
+            <p class="text-danger text-center" id="username-message" style="font-size: 12px"></p>
         </div>
 
         <div class="mb-3">
             <label for="password" class="form-label text-primary">Mật khẩu</label>
-            <input type="password" class="form-control" id="password" name="password">
+            <input type="password" class="form-control" id="password" name="password" required>
+            <p class="text-danger text-center" id="password-message" style="font-size: 12px"></p>
         </div>
 
         <div class="mb-3 form-check">
@@ -23,7 +25,7 @@
         </div>
 
         <div class="">
-            <p class="text-danger text-center" style="font-size: 12px">
+            <p class="text-danger text-center" id="log-message" style="font-size: 12px">
                 [[${session.log_authentication}]]
             </p>
         </div>
@@ -60,10 +62,30 @@
         var spinnerRegister = $('.spinner-register');
         var btnSubmitLogin = $('#btn-submit-login')
 
-        // btnLogin.addEventListener('click', (e) => {
-        //     btnLogin.setAttribute('disabled', 'disabled');
-        //     spinnerRegister.className = "spinner-border spinner-border-sm"
-        // })
+        btnLogin.addEventListener('click', (e) => {
+            btnLogin.setAttribute('disabled', 'disabled');
+            spinnerRegister.className = "spinner-border spinner-border-sm"
+        })
+
+        //Validate
+        var inputUsername = $('#username')
+        var inputPassword = $('#password')
+        var logMessage = $('#log-message')
+        var usernameMessage = $('#username-message')
+        var passwordMessage = $('#password-message')
+
+        function validate(input, message, invalid) {
+            input.addEventListener('blur', (e => {
+                if (!input.checkValidity()) {
+                    message.innerHTML = input.validationMessage
+                } else {
+                    message.innerHTML = invalid
+                }
+            }))
+        }
+
+        validate(inputUsername, usernameMessage, '')
+        validate(inputPassword, passwordMessage, '')
 
     </script>
 </th:block>

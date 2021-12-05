@@ -164,8 +164,8 @@
 
             <div class="hstack gap-3 d-flex flex-row-reverse">
                 <button type="button" class="btn btn-outline-primary">Cập nhập quyền truy cập</button>
-                <button type="button" id="btn-save" class="btn btn-outline-success">Lưu</button>
-                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                <button type="button" th:id="@{'btn-save-'+${account.id}}" class="btn btn-outline-success btn-save">Lưu</button>
+                <button type="button" th:id="@{'btn-del-'+${account.id}}" class="btn btn-outline-danger" data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop">Xóa</button>
             </div>
 
@@ -223,7 +223,7 @@
             formSelectgender.selectedIndex = '2'
         }
 
-        var btnSave = $('#btn-save')
+        var btnSave = $('.btn-save')
         var btnDel = $('#btn-del')
         var formAccount = $('#form-account')
 
@@ -343,6 +343,11 @@
                 formData,
                 `/admin/internal-managements/account`)
         })
+
+        if ($('#btn-save-ADMIN') && $('#btn-del-ADMIN')) {
+            $('#btn-save-ADMIN').remove()
+            $('#btn-del-ADMIN').remove()
+        }
 
     </script>
 </th:block>

@@ -82,7 +82,7 @@ public class AccountController {
 		model.addAttribute("CREATE_AT", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS").format(new Date()));
 		model.addAttribute("RANDOM_ID", RandomString.make(16));
 		model.addAttribute("AUTH_PROVIDER", "LOCAL");
-		model.addAttribute("EMAIL", "nguyensybao1403@gmail.com");//accountServ.findOneByUsername(principal.getName()).getEmail()
+		model.addAttribute("EMAIL", accountServ.findOneByUsername(principal.getName()).getEmail());
 		model.addAttribute(SystemConstant.ROLES, roleServ.findAll());
 		return "admin/bodys/internal_managements/im_account_insert";
 	}

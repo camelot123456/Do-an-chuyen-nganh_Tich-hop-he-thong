@@ -68,9 +68,9 @@
                 </th:block>
 
                 <th:block th:each="account, state : ${accounts}">
-                    <tr style="line-height: 50px;">
-                        <td id="row-checkbox">
-                            <input class="form-check-input checkbox-all" th:id="${account.id}" type="checkbox" value="">
+                    <tr style="line-height: 50px;" th:id="@{'tag-tr-'+${account.id}}">
+                        <td class="row-checkbox">
+                            <input class="form-check-input checkbox-all" th:id="@{'checkbox-' + ${account.id}}" type="checkbox" value="">
                         </td>
                         <th scope="row">[[${state.count}]]</th>
                         <th scope="row">[[${account.id}]]</th>
@@ -87,7 +87,7 @@
                         <td class="text-center">
                             <a th:href="@{/admin/internal-managements/account/{id}(id=${account.id})}"
                                 class="btn btn-sm btn-info">Xem</a>
-                            <button class="btn btn-sm btn-danger btn-del" th:id="${account.id}">Xóa</button>
+                            <button class="btn btn-sm btn-danger btn-del" th:id="@{'btn-del-' + ${account.id}}">Xóa</button>
                         </td>
                     </tr>
                 </th:block>
@@ -214,7 +214,7 @@
         })
 
         //Xử lý chọn checkbox
-        var checkboxAll = $$('#row-checkbox .checkbox-all')
+        var checkboxAll = $$('.row-checkbox .checkbox-all')
         var checkboxElement = $('.checkbox-element')
         var buttonGroupTool = $('.button-group-tool')
         var btnAdd = $('#btn-add')
@@ -232,7 +232,7 @@
 
         checkboxAll.forEach((element) => {
             element.addEventListener('change', (e) => {
-                var reduceCheckboxChecked = $$('#row-checkbox input[type="checkbox"]:checked').length
+                var reduceCheckboxChecked = $$('.row-checkbox input[type="checkbox"]:checked').length
                 checkboxElement.checked = (sumCheckedFirst == reduceCheckboxChecked ? true : false)
                 checkboxChecked(reduceCheckboxChecked)
             })
@@ -256,7 +256,7 @@
 
                 if (btnDels) {
                     btnDels.addEventListener('click', (e) => {
-                        var checkboxAll = $$('#row-checkbox .checkbox-all')
+                        var checkboxAll = $$('.row-checkbox .checkbox-all')
                         var account = {}
                         var ids = []
                         checkboxAll.forEach((element) => {
@@ -264,6 +264,7 @@
                                 ids.push(element.id)
                             }
                         })
+                        console.log(ids)
 
                         var k = confirm('Bạn có muốn xóa những tài khoản này không ?')
 
@@ -289,6 +290,10 @@
                     </a>`
             }
         }
+
+        $('#checkbox-ADMIN').remove();
+        $('#btn-del-ADMIN').remove();
+        $('#tag-tr-ADMIN').style.backgroundColor = '#fecba1'
 
     </script>
 </th:block>
