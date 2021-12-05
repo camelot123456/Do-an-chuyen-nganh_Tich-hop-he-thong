@@ -58,6 +58,8 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 			Boolean gender
 		);
 	
+	public Boolean existsByUsername(String username);
+	
 //	https://stackoverflow.com/questions/31857491/custom-query-in-spring-jpa-repository-with-pagination
 //	@Query(value = "select a from AccountEntity a where a.authProvier=''")
 //	public Page<AccountEntity> findAllAndPageCustom(Pageable pageable);

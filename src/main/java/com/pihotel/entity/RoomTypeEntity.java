@@ -11,7 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,7 +40,7 @@ public class RoomTypeEntity extends AbstractEntity{
 	private String logo;
 	
 	@OneToMany(mappedBy = "room")
-	@JsonBackReference
+	@JsonManagedReference
 	private List<RoomEntity> rooms;
 	
 	@ManyToMany(fetch = FetchType.LAZY)

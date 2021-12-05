@@ -60,6 +60,12 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		}
 
 		if (account.getEnabled() == false) {
+			try {
+				senderService.sendVerificationEmail(account, SystemConstant.MY_DOMAIN_NAME);
+			} catch (UnsupportedEncodingException | MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return null;
 		}
 
@@ -132,17 +138,18 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 	public void register(AccountEntity account, String siteURL)
 			throws MessagingException, UnsupportedEncodingException {
 		// TODO Auto-generated method stub
-		account.setEnabled(false);
-		account.setId(RandomString.make(12));
-		account.setVerificationCode(RandomString.make(64));
-		account.setAuthProvider(EAuthenticationProvider.LOCAL);
-		account.setCreateAt(new Date());
-		if (account.getAvatar() == null) {
+		if (!accountRepo.existsByUsername(account.getUsername())) {
+			account.setEnabled(false);
+			account.setId(RandomString.make(12));
+			account.setVerificationCode(RandomString.make(64));
+			account.setAuthProvider(EAuthenticationProvider.LOCAL);
+			account.setCreateAt(new Date());
 			account.setAvatar(SystemConstant.AVATAR_ACCOUNT_DEFAULT_LINK);
-		}
-		save(account);
 
-		senderService.sendVerificationEmail(account, siteURL);
+			save(account);
+			senderService.sendVerificationEmail(account, siteURL);
+		}
+
 	}
 	
 	@Override

@@ -9,22 +9,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.pihotel.oauth2.CustomOAuth2UserService;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
-
-	/*
-	 * Director, accountant, business, Receptionists, guest, member
-	*/
-	
-//	@Autowired
-//	private AccountServ accountServ;
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -42,15 +34,20 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	private MyCustomLogoutSuccessHandler myCustomLogoutSuccessHandler;
 	
 	@Bean
+	public AuthenticationFailureHandler authenticationFailureHandler() {
+		return new MyCustomLoginFailHandler();
+	}
+	
+	@Bean
 	public AuthenticationSuccessHandler successHandler() {
 		return new MyCustomLoginSuccessHandler("/home");
 	}
 	
-	@Bean
-	public PersistentTokenRepository persistentTokenRepo() {
-		InMemoryTokenRepositoryImpl tokenRepositoryImpl = new InMemoryTokenRepositoryImpl();
-		return tokenRepositoryImpl;
-	}
+//	@Bean
+//	public PersistentTokenRepository persistentTokenRepo() {
+//		InMemoryTokenRepositoryImpl tokenRepositoryImpl = new InMemoryTokenRepositoryImpl();
+//		return tokenRepositoryImpl;
+//	} //lưu cookie vào db
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -69,8 +66,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 //		http.authorizeRequests().antMatchers("/api", "/admin**")
 //			.hasAnyAuthority("ROLE_DIRECTOR", "ROLE_ACCOUNTANT", "ROLE_BUSINESS", "ROLE_RECEPTIONIST");
 		
-//		http.authorizeRequests().antMatchers("/api", "/admin**")
-//		.access("hasAnyRole('ROLE_DIRECTOR', 'ROLE_ACCOUNTANT', 'ROLE_BUSINESS', 'ROLE_RECEPTIONIST')");
+		http.authorizeRequests().antMatchers("/api", "/admin**")
+		.access("hasAnyRole('ROLE_DIRECTOR', 'ROLE_ACCOUNTANT', 'ROLE_BUSINESS', 'ROLE_RECEPTIONIST')");
 		
 		http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/error/403");
 		
@@ -80,7 +77,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		.passwordParameter("password")
 		.loginProcessingUrl("/handle_login")
 		.successHandler(successHandler())
-		.failureUrl("/login?error=True");
+		.failureHandler(authenticationFailureHandler());
 		
 //		authentication oauth2
 		http.authorizeRequests().and().oauth2Login().loginPage("/login")
@@ -89,13 +86,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		
 //		logout
 		http.authorizeRequests().and().logout()
-		.logoutSuccessHandler(myCustomLogoutSuccessHandler).logoutSuccessUrl("/home").permitAll();
+		.logoutSuccessHandler(myCustomLogoutSuccessHandler).logoutSuccessUrl("/home");
+		
 		http.authorizeRequests().and().logout()
 		.deleteCookies("JSESSIONID", "remember-me");
 		
+		
 //		remember-me config
 		http.authorizeRequests().and().rememberMe().rememberMeParameter("remember-me")
-		.key("uniqueAndSecret").tokenRepository(persistentTokenRepo())
+		.key("uniqueAndSecret")//.tokenRepository(persistentTokenRepo()) // lưu cookie vào db
 		.tokenValiditySeconds(24 * 60 * 60);
 	}
 	

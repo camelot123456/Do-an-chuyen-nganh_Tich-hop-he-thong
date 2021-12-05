@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pihotel.entity.enums.ERoomState;
 
 import lombok.AllArgsConstructor;
@@ -67,6 +67,6 @@ public class RoomEntity extends AbstractEntity{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_ROOM_TYPE")
-	@JsonManagedReference
+	@JsonBackReference
 	private RoomTypeEntity room;
 }

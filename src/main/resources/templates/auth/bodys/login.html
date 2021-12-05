@@ -1,5 +1,6 @@
 <th:block layout:fragment="content" layout:decorate="~{auth/layouts/index}">
-    <form class="border rounded shadow h-auto mx-auto p-4" style="width: 35%" action="/handle_login" method="post">
+    <form class="border rounded shadow h-auto mx-auto p-4" id="form-login" style="width: 35%" action="/handle_login"
+        method="post">
         <h3 class="text-center text-primary my-3">
             ĐĂNG NHẬP
         </h3>
@@ -14,19 +15,26 @@
             <input type="password" class="form-control" id="password" name="password">
         </div>
 
-        <div class=" form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="remember-me">
+        <div class="mb-3 form-check">
+            <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="remember-me">
             <label class="form-check-label text-primary" for="flexCheckDefault">
                 Lưu mật khẩu
             </label>
         </div>
 
-        <!-- <div class="">
-            <p class="text-danger text-center">[[${message_err}]]</p>
-        </div> -->
+        <div class="">
+            <p class="text-danger text-center" style="font-size: 12px">
+                [[${session.log_authentication}]]
+            </p>
+        </div>
 
         <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary mt-4 ">Đăng nhập</button>
+            <div id="btn-login">
+                <button class="btn btn-primary w-100" id="btn-submit-login" type="submit">
+                    <span class="spinner-register" role="status" aria-hidden="true"></span>
+                    Đăng nhập
+                </button>
+            </div>
             <div class="d-flex justify-content-between hstack gap-2">
                 <a href="#" class="text-center">Quên mật khẩu?</a>
                 <a href="/register" class="text-center">Bạn chưa có tài khoản?</a>
@@ -43,4 +51,19 @@
             </a>
         </div>
     </form>
+    <script>
+        var $ = document.querySelector.bind(document);
+        var $$ = document.querySelectorAll.bind(document);
+
+        var formLogin = $('#form-login')
+        var btnLogin = $('#btn-login')
+        var spinnerRegister = $('.spinner-register');
+        var btnSubmitLogin = $('#btn-submit-login')
+
+        // btnLogin.addEventListener('click', (e) => {
+        //     btnLogin.setAttribute('disabled', 'disabled');
+        //     spinnerRegister.className = "spinner-border spinner-border-sm"
+        // })
+
+    </script>
 </th:block>

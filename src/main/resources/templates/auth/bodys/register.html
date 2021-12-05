@@ -85,7 +85,6 @@
                 body: formData
             })
                 .then(resp => {
-                    console.log(resp.status)
                     if (resp.status === 200) {
                         window.location.href = "http://localhost:8081/register/success"
                     } else {

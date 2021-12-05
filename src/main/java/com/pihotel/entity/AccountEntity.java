@@ -70,7 +70,7 @@ public class AccountEntity extends AbstractEntity {
 	@Column(name = "[VERIFICATION_CODE]", columnDefinition = "varchar(64)")
 	private String verificationCode;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "ACCOUNT_ROLE", 
 	joinColumns = @JoinColumn(name = "[ID]", referencedColumnName = "[ID]"), 
 	inverseJoinColumns = @JoinColumn(name = "ID_ROLE", referencedColumnName = "[ID]"))
