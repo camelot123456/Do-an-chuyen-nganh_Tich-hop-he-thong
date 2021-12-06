@@ -3,14 +3,8 @@
         <h3>Quản lý phòng</h3>
         <hr>
         <div class="border rounded-3 shadow bg-light p-3">
-            <div class="hstack gap-3 mb-3">
-                <a href="#" class="btn text-light text-center bg-primary border rounded-3 p-2 w-25 fs-6">Trống: 100</a>
-                <a href="#" class="btn text-light text-center bg-success border rounded-3 p-2 w-25 fs-6">Đang ở: 12</a>
-                <a href="#" class="btn text-light text-center bg-warning border rounded-3 p-2 w-25 fs-6">Đặt cọc: 5</a>
-                <a href="#" class="btn text-light text-center bg-info border rounded-3 p-2 w-25 fs-6">Checkin: 2</a>
-                <a href="#" class="btn text-light text-center bg-danger border rounded-3 p-2 w-25 fs-6">Checkout: 5</a>
-                <a href="#" class="btn text-light text-center bg-secondary border rounded-3 p-2 w-25 fs-6">Sửa chữa:
-                    1</a>
+            <div class="hstack gap-3 mb-3" id="reduce-room">
+                <!-- code ở dưới script -->
             </div>
 
             <div class="hstack gap-3 d-flex justify-content-between">
@@ -89,7 +83,7 @@
         <hr>
         <div class="mb-3 p-3 border shadow rounded-3">
             <div class="row g-4 mb-3" id="table-room">
-
+                <!-- code ở script -->
             </div>
 
             <!-- Xử lý phân trang -->
@@ -168,24 +162,72 @@
         var $$ = document.querySelectorAll.bind(document)
 
         var tableRoom = $('#table-room')
+        var reduceRoom = $('#reduce-room')
 
         fetch('http://localhost:8081/api/room', {
             method: 'GET',
         })
             .then(resp => resp.json())
             .then(rooms => {
-                console.log(rooms)
+                var countEmpty = countRepair = countUsing = countCheckin = countCheckout = countDeposit = 0
+                var features = ''
+
                 rooms.map((room, i) => {
+                    var roomState = ''
+                    if (room.roomState == 'EMPTY') {
+                        colorState = '#0d6efd'
+                        countEmpty++
+                        features = `
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="checkin"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+                        `
+                    } else if (room.roomState == 'REPAIR') {
+                        colorState = '#6c757d'
+                        countRepair++
+                        features = ``
+                    } else if (room.roomState == 'USING') {
+                        colorState = '#198754'
+                        countUsing++
+                        features = `
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="checkout"><i class="fa fa-sign-out"
+                            aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="dịch vụ"><i class="fa fa-diamond"
+                            aria-hidden="true"></i></a>
+                        `
+                    } else if (room.roomState == 'CHECKIN') {
+                        colorState = '#087990'
+                        countCheckin++
+                        features = `
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
+                        `
+                    } else if (room.roomState == 'CHECKOUT') {
+                        colorState = '#984c0c'
+                        countCheckout++
+                        features = `
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
+                        `
+                    } else if (room.roomState == 'DEPOSIT') {
+                        colorState = '#8540f5'
+                        countDeposit++
+                        features = `
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="checkin"><i class="fa fa-sign-in"
+                            aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
+                        `
+                    }
+
                     tableRoom.innerHTML += `
-                <div class="col-2">
-                        <div class="border bg-light rounded-3 vstack gap text-center p-2"
-                            style="font-size: 12px; color: black">
-                            <div class="hstack gap-1 d-flex justify-content-between">
+                    <div class="col-2">
+                        <div class="border rounded-3 vstack gap text-center p-2"
+                            style="font-size: 14px; color: white; background-color: ${colorState}; min-height: 260px;">
+                            <div class="hstack  d-flex justify-content-between">
                                 ${i}
                                 <div class="hstack gap-1">
-                                    <a class="btn btn-outline-secondary btn-sm" href="#"><i class="fa fa-refresh"
+                                    <a class="btn btn-outline-dark btn-sm text-light" href="#"><i class="fa fa-refresh"
                                             aria-hidden="true"></i></a>
-                                    <a class="btn btn-outline-secondary btn-sm" href="#"><i class="fa fa-floppy-o"
+                                    <a class="btn btn-outline-dark btn-sm text-light" href="#"><i class="fa fa-floppy-o"
                                             aria-hidden="true"></i></a>
                                 </div>
                             </div>
@@ -194,19 +236,22 @@
                             <p class="">Bao Nguyen</p>
                             <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-24 17:56:12.212</p>
                             <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-28 17:56:12.212</p>
+                            <div class="hstack gap-3 d-flex justify-content-center">
+                                ${features}
+                            </div>
                         </div>
                     </div>
                 `
                 })
+
+                reduceRoom.innerHTML += `
+                <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #0d6efd">Trống: ${countEmpty}</a>
+                <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #198754">Đang ở: ${countUsing}</a>
+                <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #8540f5">Đặt cọc: ${countDeposit}</a>
+                <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #087990">Checkin: ${countCheckin}</a>
+                <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #984c0c">Checkout: ${countCheckout}</a>
+                <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #6c757d">Sửa chữa: ${countRepair}</a>
+                    `
             })
     </script>
-
-    <a class="btn btn-outline-secondary btn-sm" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
-    <a class="btn btn-outline-secondary btn-sm" href="#" title="checkout"><i class="fa fa-sign-out"
-            aria-hidden="true"></i></a>
-    <a class="btn btn-outline-secondary btn-sm" href="#" title="dịch vụ"><i class="fa fa-diamond"
-            aria-hidden="true"></i></a>
-    <a class="btn btn-outline-secondary btn-sm" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
-    <a class="btn btn-outline-secondary btn-sm" href="#" title="checkin"><i class="fa fa-sign-in"
-            aria-hidden="true"></i></a>
 </th:block>

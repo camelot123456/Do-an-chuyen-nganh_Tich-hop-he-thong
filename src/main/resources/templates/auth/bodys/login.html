@@ -7,7 +7,7 @@
 
         <div class="mb-3">
             <label for="username" class="form-label text-primary">Tên đăng nhập</label>
-            <input type="text" class="form-control" id="username" name="username" required>
+            <input type="text" class="form-control" id="username" name="username" required autofocus>
             <p class="text-danger text-center" id="username-message" style="font-size: 12px"></p>
         </div>
 
@@ -67,6 +67,8 @@
             spinnerRegister.className = "spinner-border spinner-border-sm"
         })
 
+
+        
         //Validate
         var inputUsername = $('#username')
         var inputPassword = $('#password')

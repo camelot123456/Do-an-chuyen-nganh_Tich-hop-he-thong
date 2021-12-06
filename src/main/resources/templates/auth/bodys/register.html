@@ -7,7 +7,7 @@
 
         <div class="mb-3">
             <label for="name" class="form-label text-primary">Họ & tên</label>
-            <input type="text" class="form-control" name="name" id="name" required>
+            <input type="text" class="form-control" name="name" id="name" required autofocus>
             <p class="text-danger text-center" id="name-message" style="font-size: 12px"></p>
         </div>
 
@@ -85,8 +85,6 @@
         var passwordInput = $('#password')
         var rePasswordInput = $('#re-password')
 
-
-
         btnRegister.addEventListener('click', (e) => {
             if (nameMessage.innerText == '' &&
                 usernameMessage.innerText == '' &&
@@ -127,12 +125,13 @@
                         alert("Error")
                     })
             } else {
-                logMessage.innerHTML = 'Đăng ký thất bại'
+                logMessage.innerHTML = 'Đăng ký tài khoản thất bại'
             }
         })
 
 
         //validation Message
+
         function validate(input, message, invalid) {
             input.addEventListener('blur', (e => {
                 if (!input.checkValidity()) {
@@ -153,10 +152,51 @@
             })
         }
 
-        validateRegex(/^[\p{L}'][ \p{L}'-]*[\p{L}]$/u, nameInput, nameMessage, '', 'Không hợp lệ')
-        validateRegex(/^[a-zA-Z0-9_-]{5,64}$/, usernameInput, usernameMessage, '', 'Không hợp lệ')
+        function isExistUsername(usernameI, message, invalid) {
+            fetch(`http://localhost:8081/api/account`)
+                .then(resp => resp.json())
+                .then(customers => {
+
+                    usernameI.addEventListener('blur', (e => {
+                        if (customers.some((customer) => { return customer.username == usernameI.value })) {
+                            message.innerHTML = 'Tên đăng nhập đã tồn tại'
+                            console.log('Tên đăng nhập đã tồn tại')
+                        } else {
+                            if (!/^[a-zA-Z0-9_-]{5,64}$/.test(usernameI.value)) {
+                                message.innerHTML = 'Không hợp lệ'
+                            } else {
+                                message.innerHTML = invalid
+                            }
+                            console.log('Tên đăng nhập chưa tồn tại')
+                        }
+                    }))
+
+                })
+        }
+
+        function isExistEmail(emailI, message, invalid) {
+            fetch(`http://localhost:8081/api/account`)
+                .then(resp => resp.json())
+                .then(customers => {
+
+                    emailI.addEventListener('blur', (e => {
+                        if (customers.some((customer) => { return customer.email == emailI.value })) {
+                            message.innerHTML = 'Email đã tồn tại'
+                        } else {
+                            if (!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(emailI.value)) {
+                                message.innerHTML = 'Không hợp lệ'
+                            } else {
+                                message.innerHTML = invalid
+                            }
+                        }
+                    }))
+                })
+        }
+
+        validateRegex(/^([\p{L}'][ \p{L}'-]*[\p{L}]){3,}$/u, nameInput, nameMessage, '', 'Không hợp lệ')
         validateRegex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, passwordInput, passwordMessage, '', 'Không hợp lệ')
-        validate(emailInput, emailMessage, '')
+        isExistUsername(usernameInput, usernameMessage, '')
+        isExistEmail(emailInput, emailMessage, '')
         rePasswordInput.addEventListener('blur', (e) => {
             if (rePasswordInput.value == passwordInput.value) {
                 rePasswordMessage.innerHTML = ''
