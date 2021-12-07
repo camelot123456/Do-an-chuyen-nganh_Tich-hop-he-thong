@@ -1,13 +1,16 @@
 <th:block th:fragment="nav_checked">
     <div class="mt-4 bg-light shadow py-2">
         <div class="container hstack gap-4 d-flex align-items-center justify-content-between">
-            <div class="">
-                <label for="date-start">Nhận phòng</label>
-                <input type="datetime-local" class="form-control" id="date-start">
+
+            <div class="input-group">
+                <span class="input-group-text" id="start-date-addon">Nhận phòng</span>
+                <input type="datetime-local" class="form-control" id="start-date"
+                    aria-describedby="start-date-addon">
             </div>
-            <div class="">
-                <label for="date-end">Trả phòng</label>
-                <input type="datetime-local" class="form-control" id="date-end">
+            <div class="input-group">
+                <span class="input-group-text" id="end-date-addon">Trả phòng</span>
+                <input type="datetime-local" class="form-control" id="end-date"
+                    aria-describedby="end-date-addon">
             </div>
             <div class="">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -58,7 +61,7 @@
                 </ul>
             </div>
             <div class="">
-                <button class="btn btn-outline-primary" type="submit">Kiểm tra</button>
+                <button class="btn btn-outline-primary" type="submit" style="min-width: 86px;">Kiểm tra</button>
             </div>
         </div>
     </div>

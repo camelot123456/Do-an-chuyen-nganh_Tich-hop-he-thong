@@ -5,23 +5,27 @@
             ĐĂNG NHẬP
         </h3>
 
-        <div class="mb-3">
-            <label for="username" class="form-label text-primary">Tên đăng nhập</label>
-            <input type="text" class="form-control" id="username" name="username" required autofocus>
-            <p class="text-danger text-center" id="username-message" style="font-size: 12px"></p>
-        </div>
+        <div class="vstack gap-3">
+            <div class="form-floating w-100">
+                <input type="text" class="form-control" id="username" placeholder="Tên đăng nhập" name="username"
+                    required autofocus>
+                <label for="username">Tên đăng nhập</label>
+                <p class="text-danger text-center" id="username-message" style="font-size: 12px"></p>
+            </div>
 
-        <div class="mb-3">
-            <label for="password" class="form-label text-primary">Mật khẩu</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-            <p class="text-danger text-center" id="password-message" style="font-size: 12px"></p>
-        </div>
+            <div class="form-floating w-100">
+                <input type="password" class="form-control" id="password" placeholder="Mật khẩu"
+                    name="password" required>
+                <label for="password">Mật khẩu</label>
+                <p class="text-danger text-center" id="password-message" style="font-size: 12px"></p>
+            </div>
 
-        <div class="mb-3 form-check">
-            <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="remember-me">
-            <label class="form-check-label text-primary" for="flexCheckDefault">
-                Lưu mật khẩu
-            </label>
+            <div class="mb-3 form-check">
+                <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="remember-me">
+                <label class="form-check-label text-primary" for="flexCheckDefault">
+                    Lưu mật khẩu
+                </label>
+            </div>
         </div>
 
         <div class="">
