@@ -42,6 +42,33 @@ actor:
  -xem lịch sử giao dịch(hóa đơn)
 
 
++chức năng tìm phòng rỗng
+thời gian : 01/01/2019 - 03/01/2019
+
+new ArrayValid
+forEach room : rooms
+	if room.getRoomState() == 'USING' 
+		if room.endDate.before(customer.startDate) 
+			ArrayValid.add()
+	if roomState == 'EMPTY' || roomState == 'CHECKOUT'
+		then adultsOfRoom >= adultsOfCustomer && childrenOfRoom >= adultsOfCustomer
+		then startDate, endDate
+	else continue
+
+
++Chức năng hiển thị, thống kê trạng thái lên các phòng (priority)
+
+check invoice is exist ID of room that customer was booked room
+	case 1: if invoice.isNotExist(room.getId()) then setRoomState('EMPTY')
+	case 2: if invoice.isExist(room.getId()) 
+	case 2.1: if invoice.isDeposit()
+	case 2.1.1: if invoice.isPay(room.getID()) then setRoomState('DEPOSIT')
+	case 2.1.2: if !invoice.isPay(room.getID()) then setRoomState('CHECKIN')
+	case 2.2: if invoice.isNotDeposit()
+	case 2.2.1: if invoice.isPay(room.getID()) then setRoomState('USING')
+	case 2.2.2: if !invoice.isPay(room.getID()) then setRoomState('CHECKIN')
+	case 3: if invoice.getEndDate() == new Date() then setRoomState('CHECKOUT')
+check 
 
 tài liệu:
 
