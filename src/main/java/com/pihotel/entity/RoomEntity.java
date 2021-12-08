@@ -1,7 +1,5 @@
 package com.pihotel.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -38,32 +36,20 @@ public class RoomEntity extends AbstractEntity{
 	@Column(name = "[ROOM_STATE]", columnDefinition = "varchar(16) default 'EMPTY'")
 	private ERoomState roomState;
 	
-	@Column(name = "[AVATAR]", columnDefinition = "nvarchar(255)")
-	private String avatar;
-	
 	@Column(name = "[DESCRIPTION]", columnDefinition = "ntext")
 	private String description;
 	
-	@Column(name = "[QUANTITY]", columnDefinition = "tinyint default 0")
-	private Integer quantity;
+	@Column(name = "[CUSTOMERS_NUM]", columnDefinition = "tinyint default 0")
+	private Integer customersNum;
 	
-	@Column(name = "[PRICE]", columnDefinition = "float default 0")
-	private Double price;
+	@Column(name = "[AREA]", columnDefinition = "tinyint default 0")
+	private Integer area;
+	
+	@Column(name = "[PRICE_INCURRED]", columnDefinition = "float default 0")
+	private Double priceIncrurred;
 	
 	@Column(name = "[FLOOR]", columnDefinition = "tinyint default 1")
 	private Integer floor;
-	
-	@Column(name = "[START_TIME]", columnDefinition = "datetime")
-	private Date startTime;
-	
-	@Column(name = "[END_DATE]", columnDefinition = "datetime")
-	private Date endTime;
-	
-	@Column(name = "[ADULTS]", columnDefinition = "tinyint default 0")
-	private Integer adults;
-	
-	@Column(name = "[CHILDREN]", columnDefinition = "tinyint default 0")
-	private Integer children;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_ROOM_TYPE")

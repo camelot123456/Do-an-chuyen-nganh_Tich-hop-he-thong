@@ -10,38 +10,14 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/home">Trang
+                        <a class="nav-link" aria-current="page" href="/home">Trang
                             chủ</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Loại phòng
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Phòng Vip</a></li>
-                            <li><a class="dropdown-item" href="#">phòng tour</a></li>
-                            <li><a class="dropdown-item" href="#">phòng gia đình</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Phòng đặc biệt</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a href="/home/room" class="nav-link">Phòng</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Dịch vụ
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Ăn uống</a></li>
-                            <li><a class="dropdown-item" href="#">Thuê xe</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Giặt ủi</a></li>
-                            <li><a class="dropdown-item" href="#">Dịch vụ khác</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a href="/home/room" class="nav-link">Dịch vụ</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled">Giới thiệu</a>
@@ -50,9 +26,11 @@
                         <a href="/admin" class="nav-link">Quản trị</a>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm ..." aria-label="Search">
-                    <button class="btn btn-outline-primary" type="submit">
+                <form class="input-group w-25" id="form-search" required>
+                    <input class="form-control" placeholder="Tìm kiếm ..."
+                        aria-describedby="button-addon2" name="keyword" type="search"
+                        aria-label="Search">
+                    <button class="btn btn-outline-primary btn" type="submit">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </form>

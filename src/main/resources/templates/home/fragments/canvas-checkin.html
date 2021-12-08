@@ -12,50 +12,30 @@
         <div class="offcanvas-body">
 
             <div class="mb-3 row">
-                <label for="inputPassword" class="col-sm-4 col-form-label">Nhận phòng</label>
+                <label for="start-date" class="col-sm-4 col-form-label">Đặt phòng</label>
                 <div class="col-sm-8">
-                    <input type="datetime-local" class="form-control" id="inputPassword">
+                    <input type="datetime-local" class="form-control" id="start-date">
                 </div>
             </div>
 
             <div class="mb-3 row">
-                <label for="inputPassword" class="col-sm-4 col-form-label">Trả phòng</label>
+                <label for="end-date" class="col-sm-4 col-form-label">Trả phòng</label>
                 <div class="col-sm-8">
-                    <input type="datetime-local" class="form-control" id="inputPassword">
+                    <input type="datetime-local" class="form-control" id="end-date">
                 </div>
             </div>
 
             <div class="mb-3 row">
-                <label for="inputPassword" class="col-sm-4 col-form-label">Loại phòng</label>
+                <label for="adults" class="col-sm-4 col-form-label">Người lớn</label>
                 <div class="col-sm-8">
-                    <select class="form-select form-select" aria-label=".form-select-lg example">
-                        <option selected>Vip</option>
-                        <option value="2">Bình thường</option>
-                        <option value="3">Gia đình</option>
-                        <option value="1">Cặp đôi</option>
-                        <option value="2">Tour</option>
-                    </select>
+                    <input type="number" class="form-control" id="adults">
                 </div>
             </div>
 
             <div class="mb-3 row">
-                <label for="inputPassword" class="col-sm-4 col-form-label">Người lớn</label>
+                <label for="children" class="col-sm-4 col-form-label">Trẻ em</label>
                 <div class="col-sm-8">
-                    <select class="form-select form-select" aria-label=".form-select-lg example">
-                        <option selected>1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="1">4</option>
-                        <option value="2">5</option>
-                        <option value="3">6</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="mb-3 row">
-                <label for="inputPassword" class="col-sm-4 col-form-label">The thành viên</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" id="inputPassword">
+                    <input type="number" class="form-control" id="children">
                 </div>
             </div>
 
@@ -67,7 +47,7 @@
             </div>
 
             <div class="my-4 row">
-                <a href="/checkin" class="mx-auto btn btn-outline-primary w-35">
+                <a href="/home/checkin" class="mx-auto btn btn-outline-primary w-35">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i> Đặt phòng
                 </a>
             </div>

@@ -42,7 +42,7 @@ public class AccountEntity extends AbstractEntity {
 	@Column(name = "[GENDER]", columnDefinition = "bit default 1")
 	private Boolean gender;
 
-	@Column(name = "[BIRTHDAY]", columnDefinition = "datetime")
+	@Column(name = "[BIRTHDAY]", columnDefinition = "date")
 	private Date birthday;
 
 	@Column(name = "[PHONE_NUM]", columnDefinition = "varchar(15)")

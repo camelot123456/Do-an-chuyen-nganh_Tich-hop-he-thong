@@ -1,0 +1,70 @@
+<th:block layout:fragment="content" layout:decorate="~{home/layouts/index}">
+    <div class="container">
+
+        <h3 class="text-primary" style="margin-top: 200px">DANH SÁCH LOẠI PHÒNG</h3>
+        <hr>
+        <div class="hstack gap-3 border rounded-3 p-3 bg-light shadow">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="width: 60%">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                        class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="https://fiboholiday.webhotel.vn/files/images/Room/deluxe/406_5.jpg"
+                            class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://fiboholiday.webhotel.vn/files/images/Room/deluxe/406_5.jpg"
+                            class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://fiboholiday.webhotel.vn/files/images/Room/deluxe/406_11.jpg"
+                            class="d-block w-100" alt="...">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            <div class="vstack" style="width: 40%">
+                <div class="mb-auto gap-1">
+                    <div class="hstack d-flex justify-content-between">
+                        <h3>Single Room</h3>
+                        <div class="text-warning">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <p style="margin-bottom: 0px">$3600/đêm</p>
+                    <p style="margin-bottom: 0px">Diện tích: 50m2</p>
+                    <p style="margin-bottom: 0px">Số lượng phòng: 6</p>
+                    <p style="margin-bottom: 0px">Deluxe rooms with harmonious design,
+                        luxurious interior with full modern facilities.
+                        Area of about 60-65m2 /room is equipped with windows and balcony.
+                    </p>
+                </div>
+                <div class="hstack gap-3 d-flex justify-content-center">
+                    <a href="/home/room/detail" class="btn btn-outline-warning w-25 mx-auto">XEM</a>
+                    <a href="/home/checkin" class="btn btn-outline-warning w-25 mx-auto">ĐẶT NGAY</a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</th:block>

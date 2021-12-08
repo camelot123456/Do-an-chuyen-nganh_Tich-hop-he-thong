@@ -1,5 +1,12 @@
 <th:block layout:fragment="content" layout:decorate="~{home/layouts/index}">
     <div class="container bg-light my-4">
+
+        <!-- Slider -->
+        <th:block th:insert="home/fragments/slider.html :: slider"></th:block>
+
+        <!-- check empty room -->
+        <th:block th:insert="home/fragments/nav-checked.html :: nav_checked"></th:block>
+
         <div class="row">
             <div class="col-7">
                 <h3 class="my-4 text-center text-primary">NOVOTEL DANANG PREMIER HAN RIVER</h3>

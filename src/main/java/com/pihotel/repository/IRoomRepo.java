@@ -15,7 +15,7 @@ import com.pihotel.entity.RoomEntity;
 public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 
 	@Query("select r from RoomEntity r where r.name like %?1% "
-			+ "or concat(r.price, '') like %?1% ")
+			+ "or concat(r.priceIncrurred, '') like %?1% ")
 	public Page<RoomEntity> search(String keyword, Pageable pageable);
 	
 	public RoomEntity findOneById(String id);

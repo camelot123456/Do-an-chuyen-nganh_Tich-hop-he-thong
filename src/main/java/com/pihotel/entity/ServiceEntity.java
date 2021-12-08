@@ -27,10 +27,16 @@ public class ServiceEntity extends AbstractEntity{
 	@Column(name = "[NAME]", columnDefinition = "nvarchar(64)")
 	private String name;
 	
+	@Column(name = "[IMAGE]", columnDefinition = "ntext")
+	private String image;
+	
+	@Column(name = "[DESCRIPTION]", columnDefinition = "ntext")
+	private String description;
+	
 	@Column(name = "[PRICE]", columnDefinition = "float default 0")
 	private Double price;
 	
-	@Column(name = "[QUANTITY]", columnDefinition = "int default 0")
+	@Column(name = "[QUANTITY]", columnDefinition = "tinyint default 0")
 	private Integer quantity;
 	
 	@ManyToMany(mappedBy = "services")
