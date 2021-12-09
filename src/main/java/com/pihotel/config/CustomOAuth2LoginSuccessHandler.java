@@ -42,7 +42,6 @@ public class CustomOAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSucc
 		log.info("id: {}, name: {}, avatar: {}, email: {}, provider: {}, Phone: {}, gender: {}", id, name, avatar, email, provider, phone, gender);
 		
 		AccountEntity account = accountServ.findOneById(id);
-		request.getSession().setAttribute("account", account);
 		
 		if (account == null) {
 			accountServ.saveOneNewAccountByOAuth2(id, name, email, avatar, provider);
@@ -50,6 +49,7 @@ public class CustomOAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSucc
 			accountServ.updateOneAccountByOAuth2(account, name, email, avatar, provider);
 		}
 		
+		request.getSession().setAttribute("account", accountServ.findOneById(id));
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
 	

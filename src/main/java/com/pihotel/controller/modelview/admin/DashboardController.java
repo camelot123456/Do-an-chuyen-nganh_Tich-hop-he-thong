@@ -1,12 +1,12 @@
-package com.pihotel.controller.modelview.base;
+package com.pihotel.controller.modelview.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class AdminController {
+public class DashboardController {
 
-	@RequestMapping(value = {"/admin/dashboard", "/admin"})
+	@RequestMapping(value = {"/admin/dashboard"})
 	public String adminHome() {
 		return "admin/bodys/dashboard";
 	}

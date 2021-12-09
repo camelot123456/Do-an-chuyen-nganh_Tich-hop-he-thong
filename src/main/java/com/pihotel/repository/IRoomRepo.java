@@ -1,5 +1,7 @@
 package com.pihotel.repository;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
@@ -19,4 +21,7 @@ public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 	public Page<RoomEntity> search(String keyword, Pageable pageable);
 	
 	public RoomEntity findOneById(String id);
+	
+	@Query(value = "select r from RoomEntity r where r.room.id = ?1 and r.customersNum >= ?2")
+	public List<RoomEntity> findAllByIdRoomType(String idRoomType, int customersNum);
 }

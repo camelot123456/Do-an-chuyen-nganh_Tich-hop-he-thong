@@ -1,0 +1,12 @@
+<th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
+    <div id="service"></div>
+
+    <script>
+        var service = document.querySelector('#service');
+        var content = "<h3>Đây là trang quản lý dịch vụ</h3><br>"
+        for (let index = 0; index < 100; index++) {
+            content += "<h3>Đây là trang quản lý dịch vụ</h3><br>";
+        }
+        service.innerHTML = content
+    </script>
+</th:block>

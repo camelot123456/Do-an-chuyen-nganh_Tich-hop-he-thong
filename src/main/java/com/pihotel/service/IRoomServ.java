@@ -19,4 +19,6 @@ public interface IRoomServ {
 	public Page<RoomEntity> findAll(int numPage, String sortField, String sortDir, String keyword);
 	
 	public RoomEntity findOneById(String id);
+	
+	public List<RoomEntity> findAllByIdRoomType(String idRoomType, int customersNum);
 }

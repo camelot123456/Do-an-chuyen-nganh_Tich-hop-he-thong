@@ -25,4 +25,7 @@ public class SystemConstant {
 	public static final String ROOMS = "rooms";
 	public static final String ROOM = "room";
 	
+	public static final String ROOMS_TYPE = "rooms_type";
+	public static final String ROOM_TYPE = "room_type";
+	
 }

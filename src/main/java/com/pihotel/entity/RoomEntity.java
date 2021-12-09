@@ -53,6 +53,6 @@ public class RoomEntity extends AbstractEntity{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_ROOM_TYPE")
-	@JsonBackReference
+//	@JsonBackReference
 	private RoomTypeEntity room;
 }

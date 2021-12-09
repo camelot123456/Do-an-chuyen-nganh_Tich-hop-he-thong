@@ -17,9 +17,11 @@ import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.service.IAccountServ;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 @Controller
-@lombok.extern.slf4j.Slf4j
+@Slf4j
 public class AuthController {
 
 	@Autowired

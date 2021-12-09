@@ -43,7 +43,7 @@ public class RoomTypeEntity extends AbstractEntity{
 	private Double price;
 	
 	@OneToMany(mappedBy = "room")
-	@JsonManagedReference
+//	@JsonManagedReference
 	private List<RoomEntity> rooms;
 	
 	@ManyToMany(fetch = FetchType.LAZY)

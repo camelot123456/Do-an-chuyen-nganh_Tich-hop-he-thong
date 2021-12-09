@@ -40,12 +40,12 @@ public static final String PATH_AVATAR = "src/main/resources/static/img/user/";
 	
 //	---------------------------------------GET---------------------------------------
 	
-	@RequestMapping(value = "/admin/customer-managements/account/customer")
+	@RequestMapping(value = "/admin/customer-managements/account-customer")
 	public String accountRedirectPagination(Model model) {
 		return this.accountPagination(model, 1, "id", "asc", "");
 	}
 
-	@RequestMapping(value = "/admin/customer-managements/account/customer/page/{currentPage}")
+	@RequestMapping(value = "/admin/customer-managements/account-customer/page/{currentPage}")
 	public String accountPagination(Model model, 
 			@PathVariable("currentPage") int currentPage,
 			@Param("sortField") String sortField, 
@@ -72,7 +72,7 @@ public static final String PATH_AVATAR = "src/main/resources/static/img/user/";
 		return "admin/bodys/customer_managements/cm_customer";
 	}
 	
-	@RequestMapping(value = "/admin/customer-managements/account/customer/{id}")
+	@RequestMapping(value = "/admin/customer-managements/account-customer/{id}")
 	public String accountDetail(Model model, @PathVariable("id") String id) {
 		AccountEntity customer = accountServ.findOneById(id);
 		model.addAttribute(SystemConstant.CUSTOMER, customer);
@@ -80,7 +80,7 @@ public static final String PATH_AVATAR = "src/main/resources/static/img/user/";
 		return "admin/bodys/customer_managements/cm_detail_customer";
 	}
 	
-	@RequestMapping(value = "/admin/customer-managements/account/customer/add")
+	@RequestMapping(value = "/admin/customer-managements/account-customer/add")
 	public String accountInsertShow(Model model, Principal principal) {
 		model.addAttribute("CREATE_AT", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS").format(new Date()));
 		model.addAttribute("RANDOM_ID", RandomString.make(16));
@@ -92,7 +92,7 @@ public static final String PATH_AVATAR = "src/main/resources/static/img/user/";
 	
 //	---------------------------------------POST---------------------------------------
 	
-	@RequestMapping(value = "/admin/customer-managements/account/customer/tran", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/customer-managements/account-customer/tran", method = RequestMethod.POST)
 	public String doAccountAddRoleToAccount(@RequestPart("customer") AccountEntity customer) throws IOException {
 		customer.setAvatar(SystemConstant.AVATAR_ACCOUNT_DEFAULT_LINK);
 		customer.setAuthProvider(EAuthenticationProvider.LOCAL);
@@ -102,7 +102,7 @@ public static final String PATH_AVATAR = "src/main/resources/static/img/user/";
 	
 //	---------------------------------------PUT---------------------------------------
 	
-	@RequestMapping(value = "/admin/customer-managements/account/customer/tran", method = RequestMethod.PUT)
+	@RequestMapping(value = "/admin/customer-managements/account-customer/tran", method = RequestMethod.PUT)
 	public String accountUpdate(@RequestPart("customer") AccountEntity customer) {
 		accountServ.updateCustomer(customer.getId(), customer.getName(), customer.getEmail(), customer.getAddress(),
 				customer.getPhoneNum(), customer.getBirthday(), customer.getGender());
@@ -113,13 +113,13 @@ public static final String PATH_AVATAR = "src/main/resources/static/img/user/";
 	
 //	---------------------------------------DELETE---------------------------------------
 	
-	@RequestMapping(value = "/admin/customer-managements/account/customer/tran", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/admin/customer-managements/account-customer/tran", method = RequestMethod.DELETE)
 	public String accountDelete(@RequestPart("customer") AccountEntity customer) throws IOException {
 		accountServ.deleteById(customer.getId());
 		return "redirect:/admin/customer-managements/account/customer";
 	}
 
-	@RequestMapping(value = "/admin/customer-managements/account/customers/tran", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/admin/customer-managements/account-customers/tran", method = RequestMethod.DELETE)
 	public String accountDeleteMany(@RequestBody AccountEntity customer) {
 		accountServ.delete(customer.getIds());
 		return "redirect:/admin/customer-managements/account/customer";

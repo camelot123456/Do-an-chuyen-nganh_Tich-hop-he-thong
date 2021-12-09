@@ -23,4 +23,5 @@ public interface IRoleServ {
 	public void deleteById(String id);
 
 	public RoleEntity findOneById(String id);
+	
 }

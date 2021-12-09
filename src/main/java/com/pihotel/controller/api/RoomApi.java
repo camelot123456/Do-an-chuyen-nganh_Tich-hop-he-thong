@@ -46,8 +46,14 @@ public class RoomApi {
 	}
 	
 	@GetMapping(value = "/room/{id}")
-	public ResponseEntity<RoomEntity> find(@PathVariable("id") String id){
+	public ResponseEntity<RoomEntity> findById(@PathVariable("id") String id){
 		return ResponseEntity.ok().body(roomServ.findOneById(id));
+	}
+	
+	@GetMapping(value = "/room/{id_room_type}/{customers_num}")
+	public ResponseEntity<List<RoomEntity>> findByIdRoomType(@PathVariable("id_room_type") String idRoomType, 
+			@PathVariable("customers_num") int customersNum){
+		return ResponseEntity.ok().body(roomServ.findAllByIdRoomType(idRoomType, customersNum));
 	}
 	
 }

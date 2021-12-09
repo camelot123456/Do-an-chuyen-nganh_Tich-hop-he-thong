@@ -46,6 +46,12 @@ public class RoomServ implements IRoomServ{
 		return roomRepo.findOneById(id);
 	}
 	
+	@Override
+	public List<RoomEntity> findAllByIdRoomType(String idRoomType, int customersNum) {
+		// TODO Auto-generated method stub
+		return roomRepo.findAllByIdRoomType(idRoomType, customersNum);
+	}
+	
 //	---------------------------------------INSERT---------------------------------------
 	
 	@Override

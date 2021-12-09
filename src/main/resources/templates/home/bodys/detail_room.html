@@ -40,8 +40,9 @@
                 </div>
 
                 <div class="vstack gap-2 border bg-light shadow p-3" style="width: 30%">
-                    <h2 class="text-center text-primary">Giá từ</h2>
-                    <h1 class="text-center fs-1">200$/ Đêm</h1>
+                    <input type="hidden" id="id_room_type" th:value="${room_type.id}">
+                    <h2 class="text-center text-primary">[[${room_type.name}]]</h2>
+                    <h1 class="text-center fs-1">$[[${room_type.price}]]/Đêm</h1>
                     <div class="vstack gap-1">
                         <div class="form-floating w-100">
                             <input type="datetime-local" class="form-control" id="start-date" placeholder="Ngày đặt"
@@ -58,19 +59,19 @@
                         <div class="hstack gap-3">
                             <div class="form-floating w-50">
                                 <input type="number" class="form-control" id="adults" placeholder="Người lớn"
-                                    name="adults" required min="1" max="20">
+                                    name="adults" required min="1" max="20" value="1">
                                 <label for="adults">Người lớn</label>
                                 <p class="text-danger text-center" id="adults-message" style="font-size: 12px"></p>
                             </div>
                             <div class="form-floating w-50">
                                 <input type="number" class="form-control" id="children" placeholder="Trẻ em"
-                                    name="children" required min="1" max="20">
+                                    name="children" required min="1" max="20" value="1">
                                 <label for="children">Trẻ em</label>
                                 <p class="text-danger text-center" id="children-message" style="font-size: 12px"></p>
                             </div>
                         </div>
                     </div>
-                    <a href="/home/checkin" class="btn btn-warning btn-lg">ĐẶT NGAY</a>
+                    <button type="button" id="btn-book-now" class="btn btn-warning btn-lg">CHỌN PHÒNG NGAY</button>
                 </div>
             </div>
 
@@ -123,5 +124,87 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 1000px; min-width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Danh sách các phòng loại [[${room_type.name}]]</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modal-room-list" class="overflow-auto">
+                        <div class="d-flex position-relative">
+                            <img style="width: 35%"
+                                src="https://fiboholiday.webhotel.vn/files/images/Room/deluxe/406_11.jpg"
+                                class="flex-shrink-0 me-3" alt="...">
+                            <div>
+                                <h5 class="mt-0">Custom component with stretched link</h5>
+                                <p>This is some placeholder content for the custom component. It is intended to mimic
+                                    what some real-world content would look like, and we're using it here to give the
+                                    component a bit of body and size.</p>
+                                <a href="#" class="stretched-link">Đặt ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            var $ = document.querySelector.bind(document)
+            var $$ = document.querySelectorAll.bind(document)
+
+            var modalRoomList = $("#modal-room-list")
+
+            var btnBookNow = $('#btn-book-now')
+            var myModal = new bootstrap.Modal($('#staticBackdrop'), {
+                keyboard: false
+            })
+
+            var adultsNum = $('#adults')
+            var childrenNum = $('#children')
+
+            var adultsValue
+            var childrenValue
+            adultsNum.addEventListener('change', (e)=>{
+                console.log(Number(adultsNum.value))
+                adultsValue = Number(adultsNum.value)
+            })
+            childrenNum.addEventListener('change', (e)=>{
+                console.log(Number(childrenNum.value))
+                childrenValue = Number(childrenNum.value)
+            })
+
+
+            btnBookNow.addEventListener('click', (e) => {
+                
+                console.log({
+                    adultsNum: e.adultsValue,
+                    childrenNum: childrenValue
+                })
+                
+                // var sumCustomers = parseInt(adultsNum.value) + parseInt(childrenNum.value)
+                // var url = `http://localhost:8081/api/room/${$('#id_room_type').value}/${sumCustomers}`
+                // console.log({sumCustomers, url})
+                // console.log({adults: +$('#adults').value, children: +$('#children').value})
+                // fetch(url)
+                //     .then(resp => resp.json())
+                //     .then(rooms => {
+                    //         console.log(rooms);
+                    //     })
+                    myModal.show()
+            })
+
+        })
+    </script>
 
 </th:block>

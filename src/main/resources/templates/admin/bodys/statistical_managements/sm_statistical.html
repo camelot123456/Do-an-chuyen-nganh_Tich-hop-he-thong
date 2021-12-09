@@ -1,0 +1,12 @@
+<th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
+    <div id="statistical"></div>
+
+    <script>
+        var statistical = document.querySelector('#statistical');
+        var content = "<h3>Đây là trang quản lý thống kê</h3><br>"
+        for (let index = 0; index < 100; index++) {
+            content += "<h3>Đây là trang quản lý thống kê</h3><br>";
+        }
+        statistical.innerHTML = content
+    </script>
+</th:block>

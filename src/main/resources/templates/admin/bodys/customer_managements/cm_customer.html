@@ -7,20 +7,20 @@
         <hr>
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/admin/customer-managements/account/customer">Danh
+                <a class="nav-link active" aria-current="page" href="/admin/customer-managements/account-customer">Danh
                     sách khách hàng</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/admin/customer-managements/account/customer/add">Khách hàng có tài khoản</a>
+                <a class="nav-link" href="/admin/customer-managements/account-customer/add">Khách hàng có tài khoản</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/admin/customer-managements/account/customer/add">Khách hàng không tài khoản</a>
+                <a class="nav-link" href="/admin/customer-managements/account-customer/add">Khách hàng không tài khoản</a>
             </li>
         </ul>
 
         <div class="hstack gap-2 my-3">
             <form class="input-group w-50" id="form-search"
-                th:action="@{'/admin/customer-managements/account/customer/page/'+${currentPage}}" required>
+                th:action="@{'/admin/customer-managements/account-customer/page/'+${currentPage}}" required>
                 <input type="hidden" name="sortField" th:value="${sortField}">
                 <input type="hidden" name="sortDir" th:value="${sortDir}">
                 <input class="form-control form-control-sm" placeholder="Tìm kiếm ..." aria-describedby="button-addon2"
@@ -41,20 +41,20 @@
                     <th scope="col">No.</th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/customer-managements/account/customer/page/'+${currentPage}+'?sortField=id&sortDir='+${reverseSort}+'&keyword='}">Id</a>
+                            th:href="@{'/admin/customer-managements/account-customer/page/'+${currentPage}+'?sortField=id&sortDir='+${reverseSort}+'&keyword='}">Id</a>
                     </th>
                     <th scope="col">Ảnh</th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/customer-managements/account/customer/page/'+${currentPage}+'?sortField=name&sortDir='+${reverseSort}+'&keyword='}">Tên</a>
+                            th:href="@{'/admin/customer-managements/account-customer/page/'+${currentPage}+'?sortField=name&sortDir='+${reverseSort}+'&keyword='}">Tên</a>
                     </th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/customer-managements/account/customer/page/'+${currentPage}+'?sortField=authProvider&sortDir='+${reverseSort}+'&keyword='}">Loại</a>
+                            th:href="@{'/admin/customer-managements/account-customer/page/'+${currentPage}+'?sortField=authProvider&sortDir='+${reverseSort}+'&keyword='}">Loại</a>
                     </th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/customer-managements/account/customer/page/'+${currentPage}+'?sortField=email&sortDir='+${reverseSort}+'&keyword='}">Email</a>
+                            th:href="@{'/admin/customer-managements/account-customer/page/'+${currentPage}+'?sortField=email&sortDir='+${reverseSort}+'&keyword='}">Email</a>
                     </th>
                     <th scope="col">Tài khoản</th>
                     <th scope="col" class="text-center">Công cụ</th>
@@ -65,7 +65,7 @@
                     <tr>
                         <th colspan="9">
                             <p class="text-center">Danh sách khách hàng trống. <a
-                                    href="/admin/customer-managements/account/customer/add">Thêm khách hàng</a></p>
+                                    href="/admin/customer-managements/account-customer/add">Thêm khách hàng</a></p>
                         </th>
                     </tr>
                 </th:block>
@@ -89,7 +89,7 @@
                         <td th:unless="${customer.enabled} == true"><span
                                 class="badge rounded-pill bg-secondary">Không</span></td>
                         <td class="text-center">
-                            <a th:href="@{/admin/customer-managements/account/customer/{id}(id=${customer.id})}"
+                            <a th:href="@{/admin/customer-managements/account-customer/{id}(id=${customer.id})}"
                                 class="btn btn-sm btn-info">Xem</a>
                             <button class="btn btn-sm btn-danger btn-del" th:id="${customer.id}">Xóa</button>
                         </td>
@@ -105,25 +105,25 @@
                 <ul class="pagination justify-content-end">
                     <li class="page-item disabled" th:if="${currentPage == 1}">
                         <a class="page-link"
-                            th:href="@{'/admin/customer-managements/account/customer/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/customer-managements/account-customer/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-double-left" aria-hidden="true"></i>
                         </a>
                     </li>
                     <li class="page-item" th:unless="${currentPage == 1}">
                         <a class="page-link"
-                            th:href="@{'/admin/customer-managements/account/customer/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/customer-managements/account-customer/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-double-left" aria-hidden="true"></i>
                         </a>
                     </li>
                     <li class="page-item disabled" th:if="${currentPage == 1}">
                         <a class="page-link"
-                            th:href="@{'/admin/customer-managements/account/customer/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/customer-managements/account-customer/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-left" aria-hidden="true"></i>
                         </a>
                     </li>
                     <li class="page-item" th:unless="${currentPage == 1}">
                         <a class="page-link"
-                            th:href="@{'/admin/customer-managements/account/customer/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/customer-managements/account-customer/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-left" aria-hidden="true"></i>
                         </a>
                     </li>
@@ -133,30 +133,30 @@
                         </li>
                         <li class="page-item" th:unless="${currentPage == i}">
                             <a class="page-link"
-                                th:href="@{'/admin/customer-managements/account/customer/page/'+${i}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">[[${i}]]</a>
+                                th:href="@{'/admin/customer-managements/account-customer/page/'+${i}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">[[${i}]]</a>
                         </li>
                     </th:block>
                     <li class="page-item disabled" th:if="${currentPage == totalPage}">
                         <a class="page-link"
-                            th:href="@{'/admin/customer-managements/account/customer/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/customer-managements/account-customer/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-right" aria-hidden="true"></i>
                         </a>
                     </li>
                     <li class="page-item" th:unless="${currentPage == totalPage}">
                         <a class="page-link"
-                            th:href="@{'/admin/customer-managements/account/customer/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/customer-managements/account-customer/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-right" aria-hidden="true"></i>
                         </a>
                     </li>
                     <li class="page-item disabled" th:if="${currentPage == totalPage}">
                         <a class="page-link"
-                            th:href="@{'/admin/customer-managements/account/customer/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/customer-managements/account-customer/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                         </a>
                     </li>
                     <li class="page-item" th:unless="${currentPage == totalPage}">
                         <a class="page-link"
-                            th:href="@{'/admin/customer-managements/account/customer/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/customer-managements/account-customer/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                         </a>
                     </li>
@@ -208,10 +208,10 @@
                 var account = { ids };
                 if (k == true) {
                     fetchAPI(
-                        `/admin/customer-managements/account/customers/tran`,
+                        `/admin/customer-managements/account-customers/tran`,
                         'DELETE',
                         account,
-                        `/admin/customer-managements/account/customer`
+                        `/admin/customer-managements/account-customer`
                     )
                 } else return
             })
@@ -251,7 +251,7 @@
                     <button type="button" class="btn btn-primary btn-sm">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </button>
-                    <a href='/admin/customer-managements/account/customer/add' class="btn btn-success btn-sm">
+                    <a href='/admin/customer-managements/account-customer/add' class="btn btn-success btn-sm">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </a>`
 
@@ -274,10 +274,10 @@
                         if (k) {
                             account = { ids }
                             fetchAPI(
-                                `/admin/customer-managements/account/customers/tran`,
+                                `/admin/customer-managements/account-customers/tran`,
                                 `DELETE`,
                                 account,
-                                `/admin/customer-managements/account/customer`
+                                `/admin/customer-managements/account-customer`
                             )
                         } else return
                     })
@@ -288,7 +288,7 @@
                     <button type="button" class="btn btn-primary btn-sm">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                     </button>
-                    <a href='/admin/customer-managements/account/customer/add' class="btn btn-success btn-sm">
+                    <a href='/admin/customer-managements/account-customer/add' class="btn btn-success btn-sm">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                     </a>`
             }

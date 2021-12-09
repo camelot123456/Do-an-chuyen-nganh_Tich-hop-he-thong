@@ -187,10 +187,10 @@
                 }))
 
                 fetchAPI(
-                    '/admin/customer-managements/account/customer/tran',
+                    '/admin/customer-managements/account-customer/tran',
                     'POST',
                     formData,
-                    `/admin/customer-managements/account/customer/${formData.get('id')}`)
+                    `/admin/customer-managements/account-customer/${formData.get('id')}`)
             } else {
                 logMessage.innerHTML = 'Thêm khách hàng thất bại'
             }

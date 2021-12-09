@@ -66,8 +66,26 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 //		http.authorizeRequests().antMatchers("/api", "/admin**")
 //			.hasAnyAuthority("ROLE_DIRECTOR", "ROLE_ACCOUNTANT", "ROLE_BUSINESS", "ROLE_RECEPTIONIST");
 		
-		http.authorizeRequests().antMatchers("/api", "/admin**")
+		http.authorizeRequests().antMatchers("/api", "/admin", "/admin/news/**")
 		.access("hasAnyRole('ROLE_DIRECTOR', 'ROLE_ACCOUNTANT', 'ROLE_BUSINESS', 'ROLE_RECEPTIONIST')");
+		
+		http.authorizeRequests().antMatchers("/admin/internal-managements/account/**", "/admin/dashboard")
+		.access("hasAnyRole('ROLE_DIRECTOR')");
+		
+		http.authorizeRequests().antMatchers("/admin/customer-managements/account-customer/**")
+		.access("hasAnyRole('ROLE_DIRECTOR', 'ROLE_BUSINESS')");
+		
+		http.authorizeRequests().antMatchers("/admin/statistical-managements/statistical/**", "/admin/invoice-managements/invoice/**")
+		.access("hasAnyRole('ROLE_DIRECTOR', 'ROLE_ACCOUNTANT')");
+		
+		http.authorizeRequests().antMatchers("/admin/room-managements/room/**")
+		.access("hasAnyRole('ROLE_DIRECTOR', 'ROLE_BUSINESS', 'ROLE_RECEPTIONISTS')");
+		
+		http.authorizeRequests().antMatchers("/admin/invoice-managements/invoice/**")
+		.access("hasAnyRole('ROLE_DIRECTOR', 'ROLE_ACCOUNTANT', 'ROLE_RECEPTIONISTS')");
+		
+		http.authorizeRequests().antMatchers("/admin/service-managements/service/**")
+		.access("hasAnyRole('ROLE_DIRECTOR', 'ROLE_RECEPTIONISTS')");
 		
 		http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/error/403");
 		

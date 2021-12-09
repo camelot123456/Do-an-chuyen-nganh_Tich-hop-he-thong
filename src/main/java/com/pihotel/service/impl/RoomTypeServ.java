@@ -46,6 +46,12 @@ public class RoomTypeServ implements IRoomTypeServ{
 			roomTypeRepo.deleteById(id);
 		}
 	}
+
+	@Override
+	public RoomTypeEntity findOneById(String id) {
+		// TODO Auto-generated method stub
+		return roomTypeRepo.findOneById(id);
+	}
 	
 	
 	

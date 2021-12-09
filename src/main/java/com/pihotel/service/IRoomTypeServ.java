@@ -14,4 +14,6 @@ public interface IRoomTypeServ {
 	
 	public void delete(String[] ids);
 	
+	public RoomTypeEntity findOneById(String id);
+	
 }
