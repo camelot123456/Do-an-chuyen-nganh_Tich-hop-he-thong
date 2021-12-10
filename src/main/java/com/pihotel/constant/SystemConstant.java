@@ -28,4 +28,10 @@ public class SystemConstant {
 	public static final String ROOMS_TYPE = "rooms_type";
 	public static final String ROOM_TYPE = "room_type";
 	
+	public static final String INVOICE = "invoice";
+	public static final String INVOICES = "invoices";
+	
+	public static final String SERVICE = "service";
+	public static final String SERVICES = "services";
+	
 }

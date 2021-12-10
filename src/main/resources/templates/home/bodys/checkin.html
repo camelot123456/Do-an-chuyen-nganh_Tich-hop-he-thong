@@ -8,13 +8,14 @@
                     <h3>CHI TIẾT HÓA ĐƠN</h3>
                     <p>Phòng được chọn</p>
                     <div class="hstack gap-3 mt-4">
-                        <a href="#" style="width: 40%">
-                            <img src="https://eleganttechbd.com/luxury/luxury/assets/images/booking-details-widget.jpg"
-                                alt="">
-                        </a>
-                        <div style="width: 60%">
-                            <h4>Double Room</h4>
-                            <p>$ 120/ Đêm</p>
+                        <div style="width: 40%">
+                            <a href="#">
+                                <img style="width: 100%" th:src="${room_type.logo}" alt="">
+                            </a>
+                        </div>
+                        <div style="width: 60%" class="align-self-start">
+                            <h4>[[${room_type.name}]]</h4>
+                            <p>$ [[${room_type.price}]]/ Đêm</p>
                         </div>
                     </div>
                     <div class="vstack gap-3 mt-4">
@@ -76,29 +77,15 @@
                 </div>
                 <div class="vstack gap-3 border p-3 rounded-3 shadow bg-light">
                     <h3>GIỎ HÀNG DỊCH VỤ</h3>
-                    <ol class="list-group list-group-numbered mt-3">
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                          <div class="ms-2 me-auto">
-                            <div class="fw-bold">Subheading</div>
-                            Content for list item
-                          </div>
-                          <span class="badge bg-primary rounded-pill">14</span>
+                    <ol class="list-group list-group-numbered mt-3" id="services-cart">
+                        <li class="list-group-item d-flex justify-content-between align-items-start" id="test">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Subheading</div>
+                                <span class="badge bg-primary rounded-pill">14</span> x 20.5$
+                            </div>
+                            <button type="button" class="btn-close" aria-label="Close"></button>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                          <div class="ms-2 me-auto">
-                            <div class="fw-bold">Subheading</div>
-                            Content for list item
-                          </div>
-                          <span class="badge bg-primary rounded-pill">14</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                          <div class="ms-2 me-auto">
-                            <div class="fw-bold">Subheading</div>
-                            Content for list item
-                          </div>
-                          <span class="badge bg-primary rounded-pill">14</span>
-                        </li>
-                      </ol>
+                    </ol>
                 </div>
             </div>
             <div class="vstack gap-3 p-3 border rounded bg-light" style="width: 65%">
@@ -109,24 +96,22 @@
                         ut
                         laoreet dolore magna aliquam erat volutpat.</p>
 
-                    <div class="hstack gap-3 mt-3">
-                        <a href="#" style="width: 40%">
-                            <img style="width: 290px;"
-                                src="https://booking-guarantee.com/files/files_1/Service/4940luxury-taxi.jpg" alt="">
-                        </a>
-                        <div style="width: 60%">
-                            <h4>Đón tại sân bay - xe 4 chỗ</h4>
-                            <div class="hstack gap-3 d-flex align-items-center">
-                                <input class="form-control form-control-sm" type="number" style="width: 15%">
-                                <p style="margin-bottom: 0px">9.4$</p>
+                    <th:block th:each="service, state : ${services}">
+                        <div class="hstack gap-3 mt-3 border p-3 service-box">
+                            <a href="#" style="width: 40%" class="align-self-start">
+                                <img style="width: 290px;" th:src="${service.image}" alt="${service.name}">
+                            </a>
+                            <div style="width: 60%" class="align-self-start">
+                                <h4>[[${service.name}]]</h4>
+                                <div class="hstack gap-3 d-flex align-items-center">
+                                    <input class="form-control form-control-sm" type="number" style="width: 15%" min="0"
+                                        max="10" id="num-service">
+                                    <p style="margin-bottom: 0px">[[${service.price}]]$</p>
+                                </div>
+                                <p>[[${service.description}]]</p>
                             </div>
-                            <p>Để tránh bất kỳ vụ lừa đảo nào có thể xảy ra trên đường từ sân bay đến khách sạn của
-                                chúng tôi,
-                                chúng tôi rất vui lòng sắp xếp cho bạn xe riêng sạch sẽ, hiện đại và tiện nghi để đón
-                                tại sân bay;
-                                phù hợp với chi tiết chuyến bay của bạn ..</p>
                         </div>
-                    </div>
+                    </th:block>
 
                 </div>
                 <div>
@@ -233,6 +218,36 @@
         CKEDITOR.replace('editor1')
         var $ = document.querySelector.bind(document)
         var $$ = document.querySelectorAll.bind(document)
+
+        var numServices = Array.from($$('#num-service'))
+        var serviceBox = Array.from($$('.service-box'))
+        var servicesCart = $('#services-cart')
+
+        serviceBox.forEach((element) => {
+            element.addEventListener('change', (e) => {
+                if (element.parents('div#test').length) {
+                    servicesCart.innerHTML = `
+                        <li class="list-group-item d-flex justify-content-between align-items-start" id="">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Subheading</div>
+                                <span class="badge bg-primary rounded-pill">${e.target.value}</span> x 20.5$
+                            </div>
+                            <button type="button" class="btn-close" aria-label="Close"></button>
+                        </li>`
+                } else {
+                    servicesCart.innerHTML += `
+                        <li class="list-group-item d-flex justify-content-between align-items-start" id="">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Subheading</div>
+                                <span class="badge bg-primary rounded-pill">${e.target.value}</span> x 20.5$
+                            </div>
+                            <button type="button" class="btn-close" aria-label="Close"></button>
+                        </li>`
+                }
+            })
+        })
+
+
 
     </script>
 </th:block>

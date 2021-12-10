@@ -29,20 +29,17 @@ import lombok.ToString;
 @Table(name="[INVOICE]")
 public class InvoiceEntity extends AbstractEntity{
 	
-	@Column(name = "[START_TIME]", columnDefinition = "datetime")
-	private Date startTime;
+	@Column(name = "[START_DATE]", columnDefinition = "datetime")
+	private Date startDate;
 	
 	@Column(name = "[END_DATE]", columnDefinition = "datetime")
-	private Date endTime;
+	private Date endDate;
 	
 	@Column(name = "[ADULTS]", columnDefinition = "tinyint default 0")
 	private Integer adults;
 	
 	@Column(name = "[CHILDREN]", columnDefinition = "tinyint default 0")
-	private Integer children;
-	
-	@Column(name = "[NIGHT]", columnDefinition = "tinyint default 0")
-	private Integer night;
+	private Integer children; 
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
@@ -53,7 +50,7 @@ public class InvoiceEntity extends AbstractEntity{
 	private List<ServiceEntity> services;
 	
 	@ManyToMany(mappedBy = "invoices")
-	private List<RoomTypeEntity> roomTypes;
+	private List<RoomEntity> rooms;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "[ID_ACCOUNT]")

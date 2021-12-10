@@ -1,11 +1,15 @@
 package com.pihotel.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -53,6 +57,18 @@ public class RoomEntity extends AbstractEntity{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_ROOM_TYPE")
-//	@JsonBackReference
+	@JsonBackReference
 	private RoomTypeEntity room;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+		name = "[INVOICE_ROOM]",
+		joinColumns = @JoinColumn(
+				name = "[ID_INVOICE]",
+				referencedColumnName = "[ID]"),
+		inverseJoinColumns = @JoinColumn(
+				name = "[ID_ROOM]",
+				referencedColumnName = "[ID]")
+	)
+	private List<InvoiceEntity> invoices;
 }
