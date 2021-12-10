@@ -13,5 +13,9 @@ public interface IInvoiceServ {
 	public InvoiceEntity update(InvoiceEntity invoice);
 
 	public void delete(String[] ids);
+	
+	public void addRoomToInvoice(InvoiceEntity invoice);
 
+	public InvoiceEntity findOneById(String id);
+	
 }

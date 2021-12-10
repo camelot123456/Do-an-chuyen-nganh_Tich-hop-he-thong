@@ -1,22 +1,32 @@
 package com.pihotel.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pihotel.entity.InvoiceEntity;
+import com.pihotel.entity.RoomEntity;
+import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.repository.IInvoiceRepo;
+import com.pihotel.repository.IRoomRepo;
 import com.pihotel.service.IInvoiceServ;
 
 import net.bytebuddy.utility.RandomString;
 
 @Service
+@Transactional
 public class InvoiceServ implements IInvoiceServ{
 
 	@Autowired
 	private IInvoiceRepo invoiceRepo;
+	
+	@Autowired
+	private IRoomRepo roomRepo;
 	
 //	---------------------------------------SELECT---------------------------------------
 	
@@ -24,6 +34,12 @@ public class InvoiceServ implements IInvoiceServ{
 	public List<InvoiceEntity> findAll() {
 		// TODO Auto-generated method stub
 		return invoiceRepo.findAll();
+	}
+	
+	@Override
+	public InvoiceEntity findOneById(String id) {
+		// TODO Auto-generated method stub
+		return invoiceRepo.findOneById(id);
 	}
 
 //	---------------------------------------INSERT---------------------------------------
@@ -38,6 +54,27 @@ public class InvoiceServ implements IInvoiceServ{
 			return invoiceRepo.save(invoice);
 		}
 		else return null;
+	}
+	
+
+	@Override
+	public void addRoomToInvoice(InvoiceEntity invoice) {
+		// TODO Auto-generated method stub
+		invoice.setId(RandomString.make(12));
+		invoice.setCreateAt(new Date());
+		invoice.setModifiedAt(new Date());
+		
+		InvoiceEntity invoiceNew = invoiceRepo.save(invoice);
+		
+		List<RoomEntity> rooms = new ArrayList<RoomEntity>();
+		invoice.getRooms().forEach(room -> {
+			RoomEntity roomNew = roomRepo.findOneById(room.getId());
+			roomRepo.updateRoomState(ERoomState.CHECKIN, roomNew.getId());
+			rooms.add(roomNew);
+		});
+		
+		invoiceNew.setRooms(rooms);
+		invoiceRepo.save(invoiceNew);
 	}
 	
 //	---------------------------------------UPDATE---------------------------------------

@@ -8,12 +8,12 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.pihotel.entity.enums.ERoomState;
 
 import lombok.AllArgsConstructor;
@@ -60,15 +60,7 @@ public class RoomEntity extends AbstractEntity{
 	@JsonBackReference
 	private RoomTypeEntity room;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-		name = "[INVOICE_ROOM]",
-		joinColumns = @JoinColumn(
-				name = "[ID_INVOICE]",
-				referencedColumnName = "[ID]"),
-		inverseJoinColumns = @JoinColumn(
-				name = "[ID_ROOM]",
-				referencedColumnName = "[ID]")
-	)
+	@ManyToMany(mappedBy = "rooms")
+	@JsonIgnoreProperties("rooms")
 	private List<InvoiceEntity> invoices;
 }

@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.InvoiceEntity;
-import com.pihotel.entity.RoomEntity;
 import com.pihotel.entity.RoomTypeEntity;
 import com.pihotel.service.IInvoiceServ;
-import com.pihotel.service.IRoomServ;
 import com.pihotel.service.IRoomTypeServ;
 import com.pihotel.service.IServiceServ;
 
@@ -64,10 +62,9 @@ public class HomeController {
 	
 	@RequestMapping(value = "/home/checkin", method = RequestMethod.POST, consumes = {
 			"multipart/form-data", "application/json" })
-	public String doSaveInvoice(@RequestPart("room") RoomEntity room, 
-			@RequestPart("roomType") RoomTypeEntity roomType,
-			@RequestPart("invoice") InvoiceEntity invoice) {
-		invoiceServ.save(invoice);
+	public String doSaveInvoice(@RequestPart("invoice") InvoiceEntity invoice,
+			@RequestPart("roomType") RoomTypeEntity roomType) {
+		invoiceServ.addRoomToInvoice(invoice);
 		return "redirect:/home/checkin/" + roomType.getId();
 	}
 	

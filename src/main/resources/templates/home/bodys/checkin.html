@@ -37,12 +37,12 @@
                         </div>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Loại phòng</p>
-                            <p>4 x JUNIOR SUITE BALCONY</p>
+                            <p>[[${room_type.name}]]</p>
                         </div>
                         <hr>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Giá phòng</p>
-                            <p>09-10-2019</p>
+                            <p>[[${room_type.price}]]</p>
                         </div>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Dịch vụ</p>
@@ -123,13 +123,13 @@
 
                     <div class="hstack gap-3">
                         <div class="form-floating w-50">
-                            <input type="datetime-local" class="form-control" id="start-date" placeholder="Ngày đặt"
+                            <input type="date" class="form-control" id="start-date" placeholder="Ngày đặt"
                                 name="start-date" required>
                             <label for="start-date">Ngày đặt</label>
                             <p class="text-danger text-center" id="start-date-message" style="font-size: 12px"></p>
                         </div>
                         <div class="form-floating w-50">
-                            <input type="datetime-local" class="form-control" id="end-date" placeholder="Ngày trả"
+                            <input type="date" class="form-control" id="end-date" placeholder="Ngày trả"
                                 name="end-date" required>
                             <label for="end-date">Ngày trả</label>
                             <p class="text-danger text-center" id="end-date-message" style="font-size: 12px"></p>

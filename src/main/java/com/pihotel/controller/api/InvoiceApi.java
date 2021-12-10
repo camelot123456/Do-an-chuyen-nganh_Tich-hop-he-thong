@@ -17,7 +17,7 @@ import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.service.IInvoiceServ;
 
 @RestController
-@RequestMapping(value = "/api", consumes = {"application/json"})
+@RequestMapping(value = "/api")
 public class InvoiceApi {
 
 	@Autowired

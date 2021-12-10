@@ -12,6 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,9 +49,20 @@ public class InvoiceEntity extends AbstractEntity{
 			joinColumns = @JoinColumn(name = "[ID_INVOICE]", referencedColumnName = "[ID]"),
 			inverseJoinColumns = @JoinColumn(name = "[ID_SERVICE]", referencedColumnName = "[ID]")
 	)
+	@JsonIgnoreProperties("invoices")
 	private List<ServiceEntity> services;
 	
-	@ManyToMany(mappedBy = "invoices")
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "[INVOICE_ROOM]",
+			joinColumns = @JoinColumn(
+					name = "[ID_INVOICE]",
+					referencedColumnName = "[ID]"),
+			inverseJoinColumns = @JoinColumn(
+					name = "[ID_ROOM]",
+					referencedColumnName = "[ID]")
+		)
+	@JsonIgnoreProperties("invoices")
 	private List<RoomEntity> rooms;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

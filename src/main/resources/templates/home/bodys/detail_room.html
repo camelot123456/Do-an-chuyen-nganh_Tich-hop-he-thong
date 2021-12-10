@@ -52,8 +52,8 @@
                             <p class="text-danger text-center" id="start-date-message" style="font-size: 12px"></p>
                         </div>
                         <div class="form-floating w-100">
-                            <input type="date" class="form-control" id="end-date" placeholder="Ngày trả"
-                                name="end-date" required>
+                            <input type="date" class="form-control" id="end-date" placeholder="Ngày trả" name="end-date"
+                                required>
                             <label for="end-date">Ngày trả</label>
                             <p class="text-danger text-center" id="end-date-message" style="font-size: 12px"></p>
                         </div>
@@ -237,19 +237,17 @@
 
                                         btnCheckinNow.addEventListener('click', e => {
                                             var formData = new FormData(formCheckin);
-                                            var ids = []
+
+                                            var rooms = []
+                                            var room = {}
 
                                             checkboxAll.forEach(element => {
                                                 if (element.checked) {
-                                                    ids.push(element.id)
+                                                    room = { id: element.id }
+                                                    rooms.push(room)
                                                 }
                                             })
 
-                                            formData.append('room', new Blob([JSON.stringify({
-                                                'ids': ids
-                                            })], {
-                                                type: 'application/json'
-                                            }))
 
                                             formData.append('roomType', new Blob([JSON.stringify({
                                                 'id': $('#room_type_id').value
@@ -261,11 +259,12 @@
                                                 'startDate': formData.get('start-date'),
                                                 'endDate': formData.get('end-date'),
                                                 'adults': formData.get('adults'),
-                                                'children': formData.get('children')
+                                                'children': formData.get('children'),
+                                                'rooms': rooms
                                             })], {
                                                 type: 'application/json'
                                             }))
-                                            
+
                                             fetchAPI(`/home/checkin`, 'POST', formData, `/home/checkin/${$('#room_type_id').value}`)
                                         })
                                     }
