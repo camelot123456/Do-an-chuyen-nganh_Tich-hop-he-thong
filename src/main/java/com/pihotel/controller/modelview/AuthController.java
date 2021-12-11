@@ -17,11 +17,8 @@ import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.service.IAccountServ;
 
-import lombok.extern.slf4j.Slf4j;
-
 
 @Controller
-@Slf4j
 public class AuthController {
 
 	@Autowired
@@ -30,14 +27,12 @@ public class AuthController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(HttpServletRequest request,
 			Model model) {
-		log.info("error: {}", request.getParameter("error"));
-		log.info("otp: {}", request.getParameter("otp"));
 		String error = request.getParameter("error");
 		String otp = request.getParameter("otp");
 		if (error != null) {
-			request.getSession().setAttribute(SystemConstant.LOG_AUTHENTICATION, "Tên đăng nhập hoặc mật khẩu không đúng!");
+			model.addAttribute(SystemConstant.LOG_AUTHENTICATION, "Tên đăng nhập hoặc mật khẩu không đúng!");
 		} else if (otp != null) {
-			request.getSession().setAttribute(SystemConstant.LOG_AUTHENTICATION, "Tài khoản của bạn chưa xác minh email!");
+			model.addAttribute(SystemConstant.LOG_AUTHENTICATION, "Tài khoản của bạn chưa xác minh email!");
 		}
 		
 		String referrer = request.getHeader("Referrer");
@@ -57,8 +52,6 @@ public class AuthController {
 			HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
 		String siteURL = request.getRequestURL().toString();
 		siteURL = siteURL.replace(request.getServletPath(), "");
-		
-		log.info("siteURL: {}", siteURL);
 		
 		SystemConstant.MAIL_VERIFY_NAME = account.getName();
 		
