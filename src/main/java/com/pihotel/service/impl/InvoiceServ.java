@@ -46,6 +46,14 @@ public class InvoiceServ implements IInvoiceServ {
 		// TODO Auto-generated method stub
 		return invoiceRepo.findOneById(id);
 	}
+	
+
+
+	@Override
+	public Double getSumPriceIncurredAndPriceRoomType(String idInvoice, String idRoomType) {
+		// TODO Auto-generated method stub
+		return invoiceRepo.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType);
+	}
 
 //	---------------------------------------INSERT---------------------------------------
 
@@ -64,7 +72,6 @@ public class InvoiceServ implements IInvoiceServ {
 	@Override
 	public void addRoomAndCustomerToInvoice(InvoiceEntity invoice, AccountEntity customer) {
 		// TODO Auto-generated method stub
-		invoice.setId(RandomString.make(12));
 		invoice.setCreateAt(new Date());
 		invoice.setModifiedAt(new Date());
 
@@ -85,7 +92,6 @@ public class InvoiceServ implements IInvoiceServ {
 	@Override
 	public void addRoomToInvoice(InvoiceEntity invoice) {
 		// TODO Auto-generated method stub
-		invoice.setId(RandomString.make(12));
 		invoice.setCreateAt(new Date());
 		invoice.setModifiedAt(new Date());
 

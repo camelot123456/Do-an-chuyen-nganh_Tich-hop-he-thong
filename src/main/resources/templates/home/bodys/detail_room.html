@@ -42,6 +42,7 @@
                 <form class="vstack gap-2 border bg-light shadow p-3" id="form-checkin" style="width: 30%"
                     enctype='multipart/form-data'>
                     <input type="hidden" id="id_room_type" th:value="${room_type.id}">
+                    <input type="hidden" id="id-invoice" th:value="${ID_INVOICE}">
                     <h2 class="text-center text-primary">[[${room_type.name}]]</h2>
                     <h1 class="text-center fs-1">$[[${room_type.price}]]/Đêm</h1>
                     <div class="vstack gap-1">
@@ -164,16 +165,19 @@
                 keyboard: false
             })
 
+
             //Tạo hàm gọi api
-            function fetchAPI(url, method, body, redirect) {
-                console.log(redirect)
+            function fetchAPI(url, method, body) {
+                
                 fetch(url, {
                     method: method,
                     body: body
                 })
                     .then(resp => {
                         if (resp.status === 200) {
-                            window.location.href = redirect
+                            if (resp.redirected) {
+                                window.location.href = resp.url;
+                            }
                         } else {
                             alert("Fail Validate!")
                         }
@@ -199,7 +203,7 @@
                                     <div>
                                         <p>(${i}) Phòng ${room.name} - ${room.id}</p>
                                         <div class='hstack gap-3'>
-                                            <p>Chi phí riêng: ${room.priceIncrurred}$ </p>
+                                            <p>Chi phí riêng: ${room.priceIncurred}$ </p>
                                             <p>Tầng: ${room.floor}</p>
                                             <p>Diện tích: ${room.area} m2</p>
                                             <p>Tối đa: ${room.customersNum} người</p>
@@ -256,6 +260,7 @@
                                             }))
 
                                             formData.append('invoice', new Blob([JSON.stringify({
+                                                'id': $('#id-invoice').value,
                                                 'startDate': formData.get('start-date'),
                                                 'endDate': formData.get('end-date'),
                                                 'adults': formData.get('adults'),
@@ -265,7 +270,7 @@
                                                 type: 'application/json'
                                             }))
 
-                                            fetchAPI(`/home/checkin`, 'POST', formData, `/home/checkin/${$('#room_type_id').value}`)
+                                            fetchAPI(`/home/checkin`, 'POST', formData)
                                         })
                                     }
 

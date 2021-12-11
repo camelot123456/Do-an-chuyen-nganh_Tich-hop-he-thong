@@ -161,7 +161,8 @@
                     <div class="vstack gap-3  w-100 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
                         <div class="hstack gap-3 py-auto">
                             <a href="#" class="me-3">
-                                <img style="width: 100px;" class="rounded-circle" th:src="${customer.getAvatar()}" alt="">
+                                <img style="width: 100px;" class="rounded-circle" th:src="${customer.getAvatar()}"
+                                    alt="">
                             </a>
                             <div class="d-flex flex-column">
                                 <h5 class="text-primary">[[${customer.name}]]</h5>
@@ -204,15 +205,16 @@
         var formCustomer = $('#form-customer')
 
         //Tạo hàm gọi api
-        function fetchAPI(url, method, body, redirect) {
-            console.log(redirect)
+        function fetchAPI(url, method, body) {
             fetch(url, {
                 method: method,
                 body: body
             })
                 .then(resp => {
                     if (resp.status === 200) {
-                        window.location.href = redirect
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
                     } else {
                         alert("Fail Validate!")
                     }
@@ -226,7 +228,7 @@
         btnSave.addEventListener('click', (e) => {
             e.preventDefault();
             var formData = new FormData(formCustomer)
-            
+
             formData.append('customer', new Blob([
                 JSON.stringify({
                     'id': formData.get('id'),
@@ -244,15 +246,13 @@
             fetchAPI(
                 '/admin/customer-managements/account-customer/tran',
                 'PUT',
-                formData,
-                `/admin/customer-managements/account-customer/${formData.get('id')}`)
+                formData)
         })
 
 
         //Xử lý xóa tài khoản
         btnDel.addEventListener('click', (e) => {
             e.preventDefault();
-            console.log('delete')
             var formData = new FormData(formCustomer)
 
             formData.append('customer', new Blob([
@@ -266,8 +266,7 @@
             fetchAPI(
                 `/admin/customer-managements/account-customer/tran`,
                 'DELETE',
-                formData,
-                `/admin/customer-managements/account-customer`)
+                formData)
         })
 
     </script>

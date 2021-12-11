@@ -21,19 +21,19 @@
                     <div class="vstack gap-3 mt-4">
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Ngày đặt phòng</p>
-                            <p>09-10-2019</p>
+                            <p>[[${invoice.startDate}]]</p>
                         </div>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Ngày trả phòng</p>
-                            <p>15-10-2019</p>
+                            <p>[[${invoice.endDate}]]</p>
                         </div>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Người lớn</p>
-                            <p>4</p>
+                            <p>[[${invoice.adults}]]</p>
                         </div>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Trẻ em</p>
-                            <p>1</p>
+                            <p>[[${invoice.children}]]</p>
                         </div>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Loại phòng</p>
@@ -42,7 +42,7 @@
                         <hr>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Giá phòng</p>
-                            <p>[[${room_type.price}]]</p>
+                            <p>[[${room_type.price}]]$</p>
                         </div>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Dịch vụ</p>
@@ -59,19 +59,19 @@
                         <hr>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Tổng</p>
-                            <p>179$</p>
+                            <p>[[${TOTAL_PRICE}]] $</p>
                         </div>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Phí dịch vụ: (5%)</p>
-                            <p>37$</p>
+                            <p>[[${PRICE_SERVICE_5P}]] $</p>
                         </div>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">VAT: (10%)</p>
-                            <p>10%</p>
+                            <p>[[${PRICE_VAT_10P}]] $</p>
                         </div>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Tổng tiền</p>
-                            <p>670$</p>
+                            <p>[[${TOTAL_PRICE_ALL}]] $</p>
                         </div>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                         ut
                         laoreet dolore magna aliquam erat volutpat.</p>
 
-                    <div class="hstack gap-3">
+                    <!-- <div class="hstack gap-3">
                         <div class="form-floating w-50">
                             <input type="date" class="form-control" id="start-date" placeholder="Ngày đặt"
                                 name="start-date" required>
@@ -149,7 +149,7 @@
                             <label for="children">Trẻ em</label>
                             <p class="text-danger text-center" id="children-message" style="font-size: 12px"></p>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="hstack gap-3">
                         <div class="form-floating w-50">

@@ -41,8 +41,8 @@
                         <label for="floatingInputValue">Người tạo(email)</label>
                     </div>
                     <div class="form-floating w-50 ">
-                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Loại tài khoản" value="---"
-                            disabled>
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Loại tài khoản"
+                            value="---" disabled>
                         <label for="floatingInputValue">Người cập nhập(email)</label>
                     </div>
                 </div>
@@ -110,7 +110,8 @@
                             <label for="name">Mật khẩu</label>
                         </div>
                         <div class="form-floating w-50">
-                            <input type="password" class="form-control" id="re-password" placeholder="Xác nhận mật khẩu" name="password">
+                            <input type="password" class="form-control" id="re-password" placeholder="Xác nhận mật khẩu"
+                                name="password">
                             <label for="re-password">Xác nhận mật khẩu</label>
                         </div>
                     </div>
@@ -183,15 +184,16 @@
         })
 
         //Tạo hàm gọi api
-        function fetchAPI(url, method, body, redirect) {
-            console.log(redirect)
+        function fetchAPI(url, method, body) {
             fetch(url, {
                 method: method,
                 body: body
             })
                 .then(resp => {
                     if (resp.status === 200) {
-                        window.location.href = redirect
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
                     } else {
                         alert("Fail Validate!")
                     }
@@ -236,8 +238,7 @@
             fetchAPI(
                 '/admin/internal-managements/account/tran',
                 'POST',
-                formData,
-                `/admin/internal-managements/account/${formData.get('id')}`)
+                formData)
         })
 
     </script>

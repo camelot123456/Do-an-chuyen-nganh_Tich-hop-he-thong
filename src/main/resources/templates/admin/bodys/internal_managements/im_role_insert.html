@@ -65,15 +65,16 @@
         })
 
 
-        function fetchAPI(url, method, body, redirect) {
-            console.log(redirect)
+        function fetchAPI(url, method, body) {
             fetch(url, {
                 method: method,
                 body: body
             })
                 .then(resp => {
                     if (resp.status === 200) {
-                        window.location.href = redirect
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
                     } else {
                         alert("Fail Validate!")
                     }
@@ -103,8 +104,7 @@
             fetchAPI(
                 '/admin/internal-managements/role/tran',
                 'POST',
-                formData,
-                `/admin/internal-managements/role`)
+                formData)
         })
 
     </script>

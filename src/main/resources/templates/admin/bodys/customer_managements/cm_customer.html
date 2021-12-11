@@ -14,7 +14,8 @@
                 <a class="nav-link" href="/admin/customer-managements/account-customer/add">Khách hàng có tài khoản</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/admin/customer-managements/account-customer/add">Khách hàng không tài khoản</a>
+                <a class="nav-link" href="/admin/customer-managements/account-customer/add">Khách hàng không tài
+                    khoản</a>
             </li>
         </ul>
 
@@ -174,7 +175,7 @@
         var btnDels = Array.from($$('.btn-del'))
 
         //Hàm gọi api
-        function fetchAPI(url, method, body, redirect) {
+        function fetchAPI(url, method, body) {
             fetch(url, {
                 method,
                 body: JSON.stringify(body),
@@ -186,7 +187,9 @@
                 .then(resp => {
                     resp.json()
                     if (resp.status === 200) {
-                        window.location.href = redirect
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
                     } else {
                         alert('Fail Validate!')
                     }
@@ -202,7 +205,6 @@
         btnDels.forEach((element) => {
             element.addEventListener('click', (e) => {
                 var k = confirm("Bạn có muốn xóa khách hàng này không ?")
-                console.log(k)
                 var ids = [e.target.id]
 
                 var account = { ids };
@@ -210,8 +212,7 @@
                     fetchAPI(
                         `/admin/customer-managements/account-customers/tran`,
                         'DELETE',
-                        account,
-                        `/admin/customer-managements/account-customer`
+                        account
                     )
                 } else return
             })
@@ -276,8 +277,7 @@
                             fetchAPI(
                                 `/admin/customer-managements/account-customers/tran`,
                                 `DELETE`,
-                                account,
-                                `/admin/customer-managements/account-customer`
+                                account
                             )
                         } else return
                     })

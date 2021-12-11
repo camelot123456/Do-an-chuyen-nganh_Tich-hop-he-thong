@@ -81,7 +81,7 @@ public class RoleController {
 		role.setLogo(multipartFile.getOriginalFilename());
 		UploadFileUtil.saveFile(PATH_IMG, multipartFile.getOriginalFilename(), multipartFile);
 		roleServ.save(role);
-		return "redirect:/admin/internal-managements/role";
+		return "redirect:/admin/internal-managements/role/" + role.getId();
 	}
 	
 //	---------------------------------------PUT---------------------------------------
@@ -89,7 +89,7 @@ public class RoleController {
 	@RequestMapping(value = "/admin/internal-managements/role/tran", method = RequestMethod.PUT)
 	public String roleIMUpdateAccount(@RequestPart("role") RoleEntity role) {
 		roleServ.updateCustom(role.getId(), role.getName(), role.getCode());
-		return "redirect:/admin/internal-managements/role";
+		return "redirect:/admin/internal-managements/role/" + role.getId();
 	}
 	
 //	---------------------------------------PATCH---------------------------------------

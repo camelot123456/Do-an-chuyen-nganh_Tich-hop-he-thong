@@ -95,7 +95,7 @@ public class AccountController {
 		account.setAvatar(multipartFile.getOriginalFilename());
 		UploadFileUtil.saveFile(PATH_AVATAR, multipartFile.getOriginalFilename(), multipartFile);
 		accountServ.saveWithFile(account);
-		return "redirect:/admin/internal-managements/im_detail_account";
+		return "redirect:/admin/internal-managements/account/" + account.getId();
 	}
 	
 //	---------------------------------------PUT---------------------------------------

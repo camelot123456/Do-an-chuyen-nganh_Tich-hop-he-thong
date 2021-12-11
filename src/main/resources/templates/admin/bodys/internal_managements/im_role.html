@@ -162,7 +162,7 @@
         var btnDels = Array.from($$('.btn-del'))
 
         //Hàm gọi api
-        function fetchAPI(url, method, body, redirect) {
+        function fetchAPI(url, method, body) {
             fetch(url, {
                 method,
                 body: JSON.stringify(body),
@@ -174,7 +174,9 @@
                 .then(resp => {
                     resp.json()
                     if (resp.status === 200) {
-                        window.location.href = redirect
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
                     } else {
                         alert('Fail Validate!')
                     }
@@ -197,8 +199,7 @@
                     fetchAPI(
                         `/admin/internal-managements/roles/tran`,
                         'DELETE',
-                        role,
-                        `/admin/internal-managements/role`
+                        role
                     )
                 } else return
             })
@@ -263,8 +264,7 @@
                             fetchAPI(
                                 `/admin/internal-managements/roles/tran`,
                                 `DELETE`,
-                                role,
-                                `http://localhost:8081/admin/internal-managements/role`
+                                role
                             )
                         } else return
                     })

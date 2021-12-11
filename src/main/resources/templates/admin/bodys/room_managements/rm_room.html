@@ -164,61 +164,78 @@
         var tableRoom = $('#table-room')
         var reduceRoom = $('#reduce-room')
 
-        fetch('http://localhost:8081/api/room', {
-            method: 'GET',
-        })
-            .then(resp => resp.json())
-            .then(rooms => {
-                var countEmpty = countRepair = countUsing = countCheckin = countCheckout = countDeposit = 0
-                var features = ''
+        //Tạo hàm gọi api
+        function fetchAPI(url, method, body) {
 
-                rooms.map((room, i) => {
-                    var roomState = ''
-                    if (room.roomState == 'EMPTY') {
-                        colorState = '#0d6efd'
-                        countEmpty++
-                        features = `
+            fetch(url, {
+                method: method,
+                body: body
+            })
+                .then(resp => {
+                    if (resp.status === 200) {
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
+                    } else {
+                        alert("Fail Validate!")
+                    }
+                })
+                .catch(err => {
+                    alert("Error!")
+                })
+        }
+
+        function renderRoomList(rooms) {
+            var countEmpty = countRepair = countUsing = countCheckin = countCheckout = countDeposit = 0
+            var features = ''
+
+            rooms.map((room, i) => {
+                var roomState = ''
+                if (room.roomState == 'EMPTY') {
+                    colorState = '#0d6efd'
+                    countEmpty++
+                    features = `
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="checkin"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
                         `
-                    } else if (room.roomState == 'REPAIR') {
-                        colorState = '#6c757d'
-                        countRepair++
-                        features = ``
-                    } else if (room.roomState == 'USING') {
-                        colorState = '#198754'
-                        countUsing++
-                        features = `
+                } else if (room.roomState == 'REPAIR') {
+                    colorState = '#6c757d'
+                    countRepair++
+                    features = ``
+                } else if (room.roomState == 'USING') {
+                    colorState = '#198754'
+                    countUsing++
+                    features = `
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="checkout"><i class="fa fa-sign-out"
                             aria-hidden="true"></i></a>
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="dịch vụ"><i class="fa fa-diamond"
                             aria-hidden="true"></i></a>
                         `
-                    } else if (room.roomState == 'CHECKIN') {
-                        colorState = '#087990'
-                        countCheckin++
-                        features = `
+                } else if (room.roomState == 'CHECKIN') {
+                    colorState = '#087990'
+                    countCheckin++
+                    features = `
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark btn-sm text-light btn-cancel-room" id="" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
+                        `
+                } else if (room.roomState == 'CHECKOUT') {
+                    colorState = '#984c0c'
+                    countCheckout++
+                    features = `
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
                         `
-                    } else if (room.roomState == 'CHECKOUT') {
-                        colorState = '#984c0c'
-                        countCheckout++
-                        features = `
-                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
-                        `
-                    } else if (room.roomState == 'DEPOSIT') {
-                        colorState = '#8540f5'
-                        countDeposit++
-                        features = `
+                } else if (room.roomState == 'DEPOSIT') {
+                    colorState = '#8540f5'
+                    countDeposit++
+                    features = `
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="checkin"><i class="fa fa-sign-in"
                             aria-hidden="true"></i></a>
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
                         `
-                    }
+                }
 
-                    tableRoom.innerHTML += `
+                tableRoom.innerHTML += `
                     <div class="col-2">
                         <div class="border rounded-3 vstack gap text-center p-2"
                             style="font-size: 14px; color: white; background-color: ${colorState}; min-height: 260px;">
@@ -242,9 +259,9 @@
                         </div>
                     </div>
                 `
-                })
+            })
 
-                reduceRoom.innerHTML += `
+            reduceRoom.innerHTML += `
                 <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #0d6efd">Trống: ${countEmpty}</a>
                 <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #198754">Đang ở: ${countUsing}</a>
                 <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #8540f5">Đặt cọc: ${countDeposit}</a>
@@ -252,6 +269,15 @@
                 <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #984c0c">Checkout: ${countCheckout}</a>
                 <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #6c757d">Sửa chữa: ${countRepair}</a>
                     `
+        }
+
+        fetch('http://localhost:8081/api/room', {
+            method: 'GET',
+        })
+            .then(resp => resp.json())
+            .then(rooms => {
+                renderRoomList(rooms)
+                
             })
     </script>
 </th:block>

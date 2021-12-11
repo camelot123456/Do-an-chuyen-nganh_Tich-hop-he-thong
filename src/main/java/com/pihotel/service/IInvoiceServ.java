@@ -21,4 +21,5 @@ public interface IInvoiceServ {
 	
 	public InvoiceEntity findOneById(String id);
 	
+	public Double getSumPriceIncurredAndPriceRoomType(String idInvoice, String idRoomType);
 }

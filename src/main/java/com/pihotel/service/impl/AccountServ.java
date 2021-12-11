@@ -101,11 +101,23 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		return accountRepo.findAll(pageable);
 	}
 	
+	public Page<AccountEntity> findAllCustomer(int numPage, String sortField, String sortDir, String keyword){
+		Sort sort = Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		PageRequest pageable = PageRequest.of(numPage - 1, 10, sort);
+		if (keyword != null) {
+			return accountRepo.searchCustomer(keyword, pageable);
+		}
+		return accountRepo.findAllCustomer(pageable);
+	}
+	
 	@Override
 	public AccountEntity findOneByUsername(String username) {
 		// TODO Auto-generated method stub
 		return accountRepo.findByUsername(username);
 	}
+	
+	
 	
 //	---------------------------------------INSERT---------------------------------------
 	
@@ -128,6 +140,9 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 				.avatar(avatar)
 				.authProvider(provider)
 				.build();
+		List<RoleEntity> roleNew = new ArrayList<RoleEntity>();
+		roleNew.add(roleRepo.findOneByCode("MEMBER"));
+		account.setRoles(roleNew);
 		account.setEnabled(email == null ? false : true);
 		account.setId(id);
 		account.setCreateAt(new Date());
@@ -170,6 +185,7 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		});
 		account.setRoles(roleArr);
 		account.setCreateAt(new Date());
+		account.setPassword(passwordEncoder.encode(account.getPassword()));
 		accountRepo.save(account);
 	}
 	

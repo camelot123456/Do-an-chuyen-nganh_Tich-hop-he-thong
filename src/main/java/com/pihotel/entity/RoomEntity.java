@@ -50,7 +50,7 @@ public class RoomEntity extends AbstractEntity{
 	private Integer area;
 	
 	@Column(name = "[PRICE_INCURRED]", columnDefinition = "float default 0")
-	private Double priceIncrurred;
+	private Double priceIncurred;
 	
 	@Column(name = "[FLOOR]", columnDefinition = "tinyint default 1")
 	private Integer floor;
@@ -58,7 +58,7 @@ public class RoomEntity extends AbstractEntity{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_ROOM_TYPE")
 	@JsonBackReference
-	private RoomTypeEntity room;
+	private RoomTypeEntity roomType;
 	
 	@ManyToMany(mappedBy = "rooms")
 	@JsonIgnoreProperties("rooms")

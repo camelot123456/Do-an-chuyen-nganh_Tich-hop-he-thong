@@ -260,15 +260,16 @@
             })
 
         //Tạo hàm gọi api
-        function fetchAPI(url, method, body, redirect) {
-            console.log(redirect)
+        function fetchAPI(url, method, body) {
             fetch(url, {
                 method: method,
                 body: body
             })
                 .then(resp => {
                     if (resp.status === 200) {
-                        window.location.href = redirect
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
                     } else {
                         alert("Fail Validate!")
                     }
@@ -312,8 +313,7 @@
             fetchAPI(
                 '/admin/internal-managements/account/tran',
                 'PUT',
-                formData,
-                `/admin/internal-managements/account/${formData.get('id')}`)
+                formData)
         })
 
 
@@ -334,8 +334,7 @@
             fetchAPI(
                 `/admin/internal-managements/account/tran`,
                 'DELETE',
-                formData,
-                `/admin/internal-managements/account`)
+                formData)
         })
 
         if ($('#btn-save-ADMIN') && $('#btn-del-ADMIN')) {

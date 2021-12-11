@@ -38,7 +38,7 @@ public class RoomTypeEntity extends AbstractEntity{
 	@Column(name = "[PRICE]", columnDefinition = "float default 0")
 	private Double price;
 	
-	@OneToMany(mappedBy = "room")
+	@OneToMany(mappedBy = "roomType")
 	@JsonManagedReference
 	private List<RoomEntity> rooms;
 	

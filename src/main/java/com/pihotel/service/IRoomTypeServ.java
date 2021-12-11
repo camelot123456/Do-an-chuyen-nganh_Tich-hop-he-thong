@@ -16,4 +16,5 @@ public interface IRoomTypeServ {
 	
 	public RoomTypeEntity findOneById(String id);
 	
+	public RoomTypeEntity findOneByIdRoom(String idRoom);
 }

@@ -19,12 +19,17 @@ import com.pihotel.entity.enums.ERoomState;
 public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 
 	@Query("select r from RoomEntity r where r.name like %?1% "
-			+ "or concat(r.priceIncrurred, '') like %?1% ")
+			+ "or r.roomState like %?1% "
+			+ "or concat(r.area, '') like %?1% "
+			+ "or concat(r.customersNum, '') like %?1% "
+			+ "or concat(r.floor, '') like %?1% "
+			+ "or r.name like %?1% "
+			+ "or concat(r.priceIncurred, '') like %?1% ")
 	public Page<RoomEntity> search(String keyword, Pageable pageable);
 	
 	public RoomEntity findOneById(String id);
 	
-	@Query(value = "select r from RoomEntity r where r.room.id = ?1 and r.customersNum >= ?2")
+	@Query(value = "select r from RoomEntity r where r.roomType.id = ?1 and r.customersNum >= ?2 and r.roomState not in ('USING', 'CHECKIN', 'DEPOSIT')")
 	public List<RoomEntity> findAllByIdRoomType(String idRoomType, int customersNum);
 	
 	@Modifying

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.entity.RoomEntity;
 
 public interface IRoomServ {

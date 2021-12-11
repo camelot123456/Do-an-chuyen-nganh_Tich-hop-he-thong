@@ -29,6 +29,24 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 			+ "or a.id like %?1%")
 	public Page<AccountEntity> search(String keyword, Pageable pageable);
 
+//	select * from account a inner join account_role ar on a.id = ar.id inner join [role] r on r.id = ar.id_role 
+//			where a.auth_provider = 'LOCAL' and r.code = 'MEMBER' and a.name like N'%?1%' or a.username like N'%?1%' or a.phone_num like N'%?1%' or a.email like N'%?1%' or a.id like N'%?1%' 
+//			or a.auth_provider = 'FACEBOOK' and r.code = 'MEMBER' and a.name like N'%?1%' or a.username like N'%?1%' or a.phone_num like N'%?1%' or a.email like N'%?1%' or a.id like N'%?1%'  
+//			or a.auth_provider = 'GOOGLE' and r.code = 'MEMBER' and a.name like N'%?1%' or a.username like N'%?1%' or a.phone_num like N'%?1%' or a.email like N'%?1%' or a.id like N'%?1%'  
+	@Query(value = "select * from account a inner join account_role ar on a.id = ar.id inner join [role] r on r.id = ar.id_role "
+			+ "where a.auth_provider = 'LOCAL' and r.code = 'MEMBER' and a.name like N'%?1%' or a.username like N'%?1%' or a.phone_num like N'%?1%' or a.email like N'%?1%' or a.id like N'%?1%' "
+			+ "or a.auth_provider = 'FACEBOOK' and r.code = 'MEMBER' and a.name like N'%?1%' or a.username like N'%?1%' or a.phone_num like N'%?1%' or a.email like N'%?1%' or a.id like N'%?1%' "
+			+ "or a.auth_provider = 'GOOGLE' and r.code = 'MEMBER' and a.name like N'%?1%' or a.username like N'%?1%' or a.phone_num like N'%?1%' or a.email like N'%?1%' or a.id like N'%?1%' ", 
+			nativeQuery = true)
+	public Page<AccountEntity> searchCustomer(String keyword, Pageable pageable);
+	
+	@Query(value = "select * from account a inner join account_role ar on a.id = ar.id inner join [role] r on r.id = ar.id_role "
+			+ "where a.auth_provider = 'LOCAL' and r.code = 'MEMBER' "
+			+ "or a.auth_provider = 'FACEBOOK' and r.code = 'MEMBER' "
+			+ "or a.auth_provider = 'GOOGLE' and r.code = 'MEMBER' ", 
+			nativeQuery = true)
+	public Page<AccountEntity> findAllCustomer(Pageable pageable);
+	
 	@Modifying
 	@Transactional
 	@Query(value = "update AccountEntity a set "
@@ -59,6 +77,14 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 		);
 	
 	public Boolean existsByUsername(String username);
+	
+//	@Query(value = "select c from AccountEntity c where and "
+//			+ "or c.name like %?1% "
+//			+ "or c.email like %?1% "
+//			+ "or c.phoneNum like %?1% "
+//			+ "or c.id like %?1% "
+//			+ "")
+//	public findAllCustomers(String keyword, Pageable pageable);
 	
 //	https://stackoverflow.com/questions/31857491/custom-query-in-spring-jpa-repository-with-pagination
 //	@Query(value = "select a from AccountEntity a where a.authProvier=''")

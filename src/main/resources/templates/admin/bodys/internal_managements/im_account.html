@@ -70,12 +70,15 @@
                 <th:block th:each="account, state : ${accounts}">
                     <tr style="line-height: 50px;" th:id="@{'tag-tr-'+${account.id}}">
                         <td class="row-checkbox">
-                            <input class="form-check-input checkbox-all" th:id="@{'checkbox-' + ${account.id}}" type="checkbox" value="">
+                            <!-- <input class="form-check-input checkbox-all" th:id="@{'checkbox-' + ${account.id}}"
+                                type="checkbox" value=""> -->
+                            <input class="form-check-input checkbox-all" th:id="${account.id}"
+                                type="checkbox" value="">
                         </td>
                         <th scope="row">[[${state.count}]]</th>
                         <th scope="row">[[${account.id}]]</th>
                         <td>
-                            <img class="rounded-circle" style="width: 50px;" th:src="${account.avatar}" />
+                            <img class="rounded-circle" style="width: 50px;" th:src="${account.getAvatar()}" />
                         </td>
                         <td>[[${account.name}]]</td>
                         <td>[[${account.authProvider}]]</td>
@@ -87,7 +90,9 @@
                         <td class="text-center">
                             <a th:href="@{/admin/internal-managements/account/{id}(id=${account.id})}"
                                 class="btn btn-sm btn-info">Xem</a>
-                            <button class="btn btn-sm btn-danger btn-del" th:id="@{'btn-del-' + ${account.id}}">Xóa</button>
+                            <button class="btn btn-sm btn-danger btn-del" th:id="${account.id}">Xóa</button>
+                            <!-- <button class="btn btn-sm btn-danger btn-del"
+                                th:id="@{'btn-del-' + ${account.id}}">Xóa</button> -->
                         </td>
                     </tr>
                 </th:block>
@@ -170,7 +175,7 @@
         var btnDels = Array.from($$('.btn-del'))
 
         //Hàm gọi api
-        function fetchAPI(url, method, body, redirect) {
+        function fetchAPI(url, method, body) {
             fetch(url, {
                 method,
                 body: JSON.stringify(body),
@@ -182,7 +187,9 @@
                 .then(resp => {
                     resp.json()
                     if (resp.status === 200) {
-                        window.location.href = redirect
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
                     } else {
                         alert('Fail Validate!')
                     }
@@ -198,7 +205,6 @@
         btnDels.forEach((element) => {
             element.addEventListener('click', (e) => {
                 var k = confirm("Bạn có muốn xóa tài khoản này không ?")
-                console.log(k)
                 var ids = [e.target.id]
 
                 var account = { ids };
@@ -206,8 +212,7 @@
                     fetchAPI(
                         `/admin/internal-managements/accounts/tran`,
                         'DELETE',
-                        account,
-                        `/admin/internal-managements/account`
+                        account
                     )
                 } else return
             })
@@ -273,8 +278,7 @@
                             fetchAPI(
                                 `/admin/internal-managements/accounts/tran`,
                                 `DELETE`,
-                                account,
-                                `http://localhost:8081/admin/internal-managements/account`
+                                account
                             )
                         } else return
                     })
@@ -291,9 +295,9 @@
             }
         }
 
-        $('#checkbox-ADMIN').remove();
-        $('#btn-del-ADMIN').remove();
-        $('#tag-tr-ADMIN').style.backgroundColor = '#fecba1'
+        // $('#checkbox-ADMIN').remove();
+        // $('#btn-del-ADMIN').remove();
+        // $('#tag-tr-ADMIN').style.backgroundColor = '#fecba1'
 
     </script>
 </th:block>

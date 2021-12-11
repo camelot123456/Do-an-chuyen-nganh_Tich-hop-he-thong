@@ -136,7 +136,7 @@
 
         //Tạo hàm gọi api
 
-        function fetchAPI(url, method, body, redirect) {
+        function fetchAPI(url, method, body) {
 
             fetch(url, {
                 method: method,
@@ -144,7 +144,9 @@
             })
                 .then(resp => {
                     if (resp.status === 200) {
-                        window.location.href = redirect
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
                     } else {
                         alert("Fail Validate!")
                     }
@@ -173,8 +175,7 @@
             fetchAPI(
                 '/admin/internal-managements/role/tran',
                 'PUT',
-                formData,
-                `/admin/internal-managements/role/${formData.get('id')}`)
+                formData)
         })
 
 
@@ -195,11 +196,8 @@
             fetchAPI(
                 `/admin/internal-managements/role/tran`,
                 'DELETE',
-                formData,
-                `/admin/internal-managements/role`)
+                formData)
         })
-
-
 
     </script>
 </th:block>
