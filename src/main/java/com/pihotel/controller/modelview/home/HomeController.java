@@ -20,7 +20,6 @@ import com.pihotel.service.IInvoiceServ;
 import com.pihotel.service.IRoomTypeServ;
 import com.pihotel.service.IServiceServ;
 
-import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.utility.RandomString;
 
 @Controller

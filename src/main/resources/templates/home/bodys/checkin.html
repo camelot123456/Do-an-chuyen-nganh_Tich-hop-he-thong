@@ -215,11 +215,12 @@
                     <div class="hstack gap-3">
                         <div class="form-floating w-50">
                             <input type="date" class="form-control" id="birthday" placeholder="Ngày sinh"
-                                name="birthday">
+                                name="birthday" th:value="${customer != null} ? ${#dates.format(customer.birthday, 'yyyy-MM-dd')} : ''">
                             <label for="birthday">Ngày sinh</label>
                             <p class="text-danger text-center" id="birthday-message" style="font-size: 12px"></p>
                         </div>
                         <div class=" form-floating w-50">
+                            <input id="customer-gender" type="hidden" th:value="${customer.gender}">
                             <select class="form-select form-select-gender" id="gender"
                                 aria-label="Floating label select example" name="gender">
                                 <option value="">Chọn giới tính</option>
@@ -268,6 +269,15 @@
         var numServices = Array.from($$('#num-service'))
         var serviceBox = Array.from($$('.service-box'))
         var servicesCart = $('#services-cart')
+
+        var formSelectgender = $('.form-select-gender')
+        var customerGender = $('#customer-gender')
+
+        if (customerGender.value == 'true') {
+            formSelectgender.selectedIndex = '1'
+        } else if (customerGender.value == 'false') {
+            formSelectgender.selectedIndex = '2'
+        }
 
         serviceBox.forEach((element) => {
             element.addEventListener('change', (e) => {
