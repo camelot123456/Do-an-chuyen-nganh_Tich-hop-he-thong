@@ -33,10 +33,10 @@ public class RoleEntity extends AbstractEntity{
 	@Column(name = "[CODE]", columnDefinition = "varchar(128) not null unique")
 	private String code;
 	
-	@Column(name = "[DESCRIPTION]", columnDefinition = "ntext")
+	@Column(name = "[DESCRIPTION]", columnDefinition = "nvarchar(max)")
 	private String description;
 	
-	@Column(name = "[LOGO]", columnDefinition = "ntext")
+	@Column(name = "[LOGO]", columnDefinition = "nvarchar(max)")
 	private String logo;
 	
 	@ManyToMany(mappedBy = "roles")

@@ -1,0 +1,301 @@
+<th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
+    <div class="vstack gap-3">
+        <h3>Quản lý phòng</h3>
+        <hr>
+        <div class="border rounded-3 shadow bg-light p-3">
+            <div class="hstack gap-3 mb-3" id="reduce-room">
+                <!-- code ở dưới script -->
+            </div>
+
+            <div class="hstack gap-3 d-flex justify-content-between">
+                <div class="hstack gap-4 w-50">
+                    <div class="btn-group w-25">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Tầng (8)
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Tất cả</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Tầng 1</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 2</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 3</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 4</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 5</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 6</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group  w-25">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Loại phòng (6)
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Tất cả</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group w-25">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Sắp xếp
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Tất cả</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 1</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 2</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 3</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 4</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 5</a></li>
+                            <li><a class="dropdown-item" href="#">Tầng 6</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group  w-25">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Chiều
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Tăng dần</a></li>
+                            <li><a class="dropdown-item" href="#">Giảm dần</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <form class="input-group" id="form-search" style="width: 40%;" required>
+                    <input type="hidden" name="sortField" th:value="${sortField}">
+                    <input type="hidden" name="sortDir" th:value="${sortDir}">
+                    <input type="text" class="form-control form-control-sm" placeholder="Tìm kiếm ..."
+                        aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword"
+                        th:value="${keyword}">
+                    <button class="btn btn-outline-primary btn-sm" type="submit">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <div class="mb-3 p-3 border shadow rounded-3">
+            <div class="row g-4 mb-3" id="table-room">
+                <!-- code ở script -->
+            </div>
+
+            <!-- Xử lý phân trang -->
+            <div class="hstack gap-3 d-flex justify-content-between" id="pageable-room">
+                <!-- code ở script -->
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <script>
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        var tableRoom = $('#table-room')
+        var reduceRoom = $('#reduce-room')
+        var pageableRoom = $('#pageable-room')
+
+        //Hàm gọi api
+        function fetchAPI(url, method, body) {
+            fetch(url, {
+                method,
+                body: JSON.stringify(body),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(resp => {
+                    resp.json()
+                    if (resp.status === 200) {
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
+                    } else {
+                        alert('Fail Validate!')
+                    }
+                })
+                .catch(err => alert('Error!'))
+        }
+
+        function renderRoomList(rooms) {
+            var countEmpty = countRepair = countUsing = countCheckin = countCheckout = countDeposit = 0
+            var features = ''
+
+            tableRoom.innerHTML = ''
+
+            rooms.map((room, i) => {
+                var roomState = ''
+                if (room.roomState == 'EMPTY') {
+                    colorState = '#0d6efd'
+                    countEmpty++
+                    features = `
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="checkin"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+                        `
+                } else if (room.roomState == 'REPAIR') {
+                    colorState = '#6c757d'
+                    countRepair++
+                    features = ``
+                } else if (room.roomState == 'USING') {
+                    colorState = '#198754'
+                    countUsing++
+                    features = `
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="checkout"><i class="fa fa-sign-out"
+                            aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="dịch vụ"><i class="fa fa-diamond"
+                            aria-hidden="true"></i></a>
+                        `
+                } else if (room.roomState == 'CHECKIN') {
+                    colorState = '#087990'
+                    countCheckin++
+                    features = `
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark btn-sm text-light btn-cancel" id="${room.id}" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
+                        `
+                } else if (room.roomState == 'CHECKOUT') {
+                    colorState = '#984c0c'
+                    countCheckout++
+                    features = `
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark btn-sm text-light btn-cancel" id="${room.id}" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
+                        `
+                } else if (room.roomState == 'DEPOSIT') {
+                    colorState = '#8540f5'
+                    countDeposit++
+                    features = `
+                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="checkin"><i class="fa fa-sign-in"
+                            aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark btn-sm text-light btn-cancel" id="${room.id}" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
+                        `
+                }
+
+                tableRoom.innerHTML += `
+                    <div class="col-2">
+                        <div class="border rounded-3 vstack gap text-center p-2"
+                            style="font-size: 14px; color: white; background-color: ${colorState}; min-height: 260px;">
+                            <div class="hstack  d-flex justify-content-between">
+                                ${i}
+                                <div class="hstack gap-1">
+                                    <a class="btn btn-outline-dark btn-sm text-light" href="#"><i class="fa fa-refresh"
+                                            aria-hidden="true"></i></a>
+                                    <a class="btn btn-outline-dark btn-sm text-light" href="#"><i class="fa fa-floppy-o"
+                                            aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            <h5>${room.id}</h5>
+                            <p class="">${room.roomState}</p>
+                            <p class="">Bao Nguyen</p>
+                            <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-24 17:56:12.212</p>
+                            <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-28 17:56:12.212</p>
+                            <div class="hstack gap-3 d-flex justify-content-center">
+                                ${features}
+                            </div>
+                        </div>
+                    </div>
+                `
+                var btnCancel = Array.from($$('.btn-cancel'))
+
+                btnCancel.forEach((element) => {
+                    element.addEventListener('click', e => {
+                        var room = { id: element.id }
+                        fetchAPI(`/admin/room-managements/room/tran/handle-cancel`, `PUT`, room)
+                    })
+                })
+
+            })
+
+            reduceRoom.innerHTML = `
+                <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #0d6efd">Trống: ${countEmpty}</a>
+                <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #198754">Đang ở: ${countUsing}</a>
+                <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #8540f5">Đặt cọc: ${countDeposit}</a>
+                <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #087990">Checkin: ${countCheckin}</a>
+                <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #984c0c">Checkout: ${countCheckout}</a>
+                <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #6c757d">Sửa chữa: ${countRepair}</a>
+                    `
+        }
+
+        pageableRoom.innerHTML = `
+                <p>Số trang: 2 - Số phòng: 50 - Hiện tại: 1 - Sắp xếp:
+                    id - Chiều: asc</p>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item">
+                            <button class="page-link btn-pageable"
+                                name="/api/room/page/1?sortField=id&sortDir=asc&keyword">
+                                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                            </button>
+                        </li>
+
+                        <li class="page-item">
+                            <button class="page-link btn-pageable"
+                                name="/api/room/page/1?sortField=id&sortDir=asc&keyword=">
+                                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                            </button>
+                        </li>
+
+                        <li class="page-item">
+                            <button class="page-link btn-pageable"
+                                name="/api/room/page/1?sortField=id&sortDir=asc&keyword">1</a>
+                        </li>
+                        <li class="page-item">
+                            <button class="page-link btn-pageable"
+                                name="/api/room/page/2?sortField=id&sortDir=asc&keyword">2</a>
+                        </li>
+                        <li class="page-item">
+                            <button class="page-link btn-pageable"
+                                name="/api/room/page/3?sortField=id&sortDir=asc&keyword">3</a>
+                        </li>
+
+                        <li class="page-item">
+                            <button class="page-link btn-pageable"
+                                name="/api/room/page/1?sortField=id&sortDir=asc&keyword">
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </button>
+                        </li>
+                        
+                        <li class="page-item">
+                            <button class="page-link btn-pageable"
+                                name="/api/room/page/1?sortField=id&sortDir=asc&keyword">
+                                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>`
+
+        // http://localhost:8081/api/room/page/2?sortField=id&sortDir=asc&keyword
+        
+        var btnPageable = Array.from($$('.btn-pageable'))
+
+        btnPageable.forEach((element) => {
+            element.addEventListener('click', e => {
+                console.log(element.name)
+                fetchPage(element.name)
+            })
+        })
+
+        function fetchPage(url) {
+            fetch(url, {
+                method: 'GET',
+            })
+                .then(resp => resp.json())
+                .then(rooms => {
+                    renderRoomList(rooms)
+
+                })
+        }
+
+        fetchPage(`/api/room`)
+
+    </script>
+</th:block>

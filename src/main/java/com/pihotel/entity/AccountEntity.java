@@ -51,7 +51,7 @@ public class AccountEntity extends AbstractEntity {
 	@Column(name = "[EMAIL]", columnDefinition = "varchar(255) not null")
 	private String email;
 
-	@Column(name = "[AVATAR]", columnDefinition = "ntext")
+	@Column(name = "[AVATAR]", columnDefinition = "nvarchar(max)")
 	private String avatar;
 
 	@Column(name = "[ADDRESS]", columnDefinition = "nvarchar(255)")

@@ -194,6 +194,7 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		// TODO Auto-generated method stub
 		if (!accountRepo.existsById(customer.getId())) {
 			customer.setCreateAt(new Date());
+			customer.setModifiedAt(new Date());
 			return accountRepo.save(customer);
 		}
 		return null;

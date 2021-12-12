@@ -29,10 +29,10 @@ public class ServiceEntity extends AbstractEntity{
 	@Column(name = "[NAME]", columnDefinition = "nvarchar(64)")
 	private String name;
 	
-	@Column(name = "[IMAGE]", columnDefinition = "ntext")
+	@Column(name = "[IMAGE]", columnDefinition = "nvarchar(max)")
 	private String image;
 	
-	@Column(name = "[DESCRIPTION]", columnDefinition = "ntext")
+	@Column(name = "[DESCRIPTION]", columnDefinition = "nvarchar(max)")
 	private String description;
 	
 	@Column(name = "[PRICE]", columnDefinition = "float default 0")

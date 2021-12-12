@@ -37,4 +37,13 @@ public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 	@Query(value = "update RoomEntity r set r.roomState = ?1 where r.id = ?2")
 	public void updateRoomState(ERoomState state, String id);
 	
+	@Query("select r from RoomEntity r where r.floor = ?1 and r.roomType.id = ?2 and r.name like %?3% "
+			+ "or r.roomState like %?3% "
+			+ "or concat(r.area, '') like %?3% "
+			+ "or concat(r.customersNum, '') like %?3% "
+			+ "or concat(r.floor, '') like %?3% "
+			+ "or r.name like %?3% "
+			+ "or concat(r.priceIncurred, '') like %?3% ")
+	public Page<RoomEntity> searchWithFloorAndRoomType(Integer floor, String roomType, String keyword, Pageable pageable);
+	
 }

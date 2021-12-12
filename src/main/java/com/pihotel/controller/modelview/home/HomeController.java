@@ -2,8 +2,12 @@ package com.pihotel.controller.modelview.home;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +19,7 @@ import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.entity.RoomTypeEntity;
+import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.service.IAccountServ;
 import com.pihotel.service.IInvoiceServ;
 import com.pihotel.service.IRoomTypeServ;
@@ -44,11 +49,6 @@ public class HomeController {
 		return "home/bodys/home";
 	}
 	
-	@RequestMapping(value = "/home/checkin")
-	public String bookroom() {
-		return "home/bodys/checkin";
-	}
-	
 	@RequestMapping(value = "/home/room")
 	public String showRoomTypeList(Model model) {
 		model.addAttribute(SystemConstant.ROOMS_TYPE, roomTypeServ.findAll());
@@ -63,18 +63,20 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/home/checkin/invoice")
-	public String bookroomInvoice(Model model, 
+	public String bookroomInvoice(Model model,
 			@Param("idRoomType") String idRoomType, 
 			@Param("idInvoice") String idInvoice,
-			Principal principal) {
+			Principal principal,
+			HttpServletRequest request) {
 		
 		try {
-			AccountEntity customer = accountServ.findOneByUsername(principal.getName());
+			AccountEntity customer = (AccountEntity) request.getSession().getAttribute("account");
 			if (customer != null) {
 				model.addAttribute(SystemConstant.CUSTOMER, customer);
 			}
 		} catch (NullPointerException e) {
 			// TODO: handle exception
+			
 		}
 		
 		InvoiceEntity invoice = invoiceServ.findOneById(idInvoice);
@@ -91,6 +93,11 @@ public class HomeController {
 		model.addAttribute("TOTAL_PRICE_ALL", invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType) + invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType) * 0.05 + invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType) * 0.1);
 		
 		return "home/bodys/checkin";
+	}
+	
+	@RequestMapping(value = "/home/cart")
+	public String showCart() {
+		return "home/bodys/detail_room";
 	}
 	
 //	---------------------------------------POST---------------------------------------
@@ -111,6 +118,34 @@ public class HomeController {
 	}
 	
 //	---------------------------------------PUT---------------------------------------
+	
+	@RequestMapping(value = "/home/checkin/handle-invoice-no-account", method = RequestMethod.PUT, 
+			consumes = {"multipart/form-data", "application/json"})
+	public String doSaveInvoiceWithCustomer(@RequestPart("customer") AccountEntity customer,
+			@RequestPart("invoice") InvoiceEntity invoice,
+			HttpServletRequest request) {
+		try {
+			AccountEntity accountCustomer = (AccountEntity) request.getSession().getAttribute("account");
+			InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId());
+			invoiceNew.setAccount(accountCustomer);
+			invoiceNew.getRooms().forEach(room -> {
+				room.setRoomState(ERoomState.USING);
+			});
+			invoiceServ.update(invoiceNew);
+			return "redirect:/home/cart";
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			customer.setId(RandomString.make(12));
+			AccountEntity accountCustomer = accountServ.saveCustomer(customer);
+			InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId());
+			invoiceNew.setAccount(accountCustomer);
+			invoiceNew.getRooms().forEach(room -> {
+				room.setRoomState(ERoomState.USING);
+			});
+			invoiceServ.update(invoiceNew);
+			return "redirect:/home/cart";
+		}
+	}
 	
 //	---------------------------------------PATCH---------------------------------------
 	

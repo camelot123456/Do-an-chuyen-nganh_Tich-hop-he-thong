@@ -9,23 +9,30 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.RoomEntity;
+import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.service.IRoomServ;
+import com.pihotel.service.IRoomTypeServ;
 
 @Controller
 public class RoomController {
 
 	@Autowired
 	private IRoomServ roomServ;
+	
+	@Autowired
+	private IRoomTypeServ roomTypeServ;
 
 //	---------------------------------------GET---------------------------------------
 	
 	@RequestMapping(value = "/admin/room-managements/room")
 	public String roomRedirectPagination(Model model) {
-		return this.roomPagination(model, 1, "id", "asc", "");
+		return this.roomPagination(model, 1, "id", "asc", 1, "", "");
 	}
 	
 	@RequestMapping(value = "/admin/room-managements/room/page/{currentPage}")
@@ -33,9 +40,11 @@ public class RoomController {
 			@PathVariable("currentPage") int currentPage,
 			@Param("sortField") String sortField, 
 			@Param("sortDir") String sortDir, 
+			@Param("floor") int floor, 
+			@Param("roomType") String roomType,
 			@Param("keyword") String keyword) {
 
-		Page<RoomEntity> page = roomServ.findAll(currentPage, sortField, sortDir, keyword);
+		Page<RoomEntity> page = roomServ.searchWithFloorAndRoomType(floor, roomType, currentPage, sortField, sortDir, keyword);
 		String reverseSort = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("currentPage", (int) currentPage);
@@ -46,6 +55,7 @@ public class RoomController {
 		map.put("totalPage", (int) page.getTotalPages() < 1 ? 1 : page.getTotalPages());
 		map.put("totalElement", (int) page.getTotalElements());
 		map.put(SystemConstant.ROOMS, page.getContent());
+		map.put(SystemConstant.ROOMS_TYPE, roomTypeServ.findAll());
 
 		model.addAllAttributes(map);
 
@@ -55,6 +65,12 @@ public class RoomController {
 //	---------------------------------------POST---------------------------------------
 	
 //	---------------------------------------PUT---------------------------------------
+	
+	@RequestMapping(value = "/admin/room-managements/room/tran/handle-cancel", method = RequestMethod.PUT, consumes = "application/json")
+	public String doCancelUpdateRoomState(@RequestBody RoomEntity room) {
+		roomServ.updateRoomState(ERoomState.EMPTY, room.getId());
+		return "redirect:/admin/room-managements/room";
+	}
 	
 //	---------------------------------------PATCH---------------------------------------
 	

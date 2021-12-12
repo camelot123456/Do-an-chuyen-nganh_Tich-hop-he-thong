@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 import com.pihotel.entity.RoomEntity;
+import com.pihotel.entity.enums.ERoomState;
 
 public interface IRoomServ {
 
@@ -22,4 +23,7 @@ public interface IRoomServ {
 	
 	public List<RoomEntity> findAllByIdRoomType(String idRoomType, int customersNum);
 
+	public void updateRoomState(ERoomState state, String id);
+	
+	public Page<RoomEntity> searchWithFloorAndRoomType(Integer floor, String roomType, int numPage, String sortField, String sortDir, String keyword);
 }

@@ -40,7 +40,7 @@ public class RoomEntity extends AbstractEntity{
 	@Column(name = "[ROOM_STATE]", columnDefinition = "varchar(16) default 'EMPTY'")
 	private ERoomState roomState;
 	
-	@Column(name = "[DESCRIPTION]", columnDefinition = "ntext")
+	@Column(name = "[DESCRIPTION]", columnDefinition = "nvarchar(max)")
 	private String description;
 	
 	@Column(name = "[CUSTOMERS_NUM]", columnDefinition = "tinyint default 0")

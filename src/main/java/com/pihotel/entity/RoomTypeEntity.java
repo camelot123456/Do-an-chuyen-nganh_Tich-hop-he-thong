@@ -29,10 +29,10 @@ public class RoomTypeEntity extends AbstractEntity{
 	@Column(name = "[NAME]", columnDefinition = "nvarchar(100)")
 	private String name;
 	
-	@Column(name = "[DESCRIPTION]", columnDefinition = "ntext")
+	@Column(name = "[DESCRIPTION]", columnDefinition = "nvarchar(max)")
 	private String description;
 	
-	@Column(name = "[LOGO]", columnDefinition = "ntext")
+	@Column(name = "[LOGO]", columnDefinition = "nvarchar(max)")
 	private String logo;
 	
 	@Column(name = "[PRICE]", columnDefinition = "float default 0")

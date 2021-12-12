@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.pihotel.entity.RoomEntity;
+import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.repository.IRoomRepo;
 import com.pihotel.service.IRoomServ;
 
@@ -33,9 +34,23 @@ public class RoomServ implements IRoomServ{
 		// TODO Auto-generated method stub
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
-		Pageable pageable = PageRequest.of(numPage - 1, 42, sort);	
+		Pageable pageable = PageRequest.of(numPage - 1, 24, sort);	
 		if (keyword != null) {
 			return roomRepo.search(keyword, pageable);
+		}
+		return roomRepo.findAll(pageable);
+	}
+	
+
+	@Override
+	public Page<RoomEntity> searchWithFloorAndRoomType(Integer floor, String roomType, int numPage, String sortField, 
+			String sortDir, String keyword) {
+		// TODO Auto-generated method stub
+		Sort sort = Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		Pageable pageable = PageRequest.of(numPage - 1, 24, sort);	
+		if (keyword != null) {
+			return roomRepo.searchWithFloorAndRoomType(floor, roomType, keyword, pageable);
 		}
 		return roomRepo.findAll(pageable);
 	}
@@ -73,6 +88,12 @@ public class RoomServ implements IRoomServ{
 		}
 		else return null;
 	}
+
+	@Override
+	public void updateRoomState(ERoomState state, String id) {
+		// TODO Auto-generated method stub
+		roomRepo.updateRoomState(state, id);
+	}
 	
 //	---------------------------------------DELETE---------------------------------------
 
@@ -84,5 +105,4 @@ public class RoomServ implements IRoomServ{
 		}
 	}
 
-	
 }

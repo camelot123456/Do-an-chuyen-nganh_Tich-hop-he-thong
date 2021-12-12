@@ -19,12 +19,9 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Tầng 1</a></li>
-                            <li><a class="dropdown-item" href="#">Tầng 2</a></li>
-                            <li><a class="dropdown-item" href="#">Tầng 3</a></li>
-                            <li><a class="dropdown-item" href="#">Tầng 4</a></li>
-                            <li><a class="dropdown-item" href="#">Tầng 5</a></li>
-                            <li><a class="dropdown-item" href="#">Tầng 6</a></li>
+                            <th:block th:each="i : ${#numbers.sequence(1, 6)}">
+                                <li><a class="dropdown-item" href="#">Tầng [[${i}]]</a></li>
+                            </th:block>
                         </ul>
                     </div>
                     <div class="btn-group  w-25">
@@ -37,9 +34,9 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                            <th:block th:each="roomType, state : ${rooms_type}">
+                                <li><a class="dropdown-item" href="#">[[${roomType.name}]]</a></li>
+                            </th:block>
                         </ul>
                     </div>
                     <div class="btn-group w-25">
@@ -82,8 +79,31 @@
         </div>
         <hr>
         <div class="mb-3 p-3 border shadow rounded-3">
-            <div class="row g-4 mb-3" id="table-room">
-                <!-- code ở script -->
+            <div class="row g-4 mb-3">
+                <th:block th:each="room, state : ${rooms}">
+                    <div class="col-2">
+                        <div class="border rounded-3 vstack gap text-center p-2 room-box"
+                            style="font-size: 14px; color: white; min-height: 260px;">
+                            <div class="hstack  d-flex justify-content-between">
+                                [[${state.count}]]
+                                <div class="hstack gap-1">
+                                    <a class="btn btn-outline-dark btn-sm text-light" href="#"><i class="fa fa-refresh"
+                                            aria-hidden="true"></i></a>
+                                    <a class="btn btn-outline-dark btn-sm text-light" href="#"><i class="fa fa-floppy-o"
+                                            aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            <h5>[[${room.name}]]</h5>
+                            <p class="">[[${room.roomState}]]</p>
+                            <p class="">Bao Nguyen</p>
+                            <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-24 17:56:12.212</p>
+                            <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-28 17:56:12.212</p>
+                            <div class="hstack gap-3 d-flex justify-content-center features" th:title="${room.roomState}" th:id="${room.id}">
+
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
             </div>
 
             <!-- Xử lý phân trang -->
@@ -94,25 +114,25 @@
                     <ul class="pagination justify-content-end">
                         <li class="page-item disabled" th:if="${currentPage == 1}">
                             <a class="page-link"
-                                th:href="@{'/admin/internal-managements/account/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                th:href="@{'/admin/room-managements/room/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                                 <i class="fa fa-angle-double-left" aria-hidden="true"></i>
                             </a>
                         </li>
                         <li class="page-item" th:unless="${currentPage == 1}">
                             <a class="page-link"
-                                th:href="@{'/admin/internal-managements/account/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                th:href="@{'/admin/room-managements/room/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                                 <i class="fa fa-angle-double-left" aria-hidden="true"></i>
                             </a>
                         </li>
                         <li class="page-item disabled" th:if="${currentPage == 1}">
                             <a class="page-link"
-                                th:href="@{'/admin/internal-managements/account/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                th:href="@{'/admin/room-managements/room/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                                 <i class="fa fa-angle-left" aria-hidden="true"></i>
                             </a>
                         </li>
                         <li class="page-item" th:unless="${currentPage == 1}">
                             <a class="page-link"
-                                th:href="@{'/admin/internal-managements/account/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                th:href="@{'/admin/room-managements/room/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                                 <i class="fa fa-angle-left" aria-hidden="true"></i>
                             </a>
                         </li>
@@ -122,146 +142,94 @@
                             </li>
                             <li class="page-item" th:unless="${currentPage == i}">
                                 <a class="page-link"
-                                    th:href="@{'/admin/internal-managements/account/page/'+${i}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">[[${i}]]</a>
+                                    th:href="@{'/admin/room-managements/room/page/'+${i}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">[[${i}]]</a>
                             </li>
                         </th:block>
                         <li class="page-item disabled" th:if="${currentPage == totalPage}">
                             <a class="page-link"
-                                th:href="@{'/admin/internal-managements/account/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                th:href="@{'/admin/room-managements/room/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                                 <i class="fa fa-angle-right" aria-hidden="true"></i>
                             </a>
                         </li>
                         <li class="page-item" th:unless="${currentPage == totalPage}">
                             <a class="page-link"
-                                th:href="@{'/admin/internal-managements/account/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                th:href="@{'/admin/room-managements/room/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                                 <i class="fa fa-angle-right" aria-hidden="true"></i>
                             </a>
                         </li>
                         <li class="page-item disabled" th:if="${currentPage == totalPage}">
                             <a class="page-link"
-                                th:href="@{'/admin/internal-managements/account/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                th:href="@{'/admin/room-managements/room/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                                 <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                             </a>
                         </li>
                         <li class="page-item" th:unless="${currentPage == totalPage}">
                             <a class="page-link"
-                                th:href="@{'/admin/internal-managements/account/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                                th:href="@{'/admin/room-managements/room/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                                 <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                             </a>
                         </li>
                     </ul>
                 </nav>
             </div>
+
         </div>
-
-
     </div>
 
     <script>
         var $ = document.querySelector.bind(document)
         var $$ = document.querySelectorAll.bind(document)
 
-        var tableRoom = $('#table-room')
         var reduceRoom = $('#reduce-room')
+        var features = Array.from($$('.features'))
 
-        //Tạo hàm gọi api
-        function fetchAPI(url, method, body) {
-
-            fetch(url, {
-                method: method,
-                body: body
-            })
-                .then(resp => {
-                    if (resp.status === 200) {
-                        if (resp.redirected) {
-                            window.location.href = resp.url;
-                        }
-                    } else {
-                        alert("Fail Validate!")
-                    }
-                })
-                .catch(err => {
-                    alert("Error!")
-                })
-        }
-
-        function renderRoomList(rooms) {
-            var countEmpty = countRepair = countUsing = countCheckin = countCheckout = countDeposit = 0
-            var features = ''
-
-            rooms.map((room, i) => {
-                var roomState = ''
-                if (room.roomState == 'EMPTY') {
-                    colorState = '#0d6efd'
-                    countEmpty++
-                    features = `
+        var countEmpty = countRepair = countUsing = countCheckin = countCheckout = countDeposit = 0
+        features.forEach((element) => {
+            console.log(element.id)
+            if (element.title == 'EMPTY') {
+                element.parentElement.style.backgroundColor = '#0d6efd'
+                countEmpty++
+                element.innerHTML = `
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="checkin"><i class="fa fa-sign-in" aria-hidden="true"></i></a>
                         `
-                } else if (room.roomState == 'REPAIR') {
-                    colorState = '#6c757d'
-                    countRepair++
-                    features = ``
-                } else if (room.roomState == 'USING') {
-                    colorState = '#198754'
-                    countUsing++
-                    features = `
+            } else if (element.title == 'REPAIR') {
+                element.parentElement.style.backgroundColor = '#6c757d'
+                countRepair++
+                features.innerHTML = ``
+            } else if (element.title == 'USING') {
+                element.parentElement.style.backgroundColor = '#198754'
+                countUsing++
+                element.innerHTML = `
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="checkout"><i class="fa fa-sign-out"
                             aria-hidden="true"></i></a>
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="dịch vụ"><i class="fa fa-diamond"
                             aria-hidden="true"></i></a>
                         `
-                } else if (room.roomState == 'CHECKIN') {
-                    colorState = '#087990'
-                    countCheckin++
-                    features = `
+            } else if (element.title == 'CHECKIN') {
+                element.parentElement.style.backgroundColor = '#087990'
+                countCheckin++
+                element.innerHTML = `
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                        <a class="btn btn-outline-dark btn-sm text-light btn-cancel-room" id="" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark btn-sm text-light btn-cancel" id="${element.id}" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
                         `
-                } else if (room.roomState == 'CHECKOUT') {
-                    colorState = '#984c0c'
-                    countCheckout++
-                    features = `
+            } else if (element.title == 'CHECKOUT') {
+                element.parentElement.style.backgroundColor = '#984c0c'
+                countCheckout++
+                element.innerHTML = `
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="đặt"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark btn-sm text-light btn-cancel" id="${element.id}" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
                         `
-                } else if (room.roomState == 'DEPOSIT') {
-                    colorState = '#8540f5'
-                    countDeposit++
-                    features = `
+            } else if (element.title == 'DEPOSIT') {
+                element.parentElement.style.backgroundColor = '#8540f5'
+                countDeposit++
+                element.innerHTML = `
                         <a class="btn btn-outline-dark btn-sm text-light" href="#" title="checkin"><i class="fa fa-sign-in"
                             aria-hidden="true"></i></a>
-                        <a class="btn btn-outline-dark btn-sm text-light" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-dark btn-sm text-light btn-cancel" id="${element.id}" href="#" title="hủy"><i class="fa fa-ban" aria-hidden="true"></i></a>
                         `
-                }
-
-                tableRoom.innerHTML += `
-                    <div class="col-2">
-                        <div class="border rounded-3 vstack gap text-center p-2"
-                            style="font-size: 14px; color: white; background-color: ${colorState}; min-height: 260px;">
-                            <div class="hstack  d-flex justify-content-between">
-                                ${i}
-                                <div class="hstack gap-1">
-                                    <a class="btn btn-outline-dark btn-sm text-light" href="#"><i class="fa fa-refresh"
-                                            aria-hidden="true"></i></a>
-                                    <a class="btn btn-outline-dark btn-sm text-light" href="#"><i class="fa fa-floppy-o"
-                                            aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                            <h5>${room.id}</h5>
-                            <p class="">${room.roomState}</p>
-                            <p class="">Bao Nguyen</p>
-                            <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-24 17:56:12.212</p>
-                            <p class=""><i class="fa fa-calendar" aria-hidden="true"></i> 2021-08-28 17:56:12.212</p>
-                            <div class="hstack gap-3 d-flex justify-content-center">
-                                ${features}
-                            </div>
-                        </div>
-                    </div>
-                `
-            })
-
-            reduceRoom.innerHTML += `
+            }
+            reduceRoom.innerHTML = `
                 <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #0d6efd">Trống: ${countEmpty}</a>
                 <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #198754">Đang ở: ${countUsing}</a>
                 <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #8540f5">Đặt cọc: ${countDeposit}</a>
@@ -269,15 +237,39 @@
                 <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #984c0c">Checkout: ${countCheckout}</a>
                 <a href="#" class="btn text-light text-center border rounded-3 p-2 w-25 fs-6" style="background-color: #6c757d">Sửa chữa: ${countRepair}</a>
                     `
+        })
+
+        var btnCancel = Array.from($$('.btn-cancel'))
+
+        //Hàm gọi api
+        function fetchAPI(url, method, body) {
+            fetch(url, {
+                method,
+                body: JSON.stringify(body),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(resp => {
+                    resp.json()
+                    if (resp.status === 200) {
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
+                    } else {
+                        alert('Fail Validate!')
+                    }
+                })
+                .catch(err => alert('Error!'))
         }
 
-        fetch('http://localhost:8081/api/room', {
-            method: 'GET',
-        })
-            .then(resp => resp.json())
-            .then(rooms => {
-                renderRoomList(rooms)
-                
+        btnCancel.forEach((element) => {
+            element.addEventListener('click', e => {
+                var room = { id: element.id }
+                fetchAPI(`/admin/room-managements/room/tran/handle-cancel`, `PUT`, room)
             })
+        })
+
     </script>
 </th:block>
