@@ -18,4 +18,14 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			+ "group by rt.price", 
 			nativeQuery = true)
 	public Double getSumPriceIncurredAndPriceRoomType(String idInvoice, String idRoomType);
+	
+	@Query(value = "select sum(r.price_incurred) "
+			+ "from invoice i inner join invoice_room ir "
+			+ "on i.id = ir.id_invoice inner join room r "
+			+ "on ir.id_room = r.id inner join room_type rt "
+			+ "on r.id_room_type = rt.id "
+			+ "where i.id = ?1", 
+			nativeQuery = true)
+	public Double getSumPriceIncurred(String idInvoice);
+
 }

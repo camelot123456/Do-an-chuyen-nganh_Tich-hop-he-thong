@@ -48,6 +48,11 @@ public class InvoiceServ implements IInvoiceServ {
 	}
 	
 
+	@Override
+	public Double getSumPriceIncurred(String idInvoice) {
+		// TODO Auto-generated method stub
+		return invoiceRepo.getSumPriceIncurred(idInvoice);
+	}
 
 	@Override
 	public Double getSumPriceIncurredAndPriceRoomType(String idInvoice, String idRoomType) {
@@ -128,5 +133,6 @@ public class InvoiceServ implements IInvoiceServ {
 			invoiceRepo.deleteById(id);
 		}
 	}
+
 
 }

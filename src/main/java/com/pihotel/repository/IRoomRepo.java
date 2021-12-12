@@ -36,4 +36,5 @@ public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 	@Transactional
 	@Query(value = "update RoomEntity r set r.roomState = ?1 where r.id = ?2")
 	public void updateRoomState(ERoomState state, String id);
+	
 }
