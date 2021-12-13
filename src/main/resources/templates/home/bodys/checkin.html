@@ -2,13 +2,14 @@
     <form class="container" id="form-invoice" enctype="multipart/form-data">
         <h3 class="text-primary" style="margin-top: 200px">CHI TIẾT ĐẶT PHÒNG</h3>
         <hr>
+
         <div class="hstack gap-3">
             <div class="vstack gap-3" style="width: 35%">
                 <div class="border p-3 rounded-3 bg-light shadow">
                     <h3 class="text-decoration-underline">CHI TIẾT HÓA ĐƠN</h3>
                     <h5>Phòng được chọn</h5>
                     <p>Mã hóa đơn: [[${invoice.id}]]</p>
-                    <input type="hidden" value="${invoice.id}" name="id-invoice">
+                    <input type="hidden" th:value="${invoice.id}" name="id-invoice">
                     <div class="hstack gap-3 mt-4">
                         <div style="width: 40%">
                             <a href="#">
@@ -339,11 +340,12 @@
                 </div>
 
                 <div class="hstack gap-3 d-flex justify-content-center mt-4">
-                    <a href="/home/room" class="btn btn-secondary btn-lg">Đổi phòng</a>
-                    <a href="/home/cart" id="btn-pay" class="btn btn-primary btn-lg">Thanh toán</a>
+                    <a href="#" id="btn-change" class="btn btn-secondary btn-lg">Đổi phòng</a>
+                    <a href="#" id="btn-pay" class="btn btn-primary btn-lg">Thanh toán</a>
                 </div>`
 
                 var btnPay = $('#btn-pay')
+                var btnChange = $('#btn-change')
 
                 btnPay.addEventListener('click', (e) => {
                     var formData = new FormData(formInvoice);
@@ -364,6 +366,21 @@
 
                     fetchAPI(`/home/checkin/handle-invoice-no-account`, 'PUT', formData)
                 })
+
+                btnChange.addEventListener('click', (e) => {
+                    var formData = new FormData(formInvoice);
+                    var ids = [] 
+
+                    ids.push(formData.get('id-invoice'))
+
+                    formData.append('invoice', new Blob([JSON.stringify({
+                        'id': formData.get('id-invoice'),
+                        'ids': ids
+                    })], { type: 'application/json' }))
+                    
+                    fetchAPI(`/home/checkin/handle-change-room`, 'DELETE', formData)
+                })
+
             } else {
                 formPaypal.innerHTML = `<h5 class="mt-4">Sắp ra mắt. Vui lòng chọn hình thức thanh toán khác</h5>`
             }

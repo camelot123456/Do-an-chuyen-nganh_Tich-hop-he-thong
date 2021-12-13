@@ -25,5 +25,7 @@ public interface IRoomServ {
 
 	public void updateRoomState(ERoomState state, String id);
 	
-	public Page<RoomEntity> searchWithFloorAndRoomType(Integer floor, String roomType, int numPage, String sortField, String sortDir, String keyword);
+	public Page<RoomEntity> searchWithFloorAndRoomType(String floor, String roomType, int numPage, String sortField, String sortDir, String keyword);
+	
+	public int maxFloor();
 }

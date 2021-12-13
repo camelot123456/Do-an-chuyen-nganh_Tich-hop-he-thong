@@ -43,7 +43,7 @@ public class RoomServ implements IRoomServ{
 	
 
 	@Override
-	public Page<RoomEntity> searchWithFloorAndRoomType(Integer floor, String roomType, int numPage, String sortField, 
+	public Page<RoomEntity> searchWithFloorAndRoomType(String floor, String roomType, int numPage, String sortField, 
 			String sortDir, String keyword) {
 		// TODO Auto-generated method stub
 		Sort sort = Sort.by(sortField);
@@ -65,6 +65,12 @@ public class RoomServ implements IRoomServ{
 	public List<RoomEntity> findAllByIdRoomType(String idRoomType, int customersNum) {
 		// TODO Auto-generated method stub
 		return roomRepo.findAllByIdRoomType(idRoomType, customersNum);
+	}
+	
+	@Override
+	public int maxFloor() {
+		// TODO Auto-generated method stub
+		return roomRepo.maxFloor();
 	}
 	
 //	---------------------------------------INSERT---------------------------------------
@@ -104,5 +110,7 @@ public class RoomServ implements IRoomServ{
 			roomRepo.deleteById(id);
 		}
 	}
+
+	
 
 }

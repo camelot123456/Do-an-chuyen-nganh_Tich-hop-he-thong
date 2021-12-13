@@ -32,7 +32,7 @@ public class RoomController {
 	
 	@RequestMapping(value = "/admin/room-managements/room")
 	public String roomRedirectPagination(Model model) {
-		return this.roomPagination(model, 1, "id", "asc", 1, "", "");
+		return this.roomPagination(model, 1, "id", "asc", "");
 	}
 	
 	@RequestMapping(value = "/admin/room-managements/room/page/{currentPage}")
@@ -40,11 +40,9 @@ public class RoomController {
 			@PathVariable("currentPage") int currentPage,
 			@Param("sortField") String sortField, 
 			@Param("sortDir") String sortDir, 
-			@Param("floor") int floor, 
-			@Param("roomType") String roomType,
 			@Param("keyword") String keyword) {
 
-		Page<RoomEntity> page = roomServ.searchWithFloorAndRoomType(floor, roomType, currentPage, sortField, sortDir, keyword);
+		Page<RoomEntity> page = roomServ.findAll(currentPage, sortField, sortDir, keyword);
 		String reverseSort = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("currentPage", (int) currentPage);
@@ -56,7 +54,10 @@ public class RoomController {
 		map.put("totalElement", (int) page.getTotalElements());
 		map.put(SystemConstant.ROOMS, page.getContent());
 		map.put(SystemConstant.ROOMS_TYPE, roomTypeServ.findAll());
-
+		map.put("MAX_FLOOR", roomServ.maxFloor());
+		map.put("COUNT_ROOMTYPE", roomTypeServ.findAll().stream().count());
+		map.put("COUNT_ROOM", roomServ.findAll().stream().count());
+		
 		model.addAllAttributes(map);
 
 		return "admin/bodys/room_managements/rm_room";
@@ -69,6 +70,12 @@ public class RoomController {
 	@RequestMapping(value = "/admin/room-managements/room/tran/handle-cancel", method = RequestMethod.PUT, consumes = "application/json")
 	public String doCancelUpdateRoomState(@RequestBody RoomEntity room) {
 		roomServ.updateRoomState(ERoomState.EMPTY, room.getId());
+		return "redirect:/admin/room-managements/room";
+	}
+	
+	@RequestMapping(value = "/admin/room-managements/room/tran/handle-repair", method = RequestMethod.PUT, consumes = "application/json")
+	public String doRepairUpdateRoomState(@RequestBody RoomEntity room) {
+		roomServ.updateRoomState(ERoomState.REPAIR, room.getId());
 		return "redirect:/admin/room-managements/room";
 	}
 	

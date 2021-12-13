@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -22,6 +23,7 @@ import com.pihotel.entity.RoomTypeEntity;
 import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.service.IAccountServ;
 import com.pihotel.service.IInvoiceServ;
+import com.pihotel.service.IRoomServ;
 import com.pihotel.service.IRoomTypeServ;
 import com.pihotel.service.IServiceServ;
 
@@ -41,6 +43,9 @@ public class HomeController {
 	
 	@Autowired
 	private IAccountServ accountServ;
+	
+	@Autowired
+	private IRoomServ roomServ;
 	
 //	---------------------------------------GET---------------------------------------	
 	
@@ -97,7 +102,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/home/cart")
 	public String showCart() {
-		return "home/bodys/detail_room";
+		return "home/bodys/cart";
 	}
 	
 //	---------------------------------------POST---------------------------------------
@@ -118,7 +123,10 @@ public class HomeController {
 	}
 	
 //	---------------------------------------PUT---------------------------------------
-	
+//	Chưa hoàn tất
+//	Chưa hoàn tất
+//	Chưa hoàn tất
+//	Chưa hoàn tất
 	@RequestMapping(value = "/home/checkin/handle-invoice-no-account", method = RequestMethod.PUT, 
 			consumes = {"multipart/form-data", "application/json"})
 	public String doSaveInvoiceWithCustomer(@RequestPart("customer") AccountEntity customer,
@@ -150,4 +158,23 @@ public class HomeController {
 //	---------------------------------------PATCH---------------------------------------
 	
 //	---------------------------------------DELETE---------------------------------------
+	
+	@RequestMapping(value = "/home/checkin/handle-change-room", method = RequestMethod.DELETE, consumes = {"multipart/form-data","application/json"})
+	public String doDeleteInvoice(@RequestPart("invoice") InvoiceEntity invoice, Principal principal) {
+		try {
+			if (accountServ.findOneByUsername(principal.getName()) != null) {
+				return "redirect:/home/room";
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+		}
+		
+		InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId());
+		invoiceNew.getRooms().forEach(room -> {
+			roomServ.updateRoomState(ERoomState.EMPTY, room.getId());
+		});
+		invoiceServ.delete(invoice.getIds());
+		return "redirect:/home/room";
+	}
+	
 }
