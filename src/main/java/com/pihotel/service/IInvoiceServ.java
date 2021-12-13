@@ -24,4 +24,7 @@ public interface IInvoiceServ {
 	public Double getSumPriceIncurredAndPriceRoomType(String idInvoice, String idRoomType);
 	
 	public Double getSumPriceIncurred(String idInvoice);
+	
+	public List<Object[]> findAllByIdCustomer(String idCustomer);
+	
 }

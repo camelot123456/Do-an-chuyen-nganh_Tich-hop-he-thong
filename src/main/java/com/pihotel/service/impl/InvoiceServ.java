@@ -60,6 +60,12 @@ public class InvoiceServ implements IInvoiceServ {
 		return invoiceRepo.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType);
 	}
 
+	@Override
+	public List<Object[]> findAllByIdCustomer(String idCustomer) {
+		// TODO Auto-generated method stub
+		return invoiceRepo.findAllByIdCustomer(idCustomer);
+	}
+
 //	---------------------------------------INSERT---------------------------------------
 
 	@Override
@@ -133,6 +139,5 @@ public class InvoiceServ implements IInvoiceServ {
 			invoiceRepo.deleteById(id);
 		}
 	}
-
 
 }

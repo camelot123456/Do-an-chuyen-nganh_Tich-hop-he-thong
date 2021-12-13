@@ -6,7 +6,7 @@
         <div>
             <div class="hstack gap-3" th:if="${session.account == null}">
 
-                <a href="#" class="">
+                <a href="/cart/redirect" class="">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                 </a>
 
@@ -23,6 +23,11 @@
                 </a>
             </div>
             <div class="hstack gap-3" th:unless="${session.account == null}">
+
+                <a th:href="@{'/cart?idCustomer='+${session.account.id}}" class="">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                </a>
+
                 <div class="">
                     <a href="#" class="position-relative">
                         <i class="fa fa-bell" aria-hidden="true"></i>

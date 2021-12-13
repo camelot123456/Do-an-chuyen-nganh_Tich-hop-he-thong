@@ -1,5 +1,7 @@
 package com.pihotel.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -28,4 +30,11 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			nativeQuery = true)
 	public Double getSumPriceIncurred(String idInvoice);
 
+	@Query(value = "select i.* "
+			+ "from invoice i inner join invoice_room ir "
+			+ "on i.id = ir.id_invoice inner join room r "
+			+ "on ir.id_room = r.id "
+			+ "where i.id_account = ?1 and r.room_state = 'CHECKIN'",
+			nativeQuery = true)
+	public List<Object[]> findAllByIdCustomer(String idCustomer);
 }

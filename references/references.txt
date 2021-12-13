@@ -72,6 +72,7 @@ check
 
 tài liệu:
 
+selecting specific columns: https://www.appsdeveloperblog.com/specific-columns-jpa-native-query/
 
 Booking room: http://booking.muongthanh.com/
 			: https://mytour.vn/khach-san/831-intercontinental-da-nang-sun-peninsula-resort.html?checkIn=05-12-2021&checkOut=06-12-2021&adults=2&rooms=1&children=0&priceKey=%2Bkhj4MYg%2F5r5HmcH20gllef89C8d3gmKSy5tde3JzCq2pbKaJq0lZXE%2F49BJFJMKDSlcVPKO168%3D
