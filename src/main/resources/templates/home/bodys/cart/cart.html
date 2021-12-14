@@ -1,0 +1,182 @@
+<th:block layout:fragment="content" layout:decorate="~{home/layouts/index}">
+    <div class="container">
+
+        <h3 class="text-primary" style="margin-top: 200px">THÔNG TIN GIỎ HÀNG</h3>
+        <hr>
+
+        <form class="hstack gap-3" enctype="multipart/form-data" id=form-cart>
+            <div class="vstack gap-3 w-75">
+                <div class="vstack gap-3 border shadow p-3" style="overflow: scroll; height: 350px;">
+                    <h5 class="text-decoration-underline">GIỎ HÀNG</h5>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Mã hóa đơn</th>
+                                <th scope="col">Ngày đặt</th>
+                                <th scope="col">Ngày trả</th>
+                                <th scope="col">Người lớn</th>
+                                <th scope="col">Trẻ em</th>
+                                <th scope="col">Tổng giá</th>
+                                <th scope="col" class="text-end">Công cụ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <th:block th:if="${carts == null}">
+                                <tr>
+                                    <th colspan="8">
+                                        <p class="text-center fs-6" style="line-height: 40px; margin-bottom: 0px;">
+                                            Giỏ hàng trống. <a href="/home/room">Đi đặt phòng.</a>
+                                        </p>
+                                    </th>
+                                </tr>
+                            </th:block>
+                            <th:block th:each="cart, state : ${carts}">
+                                <tr>
+                                    <th scope="row">[[${state.count}]]</th>
+                                    <td>[[${cart.id}]]</td>
+                                    <td th:text="${#dates.format(cart.startDate, 'dd-MM-yyyy')}"></td>
+                                    <td th:text="${#dates.format(cart.endDate, 'dd-MM-yyyy')}"></td>
+                                    <td>[[${cart.adults}]]</td>
+                                    <td>[[${cart.children}]]</td>
+                                    <td>[[${cart.totalPriceAll}]]$</td>
+                                    <td class="text-end">
+                                        <a th:href="@{'/home/checkin/invoice?idRoomType='+${cart.idRoomType}+'&idInvoice='+${cart.id}}"
+                                            class="btn btn-sm btn-info">Xem</a>
+                                        <button class="btn btn-sm btn-danger btn-del-cart"
+                                            th:id="${cart.id}">Xóa</button>
+                                    </td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="vstack gap-3 border shadow p-3" style="overflow: scroll; height: 350px;">
+                    <h5 class="text-decoration-underline">LỊCH SỬ ĐẶT PHÒNG</h5>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Mã hóa đơn</th>
+                                <th scope="col">Ngày đặt</th>
+                                <th scope="col">Ngày trả</th>
+                                <th scope="col">Người lớn</th>
+                                <th scope="col">Trẻ em</th>
+                                <th scope="col">Tổng giá</th>
+                                <th scope="col" class="text-end">Công cụ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <th:block th:if="${carts_history == null}">
+                                <tr>
+                                    <th colspan="8">
+                                        <p class="text-center fs-6" style="line-height: 40px; margin-bottom: 0px;">
+                                            Lịch sử đặt phòng trống. <a href="/home/room">Đi đặt phòng.</a>
+                                        </p>
+                                    </th>
+                                </tr>
+                            </th:block>
+                            <th:block th:each="history, state : ${carts_history}">
+                                <tr>
+                                    <th scope="row">[[${state.count}]]</th>
+                                    <td>[[${history.id}]]</td>
+                                    <td th:text="${#dates.format(history.startDate, 'dd-MM-yyyy')}"></td>
+                                    <td th:text="${#dates.format(history.endDate, 'dd-MM-yyyy')}"></td>
+                                    <td>[[${history.adults}]]</td>
+                                    <td>[[${history.children}]]</td>
+                                    <td>[[${history.totalPriceAll}]]$</td>
+                                    <td class="text-end">
+                                        <a th:href="@{'/home/checkin/invoice/history?idRoomType='+${history.idRoomType}+'&idInvoice='+${history.id}}"
+                                            class="btn btn-sm btn-info">Xem</a>
+                                        <button class="btn btn-sm btn-danger btn-del-cart-history"
+                                            th:id="${history.id}">Xóa</button>
+                                    </td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="vstack gap-3 border shadow w-25 p-3">
+                <div class="d-flex justify-content-center p-3">
+                    <a href="#">
+                        <img style="width:140px" class="rounded-circle" th:src="${customer.avatar}" alt="">
+                    </a>
+                </div>
+                <input type="hidden" name="id-customer" id="id-customer" th:value="${customer.id}">
+                <p>Tên: [[${customer.name}]]</p>
+                <p>Vai trò: Khách</p>
+                <p>Id: [[${customer.id}]]</p>
+                <p>Email: [[${customer.email}]]</p>
+                <p>Địa chỉ: [[${customer.address}]]</p>
+                <p th:text="${customer.gender} == 'true' ? 'Giới tính: Name' : 'Giới tính: Nữ'"></p>
+                <p th:text="@{'Ngày sinh: ' + ${#dates.format(customer.birthday, 'dd-MM-yyyy')}}"></p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        //Tạo hàm gọi api
+        function fetchAPI(url, method, body) {
+            fetch(url, {
+                method: method,
+                body: body
+            })
+                .then(resp => {
+                    if (resp.status === 200) {
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
+                    } else {
+                        alert("Fail Validate!")
+                    }
+                })
+                .catch(err => {
+                    alert("Error!")
+                })
+        }
+
+        var btnDelCart = Array.from($$('.btn-del-cart'))
+        var btnDelCartHistory = Array.from($$('.btn-del-cart-history'))
+        var formCart = $('#form-cart')
+
+        btnDelCart.forEach((element) => {
+            element.addEventListener('click', (e) => {
+                var k = confirm('Bạn muốn xóa giỏ hàng này không?')
+                if (k) {
+                    var formData = new FormData(formCart);
+                    var ids = []
+                    ids.push(element.id)
+
+                    formData.append('cart', new Blob([JSON.stringify({
+                        'ids': ids,
+                        'idCustomer': formData.get('id-customer')
+                    })], { type: 'application/json' }))
+
+                    fetchAPI(`/cart/carts`, 'DELETE', formData)
+                } else return
+            })
+        })
+
+        btnDelCartHistory.forEach((element) => {
+            element.addEventListener('click', (e) => {
+                var k = confirm('Bạn muốn xóa hóa đơn này không?')
+                if (k) {
+                    var formData = new FormData(formCart);
+                    var ids = []
+                    ids.push(element.id)
+
+                    formData.append('cartHistory', new Blob([JSON.stringify({
+                        'ids': ids,
+                        'idCustomer': formData.get('id-customer')
+                    })], { type: 'application/json' }))
+
+                    fetchAPI(`/cart/carts-history`, 'DELETE', formData)
+                } else return
+            })
+        })
+    </script>
+</th:block>

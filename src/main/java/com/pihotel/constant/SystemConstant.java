@@ -35,7 +35,7 @@ public class SystemConstant {
 	public static final String SERVICES = "services";
 	
 	public static final String CART = "cart";
-	public static final String CART_HISTORY = "cart_history";
+	public static final String CARTS_HISTORY = "carts_history";
 	public static final String CARTS = "carts";
 	
 }

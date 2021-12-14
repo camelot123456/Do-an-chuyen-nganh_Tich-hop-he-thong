@@ -25,6 +25,8 @@ public interface IInvoiceServ {
 	
 	public Double getSumPriceIncurred(String idInvoice);
 	
-	public List<Object[]> findAllByIdCustomer(String idCustomer);
+	public List<InvoiceEntity> findAllByIdCustomerCheckin(String idCustomer);
+	
+	public List<InvoiceEntity> findAllByIdCustomerUsing(String idCustomer);
 	
 }

@@ -38,7 +38,7 @@ public class ServiceEntity extends AbstractEntity{
 	@Column(name = "[PRICE]", columnDefinition = "float default 0")
 	private Double price;
 	
-	@Column(name = "[QUANTITY]", columnDefinition = "tinyint default 0")
+	@Column(name = "[QUANTITY]", columnDefinition = "int default 0")
 	private Integer quantity;
 	
 	@ManyToMany(mappedBy = "services")

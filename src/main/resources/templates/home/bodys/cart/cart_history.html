@@ -24,11 +24,11 @@
                     <div class="vstack gap-3 mt-4">
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Ngày đặt phòng</p>
-                            <p>[[${invoice.startDate}]]</p>
+                            <p th:text="${#dates.format(invoice.startDate, 'dd-MM-yyyy')}"></p>
                         </div>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Ngày trả phòng</p>
-                            <p>[[${invoice.endDate}]]</p>
+                            <p th:text="${#dates.format(invoice.endDate, 'dd-MM-yyyy')}"></p>
                         </div>
                         <div class="hstack gap-3 d-flex justify-content-between">
                             <p class="fw-bold">Người lớn</p>
@@ -183,6 +183,8 @@
                         </div>
                     </div> -->
 
+                    <input type="hidden" id="id-customer" name="id-customer" th:value="${customer.id}">
+
                     <div class="hstack gap-3">
                         <div class="form-floating w-50">
                             <input type="text" class="form-control" id="name" placeholder="Họ & tên" name="name"
@@ -245,17 +247,14 @@
 
                     <div>
                         <h3 class="text-decoration-underline">PHƯƠNG THỨC THANH TOÁN</h3>
-                        <h5 class="mt-4">Lựa chọn hình thức thanh toán</h5>
 
-                        <select class="form-select form-select-sm" id="form-select-paypal"
-                            aria-label="Default select example">
-                            <option selected>---Lựa chọn hình thức thanh toán---</option>
-                            <option value="1">Thanh toán trước</option>
-                            <option value="2">Thanh toán sau</option>
-                        </select>
-
-                        <div id="form-paypal">
-                            <!-- Javascript side -->
+                        <div class="alert alert-success mt-4" role="alert">
+                            Bạn đã thanh toán hóa đơn này
+                          </div>
+                        
+                        <div class="hstack gap-3 d-flex justify-content-end mt-4">
+                            <a href="/home/room" class="btn btn-success">Tiếp tục đặt phòng</a>
+                            <buatton type="button" class="btn btn-danger" id="btn-delete-invoice">Xóa hóa đơn</button>
                         </div>
                     </div>
 
@@ -300,93 +299,27 @@
                 })
         }
 
-        var formSelectPaypal = $('#form-select-paypal')
-        var formPaypal = $('#form-paypal')
         var formInvoice = $('#form-invoice')
+        var btnDeleteInvoice = $('#btn-delete-invoice')
 
-        formSelectPaypal.addEventListener('change', (e) => {
-            formPaypal.innerHTML = ``
-            if (formSelectPaypal.value == 2) {
-                formPaypal.innerHTML = `
-                <h5 class="mt-4">Chi tiết thanh toán</h5>
+        btnDeleteInvoice.addEventListener('click',(e) => {
+            var k = confirm('Bạn muốn xóa hóa đơn này không?')
+            if (k) {
+                var formData = new FormData(formInvoice);
+                var ids = [];
+                
+                ids.push(formData.get('id-invoice'))
+                
+                console.log(formData.get('id-customer'))
 
-                <div class="hstack gap-3">
-                    <div class="form-floating w-50">
-                        <input type="text" class="form-control" id="card-name" name="card-name"
-                            placeholder="Tên trên thẻ" required>
-                        <label for="card-name">Tên trên thẻ</label>
-                        <p class="text-danger text-center" id="card-name-message" style="font-size: 12px"></p>
-                    </div>
+                formData.append('invoice', new Blob([JSON.stringify({
+                    'ids': ids,
+                    'idCustomer': formData.get('id-customer'),
+                })], {type: 'application/json'}))
 
-                    <div class="form-floating w-50">
-                        <input type="text" class="form-control" id="num-card" placeholder="Số điện thoại"
-                            name="num-card" required>
-                        <label for="num-card">Số thẻ</label>
-                        <p class="text-danger text-center" id="num-card-message" style="font-size: 12px"></p>
-                    </div>
-                </div>
-
-                <div class="hstack gap-3">
-                    <div class="form-floating w-50">
-                        <input type="password" class="form-control" id="card-password" name="card-password"
-                            placeholder="Mã bảo mật" required>
-                        <label for="card-password">Mã bảo mật</label>
-                        <p class="text-danger text-center" id="card-password-message" style="font-size: 12px"></p>
-                    </div>
-
-                    <div class="form-floating w-50" >
-                        <img style="margin-bottom: 14px;" src="https://booking-guarantee.com/FileDefault/image/icon-card.jpg" alt="">
-                    </div>
-                </div>
-
-                <div class="hstack gap-3 d-flex justify-content-center mt-4">
-                    <a href="#" id="btn-change" class="btn btn-secondary btn-lg">Đổi phòng</a>
-                    <a href="#" id="btn-pay" class="btn btn-primary btn-lg">Thanh toán</a>
-                </div>`
-
-                var btnPay = $('#btn-pay')
-                var btnChange = $('#btn-change')
-
-                btnPay.addEventListener('click', (e) => {
-                    var formData = new FormData(formInvoice);
-
-                    formData.append('invoice', new Blob([JSON.stringify({
-                        'id': formData.get('id-invoice')
-                    })], { type: 'application/json' }))
-
-                    formData.append('customer', new Blob([JSON.stringify({
-                        'name': formData.get('name'),
-                        'address': formData.get('address'),
-                        'email': formData.get('email'),
-                        'phoneNum': formData.get('phoneNum'),
-                        'birthday': formData.get('birthday'),
-                        'gender': formData.get('gender')
-
-                    })], { type: 'application/json' }))
-
-                    fetchAPI(`/home/checkin/handle-invoice-no-account`, 'PUT', formData)
-                })
-
-                btnChange.addEventListener('click', (e) => {
-                    var formData = new FormData(formInvoice);
-                    var ids = [] 
-
-                    ids.push(formData.get('id-invoice'))
-
-                    formData.append('invoice', new Blob([JSON.stringify({
-                        'id': formData.get('id-invoice'),
-                        'ids': ids
-                    })], { type: 'application/json' }))
-                    
-                    fetchAPI(`/home/checkin/handle-change-room`, 'DELETE', formData)
-                })
-
-            } else {
-                formPaypal.innerHTML = `<h5 class="mt-4">Sắp ra mắt. Vui lòng chọn hình thức thanh toán khác</h5>`
+                fetchAPI(`/home/checkin/handle-del-invoice`,'DELETE', formData)
             }
         })
-
-
 
     </script>
 </th:block>

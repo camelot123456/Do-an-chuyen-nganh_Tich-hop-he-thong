@@ -11,6 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -37,10 +38,10 @@ public class InvoiceEntity extends AbstractEntity{
 	@Column(name = "[END_DATE]", columnDefinition = "datetime")
 	private Date endDate;
 	
-	@Column(name = "[ADULTS]", columnDefinition = "tinyint default 0")
+	@Column(name = "[ADULTS]", columnDefinition = "int default 0")
 	private Integer adults;
 	
-	@Column(name = "[CHILDREN]", columnDefinition = "tinyint default 0")
+	@Column(name = "[CHILDREN]", columnDefinition = "int default 0")
 	private Integer children; 
 	
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -68,5 +69,17 @@ public class InvoiceEntity extends AbstractEntity{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "[ID_ACCOUNT]")
 	private AccountEntity account;
+	
+	@Transient
+	private String idRoomType;
+	
+	@Transient
+	private String idAccount;
+	
+	@Transient
+	private Double totalPriceAll;
+	
+	@Transient
+	private Double totalPriceIncurred;
 	
 }

@@ -10,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
@@ -48,14 +50,10 @@ public class CartController {
 
 	@RequestMapping(value = "/cart")
 	public String showCart(Model model, @Param("idCustomer") String idCustomer) {
-		model.addAttribute(SystemConstant.CUSTOMER, accountServ.findOneById(idCustomer));
-//		model.addAttribute(SystemConstant.CARTS, invoiceServ.findAllByIdCustomer(idCustomer));
-		List<Object[]> records = invoiceServ.findAllByIdCustomer("ADMIN");
-		Object[] invoiceDetail = records.get(0);
-		InvoiceEntity invoice = new InvoiceEntity();
-		invoice.setId((String) invoiceDetail[0]);
-		System.out.println(invoice.getId());
-		return "home/bodys/cart";
+		model.addAttribute(SystemConstant.CUSTOMER, accountServ.findOneById(idCustomer));		
+		model.addAttribute(SystemConstant.CARTS, invoiceServ.findAllByIdCustomerCheckin(idCustomer));
+		model.addAttribute(SystemConstant.CARTS_HISTORY, invoiceServ.findAllByIdCustomerUsing(idCustomer));
+		return "home/bodys/cart/cart";
 	}
 
 //	---------------------------------------POST---------------------------------------
@@ -66,4 +64,21 @@ public class CartController {
 
 //	---------------------------------------DELETE---------------------------------------
 
+//	Chưa hoàn tất
+//	Chưa hoàn tất
+//	Chưa hoàn tất
+	@RequestMapping(value = "/cart/carts", method = RequestMethod.DELETE, consumes = {"multipart/form-data", "application/json"})
+	public String doDeleteCart(@RequestPart("cart") InvoiceEntity cart) {
+		AccountEntity customer = accountServ.findOneById(cart.getIdAccount());
+		invoiceServ.delete(cart.getIds());
+		return "redirect:/cart?idCustomer=" + customer.getId();
+	}
+	
+	@RequestMapping(value = "/cart/carts-history", method = RequestMethod.DELETE, consumes = {"multipart/form-data", "application/json"})
+	public String doDeleteCartHistory(@RequestPart("cartHistory") InvoiceEntity cartHistory) {
+		AccountEntity customer = accountServ.findOneById(cartHistory.getIdAccount());
+		invoiceServ.delete(cartHistory.getIds());
+		return "redirect:/cart?idCustomer=" + customer.getId();
+	}
+	
 }

@@ -1,14 +1,16 @@
 package com.pihotel.entity.custom;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
 public class CartCustom {
 
-	private String idInvoice;
+	private String id;
 	
-	private String idRoom;
+	private Date startDate;
 	
-	private String idAccount;
+	private Date endDate;
 	
 }

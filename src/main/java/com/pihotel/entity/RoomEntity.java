@@ -43,16 +43,16 @@ public class RoomEntity extends AbstractEntity{
 	@Column(name = "[DESCRIPTION]", columnDefinition = "nvarchar(max)")
 	private String description;
 	
-	@Column(name = "[CUSTOMERS_NUM]", columnDefinition = "tinyint default 0")
+	@Column(name = "[CUSTOMERS_NUM]", columnDefinition = "int default 0")
 	private Integer customersNum;
 	
-	@Column(name = "[AREA]", columnDefinition = "tinyint default 0")
+	@Column(name = "[AREA]", columnDefinition = "int default 0")
 	private Integer area;
 	
 	@Column(name = "[PRICE_INCURRED]", columnDefinition = "float default 0")
 	private Double priceIncurred;
 	
-	@Column(name = "[FLOOR]", columnDefinition = "tinyint default 1")
+	@Column(name = "[FLOOR]", columnDefinition = "int default 1")
 	private Integer floor;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
