@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -63,4 +64,8 @@ public class RoomEntity extends AbstractEntity{
 	@ManyToMany(mappedBy = "rooms")
 	@JsonIgnoreProperties("rooms")
 	private List<InvoiceEntity> invoices;
+	
+	@Transient
+	private String idAccount;
+	
 }

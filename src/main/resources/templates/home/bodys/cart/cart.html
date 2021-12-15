@@ -88,7 +88,7 @@
                                     <td class="text-end">
                                         <a th:href="@{'/home/checkin/invoice/history?idRoomType='+${history.idRoomType}+'&idInvoice='+${history.id}}"
                                             class="btn btn-sm btn-info">Xem</a>
-                                        <button class="btn btn-sm btn-danger btn-del-cart-history"
+                                        <button type="button" class="btn btn-sm btn-danger btn-del-cart-history"
                                             th:id="${history.id}">Xóa</button>
                                     </td>
                                 </tr>
@@ -145,7 +145,9 @@
 
         btnDelCart.forEach((element) => {
             element.addEventListener('click', (e) => {
+                e.preventDefault()
                 var k = confirm('Bạn muốn xóa giỏ hàng này không?')
+                console.log(k)
                 if (k) {
                     var formData = new FormData(formCart);
                     var ids = []
@@ -153,7 +155,7 @@
 
                     formData.append('cart', new Blob([JSON.stringify({
                         'ids': ids,
-                        'idCustomer': formData.get('id-customer')
+                        'idAccount': formData.get('id-customer')
                     })], { type: 'application/json' }))
 
                     fetchAPI(`/cart/carts`, 'DELETE', formData)
@@ -163,7 +165,9 @@
 
         btnDelCartHistory.forEach((element) => {
             element.addEventListener('click', (e) => {
+                e.preventDefault()
                 var k = confirm('Bạn muốn xóa hóa đơn này không?')
+                console.log(k)
                 if (k) {
                     var formData = new FormData(formCart);
                     var ids = []
@@ -171,7 +175,7 @@
 
                     formData.append('cartHistory', new Blob([JSON.stringify({
                         'ids': ids,
-                        'idCustomer': formData.get('id-customer')
+                        'idAccount': formData.get('id-customer')
                     })], { type: 'application/json' }))
 
                     fetchAPI(`/cart/carts-history`, 'DELETE', formData)

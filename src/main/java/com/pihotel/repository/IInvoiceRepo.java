@@ -55,4 +55,16 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			+ "i.end_date, i.[start_date], i.id_account, rt.id",
 			nativeQuery = true)
 	public List<Object[]> findAllByIdCustomerUsing(String idCustomer);
+	
+	@Query(value = "select i.id, i.[start_date], i.end_date, i.adults, i.children, rt.id as idRoomType, "
+			+ "a.id as idAccount, a.phone_num as phoneNum, (sum(r.price_incurred) + rt.price) as totalPriceAll "
+			+ "from invoice i inner join invoice_room ir "
+			+ "on i.id = ir.id_invoice inner join room r "
+			+ "on ir.id_room = r.id inner join room_type rt "
+			+ "on r.id_room_type = rt.id inner join account a "
+			+ "on i.id_account = a.id "
+			+ "where i.[enabled] = ?1 "
+			+ "group by i.id,  i.[start_date], i.end_date, i.adults, i.children, rt.id, i.id_account, rt.price, a.id,  a.phone_num",
+			nativeQuery = true)
+	public List<Object[]> findAllPaidInvoices(Boolean isPaid);
 }

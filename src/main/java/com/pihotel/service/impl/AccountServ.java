@@ -105,7 +105,7 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		PageRequest pageable = PageRequest.of(numPage - 1, 10, sort);
-		if (keyword != null) {
+		if (keyword != "") {
 			return accountRepo.searchCustomer(keyword, pageable);
 		}
 		return accountRepo.findAllCustomer(pageable);
@@ -116,7 +116,6 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		// TODO Auto-generated method stub
 		return accountRepo.findByUsername(username);
 	}
-	
 	
 	
 //	---------------------------------------INSERT---------------------------------------

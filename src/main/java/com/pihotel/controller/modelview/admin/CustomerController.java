@@ -70,38 +70,6 @@ public static final String PATH_AVATAR = "src/main/resources/static/img/user/";
 		return "admin/bodys/customer_managements/cm_customer";
 	}
 	
-//	@RequestMapping(value = "/admin/customer-managements/account-customer")
-//	public String accountRedirectPagination(Model model) {
-//		return this.accountPagination(model, 1, "id", "asc", "");
-//	}
-//
-//	@RequestMapping(value = "/admin/customer-managements/account-customer/page/{currentPage}")
-//	public String accountPagination(Model model, 
-//			@PathVariable("currentPage") int currentPage,
-//			@Param("sortField") String sortField, 
-//			@Param("sortDir") String sortDir, 
-//			@Param("keyword") String keyword) {
-//
-//		Page<AccountEntity> page = accountServ.findAll(currentPage, sortField, sortDir, keyword);
-//		String reverseSort = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
-//		
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("currentPage", (int) currentPage);
-//		map.put("sortField", (String) sortField);
-//		map.put("reverseSort", (String) reverseSort);
-//		map.put("sortDir", (String) sortDir);
-//		map.put("keyword", (String) keyword);
-//		map.put("totalPage", (int) page.getTotalPages() < 1 ? 1 : page.getTotalPages());
-//		map.put("totalElement", (int) page.getTotalElements());
-//		map.put(SystemConstant.CUSTOMERS, page.getContent().stream()
-//				.filter(account -> account.getAuthProvider()==EAuthenticationProvider.FACEBOOK||account.getAuthProvider()==EAuthenticationProvider.GOOGLE)
-//				.collect(Collectors.toList()));
-//
-//		model.addAllAttributes(map);
-//
-//		return "admin/bodys/customer_managements/cm_customer";
-//	}
-	
 	@RequestMapping(value = "/admin/customer-managements/account-customer/{id}")
 	public String accountDetail(Model model, @PathVariable("id") String id) {
 		AccountEntity customer = accountServ.findOneById(id);

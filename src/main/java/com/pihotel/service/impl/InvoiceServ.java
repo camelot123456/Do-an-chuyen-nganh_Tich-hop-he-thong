@@ -106,6 +106,30 @@ public class InvoiceServ implements IInvoiceServ {
 		}
 		return invoiceNew;
 	}
+	
+	@Override
+	public List<InvoiceEntity> findAllPaidInvoices(Boolean isPaid) {
+		// TODO Auto-generated method stub
+		List<Object[]> invoicesArray = invoiceRepo.findAllPaidInvoices(isPaid);
+		List<InvoiceEntity> invoicesNew = null;
+		if (invoicesArray.size() > 0) {
+			invoicesNew = new ArrayList<>();
+			for (Object[] invoiceDetail : invoicesArray) {
+				InvoiceEntity invoice = new InvoiceEntity();
+				invoice.setId((String) invoiceDetail[0]);
+				invoice.setStartDate((Date) invoiceDetail[1]);
+				invoice.setEndDate((Date) invoiceDetail[2]);
+				invoice.setAdults((Integer) invoiceDetail[3]);
+				invoice.setChildren((Integer) invoiceDetail[4]);
+				invoice.setIdRoomType((String) invoiceDetail[5]);
+				invoice.setIdAccount((String) invoiceDetail[6]);
+				invoice.setPhoneNum((String) invoiceDetail[7]);
+				invoice.setTotalPriceAll((Double) invoiceDetail[8]);
+				invoicesNew.add(invoice);
+			}
+		}
+		return invoicesNew;
+	}
 
 //	---------------------------------------INSERT---------------------------------------
 
@@ -126,7 +150,7 @@ public class InvoiceServ implements IInvoiceServ {
 		// TODO Auto-generated method stub
 		invoice.setCreateAt(new Date());
 		invoice.setModifiedAt(new Date());
-
+		invoice.setEnabled(Boolean.FALSE);
 		invoice.setAccount(accountRepo.findByUsername(customer.getUsername()));
 		InvoiceEntity invoiceNew = invoiceRepo.save(invoice);
 
@@ -146,7 +170,8 @@ public class InvoiceServ implements IInvoiceServ {
 		// TODO Auto-generated method stub
 		invoice.setCreateAt(new Date());
 		invoice.setModifiedAt(new Date());
-
+		invoice.setEnabled(Boolean.FALSE);
+		
 		InvoiceEntity invoiceNew = invoiceRepo.save(invoice);
 
 		List<RoomEntity> rooms = new ArrayList<RoomEntity>();

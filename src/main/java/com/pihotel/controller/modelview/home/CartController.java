@@ -1,8 +1,5 @@
 package com.pihotel.controller.modelview.home;
 
-import java.util.Date;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,27 +15,15 @@ import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.service.IAccountServ;
 import com.pihotel.service.IInvoiceServ;
-import com.pihotel.service.IRoomServ;
-import com.pihotel.service.IRoomTypeServ;
-import com.pihotel.service.IServiceServ;
 
 @Controller
 public class CartController {
 
 	@Autowired
-	private IRoomTypeServ roomTypeServ;
-
-	@Autowired
 	private IInvoiceServ invoiceServ;
 
 	@Autowired
-	private IServiceServ serviceServ;
-
-	@Autowired
 	private IAccountServ accountServ;
-
-	@Autowired
-	private IRoomServ roomServ;
 
 //	---------------------------------------GET---------------------------------------	
 	
@@ -64,9 +49,6 @@ public class CartController {
 
 //	---------------------------------------DELETE---------------------------------------
 
-//	Chưa hoàn tất
-//	Chưa hoàn tất
-//	Chưa hoàn tất
 	@RequestMapping(value = "/cart/carts", method = RequestMethod.DELETE, consumes = {"multipart/form-data", "application/json"})
 	public String doDeleteCart(@RequestPart("cart") InvoiceEntity cart) {
 		AccountEntity customer = accountServ.findOneById(cart.getIdAccount());
@@ -78,6 +60,14 @@ public class CartController {
 	public String doDeleteCartHistory(@RequestPart("cartHistory") InvoiceEntity cartHistory) {
 		AccountEntity customer = accountServ.findOneById(cartHistory.getIdAccount());
 		invoiceServ.delete(cartHistory.getIds());
+		return "redirect:/cart?idCustomer=" + customer.getId();
+	}
+	
+	@RequestMapping(value = "/home/checkin/handle-del-invoice", method = RequestMethod.DELETE, consumes = {
+			"multipart/form-data", "application/json" })
+	public String doDeleteInvoice(@RequestPart("invoice") InvoiceEntity invoice) {
+		AccountEntity customer = accountServ.findOneById(invoice.getIdAccount());
+		invoiceServ.delete(invoice.getIds());
 		return "redirect:/cart?idCustomer=" + customer.getId();
 	}
 	

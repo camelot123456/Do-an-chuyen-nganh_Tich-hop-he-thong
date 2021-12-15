@@ -53,4 +53,5 @@ public interface IAccountServ {
 			String phoneNum, Date birthday, Boolean gender);
 	
 	public Page<AccountEntity> findAllCustomer(int numPage, String sortField, String sortDir, String keyword);
+	
 }

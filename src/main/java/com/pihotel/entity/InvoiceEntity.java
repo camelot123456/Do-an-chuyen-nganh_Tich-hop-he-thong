@@ -77,6 +77,9 @@ public class InvoiceEntity extends AbstractEntity{
 	private String idAccount;
 	
 	@Transient
+	private String phoneNum;
+	
+	@Transient
 	private Double totalPriceAll;
 	
 	@Transient

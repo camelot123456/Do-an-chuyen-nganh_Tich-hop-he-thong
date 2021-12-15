@@ -29,4 +29,6 @@ public interface IInvoiceServ {
 	
 	public List<InvoiceEntity> findAllByIdCustomerUsing(String idCustomer);
 	
+	public List<InvoiceEntity> findAllPaidInvoices(Boolean isPaid);
+	
 }

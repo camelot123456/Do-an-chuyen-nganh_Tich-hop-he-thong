@@ -166,6 +166,7 @@ public class HomeController {
 			AccountEntity customerNew = accountServ.saveCustomer(customer);
 			InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId());
 			invoiceNew.setAccount(customerNew);
+			invoiceNew.setEnabled(Boolean.TRUE);
 			invoiceNew.getRooms().forEach(room -> {
 				room.setRoomState(ERoomState.USING);
 			});
@@ -177,6 +178,7 @@ public class HomeController {
 			invoiceNew.getRooms().forEach(room -> {
 				room.setRoomState(ERoomState.USING);
 			});
+			invoiceNew.setEnabled(Boolean.TRUE);
 			invoiceServ.update(invoiceNew);
 			return "redirect:/cart?idCustomer=" + accountCustomer.getId();
 		}
@@ -205,12 +207,5 @@ public class HomeController {
 		return "redirect:/home/room";
 	}
 	
-	@RequestMapping(value = "/home/checkin/handle-del-invoice", method = RequestMethod.DELETE, consumes = {
-			"multipart/form-data", "application/json" })
-	public String doDeleteInvoice(@RequestPart("invoice") InvoiceEntity invoice) {
-		AccountEntity customer = accountServ.findOneById(invoice.getIdAccount());
-		invoiceServ.delete(invoice.getIds());
-		return "redirect:/cart?idCustomer=" + customer.getId();
-	}
 
 }

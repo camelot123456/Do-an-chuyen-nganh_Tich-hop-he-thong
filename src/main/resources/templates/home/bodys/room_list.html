@@ -56,13 +56,13 @@
                             </div>
                             <p style="margin-bottom: 0px">$[[${room_type.price}]]/đêm</p>
                             <p style="margin-bottom: 0px">Số lượng phòng: 6</p>
+                            <br>
                             <p style="margin-bottom: 0px">[[${room_type.description}]]
                             </p>
                         </div>
 
                         <div class="hstack gap-3 d-flex justify-content-center">
-                            <a th:href="@{/home/room/detail/{id}(id=${room_type.id})}" class="btn btn-outline-warning w-25 mx-auto">XEM</a>
-                            <a href="/home/checkin" class="btn btn-outline-warning w-25 mx-auto">ĐẶT NGAY</a>
+                            <a th:href="@{/home/room/detail/{id}(id=${room_type.id})}" class="btn btn-warning btn-lg w-100 mx-auto">XEM</a>
                         </div>
                     </div>
                 </div>
