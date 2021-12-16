@@ -1,0 +1,159 @@
+<th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
+    <div class="vstack gap-3">
+        <h3 class="text-primary fw-bolder text-uppercase">Tạo loại phòng</h3>
+        <hr>
+
+        <form class="vstack gap-3" id="form-roomtype" name="form-roomtype" enctype="multipart/form-data">
+
+            <div>
+                <h4 class="text-primary text-uppercase">Thông tin kiểm toán</h4>
+                <hr>
+                <div class="hstack gap-3 mb-4">
+                    <div class="form-floating w-50 ">
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Thời gian tạo"
+                            th:value="${CREATE_AT}" disabled>
+                        <label for="floatingInputValue">Thời gian tạo</label>
+                    </div>
+                    <div class="form-floating w-50">
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Thời gian cập nhập"
+                        th:value="${CREATE_AT}" disabled>
+                        <label for="floatingInputValue">Thời gian cập nhập</label>
+                    </div>
+                    <!-- <div class="form-floating w-50 ">
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Thời gian xóa nháp"
+                            th:value="${role.deleteAt}" disabled>
+                        <label for="floatingInputValue">Thời gian xóa nháp</label>
+                    </div>
+                    <div class="form-floating w-50 ">
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Xóa nháp"
+                            th:value="${role.deleted}" disabled>
+                        <label for="floatingInputValue">Xóa nháp</label>
+                    </div> -->
+                </div>
+                <div class="hstack gap-3 mb-4">
+                    <div class="form-floating w-50 ">
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Người tạo(email)"
+                            th:value="${EMAIL}" disabled>
+                        <label for="floatingInputValue">Người tạo(email)</label>
+                    </div>
+                    <div class="form-floating w-50 ">
+                        <input type="text" class="form-control" id="floatingInputValue"
+                            placeholder="Người cập nhập(email)" th:value="${EMAIL}" disabled>
+                        <label for="floatingInputValue">Người cập nhập(email)</label>
+                    </div>
+                    <!-- <div class="form-floating w-50">
+                        <input type="text" class="form-control" id="floatingInputValue" placeholder="Người xóa nháp(email)"
+                            th:value="${role.deleteBy}" disabled>
+                        <label for="floatingInputValue">Người xóa nháp(email)</label>
+                    </div> -->
+                </div>
+
+                <h3 class="text-primary text-uppercase">Thông tin cụ thể</h3>
+                <hr>
+                <div class="hstack gap-3">
+
+                    <div class="vstack gap-3 py-auto">
+                        <a href="#">
+                            <img style="width: 400px;" src="" alt="" id="roomtype-logo">
+                        </a>
+                        <div class="d-flex flex-column">
+                            <label for="form-file" class="form-label">Ảnh nền cho loại phòng</label>
+                            <input class="form-control" type="file" id="form-file" name="logo" style="width: 400px;">
+                        </div>
+                    </div>
+                    <div class="vstack gap-3">
+                        <div class="hstack gap-3 mb-4">
+                            <div class="form-floating w-50 ">
+                                <input type="hidden" th:value="${RANDOM_ID}" name="id">
+                                <input type="text" class="form-control" id="id" placeholder="Mã loại phòng"
+                                    th:value="${RANDOM_ID}" >
+                                <label for="id">Mã loại phòng</label>
+                            </div>
+                            <div class="form-floating w-50 ">
+                                <input type="text" class="form-control" id="name" placeholder="Tên loại phòng"
+                                    name="name">
+                                <label for="name">Tên loại phòng</label>
+                            </div>
+                            <div class="form-floating w-50">
+                                <input type="text" class="form-control" id="price" placeholder="Giá tiền"
+                                    name="price">
+                                <label for="code">Giá tiền</label>
+                            </div>
+                        </div>
+                        <div class="">
+                            <label for="description">Mô tả</label>
+                            <textarea class="form-control" style="height: 100px" name="description"
+                                id="description"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="hstack gap-3 d-flex flex-row-reverse">
+                <button type="button" class="btn btn-outline-primary">Cập nhập dịch vụ</button>
+                <button type="button" id="btn-save" class="btn btn-outline-success">Lưu</button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        var btnSave = $('#btn-save')
+        var logo = $('#roomtype-logo')
+        var formRoomtype = $('#form-roomtype')
+        var formFile = $('#form-file')
+
+        formFile.addEventListener('change', (e) => {
+            var file = e.target.files[0]
+            logo.src = window.URL.createObjectURL(new Blob([file], { type: "application/zip" }))
+        })
+
+        //Tạo hàm gọi api
+        function fetchAPI(url, method, body) {
+            fetch(url, {
+                method: method,
+                body: body
+            })
+                .then(resp => {
+                    if (resp.status === 200) {
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
+                    } else {
+                        alert("Fail Validate!")
+                    }
+                })
+                .catch(err => {
+                    alert("Error!")
+                })
+        }
+
+        //Xử lý tạo tài khoản
+        btnSave.addEventListener('click', (e) => {
+            e.preventDefault();
+            var formData = new FormData(formRoomtype)
+
+            formData.append('logo', document.forms['form-roomtype'].logo.files[0])
+            formData.append('roomType', new Blob([
+                JSON.stringify({
+                    'id': formData.get('id'),
+                    'name': formData.get('name'),
+                    'price': formData.get('price'),
+                    'description': formData.get('description')
+                })
+            ], {
+                type: "application/json"
+            }))
+
+            fetchAPI(
+                '/admin/roomtype-managements/roomtype/tran',
+                'POST',
+                formData)
+        })
+
+    </script>
+</th:block>

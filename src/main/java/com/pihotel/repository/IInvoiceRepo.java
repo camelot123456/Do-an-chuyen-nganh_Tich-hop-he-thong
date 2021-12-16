@@ -39,7 +39,7 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			+ "where i.id_account = ?1 and r.room_state = 'CHECKIN' "
 			+ "group by rt.price, i.id, i.create_at, i.create_by, i.delete_at, i.delete_by, "
 			+ "i.deleted, i.[enabled], i.modified_at, i.modified_by, i.adults, i.children, "
-			+ "i.end_date, i.[start_date], i.id_account, rt.id",
+			+ "i.end_date, i.[start_date], i.id_account, rt.id, i.verify_room",
 			nativeQuery = true)
 	public List<Object[]> findAllByIdCustomerCheckin(String idCustomer);
 	
@@ -52,7 +52,7 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			+ "where i.id_account = ?1 and r.room_state = 'USING' "
 			+ "group by rt.price, i.id, i.create_at, i.create_by, i.delete_at, i.delete_by, "
 			+ "i.deleted, i.[enabled], i.modified_at, i.modified_by, i.adults, i.children, "
-			+ "i.end_date, i.[start_date], i.id_account, rt.id",
+			+ "i.end_date, i.[start_date], i.id_account, rt.id, i.verify_room",
 			nativeQuery = true)
 	public List<Object[]> findAllByIdCustomerUsing(String idCustomer);
 	
@@ -64,7 +64,7 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			+ "on r.id_room_type = rt.id inner join account a "
 			+ "on i.id_account = a.id "
 			+ "where i.[enabled] = ?1 "
-			+ "group by i.id,  i.[start_date], i.end_date, i.adults, i.children, rt.id, i.id_account, rt.price, a.id,  a.phone_num",
+			+ "group by i.id,  i.[start_date], i.end_date, i.adults, i.children, rt.id, i.id_account, rt.price, a.id,  a.phone_num, i.verify_room",
 			nativeQuery = true)
 	public List<Object[]> findAllPaidInvoices(Boolean isPaid);
 }

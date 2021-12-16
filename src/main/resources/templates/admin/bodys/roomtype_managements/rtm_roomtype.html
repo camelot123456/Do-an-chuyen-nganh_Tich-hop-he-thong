@@ -1,0 +1,284 @@
+<th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
+    <div class="vstack gap-3">
+        <h3>Quản lý phòng</h3>
+        <hr>
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/admin/room-managements/room">Quản lý phòng</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/room-managements/room/add">Thêm phòng mới</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/admin/roomtype-managements/roomtype">Quản lý loại phòng</a>
+            </li>
+        </ul>
+
+        <div class="hstack gap-2 my-3">
+            <form class="input-group w-50" id="form-search"
+                th:action="@{'/admin/roomtype-managements/roomtype/page/'+${currentPage}}" required>
+                <input type="hidden" name="sortField" th:value="${sortField}">
+                <input type="hidden" name="sortDir" th:value="${sortDir}">
+                <input class="form-control form-control-sm" placeholder="Tìm kiếm ..." aria-describedby="button-addon2"
+                    name="keyword" th:value="${keyword}" type="search" aria-label="Search">
+                <button class="btn btn-outline-primary btn-sm" type="submit">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </form>
+            <div class="hstack gap-2 ms-auto button-group-tool"></div>
+        </div>
+
+        <table class="table table-hover table-striped border shadow rounded-3 mb-3">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <input class="form-check-input checkbox-element" type="checkbox" value="">
+                    </th>
+                    <th scope="col">No.</th>
+                    <th scope="col">
+                        <a
+                            th:href="@{'/admin/roomtype-managements/roomtype/page/'+${currentPage}+'?sortField=id&sortDir='+${reverseSort}+'&keyword='}">Id</a>
+                    </th>
+                    <th scope="col">Ảnh</th>
+                    <th scope="col">
+                        <a
+                            th:href="@{'/admin/roomtype-managements/roomtype/page/'+${currentPage}+'?sortField=name&sortDir='+${reverseSort}+'&keyword='}">Tên</a>
+                    </th>
+                    <th scope="col">
+                        <a
+                            th:href="@{'/admin/roomtype-managements/roomtype/page/'+${currentPage}+'?sortField=authProvider&sortDir='+${reverseSort}+'&keyword='}">Giá</a>
+                    </th>
+                    <th scope="col" class="text-center">Công cụ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:if="${totalElement == 0}">
+                    <tr>
+                        <th colspan="9">
+                            <p class="text-center fs-6">Danh sách dịch vụ trống. <a
+                                    href="/admin/roomtype-managements/roomtype/add">Thêm dịch vụ mới</a></p>
+                        </th>
+                    </tr>
+                </th:block>
+
+                <th:block th:each="room_type, state : ${rooms_type}">
+                    <tr style="line-height: 50px;" th:id="@{'tag-tr-'+${room_type.id}}">
+                        <td class="row-checkbox">
+                            <input class="form-check-input checkbox-all" th:id="${room_type.id}" type="checkbox" value="">
+                        </td>
+                        <th scope="row">[[${state.count}]]</th>
+                        <th scope="row">[[${room_type.id}]]</th>
+                        <td>
+                            <img style="width: 70px;" th:src="${room_type.logo}" />
+                        </td>
+                        <td>[[${room_type.name}]]</td>
+                        <td>[[${room_type.price}]]</td>
+                        <td class="text-center">
+                            <a th:href="@{'/admin/roomtype-managements/roomtype/'+${room_type.id}}"
+                                class="btn btn-sm btn-info">Xem</a>
+                            <button class="btn btn-sm btn-danger btn-del" th:id="${room_type.id}">Xóa</button>
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+        <!-- Xử lý phân trang -->
+        <div class="hstack gap-3 d-flex justify-content-between">
+            <p>Số trang: [[${totalPage}]] - Số loại phòng: [[${totalElement}]] - Hiện tại: [[${currentPage}]] - Sắp xếp:
+                [[${sortField}]] - Chiều: [[${sortDir}]]</p>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item disabled" th:if="${currentPage == 1}">
+                        <a class="page-link"
+                            th:href="@{'/admin/roomtype-managements/roomtype/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="page-item" th:unless="${currentPage == 1}">
+                        <a class="page-link"
+                            th:href="@{'/admin/roomtype-managements/roomtype/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="page-item disabled" th:if="${currentPage == 1}">
+                        <a class="page-link"
+                            th:href="@{'/admin/roomtype-managements/roomtype/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="page-item" th:unless="${currentPage == 1}">
+                        <a class="page-link"
+                            th:href="@{'/admin/roomtype-managements/roomtype/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <th:block th:each="i : ${#numbers.sequence(1, totalPage)}">
+                        <li class="page-item active" th:if="${currentPage == i}">
+                            <span class="page-link">[[${i}]]</span>
+                        </li>
+                        <li class="page-item" th:unless="${currentPage == i}">
+                            <a class="page-link"
+                                th:href="@{'/admin/roomtype-managements/roomtype/page/'+${i}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">[[${i}]]</a>
+                        </li>
+                    </th:block>
+                    <li class="page-item disabled" th:if="${currentPage == totalPage}">
+                        <a class="page-link"
+                            th:href="@{'/admin/roomtype-managements/roomtype/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="page-item" th:unless="${currentPage == totalPage}">
+                        <a class="page-link"
+                            th:href="@{'/admin/roomtype-managements/roomtype/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="page-item disabled" th:if="${currentPage == totalPage}">
+                        <a class="page-link"
+                            th:href="@{'/admin/roomtype-managements/roomtype/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="page-item" th:unless="${currentPage == totalPage}">
+                        <a class="page-link"
+                            th:href="@{'/admin/roomtype-managements/roomtype/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+
+
+    <script>
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        var btnDels = Array.from($$('.btn-del'))
+
+        //Hàm gọi api
+        function fetchAPI(url, method, body) {
+            fetch(url, {
+                method,
+                body: JSON.stringify(body),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(resp => {
+                    resp.json()
+                    if (resp.status === 200) {
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
+                    } else {
+                        alert('Fail Validate!')
+                    }
+                })
+                .catch(err => alert('Error!'))
+        }
+
+        var modalBtnDel = $('#modal-btn-del')
+        var modalBtnCan = $('#modal-btn-can')
+
+
+        //Xử lý xóa dịch vụ
+        btnDels.forEach((element) => {
+            element.addEventListener('click', (e) => {
+                var k = confirm("Bạn có muốn xóa loại phòng này không ?")
+                var ids = [e.target.id]
+
+                var roomtype = { ids };
+
+                if (k == true) {
+                    fetchAPI(
+                        `/admin/roomtype-managements/roomtypes/tran`,
+                        'DELETE',
+                        roomtype
+                    )
+                } else return
+            })
+        })
+
+        //Xử lý chọn checkbox
+        var checkboxAll = $$('.row-checkbox .checkbox-all')
+        var checkboxElement = $('.checkbox-element')
+        var buttonGroupTool = $('.button-group-tool')
+        var btnAdd = $('#btn-add')
+
+        checkboxChecked(false)
+
+        checkboxElement.addEventListener('change', (e) => {
+            checkboxChecked(checkboxElement.checked)
+            checkboxAll.forEach((element) => {
+                element.checked = checkboxElement.checked
+            })
+        })
+
+        var sumCheckedFirst = checkboxAll.length
+
+        checkboxAll.forEach((element) => {
+            element.addEventListener('change', (e) => {
+                var reduceCheckboxChecked = $$('.row-checkbox input[type="checkbox"]:checked').length
+                checkboxElement.checked = (sumCheckedFirst == reduceCheckboxChecked ? true : false)
+                checkboxChecked(reduceCheckboxChecked)
+            })
+        })
+
+        function checkboxChecked(checkboxChange) {
+            if (checkboxChange) {
+                buttonGroupTool.innerHTML = `
+                    <button type="button" class="btn btn-danger btn-sm" id="btn-dels">
+                        <i class="fa fa-eraser" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </button>
+                    <a href='/admin/roomtype-managements/roomtype/add' class="btn btn-success btn-sm">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </a>`
+
+                //Xử lý xóa nhiều
+                var btnDels = $('#btn-dels')
+
+                if (btnDels) {
+                    btnDels.addEventListener('click', (e) => {
+                        var checkboxAll = $$('.row-checkbox .checkbox-all')
+                        var roomtype = {}
+                        var ids = []
+                        checkboxAll.forEach((element) => {
+                            if (element.checked == true) {
+                                ids.push(element.id)
+                            }
+                        })
+
+                        var k = confirm('Bạn có muốn xóa những loại phòng này không ?')
+
+                        if (k) {
+                            roomtype = { ids }
+                            fetchAPI(
+                                `/admin/roomtype-managements/roomtypes/tran`,
+                                `DELETE`,
+                                roomtype
+                            )
+                        } else return
+                    })
+                }
+
+            } else {
+                buttonGroupTool.innerHTML = `
+                    <button type="button" class="btn btn-primary btn-sm">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </button>
+                    <a href='/admin/roomtype-managements/roomtype/add' class="btn btn-success btn-sm">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </a>`
+            }
+        }
+
+    </script>
+</th:block>

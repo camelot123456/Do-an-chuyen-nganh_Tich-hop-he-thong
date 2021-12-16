@@ -23,10 +23,12 @@ public interface IRoomServ {
 	
 	public List<RoomEntity> findAllByIdRoomType(String idRoomType, int customersNum);
 
-	public void updateRoomState(ERoomState state, String id);
+	public void updateRoomState(ERoomState state, String verifyRoom, String id);
 	
 	public Page<RoomEntity> searchWithFloorAndRoomType(String floor, String roomType, int numPage, String sortField, String sortDir, String keyword);
 	
 	public int maxFloor();
+	
+	public List<RoomEntity> findAllShowRoom();
 	
 }

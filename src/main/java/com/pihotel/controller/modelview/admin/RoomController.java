@@ -97,7 +97,7 @@ public class RoomController {
 //	---------------------------------------POST---------------------------------------
 	
 	@RequestMapping(value = "/admin/room-managements/room/tran", method = RequestMethod.POST, consumes = {"multipart/form-data", "application/json"})
-	public String doSaveRoomType(@RequestPart("room") RoomEntity room,
+	public String doSaveRoom(@RequestPart("room") RoomEntity room,
 			@RequestPart("roomType") RoomEntity roomType,
 			@RequestPart("invoice") RoomEntity invoice,
 			@RequestPart("account") RoomEntity account) {
@@ -109,13 +109,14 @@ public class RoomController {
 	
 	@RequestMapping(value = "/admin/room-managements/room/tran/handle-cancel", method = RequestMethod.PUT, consumes = "application/json")
 	public String doCancelUpdateRoomState(@RequestBody RoomEntity room) {
-		roomServ.updateRoomState(ERoomState.EMPTY, room.getId());
+		
+		roomServ.updateRoomState(ERoomState.EMPTY, RandomString.make(64), room.getId());
 		return "redirect:/admin/room-managements/room";
 	}
 	
 	@RequestMapping(value = "/admin/room-managements/room/tran/handle-repair", method = RequestMethod.PUT, consumes = "application/json")
 	public String doRepairUpdateRoomState(@RequestBody RoomEntity room) {
-		roomServ.updateRoomState(ERoomState.REPAIR, room.getId());
+		roomServ.updateRoomState(ERoomState.REPAIR, RandomString.make(64), room.getId());
 		return "redirect:/admin/room-managements/room";
 	}
 	

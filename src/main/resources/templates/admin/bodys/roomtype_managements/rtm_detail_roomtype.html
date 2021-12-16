@@ -1,0 +1,210 @@
+<th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
+    <div class="vstack gap-3">
+        <h3 class="text-primary fw-bolder text-uppercase">Chi tiết loại phòng</h3>
+        <hr>
+
+        <form class="vstack gap-3" id="form-roomtype">
+            <h4 class="text-primary text-uppercase">Thông tin kiểm toán</h4>
+            <hr>
+            <div class="hstack gap-3 mb-4">
+                <div class="form-floating w-50 ">
+                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Thời gian tạo"
+                        th:value="${room_type.createAt}" disabled>
+                    <label for="floatingInputValue">Thời gian tạo</label>
+                </div>
+                <div class="form-floating w-50">
+                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Thời gian cập nhập"
+                        th:value="${room_type.modifiedAt}" disabled>
+                    <label for="floatingInputValue">Thời gian cập nhập</label>
+                </div>
+                <!-- <div class="form-floating w-50 ">
+                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Thời gian xóa nháp"
+                        th:value="${role.deleteAt}" disabled>
+                    <label for="floatingInputValue">Thời gian xóa nháp</label>
+                </div>
+                <div class="form-floating w-50 ">
+                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Xóa nháp"
+                        th:value="${role.deleted}" disabled>
+                    <label for="floatingInputValue">Xóa nháp</label>
+                </div> -->
+            </div>
+            <div class="hstack gap-3 mb-4">
+                <div class="form-floating w-50 ">
+                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Người tạo(email)"
+                        th:value="${room_type.createBy}" disabled>
+                    <label for="floatingInputValue">Người tạo(email)</label>
+                </div>
+                <div class="form-floating w-50 ">
+                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Người cập nhập(email)"
+                        th:value="${room_type.modifiedBy}" disabled>
+                    <label for="floatingInputValue">Người cập nhập(email)</label>
+                </div>
+                <!-- <div class="form-floating w-50">
+                    <input type="text" class="form-control" id="floatingInputValue" placeholder="Người xóa nháp(email)"
+                        th:value="${role.deleteBy}" disabled>
+                    <label for="floatingInputValue">Người xóa nháp(email)</label>
+                </div> -->
+            </div>
+            <h3 class="text-primary text-uppercase">Thông tin cụ thể</h3>
+            <hr>
+            <div class="hstack gap-3">
+
+                <div class="vstack gap-3 py-auto">
+                    <a href="#">
+                        <img style="width: 400px;" th:src="${room_type.getLogo()}" alt="" id="roomtype-logo">
+                    </a>
+                    <div class="d-flex flex-column">
+                        <label for="form-file" class="form-label">Ảnh nền cho loại phòng</label>
+                        <input class="form-control" type="file" id="form-file" name="logo" style="width: 400px;">
+                    </div>
+                </div>
+                <div class="vstack gap-3">
+                    <div class="hstack gap-3 mb-4">
+                        <div class="form-floating w-50 ">
+                            <input type="hidden" th:value="${room_type.id}" name="id" id="id">
+                            <input type="text" class="form-control" id="_id" placeholder="Mã loại phòng"
+                                th:value="${room_type.id}" disabled>
+                            <label for="_id">Mã loại phòng</label>
+                        </div>
+                        <div class="form-floating w-50 ">
+                            <input type="text" class="form-control" id="name" placeholder="Tên loại phòng"
+                                th:value="${room_type.name}" name="name">
+                            <label for="name">Tên loại phòng</label>
+                        </div>
+                        <div class="form-floating w-50">
+                            <input type="text" class="form-control" id="price" placeholder="Giá tiền"
+                                th:value="${room_type.price}" name="price">
+                            <label for="code">Giá tiền</label>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label for="description">Mô tả</label>
+                        <textarea class="form-control" style="height: 100px" name="description"
+                            id="description">[[${room_type.description}]]</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hstack gap-3 d-flex flex-row-reverse">
+                <button type="button" id="btn-save" class="btn btn-outline-success">Lưu</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">Xóa</button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Xóa loại phòng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="vstack gap-3  w-100 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
+                        <div class="hstack gap-3 py-auto">
+                            <a href="#" class="me-3">
+                                <img style="width: 100px;" class="rounded-circle" th:src="${room_type.getLogo()}" alt="">
+                            </a>
+                            <div class="d-flex flex-column">
+                                <h5 class="text-primary">[[${room_type.name}]]</h5>
+                            </div>
+                        </div>
+                        <p>Bạn có muốn xóa dịch vụ này không?</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="btn-del">Xóa</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        var btnSave = $('#btn-save')
+        var btnDel = $('#btn-del')
+        var formRoomtype = $('#form-roomtype')
+        var formFile = $('#form-file')
+        var logo = $('#roomtype-logo')
+
+        formFile.addEventListener('change', (e) => {
+            var file = e.target.files[0]
+            logo.src = window.URL.createObjectURL(new Blob([file], { type: "application/zip" }))
+        })
+
+        //Tạo hàm gọi api
+
+        function fetchAPI(url, method, body) {
+
+            fetch(url, {
+                method: method,
+                body: body
+            })
+                .then(resp => {
+                    if (resp.status === 200) {
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
+                    } else {
+                        alert("Fail Validate!")
+                    }
+                })
+                .catch(err => {
+                    alert("Error!")
+                })
+        }
+
+        //Xử lý tạo room type
+
+        btnSave.addEventListener('click', (e) => {
+            e.preventDefault();
+            var formData = new FormData(formRoomtype)
+
+            formData.append('logo', document.forms['form-roomtype'].image.files[0])
+
+            formData.append('roomType', new Blob([
+                JSON.stringify({
+                    'id': formData.get('id'),
+                    'name': formData.get('name'),
+                    'price': formData.get('price'),
+                    'description': formData.get('description')
+                })
+            ], {
+                type: "application/json"
+            }))
+
+            fetchAPI(
+                '/admin/service-managements/service/tran',
+                'PUT',
+                formData)
+        })
+
+
+        //Xử lý xóa room type
+        btnDel.addEventListener('click', (e) => {
+            e.preventDefault();
+            var formData = new FormData(formRoomtype)
+
+            formData.append('service', new Blob([
+                JSON.stringify({
+                    'id': formData.get('id')
+                })
+            ], {
+                type: "application/json"
+            }))
+
+            fetchAPI(
+                `/admin/service-managements/service/tran`,
+                'DELETE',
+                formData)
+        })
+
+    </script>
+</th:block>

@@ -42,6 +42,11 @@ public class RoomApi {
 		return showWithPage(model, 1, "id", "asc", "");
 	}
 	
+	@GetMapping(value = "/room/room-show-admin")
+	public ResponseEntity<List<RoomEntity>> showAdmin(){
+		return ResponseEntity.ok().body(roomServ.findAllShowRoom());
+	}
+	
 	@PostMapping(value = "/room")
 	public ResponseEntity<RoomEntity> insert(@RequestBody RoomEntity room){
 		return ResponseEntity.ok().body(roomServ.save(room));

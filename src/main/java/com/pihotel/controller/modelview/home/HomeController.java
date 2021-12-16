@@ -141,9 +141,9 @@ public class HomeController {
 	@RequestMapping(value = "/home/checkin", method = RequestMethod.POST, consumes = { "multipart/form-data",
 			"application/json" })
 	public String doSaveInvoice(@RequestPart("invoice") InvoiceEntity invoice,
-			@RequestPart("roomType") RoomTypeEntity roomType, Principal principal) {
+			@RequestPart("roomType") RoomTypeEntity roomType, HttpServletRequest request) {
 		try {
-			AccountEntity customer = accountServ.findOneByUsername(principal.getName());
+			AccountEntity customer = (AccountEntity) request.getSession().getAttribute("account");
 			invoiceServ.addRoomAndCustomerToInvoice(invoice, customer);
 		} catch (NullPointerException e) {
 			// TODO: handle exception
@@ -159,15 +159,18 @@ public class HomeController {
 	public String doSaveInvoiceWithCustomer(@RequestPart("customer") AccountEntity customer,
 			@RequestPart("invoice") InvoiceEntity invoice, HttpServletRequest request) {
 		AccountEntity accountCustomer = (AccountEntity) request.getSession().getAttribute("account");
+		String verify_room = RandomString.make(64);
 		if (accountCustomer == null) {
 			customer.setId(RandomString.make(12));
 			customer.setAvatar(SystemConstant.AVATAR_ACCOUNT_DEFAULT_LINK);
 			customer.setAuthProvider(EAuthenticationProvider.NO_ACCOUNT);
 			AccountEntity customerNew = accountServ.saveCustomer(customer);
 			InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId());
+			invoiceNew.setVerifyRoom(verify_room);
 			invoiceNew.setAccount(customerNew);
 			invoiceNew.setEnabled(Boolean.TRUE);
 			invoiceNew.getRooms().forEach(room -> {
+				room.setVerifyRoom(verify_room);
 				room.setRoomState(ERoomState.USING);
 			});
 			invoiceServ.update(invoiceNew);
@@ -175,7 +178,9 @@ public class HomeController {
 		} else {
 			InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId());
 			invoiceNew.setAccount(accountCustomer);
+			invoiceNew.setVerifyRoom(verify_room);
 			invoiceNew.getRooms().forEach(room -> {
+				room.setVerifyRoom(verify_room);
 				room.setRoomState(ERoomState.USING);
 			});
 			invoiceNew.setEnabled(Boolean.TRUE);
@@ -201,7 +206,7 @@ public class HomeController {
 
 		InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId());
 		invoiceNew.getRooms().forEach(room -> {
-			roomServ.updateRoomState(ERoomState.EMPTY, room.getId());
+			roomServ.updateRoomState(ERoomState.EMPTY, RandomString.make(64), room.getId());
 		});
 		invoiceServ.delete(invoice.getIds());
 		return "redirect:/home/room";

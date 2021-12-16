@@ -74,9 +74,9 @@ public class InvoiceServ implements IInvoiceServ {
 				invoice.setChildren((Integer) invoiceDetail[10]);
 				invoice.setEndDate((Date) invoiceDetail[11]);
 				invoice.setStartDate((Date) invoiceDetail[12]);
-				invoice.setIdRoomType((String) invoiceDetail[14]);
-				invoice.setTotalPriceIncurred((Double) invoiceDetail[15]);
-				invoice.setTotalPriceAll((Double) invoiceDetail[16]);
+				invoice.setIdRoomType((String) invoiceDetail[15]);
+				invoice.setTotalPriceIncurred((Double) invoiceDetail[16]);
+				invoice.setTotalPriceAll((Double) invoiceDetail[17]);
 				invoiceNew.add(invoice);
 			}
 		}
@@ -98,9 +98,9 @@ public class InvoiceServ implements IInvoiceServ {
 				invoice.setChildren((Integer) invoiceDetail[10]);
 				invoice.setEndDate((Date) invoiceDetail[11]);
 				invoice.setStartDate((Date) invoiceDetail[12]);
-				invoice.setIdRoomType((String) invoiceDetail[14]);
-				invoice.setTotalPriceIncurred((Double) invoiceDetail[15]);
-				invoice.setTotalPriceAll((Double) invoiceDetail[16]);
+				invoice.setIdRoomType((String) invoiceDetail[15]);
+				invoice.setTotalPriceIncurred((Double) invoiceDetail[16]);
+				invoice.setTotalPriceAll((Double) invoiceDetail[17]);
 				invoiceNew.add(invoice);
 			}
 		}
@@ -148,16 +148,20 @@ public class InvoiceServ implements IInvoiceServ {
 	@Override
 	public void addRoomAndCustomerToInvoice(InvoiceEntity invoice, AccountEntity customer) {
 		// TODO Auto-generated method stub
+		String verifyRoom = RandomString.make(64);
+		
+		invoice.setVerifyRoom(verifyRoom);
 		invoice.setCreateAt(new Date());
 		invoice.setModifiedAt(new Date());
 		invoice.setEnabled(Boolean.FALSE);
-		invoice.setAccount(accountRepo.findByUsername(customer.getUsername()));
+		invoice.setAccount(accountRepo.findOneById(customer.getId()));
 		InvoiceEntity invoiceNew = invoiceRepo.save(invoice);
 
 		List<RoomEntity> rooms = new ArrayList<RoomEntity>();
 		invoice.getRooms().forEach(room -> {
 			RoomEntity roomNew = roomRepo.findOneById(room.getId());
-			roomRepo.updateRoomState(ERoomState.CHECKIN, roomNew.getId());
+			roomNew.setVerifyRoom(verifyRoom);
+			roomNew.setRoomState(ERoomState.CHECKIN);
 			rooms.add(roomNew);
 		});
 
@@ -168,6 +172,9 @@ public class InvoiceServ implements IInvoiceServ {
 	@Override
 	public void addRoomToInvoice(InvoiceEntity invoice) {
 		// TODO Auto-generated method stub
+		String verifyRoom = RandomString.make(64);
+		
+		invoice.setVerifyRoom(verifyRoom);
 		invoice.setCreateAt(new Date());
 		invoice.setModifiedAt(new Date());
 		invoice.setEnabled(Boolean.FALSE);
@@ -177,7 +184,8 @@ public class InvoiceServ implements IInvoiceServ {
 		List<RoomEntity> rooms = new ArrayList<RoomEntity>();
 		invoice.getRooms().forEach(room -> {
 			RoomEntity roomNew = roomRepo.findOneById(room.getId());
-			roomRepo.updateRoomState(ERoomState.CHECKIN, roomNew.getId());
+			roomNew.setVerifyRoom(verifyRoom);
+			roomNew.setRoomState(ERoomState.CHECKIN);
 			rooms.add(roomNew);
 		});
 

@@ -44,6 +44,9 @@ public class InvoiceEntity extends AbstractEntity{
 	@Column(name = "[CHILDREN]", columnDefinition = "int default 0")
 	private Integer children; 
 	
+	@Column(name = "[VERIFY_ROOM]", columnDefinition = "varchar(64)")
+	private String verifyRoom;
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "INVOICE_SERVICE",

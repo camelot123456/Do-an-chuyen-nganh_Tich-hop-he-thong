@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -41,5 +42,13 @@ public class RoomTypeEntity extends AbstractEntity{
 	@OneToMany(mappedBy = "roomType")
 	@JsonManagedReference
 	private List<RoomEntity> rooms;
+	
+	@Transient
+	public String getLogo() {
+		if (logo.startsWith("http://") || logo.startsWith("https://")) {
+			return logo;
+		}
+		return "/img/roomtype/" + logo;
+	}
 	
 }

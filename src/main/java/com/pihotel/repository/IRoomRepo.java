@@ -34,8 +34,8 @@ public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 	
 	@Modifying
 	@Transactional
-	@Query(value = "update RoomEntity r set r.roomState = ?1 where r.id = ?2")
-	public void updateRoomState(ERoomState state, String id);
+	@Query(value = "update RoomEntity r set r.roomState = ?1, r.verifyRoom = ?2 where r.id = ?3")
+	public void updateRoomState(ERoomState state, String verifyRoom, String id);
 	
 	@Query(value = "select * from room r where r.floor = ?1 or r.id_room_type = ?2 and r.name like %?3% "
 			+ "or r.room_state like %?3% "
@@ -48,4 +48,20 @@ public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 	
 	@Query(value = "select coalesce(max(r.floor), 0) from RoomEntity r")
 	public int maxFloor();
+	
+	@Query(value = "select r.id, a.name as nameCustomer, i.[start_date], i.end_date "
+			+ "from room r inner join invoice_room ir "
+			+ "on r.id = ir.id_room inner join invoice i "
+			+ "on ir.id_invoice = i.id inner join account a "
+			+ "on i.id_account = a.id "
+			+ "where i.[enabled] = 1 and r.room_state = 'USING' and i.verify_room = r.verify_room "
+			+ "union "
+			+ "select r.id, a.name as nameCustomer, i.[start_date], i.end_date "
+			+ "from room r inner join invoice_room ir "
+			+ "on r.id = ir.id_room inner join invoice i "
+			+ "on ir.id_invoice = i.id inner join account a "
+			+ "on i.id_account = a.id "
+			+ "where i.[enabled] = 0 and i.verify_room = r.verify_room", 
+			nativeQuery = true)
+	public List<Object[]> findAllShowRoom();
 }

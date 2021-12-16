@@ -1,5 +1,6 @@
 package com.pihotel.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -71,6 +72,24 @@ public class RoomServ implements IRoomServ {
 		// TODO Auto-generated method stub
 		return roomRepo.maxFloor();
 	}
+	
+	@Override
+	public List<RoomEntity> findAllShowRoom() {
+		List<Object[]> rooms = roomRepo.findAllShowRoom();
+		List<RoomEntity> roomsNew = null;
+		if (rooms.size() > 1) {
+			roomsNew = new ArrayList<RoomEntity>();
+			for (Object[] col : rooms) {
+				RoomEntity room = new RoomEntity();
+				room.setId((String) col[0]);
+				room.setNameCustomer((String) col[1]);
+				room.setStartDate((Date) col[2]);
+				room.setEndDate((Date) col[3]);
+				roomsNew.add(room);
+			}
+		}
+		return roomsNew;
+	}
 
 //	---------------------------------------INSERT---------------------------------------
 
@@ -98,9 +117,9 @@ public class RoomServ implements IRoomServ {
 	}
 
 	@Override
-	public void updateRoomState(ERoomState state, String id) {
+	public void updateRoomState(ERoomState state, String verifyRoom, String id) {
 		// TODO Auto-generated method stub
-		roomRepo.updateRoomState(state, id);
+		roomRepo.updateRoomState(state, verifyRoom, id);
 	}
 
 //	---------------------------------------DELETE---------------------------------------

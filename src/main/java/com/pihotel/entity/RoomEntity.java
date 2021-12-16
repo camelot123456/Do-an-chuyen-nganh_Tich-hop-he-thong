@@ -57,6 +57,9 @@ public class RoomEntity extends AbstractEntity{
 	@Column(name = "[FLOOR]", columnDefinition = "int default 1")
 	private Integer floor;
 	
+	@Column(name = "[VERIFY_ROOM]", columnDefinition = "varchar(64)")
+	private String verifyRoom;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_ROOM_TYPE")
 	@JsonBackReference
@@ -70,44 +73,11 @@ public class RoomEntity extends AbstractEntity{
 	private String idAccount;
 	
 	@Transient
-	private String castRoomState;
+	private String nameCustomer;
 	
 	@Transient
-	private String username;
+	private Date startDate;
 	
 	@Transient
-	private String authProvider;
-	
-	@Transient
-	private String nameAcconut;
-	
-	@Transient
-	private String email;
-	
-	@Transient
-	private String address;
-	
-	@Transient
-	private Date birthday;
-	
-	@Transient
-	private Boolean gender;
-	
-	@Transient
-	private String IdRoomType;
-	
-	@Transient
-	private String nameRoomType;
-	
-	@Transient
-	private Double price;
-	
-	@Transient
-	private String descriptionRoomType;
-	
-	@Transient
-	private String logo;
-	
-	@Transient
-	private String phoneNum;
+	private Date endDate;
 }
