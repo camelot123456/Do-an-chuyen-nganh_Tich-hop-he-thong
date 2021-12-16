@@ -2,6 +2,8 @@ package com.pihotel.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.pihotel.entity.ServiceEntity;
 
 public interface IServiceServ {
@@ -13,5 +15,10 @@ public interface IServiceServ {
 	public ServiceEntity update(ServiceEntity service);
 
 	public void delete(String[] ids);
+	
+	public Page<ServiceEntity> findAll(int numPage, String sortField, String sortDir, String keyword);
 
+	public ServiceEntity findOneById(String id);
+	
+	public void deleteById(String id);
 }

@@ -54,4 +54,5 @@ public interface IAccountServ {
 	
 	public Page<AccountEntity> findAllCustomer(int numPage, String sortField, String sortDir, String keyword);
 	
+	public AccountEntity findOneByIdForRoom(String idRoom);
 }

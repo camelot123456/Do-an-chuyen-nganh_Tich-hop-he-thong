@@ -129,18 +129,19 @@
                         laoreet dolore magna aliquam erat volutpat.</p>
 
                     <th:block th:each="service, state : ${services}">
-                        <div class="hstack gap-3 mt-3 border p-3 service-box">
-                            <a href="#" style="width: 40%" class="align-self-start">
-                                <img style="width: 290px;" th:src="${service.image}" alt="${service.name}">
+                        <div class="hstack gap-1 border p-2 service-box">
+                            <a href="#" style="width: 25%" class="align-self-start">
+                                <img style="width: 160px" th:src="${service.image}"
+                                    alt="${service.name}">
                             </a>
-                            <div style="width: 60%" class="align-self-start">
-                                <h4>[[${service.name}]]</h4>
-                                <div class="hstack gap-3 d-flex align-items-center">
+                            <div style="width: 75%" class="align-self-start">
+                                <h6>[[${service.name}]]</h6>
+                                <div class="hstack gap-1 d-flex align-items-center">
                                     <input class="form-control form-control-sm" type="number" style="width: 15%" min="0"
                                         max="10" id="num-service">
                                     <p style="margin-bottom: 0px">[[${service.price}]]$</p>
                                 </div>
-                                <p>[[${service.description}]]</p>
+                                <p style="font-size: 12px;">[[${service.description}]]</p>
                             </div>
                         </div>
                     </th:block>

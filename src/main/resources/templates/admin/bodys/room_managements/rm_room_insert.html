@@ -18,12 +18,15 @@
             </li>
         </ul>
 
-        <form class="vstack gap-3" id="form-account" name="form-account" enctype="multipart/form-data">
+        <form class="vstack gap-3" id="form-room" name="form-room" enctype="multipart/form-data">
             <div class="hstack gap-3 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
                 <div class="hstack gap-3 py-auto">
-                    <a href="#" class="me-3">
-                        <img id="account-avatar" style="width: 100px;" class="rounded-circle" src="" alt="">
-                    </a>
+                    <select class="form-select" aria-label="Default select example" name="idRoomType" id="idRoomType">
+                        <option selected>--Chọn loại phòng--</option>
+                        <th:block th:each="roomType, state : ${rooms_type}">
+                            <option th:value="${roomType.id}">[[${roomType.name}]]</option>
+                        </th:block>
+                    </select>
                     <div class="mb-3">
                         <label for="form-file" class="form-label">Ảnh đại diện</label>
                         <input class="form-control" type="file" id="form-file" name="avatar">
@@ -63,68 +66,42 @@
                 <div class="vstack gap-3 mb-4">
                     <div class="hstack gap-3">
                         <div class="form-floating w-50 ">
-                            <input type="text" class="form-control" id="id" placeholder="Mã tài khoản"
+                            <input type="text" class="form-control" id="id" placeholder="Mã phòng"
                                 th:value="${RANDOM_ID}" name="id">
-                            <label for="id">Mã tài khoản</label>
+                            <label for="id">Mã phòng</label>
                         </div>
                         <div class="form-floating w-50 ">
-                            <input type="text" class="form-control" id="_auth-provider" placeholder="Loại tài khoản"
-                                th:value="${AUTH_PROVIDER}" disabled>
-                            <label for="_auth-provider">Loại tài khoản</label>
-                            <input type="hidden" name="authProvider" th:value="${AUTH_PROVIDER}">
-                        </div>
-                        <div class="form-floating w-50">
-                            <input type="text" class="form-control" id="username" placeholder="Tên tài khoản"
-                                name="username">
-                            <label for="username">Tên tài khoản</label>
+                            <input type="text" class="form-control" id="name" placeholder="Tên phòng"
+                                name="name">
+                            <label for="name">Tên phòng</label>
                         </div>
                     </div>
                     <div class="hstack gap-3">
                         <div class="form-floating w-50">
-                            <input type="text" class="form-control" id="name" placeholder="Họ & tên" name="name">
-                            <label for="name">Họ & tên</label>
+                            <input type="text" class="form-control" id="area" placeholder="Diện tích" name="area">
+                            <label for="area">Diện tích</label>
                         </div>
                         <div class="form-floating w-50">
-                            <input type="email" class="form-control" id="email" placeholder="Email" name="email">
-                            <label for="email">Email</label>
+                            <input type="text" class="form-control" id="priceIncurred" placeholder="Chi phí phát sinh" name="priceIncurred">
+                            <label for="priceIncurred">Chi phí phát sinh</label>
                         </div>
                     </div>
                     <div class="hstack gap-3">
                         <div class="form-floating w-50">
-                            <input type="text" class="form-control" id="address" placeholder="Địa chỉ" name="address">
-                            <label for="address">Địa chỉ</label>
+                            <input type="number" class="form-control" id="customersNum" placeholder="Số người tối đa"
+                                name="customersNum">
+                            <label for="customersNum">Số người tối đa</label>
                         </div>
                         <div class="form-floating w-50">
-                            <input type="text" class="form-control" id="phoneNum" placeholder="Số điện thoại"
-                                name="phoneNum">
-                            <label for="phoneNum">Số điện thoại</label>
+                            <input type="number" class="form-control" id="floor" placeholder="Số tầng"
+                                name="floor">
+                            <label for="floor">Số tầng</label>
                         </div>
                     </div>
                     <div class="hstack gap-3">
-                        <div class="form-floating w-50">
-                            <input type="date" class="form-control" id="birthday" placeholder="Ngày sinh"
-                                name="birthday">
-                            <label for="birthday">Ngày sinh</label>
-                        </div>
-                        <div class=" form-floating w-50">
-                            <select class="form-select form-select-gender" id="gender"
-                                aria-label="Floating label select example" name="gender">
-                                <option value="">Chọn giới tính</option>
-                                <option value="true">Nam</option>
-                                <option value="false">Nữ</option>
-                            </select>
-                            <label for="gender">Giới tính</label>
-                        </div>
-                    </div>
-                    <div class="hstack gap-3">
-                        <div class="form-floating w-50">
-                            <input type="password" class="form-control" id="password" placeholder="Mật khẩu">
-                            <label for="name">Mật khẩu</label>
-                        </div>
-                        <div class="form-floating w-50">
-                            <input type="password" class="form-control" id="re-password" placeholder="Xác nhận mật khẩu"
-                                name="password">
-                            <label for="re-password">Xác nhận mật khẩu</label>
+                        <div class="vstack gap-3 p-3 border rounded-3 bg-light">
+                            <label for="description">Mô tả</label>
+                            <textarea class="form-control" style="height: 100px" name="description" id="description"></textarea>
                         </div>
                     </div>
                     <div class="vstack gap-3 p-3 border rounded-3 bg-light">
@@ -132,34 +109,9 @@
                         <textarea class="form-control" style="height: 100px" name="editor1" id="editor1"></textarea>
                     </div>
                 </div>
-
-                <h4 class="text-primary text-uppercase">Quyền truy cập</h4>
-                <hr>
-                <table class="table table-striped table-hover border rounded-3 shadow">
-                    <tbody>
-                        <th:block th:each="role, state : ${roles}">
-                            <tr style="line-height: 50px;">
-                                <th scope="row">[[${state.count}]]</th>
-                                <td>
-                                    <img style="width: 50px;" class="rounded-circle" th:src="${role.logo}" alt="">
-                                </td>
-                                <td>[[${role.name}]]</td>
-                                <td>[[${role.code}]]</td>
-                                <td class="text-center">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input checkbox-role me-4" type="checkbox" role="switch"
-                                            th:id="${role.id}" style="margin-top: 19px; cursor: pointer;">
-                                        <label class="form-check-label label-role" th:for="${role.id}"></label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </th:block>
-                    </tbody>
-                </table>
             </div>
 
             <div class="hstack gap-3 d-flex flex-row-reverse">
-                <button type="button" class="btn btn-outline-primary">Cập nhập quyền truy cập</button>
                 <button type="button" id="btn-save" class="btn btn-outline-success">Lưu</button>
             </div>
 
@@ -172,27 +124,13 @@
         var $$ = document.querySelectorAll.bind(document)
 
         var btnSave = $('#btn-save')
-        var avatar = $('#account-avatar')
-        var formAccount = $('#form-account')
+        var formRoom= $('#form-room')
         var formFile = $('#form-file')
 
         formFile.addEventListener('change', (e) => {
             console.log("test")
             var file = e.target.files[0]
             avatar.src = window.URL.createObjectURL(new Blob([file], { type: "application/zip" }))
-        })
-
-
-        var idRoles = Array.from($$('.checkbox-role'))
-        idRoles.forEach((element) => {
-            element.nextElementSibling.innerHTML = `<span class="badge rounded-pill bg-secondary">Vô hiệu hóa</span>`
-            element.addEventListener('change', (e) => {
-                if (element.checked == true) {
-                    element.nextElementSibling.innerHTML = `<span class="badge rounded-pill bg-success">Đã kích hoạt</span>`
-                } else {
-                    element.nextElementSibling.innerHTML = `<span class="badge rounded-pill bg-secondary">Vô hiệu hóa</span>`
-                }
-            })
         })
 
         //Tạo hàm gọi api
@@ -218,37 +156,27 @@
         //Xử lý tạo tài khoản
         btnSave.addEventListener('click', (e) => {
             e.preventDefault();
-            var formData = new FormData(formAccount)
-
-            var roles = []
-            var role = {}
-            Array.from($$('.checkbox-role')).forEach((element) => {
-                if (element.checked) {
-                    role = { id: element.id }
-                    roles.push(role)
-                    console.log(role)
-                }
-            })
-            formData.append('avatar', document.forms['form-account'].avatar.files[0])
-            formData.append('account', new Blob([
+            var formData = new FormData(formRoom)
+            
+            formData.append('room', new Blob([
                 JSON.stringify({
                     'id': formData.get('id'),
                     'name': formData.get('name'),
-                    'email': formData.get('email'),
-                    'address': formData.get('address'),
-                    'phoneNum': formData.get('phoneNum'),
-                    'birthday': formData.get('birthday'),
-                    'gender': formData.get('gender'),
-                    'password': formData.get('password'),
-                    'username': formData.get('username'),
-                    'roles': roles
+                    'area': formData.get('area'),
+                    'priceIncurred': formData.get('priceIncurred'),
+                    'floor': formData.get('floor'),
+                    'customersNum': formData.get('customersNum'),
+                    'description': formData.get('description'),
+                    'roomType': {
+                        'id': formData.get('idRoomType')
+                    }
                 })
             ], {
                 type: "application/json"
             }))
 
             fetchAPI(
-                '/admin/internal-managements/account/tran',
+                '/admin/room-managements/room/tran',
                 'POST',
                 formData)
         })

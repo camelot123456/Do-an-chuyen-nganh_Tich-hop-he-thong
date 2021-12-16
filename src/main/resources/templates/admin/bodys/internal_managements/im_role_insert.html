@@ -89,7 +89,6 @@
             var formData = new FormData(formRole)
 
             formData.append('logo', document.forms['form-role'].logo.files[0])
-            console.log(document.forms['form-role'])
             formData.append('role', new Blob([
                 JSON.stringify({
                     'id': formData.get('id'),

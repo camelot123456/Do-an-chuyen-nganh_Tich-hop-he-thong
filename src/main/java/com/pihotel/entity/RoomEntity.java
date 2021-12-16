@@ -1,5 +1,6 @@
 package com.pihotel.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -68,4 +69,45 @@ public class RoomEntity extends AbstractEntity{
 	@Transient
 	private String idAccount;
 	
+	@Transient
+	private String castRoomState;
+	
+	@Transient
+	private String username;
+	
+	@Transient
+	private String authProvider;
+	
+	@Transient
+	private String nameAcconut;
+	
+	@Transient
+	private String email;
+	
+	@Transient
+	private String address;
+	
+	@Transient
+	private Date birthday;
+	
+	@Transient
+	private Boolean gender;
+	
+	@Transient
+	private String IdRoomType;
+	
+	@Transient
+	private String nameRoomType;
+	
+	@Transient
+	private Double price;
+	
+	@Transient
+	private String descriptionRoomType;
+	
+	@Transient
+	private String logo;
+	
+	@Transient
+	private String phoneNum;
 }

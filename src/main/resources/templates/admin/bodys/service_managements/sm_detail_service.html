@@ -1,35 +1,20 @@
 <th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
     <div class="vstack gap-3">
-        <div>
-            <h3 class="text-primary fw-bolder text-uppercase">Chi tiết quyền</h3>
-        </div>
-
+        <h3 class="text-primary fw-bolder text-uppercase">Chi tiết dịch vụ</h3>
         <hr>
 
-        <form class="vstack gap-3" id="form-role">
-            <div class="hstack gap-3 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3 border">
-                <div class="hstack gap-3 py-auto">
-                    <a href="#" class="me-3">
-                        <img style="width: 100px;" class="rounded-circle" th:src="${role.logo}" alt="">
-                    </a>
-                    <div class="d-flex flex-column">
-                        <h5 class="text-primary">[[${role.name}]]</h5>
-                        <p>[[${role.logo}]]</p>
-                    </div>
-                </div>
-            </div>
-
+        <form class="vstack gap-3" id="form-service">
             <h4 class="text-primary text-uppercase">Thông tin kiểm toán</h4>
             <hr>
             <div class="hstack gap-3 mb-4">
                 <div class="form-floating w-50 ">
                     <input type="text" class="form-control" id="floatingInputValue" placeholder="Thời gian tạo"
-                        th:value="${role.createAt}" disabled>
+                        th:value="${service.createAt}" disabled>
                     <label for="floatingInputValue">Thời gian tạo</label>
                 </div>
                 <div class="form-floating w-50">
                     <input type="text" class="form-control" id="floatingInputValue" placeholder="Thời gian cập nhập"
-                        th:value="${role.modifiedAt}" disabled>
+                        th:value="${service.modifiedAt}" disabled>
                     <label for="floatingInputValue">Thời gian cập nhập</label>
                 </div>
                 <!-- <div class="form-floating w-50 ">
@@ -46,12 +31,12 @@
             <div class="hstack gap-3 mb-4">
                 <div class="form-floating w-50 ">
                     <input type="text" class="form-control" id="floatingInputValue" placeholder="Người tạo(email)"
-                        th:value="${role.createBy}" disabled>
+                        th:value="${service.createBy}" disabled>
                     <label for="floatingInputValue">Người tạo(email)</label>
                 </div>
                 <div class="form-floating w-50 ">
                     <input type="text" class="form-control" id="floatingInputValue" placeholder="Người cập nhập(email)"
-                        th:value="${role.modifiedBy}" disabled>
+                        th:value="${service.modifiedBy}" disabled>
                     <label for="floatingInputValue">Người cập nhập(email)</label>
                 </div>
                 <!-- <div class="form-floating w-50">
@@ -62,31 +47,45 @@
             </div>
             <h3 class="text-primary text-uppercase">Thông tin cụ thể</h3>
             <hr>
-            <div class="hstack gap-3 mb-4">
-                <div class="form-floating w-50 ">
-                    <input type="hidden" th:value="${role.id}" name="id">
-                    <input type="text" class="form-control" id="id" placeholder="Mã quyền" th:value="${role.id}"
-                        disabled>
-                    <label for="id">Mã quyền</label>
+            <div class="hstack gap-3">
+
+                <div class="vstack gap-3 py-auto">
+                    <a href="#">
+                        <img style="width: 400px;" th:src="${service.getImage()}" alt="" id="service-image">
+                    </a>
+                    <div class="d-flex flex-column">
+                        <label for="form-file" class="form-label">Ảnh nền cho dịch vụ</label>
+                        <input class="form-control" type="file" id="form-file" name="image" style="width: 400px;">
+                    </div>
                 </div>
-                <div class="form-floating w-50 ">
-                    <input type="text" class="form-control" id="name" placeholder="Tên quyền" th:value="${role.name}"
-                        name="name">
-                    <label for="name">Tên quyền</label>
+                <div class="vstack gap-3">
+                    <div class="hstack gap-3 mb-4">
+                        <div class="form-floating w-50 ">
+                            <input type="hidden" th:value="${service.id}" name="id" id="id">
+                            <input type="text" class="form-control" id="_id" placeholder="Mã dịch vụ"
+                                th:value="${service.id}" disabled>
+                            <label for="_id">Mã dịch vụ</label>
+                        </div>
+                        <div class="form-floating w-50 ">
+                            <input type="text" class="form-control" id="name" placeholder="Tên dịch vụ"
+                                th:value="${service.name}" name="name">
+                            <label for="name">Tên dịch vụ</label>
+                        </div>
+                        <div class="form-floating w-50">
+                            <input type="text" class="form-control" id="price" placeholder="Giá tiền"
+                                th:value="${service.price}" name="price">
+                            <label for="code">Giá tiền</label>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label for="description">Mô tả</label>
+                        <textarea class="form-control" style="height: 100px" name="description"
+                            id="description">[[${service.description}]]</textarea>
+                    </div>
                 </div>
-                <div class="form-floating w-50">
-                    <input type="text" class="form-control" id="code" placeholder="Tên code" th:value="${role.code}"
-                        name="code">
-                    <label for="code">Tên code</label>
-                </div>
-            </div>
-            <div class="">
-                <label for="editor1">Thông tin riêng</label>
-                <textarea class="form-control" style="height: 100px" name="editor1" id="editor1"></textarea>
             </div>
 
             <div class="hstack gap-3 d-flex flex-row-reverse">
-                <button type="button" class="btn btn-outline-primary">Cập nhập quyền truy cập</button>
                 <button type="button" id="btn-save" class="btn btn-outline-success">Lưu</button>
                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop">Xóa</button>
@@ -101,20 +100,20 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Xóa quyền</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Xóa dịch vụ</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="vstack gap-3  w-100 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
                         <div class="hstack gap-3 py-auto">
                             <a href="#" class="me-3">
-                                <img style="width: 100px;" class="rounded-circle" th:src="${role.logo}" alt="">
+                                <img style="width: 100px;" class="rounded-circle" th:src="${service.image}" alt="">
                             </a>
                             <div class="d-flex flex-column">
-                                <h5 class="text-primary">[[${role.name}]]</h5>
+                                <h5 class="text-primary">[[${service.name}]]</h5>
                             </div>
                         </div>
-                        <p>Bạn có muốn xóa quyền này không?</p>
+                        <p>Bạn có muốn xóa dịch vụ này không?</p>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -126,13 +125,19 @@
     </div>
 
     <script>
-        CKEDITOR.replace('editor1')
         var $ = document.querySelector.bind(document)
         var $$ = document.querySelectorAll.bind(document)
 
         var btnSave = $('#btn-save')
         var btnDel = $('#btn-del')
-        var formRole = $('#form-role')
+        var formService = $('#form-service')
+        var formFile = $('#form-file')
+        var image = $('#service-image')
+
+        formFile.addEventListener('change', (e) => {
+            var file = e.target.files[0]
+            image.src = window.URL.createObjectURL(new Blob([file], { type: "application/zip" }))
+        })
 
         //Tạo hàm gọi api
 
@@ -156,24 +161,27 @@
                 })
         }
 
-        //Xử lý tạo role
+        //Xử lý tạo Service
 
         btnSave.addEventListener('click', (e) => {
             e.preventDefault();
-            var formData = new FormData(formRole)
+            var formData = new FormData(formService)
 
-            formData.append('role', new Blob([
+            formData.append('image', document.forms['form-service'].image.files[0])
+
+            formData.append('service', new Blob([
                 JSON.stringify({
                     'id': formData.get('id'),
                     'name': formData.get('name'),
-                    'code': formData.get('code')
+                    'price': formData.get('price'),
+                    'description': formData.get('description')
                 })
             ], {
                 type: "application/json"
             }))
 
             fetchAPI(
-                '/admin/internal-managements/role/tran',
+                '/admin/service-managements/service/tran',
                 'PUT',
                 formData)
         })
@@ -182,10 +190,9 @@
         //Xử lý xóa role
         btnDel.addEventListener('click', (e) => {
             e.preventDefault();
-            console.log('delete')
-            var formData = new FormData(formRole)
+            var formData = new FormData(formService)
 
-            formData.append('role', new Blob([
+            formData.append('service', new Blob([
                 JSON.stringify({
                     'id': formData.get('id')
                 })
@@ -194,7 +201,7 @@
             }))
 
             fetchAPI(
-                `/admin/internal-managements/role/tran`,
+                `/admin/service-managements/service/tran`,
                 'DELETE',
                 formData)
         })

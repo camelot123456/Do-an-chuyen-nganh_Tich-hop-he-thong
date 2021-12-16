@@ -1,5 +1,7 @@
 package com.pihotel.controller.modelview.admin;
 
+import java.security.Principal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,12 +14,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.RoomEntity;
 import com.pihotel.entity.enums.ERoomState;
+import com.pihotel.service.IAccountServ;
 import com.pihotel.service.IRoomServ;
 import com.pihotel.service.IRoomTypeServ;
+import com.pihotel.service.IServiceServ;
+
+import net.bytebuddy.utility.RandomString;
 
 @Controller
 public class RoomController {
@@ -27,6 +34,12 @@ public class RoomController {
 	
 	@Autowired
 	private IRoomTypeServ roomTypeServ;
+	
+	@Autowired
+	private IAccountServ accountServ;
+	
+	@Autowired
+	private IServiceServ serviceServ;
 
 //	---------------------------------------GET---------------------------------------
 	
@@ -63,7 +76,34 @@ public class RoomController {
 		return "admin/bodys/room_managements/rm_room";
 	}
 	
+	@RequestMapping(value = "/admin/room-managements/room/add")
+	public String showRoomInsert(Model model, Principal principal) {
+		model.addAttribute(SystemConstant.ROOMS_TYPE, roomTypeServ.findAll());
+		model.addAttribute("RANDOM_ID", RandomString.make(12));
+		model.addAttribute("CREATE_AT", new Date());
+		model.addAttribute("EMAIL", accountServ.findOneByUsername(principal.getName()).getEmail());
+		return "admin/bodys/room_managements/rm_room_insert";
+	}
+	
+	@RequestMapping(value = "/admin/room-managements/room/{idRoom}")
+	public String showRoomDetail(Model model, Principal principal, @PathVariable("idRoom") String idRoom) {
+		model.addAttribute(SystemConstant.SERVICES, serviceServ.findAll());
+		model.addAttribute(SystemConstant.ROOM, roomServ.findOneById(idRoom));
+		model.addAttribute(SystemConstant.ACCOUNT, accountServ.findOneByIdForRoom(idRoom));
+		model.addAttribute(SystemConstant.ROOM_TYPE, roomTypeServ.findOneByIdRoom(idRoom));
+		return "admin/bodys/room_managements/rm_room_detail";
+	}
+	
 //	---------------------------------------POST---------------------------------------
+	
+	@RequestMapping(value = "/admin/room-managements/room/tran", method = RequestMethod.POST, consumes = {"multipart/form-data", "application/json"})
+	public String doSaveRoomType(@RequestPart("room") RoomEntity room,
+			@RequestPart("roomType") RoomEntity roomType,
+			@RequestPart("invoice") RoomEntity invoice,
+			@RequestPart("account") RoomEntity account) {
+		roomServ.save(room);
+		return "redirect:/admin/room-managements/room?idRoom="+room.getId()+"&idRoomType="+roomType.getId()+"&idInvoice="+invoice.getId()+"&idAccount="+account.getId();
+	}
 	
 //	---------------------------------------PUT---------------------------------------
 	
@@ -82,7 +122,5 @@ public class RoomController {
 //	---------------------------------------PATCH---------------------------------------
 	
 //	---------------------------------------DELETE---------------------------------------
-	
-	
 	
 }

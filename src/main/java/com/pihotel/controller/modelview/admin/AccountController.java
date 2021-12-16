@@ -80,7 +80,7 @@ public class AccountController {
 	@RequestMapping(value = "/admin/internal-managements/account/add")
 	public String accountInsertShow(Model model, Principal principal) {
 		model.addAttribute("CREATE_AT", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS").format(new Date()));
-		model.addAttribute("RANDOM_ID", RandomString.make(16));
+		model.addAttribute("RANDOM_ID", RandomString.make(12));
 		model.addAttribute("AUTH_PROVIDER", "LOCAL");
 		model.addAttribute("EMAIL", accountServ.findOneByUsername(principal.getName()).getEmail());
 		model.addAttribute(SystemConstant.ROLES, roleServ.findAll());

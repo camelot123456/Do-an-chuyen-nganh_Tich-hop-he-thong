@@ -1,0 +1,180 @@
+<th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
+    <div>
+        <h3 class="text-primary fw-bolder text-uppercase">CHI TIẾT PHÒNG</h3>
+
+        <hr>
+
+        <div class="vstack gap-3">
+            <div class="hstack gap-3">
+                <div class="vstack gap-1 w-50  border rounded-3 shadow bg-light p-3">
+                    <h5 class="text-primary text-uppercase">Loại phòng</h5>
+                    <hr>
+                    <a href="#">
+                        <img style="width: 100%" th:src="${room_type.logo}" alt="">
+                    </a>
+                    <p>[[${room_type.name}]]</p>
+                    <p>[[${room_type.price}]] $</p>
+                    <p>[[${room_type.description}]]</p>
+                </div>
+                <div class="vstack gap-1 w-50 d-flex align-items-start border rounded-3 shadow bg-light p-3">
+                    <h5 class="text-primary text-uppercase">Thông tin phòng</h5>
+                    <hr>
+                    <div class="vstack gap-3">
+                        <div class="hstack gap-3">
+                            <div class="form-floating w-50 ">
+                                <input type="hidden" name="idRoom" id="idRoom">
+                                <input type="text" class="form-control" id="id" placeholder="Mã phòng"
+                                    th:value="${room.id}" name="id" disabled>
+                                <label for="id">Mã phòng</label>
+                            </div>
+                            <div class="form-floating w-50 ">
+                                <input type="text" class="form-control" id="name" placeholder="Tên phòng" name="name"
+                                    th:value="${room.name}">
+                                <label for="name">Tên phòng</label>
+                            </div>
+                        </div>
+                        <div class="hstack gap-3">
+                            <div class="form-floating w-50">
+                                <input type="text" class="form-control" id="area" placeholder="Diện tích" name="area"
+                                    th:value="${room.area}">
+                                <label for="area">Diện tích</label>
+                            </div>
+                            <div class="form-floating w-50">
+                                <input type="text" class="form-control" id="priceIncurred"
+                                    placeholder="Chi phí phát sinh" name="priceIncurred"
+                                    th:value="${room.priceIncurred}">
+                                <label for="priceIncurred">Chi phí phát sinh</label>
+                            </div>
+                        </div>
+                        <div class="hstack gap-3">
+                            <div class="form-floating w-50">
+                                <input type="number" class="form-control" id="customersNum"
+                                    placeholder="Số người tối đa" name="customersNum" th:value="${room.customersNum}">
+                                <label for="customersNum">Số người tối đa</label>
+                            </div>
+                            <div class="form-floating w-50">
+                                <input type="number" class="form-control" id="floor" placeholder="Số tầng" name="floor"
+                                    th:value="${room.floor}">
+                                <label for="floor">Số tầng</label>
+                            </div>
+                        </div>
+                        <div class="hstack gap-3">
+                            <div class="vstack gap-3 p-3 border rounded-3 bg-light">
+                                <label for="description">Mô tả</label>
+                                <textarea class="form-control" style="height: 100px" name="description" id="description"
+                                    th:value="${room.description}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hstack gap-3 d-flex justify-content-end mt-auto">
+                        <button class="btn btn-danger">Xóa</button>
+                        <button class="btn btn-success">Lưu</button>
+                    </div>
+                </div>
+            </div>
+            <div class="hstack gap-3">
+                <div class="vstack gap-1 w-50  border rounded-3 shadow bg-light p-3">
+                    <h5 class="text-primary text-uppercase">Dịch vụ</h5>
+                    <hr>
+                    <h6 class="mt-4">Danh sách các dịch vụ mà khách hàng đang dùng</h5>
+                        <th:block th:each="service, state : ${services}">
+                            <div class="hstack gap-1 border p-2 service-box">
+                                <a href="#" style="width: 25%" class="align-self-start">
+                                    <img style="width: 160px;" th:src="${service.image}"
+                                        alt="${service.name}">
+                                </a>
+                                <div style="width: 75%" class="align-self-start">
+                                    <h6>[[${service.name}]]</h6>
+                                    <div class="hstack gap-1 d-flex align-items-center">
+                                        <input class="form-control form-control-sm" type="number" style="width: 15%"
+                                            min="0" max="10" id="num-service">
+                                        <p style="margin-bottom: 0px">[[${service.price}]]$</p>
+                                    </div>
+                                    <p style="font-size: 12px;">[[${service.description}]]</p>
+                                </div>
+                            </div>
+                        </th:block>
+                </div>
+                <div class="vstack gap-1 w-50  border rounded-3 shadow bg-light p-3">
+                    <h5 class="text-primary text-uppercase">Thông tin khách đang thuê phòng</h5>
+                    <hr>
+                    <th:block th:if="${account} == null">
+                        <h5>Không có khách hàng !</h5>
+                    </th:block>
+                    <th:block th:unless="${account} == null">
+                        <div class="vstack gap-3">
+                            <div class="d-flex justify-content-center mb-4">
+                                <a th:href="@{'/admin/internal-managements/account/'+${account.id}}">
+                                    <img style="min-width: 250px;" class="rounded-circle"
+                                        th:src="${account.getAvatar()}" alt="">
+                                </a>
+                            </div>
+                            <div class="hstack gap-3">
+                                <div class="form-floating w-50 ">
+                                    <input type="text" class="form-control" id="idAccount" placeholder="Mã tài khoản"
+                                        th:value="${account.id}" disabled>
+                                    <label for="id">Mã khách hàng</label>
+                                </div>
+                                <div class="form-floating w-50 ">
+                                    <input type="text" class="form-control" id="_auth-provider"
+                                        placeholder="Loại tài khoản" th:value="${account.authProvider}" disabled>
+                                    <label for="_auth-provider">Loại tài khoản</label>
+                                    <input type="hidden" name="authProvider" th:value="${account.authProvider}">
+                                </div>
+                                <div class="form-floating w-50">
+                                    <input type="text" class="form-control" id="username" placeholder="Tên tài khoản"
+                                        disabled
+                                        th:value="${account.username != null} ? ${account.username} : 'Chưa có tài khoản'">
+                                    <label for="username">Tên tài khoản</label>
+                                </div>
+                            </div>
+                            <div class="hstack gap-3">
+                                <div class="form-floating w-50">
+                                    <input type="text" class="form-control" id="name" placeholder="Họ & tên"
+                                        th:value="${account.name}" disabled>
+                                    <label for="name">Họ & tên</label>
+                                </div>
+                                <div class="form-floating w-50">
+                                    <input type="email" class="form-control" id="email" placeholder="Email"
+                                        th:value="${account.email}" disabled>
+                                    <label for="email">Email</label>
+                                </div>
+                            </div>
+                            <div class="hstack gap-3">
+                                <div class="form-floating w-50">
+                                    <input type="text" class="form-control" id="address" placeholder="Địa chỉ"
+                                        th:value="${account.address}" disabled>
+                                    <label for="address">Địa chỉ</label>
+                                </div>
+                                <div class="form-floating w-50">
+                                    <input type="text" class="form-control" id="phoneNum" placeholder="Số điện thoại"
+                                        th:value="${account.phoneNum}" disabled>
+                                    <label for="phoneNum">Số điện thoại</label>
+                                </div>
+                            </div>
+                            <div class="hstack gap-3">
+                                <div class="form-floating w-50">
+                                    <input type="date" class="form-control" id="birthday" placeholder="Ngày sinh"
+                                        name="birthday" th:value="${account.birthday}" disabled>
+                                    <label for="birthday">Ngày sinh</label>
+                                </div>
+                                <div class=" form-floating w-50">
+                                    <input type="text" class="form-control" id="gender" placeholder="Giới tính"
+                                        th:value="${account.gender == 'true'} ? 'Nam' : 'Nữ'" disabled>
+                                    <label for="gender">Giới tính</label>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+    </script>
+</th:block>

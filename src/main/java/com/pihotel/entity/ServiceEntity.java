@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -44,4 +45,13 @@ public class ServiceEntity extends AbstractEntity{
 	@ManyToMany(mappedBy = "services")
 	@JsonIgnoreProperties("services")
 	private List<InvoiceEntity> invoices;
+	
+	@Transient
+	public String getImage() {
+		if (image.startsWith("http://") || image.startsWith("https://")) {
+			return image;
+		}
+		return "/img/service/" + image;
+	}
+
 }

@@ -90,4 +90,13 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 	
 	public Boolean existsByUsername(String username);
 	
+	@Query(value = "select a.* "
+			+ "from room r inner join invoice_room ir "
+			+ "on r.id = ir.id_room inner join room_type rt "
+			+ "on r.id_room_type = rt.id inner join invoice i "
+			+ "on ir.id_invoice = i.id inner join account a "
+			+ "on a.id = i.id_account "
+			+ "where r.id = ?1",
+			nativeQuery = true)
+	public AccountEntity findOneByIdForRoom(String idRoom);
 }

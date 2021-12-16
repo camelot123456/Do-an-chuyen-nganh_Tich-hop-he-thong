@@ -117,6 +117,11 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		return accountRepo.findByUsername(username);
 	}
 	
+	@Override
+	public AccountEntity findOneByIdForRoom(String idRoom) {
+		return accountRepo.findOneByIdForRoom(idRoom);
+	}
+	
 	
 //	---------------------------------------INSERT---------------------------------------
 	

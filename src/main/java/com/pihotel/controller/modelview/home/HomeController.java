@@ -162,7 +162,7 @@ public class HomeController {
 		if (accountCustomer == null) {
 			customer.setId(RandomString.make(12));
 			customer.setAvatar(SystemConstant.AVATAR_ACCOUNT_DEFAULT_LINK);
-			customer.setAuthProvider(EAuthenticationProvider.LOCAL);
+			customer.setAuthProvider(EAuthenticationProvider.NO_ACCOUNT);
 			AccountEntity customerNew = accountServ.saveCustomer(customer);
 			InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId());
 			invoiceNew.setAccount(customerNew);

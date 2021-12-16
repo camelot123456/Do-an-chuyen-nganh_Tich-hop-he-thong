@@ -4,42 +4,11 @@
         <hr>
         <div class="vstack gap-3">
             <div class="hstack gap-3">
-                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="width: 70%">
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                            class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                            aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                            aria-label="Slide 3"></button>
-                    </div>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="https://fiboholiday.webhotel.vn/files/images/Room/deluxe/406_5.jpg"
-                                class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://fiboholiday.webhotel.vn/files/images/Room/deluxe/406_5.jpg"
-                                class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://fiboholiday.webhotel.vn/files/images/Room/deluxe/406_11.jpg"
-                                class="d-block w-100" alt="...">
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
+                <a href="#" style="width: 60%">
+                    <img th:src="${room_type.logo}" alt="" style="width: 100%; min-height: 450px">
+                </a>
 
-                <form class="vstack gap-2 border bg-light shadow p-3" id="form-checkin" style="width: 30%"
+                <form class="vstack gap-2 border bg-light shadow p-3" id="form-checkin" style="width: 30%; min-height: 450px"
                     enctype='multipart/form-data'>
                     <input type="hidden" id="id_room_type" th:value="${room_type.id}">
                     <input type="hidden" id="id-invoice" th:value="${ID_INVOICE}">

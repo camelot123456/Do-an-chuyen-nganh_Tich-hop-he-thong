@@ -28,4 +28,5 @@ public interface IRoomServ {
 	public Page<RoomEntity> searchWithFloorAndRoomType(String floor, String roomType, int numPage, String sortField, String sortDir, String keyword);
 	
 	public int maxFloor();
+	
 }

@@ -1,12 +1,281 @@
 <th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
-    <div id="service"></div>
+    <div class="vstack gap-3">
+        <div>
+            <h3 class="text-primary fw-bolder text-uppercase">Thành viên nội bộ</h3>
+        </div>
+
+        <hr>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/admin/service-managements/service">Quản lý dịch vụ</a>
+            </li>
+        </ul>
+
+        <div class="hstack gap-2 my-3">
+            <form class="input-group w-50" id="form-search"
+                th:action="@{'/admin/service-managements/service/page/'+${currentPage}}" required>
+                <input type="hidden" name="sortField" th:value="${sortField}">
+                <input type="hidden" name="sortDir" th:value="${sortDir}">
+                <input class="form-control form-control-sm" placeholder="Tìm kiếm ..." aria-describedby="button-addon2"
+                    name="keyword" th:value="${keyword}" type="search" aria-label="Search">
+                <button class="btn btn-outline-primary btn-sm" type="submit">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </form>
+            <div class="hstack gap-2 ms-auto button-group-tool"></div>
+        </div>
+
+        <table class="table table-hover table-striped border shadow rounded-3 mb-3">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <input class="form-check-input checkbox-element" type="checkbox" value="">
+                    </th>
+                    <th scope="col">No.</th>
+                    <th scope="col">
+                        <a
+                            th:href="@{'/admin/service-managements/service/page/'+${currentPage}+'?sortField=id&sortDir='+${reverseSort}+'&keyword='}">Id</a>
+                    </th>
+                    <th scope="col">Ảnh</th>
+                    <th scope="col">
+                        <a
+                            th:href="@{'/admin/service-managements/service/page/'+${currentPage}+'?sortField=name&sortDir='+${reverseSort}+'&keyword='}">Tên</a>
+                    </th>
+                    <th scope="col">
+                        <a
+                            th:href="@{'/admin/service-managements/service/page/'+${currentPage}+'?sortField=authProvider&sortDir='+${reverseSort}+'&keyword='}">Giá</a>
+                    </th>
+                    <th scope="col" class="text-center">Công cụ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:if="${totalElement == 0}">
+                    <tr>
+                        <th colspan="9">
+                            <p class="text-center fs-6">Danh sách dịch vụ trống. <a
+                                    href="/admin/service-managements/service/add">Thêm dịch vụ mới</a></p>
+                        </th>
+                    </tr>
+                </th:block>
+
+                <th:block th:each="service, state : ${services}">
+                    <tr style="line-height: 50px;" th:id="@{'tag-tr-'+${service.id}}">
+                        <td class="row-checkbox">
+                            <input class="form-check-input checkbox-all" th:id="${service.id}" type="checkbox" value="">
+                        </td>
+                        <th scope="row">[[${state.count}]]</th>
+                        <th scope="row">[[${service.id}]]</th>
+                        <td>
+                            <img style="width: 70px;" th:src="${service.image}" />
+                        </td>
+                        <td>[[${service.name}]]</td>
+                        <td>[[${service.price}]]</td>
+                        <td class="text-center">
+                            <a th:href="@{'/admin/service-managements/service/'+${service.id}}"
+                                class="btn btn-sm btn-info">Xem</a>
+                            <button class="btn btn-sm btn-danger btn-del" th:id="${service.id}">Xóa</button>
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+        <!-- Xử lý phân trang -->
+        <div class="hstack gap-3 d-flex justify-content-between">
+            <p>Số trang: [[${totalPage}]] - Số dịch vụ: [[${totalElement}]] - Hiện tại: [[${currentPage}]] - Sắp xếp:
+                [[${sortField}]] - Chiều: [[${sortDir}]]</p>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item disabled" th:if="${currentPage == 1}">
+                        <a class="page-link"
+                            th:href="@{'/admin/service-managements/service/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="page-item" th:unless="${currentPage == 1}">
+                        <a class="page-link"
+                            th:href="@{'/admin/service-managements/service/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="page-item disabled" th:if="${currentPage == 1}">
+                        <a class="page-link"
+                            th:href="@{'/admin/service-managements/service/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="page-item" th:unless="${currentPage == 1}">
+                        <a class="page-link"
+                            th:href="@{'/admin/service-managements/service/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <th:block th:each="i : ${#numbers.sequence(1, totalPage)}">
+                        <li class="page-item active" th:if="${currentPage == i}">
+                            <span class="page-link">[[${i}]]</span>
+                        </li>
+                        <li class="page-item" th:unless="${currentPage == i}">
+                            <a class="page-link"
+                                th:href="@{'/admin/service-managements/service/page/'+${i}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">[[${i}]]</a>
+                        </li>
+                    </th:block>
+                    <li class="page-item disabled" th:if="${currentPage == totalPage}">
+                        <a class="page-link"
+                            th:href="@{'/admin/service-managements/service/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="page-item" th:unless="${currentPage == totalPage}">
+                        <a class="page-link"
+                            th:href="@{'/admin/service-managements/service/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="page-item disabled" th:if="${currentPage == totalPage}">
+                        <a class="page-link"
+                            th:href="@{'/admin/service-managements/service/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="page-item" th:unless="${currentPage == totalPage}">
+                        <a class="page-link"
+                            th:href="@{'/admin/service-managements/service/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+
 
     <script>
-        var service = document.querySelector('#service');
-        var content = "<h3>Đây là trang quản lý dịch vụ</h3><br>"
-        for (let index = 0; index < 100; index++) {
-            content += "<h3>Đây là trang quản lý dịch vụ</h3><br>";
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        var btnDels = Array.from($$('.btn-del'))
+
+        //Hàm gọi api
+        function fetchAPI(url, method, body) {
+            fetch(url, {
+                method,
+                body: JSON.stringify(body),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(resp => {
+                    resp.json()
+                    if (resp.status === 200) {
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
+                    } else {
+                        alert('Fail Validate!')
+                    }
+                })
+                .catch(err => alert('Error!'))
         }
-        service.innerHTML = content
+
+        var modalBtnDel = $('#modal-btn-del')
+        var modalBtnCan = $('#modal-btn-can')
+
+
+        //Xử lý xóa dịch vụ
+        btnDels.forEach((element) => {
+            element.addEventListener('click', (e) => {
+                var k = confirm("Bạn có muốn xóa dịch vụ này không ?")
+                var ids = [e.target.id]
+
+                var service = { ids };
+                console.log(service)
+
+                if (k == true) {
+                    fetchAPI(
+                        `/admin/service-managements/services/tran`,
+                        'DELETE',
+                        service
+                    )
+                } else return
+            })
+        })
+
+        //Xử lý chọn checkbox
+        var checkboxAll = $$('.row-checkbox .checkbox-all')
+        var checkboxElement = $('.checkbox-element')
+        var buttonGroupTool = $('.button-group-tool')
+        var btnAdd = $('#btn-add')
+
+        checkboxChecked(false)
+
+        checkboxElement.addEventListener('change', (e) => {
+            checkboxChecked(checkboxElement.checked)
+            checkboxAll.forEach((element) => {
+                element.checked = checkboxElement.checked
+            })
+        })
+
+        var sumCheckedFirst = checkboxAll.length
+
+        checkboxAll.forEach((element) => {
+            element.addEventListener('change', (e) => {
+                var reduceCheckboxChecked = $$('.row-checkbox input[type="checkbox"]:checked').length
+                checkboxElement.checked = (sumCheckedFirst == reduceCheckboxChecked ? true : false)
+                checkboxChecked(reduceCheckboxChecked)
+            })
+        })
+
+        function checkboxChecked(checkboxChange) {
+            if (checkboxChange) {
+                buttonGroupTool.innerHTML = `
+                    <button type="button" class="btn btn-danger btn-sm" id="btn-dels">
+                        <i class="fa fa-eraser" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </button>
+                    <a href='/admin/service-managements/service/add' class="btn btn-success btn-sm">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </a>`
+
+                //Xử lý xóa nhiều
+                var btnDels = $('#btn-dels')
+
+                if (btnDels) {
+                    btnDels.addEventListener('click', (e) => {
+                        var checkboxAll = $$('.row-checkbox .checkbox-all')
+                        var service = {}
+                        var ids = []
+                        checkboxAll.forEach((element) => {
+                            if (element.checked == true) {
+                                ids.push(element.id)
+                            }
+                        })
+
+                        var k = confirm('Bạn có muốn xóa những dịch vụ này không ?')
+
+                        if (k) {
+                            service = { ids }
+                            fetchAPI(
+                                `/admin/service-managements/services/tran`,
+                                `DELETE`,
+                                service
+                            )
+                        } else return
+                    })
+                }
+
+            } else {
+                buttonGroupTool.innerHTML = `
+                    <button type="button" class="btn btn-primary btn-sm">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </button>
+                    <a href='/admin/service-managements/service/add' class="btn btn-success btn-sm">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </a>`
+            }
+        }
+
     </script>
 </th:block>

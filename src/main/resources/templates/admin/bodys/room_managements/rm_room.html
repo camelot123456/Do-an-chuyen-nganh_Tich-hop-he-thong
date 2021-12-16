@@ -125,10 +125,10 @@
                             <div class="hstack  d-flex justify-content-between">
                                 [[${state.count}]]
                                 <div class="hstack gap-1">
-                                    <a class="btn btn-outline-dark btn-sm text-light" href="#">
+                                    <a class="btn btn-outline-dark btn-sm text-light" style="min-width: 31px;" href="#">
                                         <i class="fa fa-bell-o" aria-hidden="true"></i></a>
-                                    <a class="btn btn-outline-dark btn-sm text-light" href="#">
-                                        <i class="fa fa-floppy-o" aria-hidden="true"></i></a>
+                                    <a class="btn btn-outline-dark btn-sm text-light" style="min-width: 31px;" th:href="@{'/admin/room-managements/room/'+${room.id}}">
+                                        <i class="fa fa-info" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                             <h5>[[${room.name}]]</h5>
