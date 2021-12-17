@@ -1,14 +1,12 @@
 package com.pihotel.entity;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,10 +39,9 @@ public class ServiceEntity extends AbstractEntity{
 	
 	@Column(name = "[QUANTITY]", columnDefinition = "int default 0")
 	private Integer quantity;
-	
-	@ManyToMany(mappedBy = "services")
-	@JsonIgnoreProperties("services")
-	private List<InvoiceEntity> invoices;
+		
+	@OneToMany(mappedBy = "service")
+	private Set<InvoiceServiceEntity> invoicesServices;
 	
 	@Transient
 	public String getImage() {
@@ -55,3 +52,6 @@ public class ServiceEntity extends AbstractEntity{
 	}
 
 }
+//	@ManyToMany(mappedBy = "services")
+//	@JsonIgnoreProperties("services")
+//	private List<InvoiceEntity> invoices;

@@ -7,16 +7,14 @@
         <hr>
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/admin/invoice-managements/invoice">Danh sách hóa đơn</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/internal-managements/role">Quyền truy cập</a>
+                <a class="nav-link active" aria-current="page" href="/admin/invoice-managements/invoice">Danh sách hóa
+                    đơn</a>
             </li>
         </ul>
 
         <div class="hstack gap-2 my-3">
             <form class="input-group w-50" id="form-search"
-                th:action="@{'/admin/internal-managements/account/page/'+${currentPage}}" required>
+                th:action="@{'/admin/invoice-managements/invoice/page/'+${currentPage}}" required>
                 <input type="hidden" name="sortField" th:value="${sortField}">
                 <input type="hidden" name="sortDir" th:value="${sortDir}">
                 <input class="form-control form-control-sm" placeholder="Tìm kiếm ..." aria-describedby="button-addon2"
@@ -37,35 +35,43 @@
                     <th scope="col">No.</th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/internal-managements/account/page/'+${currentPage}+'?sortField=id&sortDir='+${reverseSort}+'&keyword='}">Mã hóa đơn</a>
+                            th:href="@{'/admin/invoice-managements/invoice/page/'+${currentPage}+'?sortField=id&sortDir='+${reverseSort}+'&keyword='}">Mã
+                            hóa đơn</a>
                     </th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/internal-managements/account/page/'+${currentPage}+'?sortField=id&sortDir='+${reverseSort}+'&keyword='}">Mã khách hàng</a>
+                            th:href="@{'/admin/invoice-managements/invoice/page/'+${currentPage}+'?sortField=id&sortDir='+${reverseSort}+'&keyword='}">Mã
+                            khách hàng</a>
                     </th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/internal-managements/account/page/'+${currentPage}+'?sortField=id&sortDir='+${reverseSort}+'&keyword='}">Số điện thoại</a>
+                            th:href="@{'/admin/invoice-managements/invoice/page/'+${currentPage}+'?sortField=id&sortDir='+${reverseSort}+'&keyword='}">Số
+                            điện thoại</a>
                     </th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/internal-managements/account/page/'+${currentPage}+'?sortField=name&sortDir='+${reverseSort}+'&keyword='}">Ngày đặt</a>
+                            th:href="@{'/admin/invoice-managements/invoice/page/'+${currentPage}+'?sortField=name&sortDir='+${reverseSort}+'&keyword='}">Ngày
+                            đặt</a>
                     </th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/internal-managements/account/page/'+${currentPage}+'?sortField=authProvider&sortDir='+${reverseSort}+'&keyword='}">Ngày trả</a>
+                            th:href="@{'/admin/invoice-managements/invoice/page/'+${currentPage}+'?sortField=authProvider&sortDir='+${reverseSort}+'&keyword='}">Ngày
+                            trả</a>
                     </th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/internal-managements/account/page/'+${currentPage}+'?sortField=email&sortDir='+${reverseSort}+'&keyword='}">Người lớn</a>
+                            th:href="@{'/admin/invoice-managements/invoice/page/'+${currentPage}+'?sortField=email&sortDir='+${reverseSort}+'&keyword='}">Người
+                            lớn</a>
                     </th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/internal-managements/account/page/'+${currentPage}+'?sortField=email&sortDir='+${reverseSort}+'&keyword='}">Trẻ em</a>
+                            th:href="@{'/admin/invoice-managements/invoice/page/'+${currentPage}+'?sortField=email&sortDir='+${reverseSort}+'&keyword='}">Trẻ
+                            em</a>
                     </th>
                     <th scope="col">
                         <a
-                            th:href="@{'/admin/internal-managements/account/page/'+${currentPage}+'?sortField=email&sortDir='+${reverseSort}+'&keyword='}">Tổng giá</a>
+                            th:href="@{'/admin/invoice-managements/invoice/page/'+${currentPage}+'?sortField=email&sortDir='+${reverseSort}+'&keyword='}">Tổng
+                            giá</a>
                     </th>
                     <th scope="col" class="text-center">Công cụ</th>
                 </tr>
@@ -110,25 +116,25 @@
                 <ul class="pagination justify-content-end">
                     <li class="page-item disabled" th:if="${currentPage == 1}">
                         <a class="page-link"
-                            th:href="@{'/admin/internal-managements/account/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/invoice-managements/invoice/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-double-left" aria-hidden="true"></i>
                         </a>
                     </li>
                     <li class="page-item" th:unless="${currentPage == 1}">
                         <a class="page-link"
-                            th:href="@{'/admin/internal-managements/account/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/invoice-managements/invoice/page/1?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-double-left" aria-hidden="true"></i>
                         </a>
                     </li>
                     <li class="page-item disabled" th:if="${currentPage == 1}">
                         <a class="page-link"
-                            th:href="@{'/admin/internal-managements/account/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/invoice-managements/invoice/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-left" aria-hidden="true"></i>
                         </a>
                     </li>
                     <li class="page-item" th:unless="${currentPage == 1}">
                         <a class="page-link"
-                            th:href="@{'/admin/internal-managements/account/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/invoice-managements/invoice/page/'+${currentPage-1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-left" aria-hidden="true"></i>
                         </a>
                     </li>
@@ -138,30 +144,30 @@
                         </li>
                         <li class="page-item" th:unless="${currentPage == i}">
                             <a class="page-link"
-                                th:href="@{'/admin/internal-managements/account/page/'+${i}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">[[${i}]]</a>
+                                th:href="@{'/admin/invoice-managements/invoice/page/'+${i}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">[[${i}]]</a>
                         </li>
                     </th:block>
                     <li class="page-item disabled" th:if="${currentPage == totalPage}">
                         <a class="page-link"
-                            th:href="@{'/admin/internal-managements/account/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/invoice-managements/invoice/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-right" aria-hidden="true"></i>
                         </a>
                     </li>
                     <li class="page-item" th:unless="${currentPage == totalPage}">
                         <a class="page-link"
-                            th:href="@{'/admin/internal-managements/account/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/invoice-managements/invoice/page/'+${currentPage+1}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-right" aria-hidden="true"></i>
                         </a>
                     </li>
                     <li class="page-item disabled" th:if="${currentPage == totalPage}">
                         <a class="page-link"
-                            th:href="@{'/admin/internal-managements/account/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/invoice-managements/invoice/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                         </a>
                     </li>
                     <li class="page-item" th:unless="${currentPage == totalPage}">
                         <a class="page-link"
-                            th:href="@{'/admin/internal-managements/account/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
+                            th:href="@{'/admin/invoice-managements/invoice/page/'+${totalPage}+'?sortField=id&sortDir='+${sortDir}+'&keyword='}">
                             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                         </a>
                     </li>
@@ -207,15 +213,15 @@
         //Xử lý xóa tài khoản
         btnDels.forEach((element) => {
             element.addEventListener('click', (e) => {
-                var k = confirm("Bạn có muốn xóa tài khoản này không ?")
+                var k = confirm("Bạn có muốn xóa hóa đơn này không ?")
                 var ids = [e.target.id]
 
-                var account = { ids };
+                var invoice = { ids };
                 if (k == true) {
                     fetchAPI(
-                        `/admin/internal-managements/accounts/tran`,
+                        `/admin/invoice-managements/invoices/tran`,
                         'DELETE',
-                        account
+                        invoice
                     )
                 } else return
             })
@@ -254,10 +260,7 @@
                     </button>
                     <button type="button" class="btn btn-primary btn-sm">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    </button>
-                    <a href='/admin/internal-managements/account/add' class="btn btn-success btn-sm">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                    </a>`
+                    </button>`
 
                 //Xử lý xóa nhiều
                 var btnDels = $('#btn-dels')
@@ -265,23 +268,22 @@
                 if (btnDels) {
                     btnDels.addEventListener('click', (e) => {
                         var checkboxAll = $$('.row-checkbox .checkbox-all')
-                        var account = {}
+                        var invoice = {}
                         var ids = []
                         checkboxAll.forEach((element) => {
                             if (element.checked == true) {
                                 ids.push(element.id)
                             }
                         })
-                        console.log(ids)
 
-                        var k = confirm('Bạn có muốn xóa những tài khoản này không ?')
+                        var k = confirm('Bạn có muốn xóa những hóa đơn này không ?')
 
                         if (k) {
-                            account = { ids }
+                            invoice = { ids }
                             fetchAPI(
-                                `/admin/internal-managements/accounts/tran`,
+                                `/admin/invoice-managements/invoices/tran`,
                                 `DELETE`,
-                                account
+                                invoice
                             )
                         } else return
                     })
@@ -291,16 +293,8 @@
                 buttonGroupTool.innerHTML = `
                     <button type="button" class="btn btn-primary btn-sm">
                         <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    </button>
-                    <a href='/admin/internal-managements/account/add' class="btn btn-success btn-sm">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                    </a>`
+                    </button>`
             }
         }
-
-        // $('#checkbox-ADMIN').remove();
-        // $('#btn-del-ADMIN').remove();
-        // $('#tag-tr-ADMIN').style.backgroundColor = '#fecba1'
-
     </script>
 </th:block>

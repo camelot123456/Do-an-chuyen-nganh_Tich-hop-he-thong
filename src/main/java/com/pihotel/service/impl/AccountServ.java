@@ -95,7 +95,7 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		PageRequest pageable = PageRequest.of(numPage - 1, 10, sort);
-		if (keyword != null) {
+		if (keyword != "") {
 			return accountRepo.search(keyword, pageable);
 		}
 		return accountRepo.findAll(pageable);

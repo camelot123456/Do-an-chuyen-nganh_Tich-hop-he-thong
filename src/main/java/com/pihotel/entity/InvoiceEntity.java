@@ -2,6 +2,7 @@ package com.pihotel.entity;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -46,15 +48,9 @@ public class InvoiceEntity extends AbstractEntity{
 	
 	@Column(name = "[VERIFY_ROOM]", columnDefinition = "varchar(64)")
 	private String verifyRoom;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "INVOICE_SERVICE",
-			joinColumns = @JoinColumn(name = "[ID_INVOICE]", referencedColumnName = "[ID]"),
-			inverseJoinColumns = @JoinColumn(name = "[ID_SERVICE]", referencedColumnName = "[ID]")
-	)
-	@JsonIgnoreProperties("invoices")
-	private List<ServiceEntity> services;
+		
+	@OneToMany(mappedBy = "invoice")
+	private Set<InvoiceServiceEntity> invoicesServices;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
@@ -89,3 +85,12 @@ public class InvoiceEntity extends AbstractEntity{
 	private Double totalPriceIncurred;
 	
 }
+
+//	@ManyToMany(fetch = FetchType.LAZY)
+//	@JoinTable(
+//			name = "INVOICE_SERVICE",
+//			joinColumns = @JoinColumn(name = "[ID_INVOICE]", referencedColumnName = "[ID]"),
+//			inverseJoinColumns = @JoinColumn(name = "[ID_SERVICE]", referencedColumnName = "[ID]")
+//	)
+//	@JsonIgnoreProperties("invoices")
+//	private List<ServiceEntity> services;

@@ -25,13 +25,12 @@ public interface IInvoiceServ {
 	
 	public Double getSumPriceIncurred(String idInvoice);
 	
-	public List<InvoiceEntity> findAllByIdCustomerCheckin(String idCustomer);
-	
-	public List<InvoiceEntity> findAllByIdCustomerUsing(String idCustomer);
-	
 	public List<InvoiceEntity> findAllPaidInvoices(Boolean isPaid);
+	
+	public List<InvoiceEntity> findAllByIdCustomerRoomState(String idCustomer, String roomState);
 	
 	public InvoiceEntity findOneByVerifyRoom(String verifyRoom);
 	
 	public Integer getSumCartByIdCustomer(String idCustomer);
+	
 }

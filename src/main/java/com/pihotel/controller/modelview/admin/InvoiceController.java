@@ -30,6 +30,8 @@ public class InvoiceController {
 
 //	---------------------------------------GET---------------------------------------		
 	
+	
+	
 	@RequestMapping(value = {"/admin/invoice-managements/invoice"})
 	public String adminShowInvoice(Model model) {
 		model.addAttribute(SystemConstant.INVOICES, invoiceServ.findAllPaidInvoices(Boolean.TRUE));
@@ -48,6 +50,8 @@ public class InvoiceController {
 		model.addAttribute(SystemConstant.ROOMS, invoiceServ.findOneById(idInvoice).getRooms());
 		return "admin/bodys/invoice_managements/im_detail_invoice";
 	}
+	
+	
 	
 //	---------------------------------------POST---------------------------------------
 	

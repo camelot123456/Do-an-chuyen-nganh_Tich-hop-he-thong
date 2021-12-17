@@ -59,53 +59,6 @@ public class InvoiceServ implements IInvoiceServ {
 		// TODO Auto-generated method stub
 		return invoiceRepo.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType);
 	}
-
-	@Override
-	public List<InvoiceEntity> findAllByIdCustomerCheckin(String idCustomer) {
-		// TODO Auto-generated method stub
-		List<Object[]> invoiceArray = invoiceRepo.findAllByIdCustomerCheckin(idCustomer);
-		List<InvoiceEntity> invoiceNew = null;
-		if (invoiceArray.size() > 0) {
-			invoiceNew = new ArrayList<InvoiceEntity>();
-			for (Object[] invoiceDetail : invoiceArray) {
-				InvoiceEntity invoice = new InvoiceEntity();
-				invoice.setId((String) invoiceDetail[0]);
-				invoice.setAdults((Integer) invoiceDetail[9]);
-				invoice.setChildren((Integer) invoiceDetail[10]);
-				invoice.setEndDate((Date) invoiceDetail[11]);
-				invoice.setStartDate((Date) invoiceDetail[12]);
-				invoice.setIdRoomType((String) invoiceDetail[15]);
-				invoice.setTotalPriceIncurred((Double) invoiceDetail[16]);
-				invoice.setTotalPriceAll((Double) invoiceDetail[17]);
-				invoiceNew.add(invoice);
-			}
-		}
-		
-		return invoiceNew;
-	}
-
-	@Override
-	public List<InvoiceEntity> findAllByIdCustomerUsing(String idCustomer) {
-		// TODO Auto-generated method stub
-		List<Object[]> invoiceArray = invoiceRepo.findAllByIdCustomerUsing(idCustomer);
-		List<InvoiceEntity> invoiceNew = null;
-		if (invoiceArray.size() > 0) {
-			invoiceNew = new ArrayList<InvoiceEntity>();
-			for (Object[] invoiceDetail : invoiceArray) {
-				InvoiceEntity invoice = new InvoiceEntity();
-				invoice.setId((String) invoiceDetail[0]);
-				invoice.setAdults((Integer) invoiceDetail[9]);
-				invoice.setChildren((Integer) invoiceDetail[10]);
-				invoice.setEndDate((Date) invoiceDetail[11]);
-				invoice.setStartDate((Date) invoiceDetail[12]);
-				invoice.setIdRoomType((String) invoiceDetail[15]);
-				invoice.setTotalPriceIncurred((Double) invoiceDetail[16]);
-				invoice.setTotalPriceAll((Double) invoiceDetail[17]);
-				invoiceNew.add(invoice);
-			}
-		}
-		return invoiceNew;
-	}
 	
 	@Override
 	public List<InvoiceEntity> findAllPaidInvoices(Boolean isPaid) {
@@ -140,7 +93,29 @@ public class InvoiceServ implements IInvoiceServ {
 	public Integer getSumCartByIdCustomer(String idCustomer) {
 		return invoiceRepo.getSumCartByIdCustomer(idCustomer);
 	}
-
+	
+	@Override
+	public List<InvoiceEntity> findAllByIdCustomerRoomState(String idCustomer, String roomState) {
+		List<Object[]> invoiceArray = invoiceRepo.findAllByIdCustomerRoomState(idCustomer, roomState);
+		List<InvoiceEntity> invoiceNew = null;
+		if (invoiceArray.size() > 0) {
+			invoiceNew = new ArrayList<InvoiceEntity>();
+			for (Object[] invoiceDetail : invoiceArray) {
+				InvoiceEntity invoice = new InvoiceEntity();
+				invoice.setId((String) invoiceDetail[0]);
+				invoice.setAdults((Integer) invoiceDetail[9]);
+				invoice.setChildren((Integer) invoiceDetail[10]);
+				invoice.setEndDate((Date) invoiceDetail[11]);
+				invoice.setStartDate((Date) invoiceDetail[12]);
+				invoice.setIdRoomType((String) invoiceDetail[15]);
+				invoice.setTotalPriceIncurred((Double) invoiceDetail[16]);
+				invoice.setTotalPriceAll((Double) invoiceDetail[17]);
+				invoiceNew.add(invoice);
+			}
+		}
+		return invoiceNew;
+	}
+	
 //	---------------------------------------INSERT---------------------------------------
 
 	@Override

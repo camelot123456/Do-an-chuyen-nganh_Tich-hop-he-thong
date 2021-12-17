@@ -36,8 +36,8 @@ public class CartController {
 	@RequestMapping(value = "/cart")
 	public String showCart(Model model, @Param("idCustomer") String idCustomer) {
 		model.addAttribute(SystemConstant.CUSTOMER, accountServ.findOneById(idCustomer));		
-		model.addAttribute(SystemConstant.CARTS, invoiceServ.findAllByIdCustomerCheckin(idCustomer));
-		model.addAttribute(SystemConstant.CARTS_HISTORY, invoiceServ.findAllByIdCustomerUsing(idCustomer));
+		model.addAttribute(SystemConstant.CARTS, invoiceServ.findAllByIdCustomerRoomState(idCustomer, "CHECKIN"));
+		model.addAttribute(SystemConstant.CARTS_HISTORY, invoiceServ.findAllByIdCustomerRoomState(idCustomer, "USING"));
 		return "home/bodys/cart/cart";
 	}
 

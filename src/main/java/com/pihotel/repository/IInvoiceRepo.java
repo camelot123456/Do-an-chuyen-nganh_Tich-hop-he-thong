@@ -29,19 +29,6 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			+ "where i.id = ?1", 
 			nativeQuery = true)
 	public Double getSumPriceIncurred(String idInvoice);
-
-	@Query(value = "select distinct i.*, rt.id as idRoomType, "
-			+ "sum(r.price_incurred) as totalPriceIncurred, (sum(r.price_incurred) + rt.price) as totalPriceAll "
-			+ "from invoice i inner join invoice_room ir "
-			+ "on i.id = ir.id_invoice inner join room r "
-			+ "on ir.id_room = r.id inner join room_type rt "
-			+ "on r.id_room_type = rt.id "
-			+ "where i.id_account = ?1 and r.room_state = 'CHECKIN' "
-			+ "group by rt.price, i.id, i.create_at, i.create_by, i.delete_at, i.delete_by, "
-			+ "i.deleted, i.[enabled], i.modified_at, i.modified_by, i.adults, i.children, "
-			+ "i.end_date, i.[start_date], i.id_account, rt.id, i.verify_room",
-			nativeQuery = true)
-	public List<Object[]> findAllByIdCustomerCheckin(String idCustomer);
 	
 	@Query(value = "select distinct i.*, rt.id as idRoomType, "
 			+ "sum(r.price_incurred) as totalPriceIncurred, (sum(r.price_incurred) + rt.price) as totalPriceAll "
@@ -49,12 +36,12 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			+ "on i.id = ir.id_invoice inner join room r "
 			+ "on ir.id_room = r.id inner join room_type rt "
 			+ "on r.id_room_type = rt.id "
-			+ "where i.id_account = ?1 and r.room_state = 'USING' "
+			+ "where i.id_account = ?1 and r.room_state = ?2 "
 			+ "group by rt.price, i.id, i.create_at, i.create_by, i.delete_at, i.delete_by, "
 			+ "i.deleted, i.[enabled], i.modified_at, i.modified_by, i.adults, i.children, "
 			+ "i.end_date, i.[start_date], i.id_account, rt.id, i.verify_room",
 			nativeQuery = true)
-	public List<Object[]> findAllByIdCustomerUsing(String idCustomer);
+	public List<Object[]> findAllByIdCustomerRoomState(String idCustomer, String roomstate);
 	
 	@Query(value = "select i.id, i.[start_date], i.end_date, i.adults, i.children, rt.id as idRoomType, "
 			+ "a.id as idAccount, a.phone_num as phoneNum, (sum(r.price_incurred) + rt.price) as totalPriceAll "
@@ -78,4 +65,22 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			+ "where i.[enabled] = 0 and i.id_account = ?1",
 			nativeQuery = true)
 	public Integer getSumCartByIdCustomer(String idCustomer);
+	
+//	@Query(value = "select i.id, i.[start_date], i.end_date, i.adults, i.children, rt.id as idRoomType, "
+//			+ "a.id as idAccount, a.phone_num as phoneNum, (sum(r.price_incurred) + rt.price) as totalPriceAll "
+//			+ "from invoice i inner join invoice_room ir "
+//			+ "on i.id = ir.id_invoice inner join room r "
+//			+ "on ir.id_room = r.id inner join room_type rt "
+//			+ "on r.id_room_type = rt.id inner join account a "
+//			+ "on i.id_account = a.id "
+//			+ "where i.[enabled] = ?2 "
+//			+ "and i.id like '%?1%' "
+//			+ "or concat(i.adults, '') like '%?1%' "
+//			+ "or concat(i.children, '') like '%?1%' "
+//			+ "or rt.id like '%?1%' "
+//			+ "or a.id like '%?1%' "
+//			+ "or a.phone_num like '%?1%' "
+//			+ "group by i.id,  i.[start_date], i.end_date, i.adults, i.children, rt.id, i.id_account, rt.price, a.id,  a.phone_num, i.verify_room",
+//			nativeQuery = true)
+//	public Page<Object[]> search(String keyword , Boolean isPaid, Pageable pageable);
 }
