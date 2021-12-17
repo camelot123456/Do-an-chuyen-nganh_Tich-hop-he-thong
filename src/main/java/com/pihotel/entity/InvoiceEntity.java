@@ -2,7 +2,6 @@ package com.pihotel.entity;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,7 +49,7 @@ public class InvoiceEntity extends AbstractEntity{
 	private String verifyRoom;
 		
 	@OneToMany(mappedBy = "invoice")
-	private Set<InvoiceServiceEntity> invoicesServices;
+	private List<InvoiceServiceEntity> invoicesServices;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(

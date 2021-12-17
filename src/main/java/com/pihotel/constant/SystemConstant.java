@@ -31,6 +31,9 @@ public class SystemConstant {
 	public static final String INVOICE = "invoice";
 	public static final String INVOICES = "invoices";
 	
+	public static final String INVOICE_SERVICE = "invoice_service";
+	public static final String INVOICES_SERVICES = "invoices_services";
+	
 	public static final String SERVICE = "service";
 	public static final String SERVICES = "services";
 	

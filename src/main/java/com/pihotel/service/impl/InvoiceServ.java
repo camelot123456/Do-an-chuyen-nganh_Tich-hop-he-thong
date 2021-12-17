@@ -11,11 +11,15 @@ import org.springframework.stereotype.Service;
 
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
+import com.pihotel.entity.InvoiceServiceEntity;
 import com.pihotel.entity.RoomEntity;
+import com.pihotel.entity.ServiceEntity;
 import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.repository.IAccountRepo;
 import com.pihotel.repository.IInvoiceRepo;
+import com.pihotel.repository.IInvoicesServicesRepo;
 import com.pihotel.repository.IRoomRepo;
+import com.pihotel.repository.IServiceRepo;
 import com.pihotel.service.IInvoiceServ;
 
 import net.bytebuddy.utility.RandomString;
@@ -33,6 +37,12 @@ public class InvoiceServ implements IInvoiceServ {
 	@Autowired
 	private IAccountRepo accountRepo;
 
+	@Autowired
+	private IInvoicesServicesRepo invoiceServiceRepo;
+
+	@Autowired
+	private IServiceRepo serviceRepo;
+
 //	---------------------------------------SELECT---------------------------------------
 
 	@Override
@@ -46,7 +56,6 @@ public class InvoiceServ implements IInvoiceServ {
 		// TODO Auto-generated method stub
 		return invoiceRepo.findOneById(id);
 	}
-	
 
 	@Override
 	public Double getSumPriceIncurred(String idInvoice) {
@@ -59,7 +68,7 @@ public class InvoiceServ implements IInvoiceServ {
 		// TODO Auto-generated method stub
 		return invoiceRepo.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType);
 	}
-	
+
 	@Override
 	public List<InvoiceEntity> findAllPaidInvoices(Boolean isPaid) {
 		// TODO Auto-generated method stub
@@ -83,17 +92,17 @@ public class InvoiceServ implements IInvoiceServ {
 		}
 		return invoicesNew;
 	}
-	
+
 	@Override
 	public InvoiceEntity findOneByVerifyRoom(String verifyRoom) {
 		return invoiceRepo.findObeByVerifyRoom(verifyRoom);
 	}
-	
+
 	@Override
 	public Integer getSumCartByIdCustomer(String idCustomer) {
 		return invoiceRepo.getSumCartByIdCustomer(idCustomer);
 	}
-	
+
 	@Override
 	public List<InvoiceEntity> findAllByIdCustomerRoomState(String idCustomer, String roomState) {
 		List<Object[]> invoiceArray = invoiceRepo.findAllByIdCustomerRoomState(idCustomer, roomState);
@@ -115,7 +124,7 @@ public class InvoiceServ implements IInvoiceServ {
 		}
 		return invoiceNew;
 	}
-	
+
 //	---------------------------------------INSERT---------------------------------------
 
 	@Override
@@ -134,7 +143,6 @@ public class InvoiceServ implements IInvoiceServ {
 	public void addRoomAndCustomerToInvoice(InvoiceEntity invoice, AccountEntity customer) {
 		// TODO Auto-generated method stub
 		String verifyRoom = RandomString.make(64);
-		
 		invoice.setVerifyRoom(verifyRoom);
 		invoice.setCreateAt(new Date());
 		invoice.setModifiedAt(new Date());
@@ -158,12 +166,12 @@ public class InvoiceServ implements IInvoiceServ {
 	public void addRoomToInvoice(InvoiceEntity invoice) {
 		// TODO Auto-generated method stub
 		String verifyRoom = RandomString.make(64);
-		
+
 		invoice.setVerifyRoom(verifyRoom);
 		invoice.setCreateAt(new Date());
 		invoice.setModifiedAt(new Date());
 		invoice.setEnabled(Boolean.FALSE);
-		
+
 		InvoiceEntity invoiceNew = invoiceRepo.save(invoice);
 
 		List<RoomEntity> rooms = new ArrayList<RoomEntity>();
@@ -176,6 +184,25 @@ public class InvoiceServ implements IInvoiceServ {
 
 		invoiceNew.setRooms(rooms);
 		invoiceRepo.save(invoiceNew);
+	}
+
+	@Override
+	public InvoiceEntity saveWithInvoiceService(InvoiceEntity invoice, ServiceEntity service) {
+		InvoiceEntity invoiceNew = invoiceRepo.findOneById(invoice.getId());
+		InvoiceServiceEntity invoiceServiceNew = new InvoiceServiceEntity();
+
+		service.getInvoicesServices().forEach(invoicesServices -> {
+			ServiceEntity serviceNew = serviceRepo.findOneById(invoicesServices.getId());
+			invoiceServiceNew.setService(serviceNew);
+			invoiceServiceNew.setQuantity(invoicesServices.getQuantity());
+			invoiceServiceNew.setInvoice(invoiceNew);
+			invoiceServiceNew.setId(RandomString.make(12));
+			invoiceServiceNew.setCreateAt(new Date());
+			invoiceServiceNew.setModifiedAt(new Date());
+			invoiceServiceRepo.save(invoiceServiceNew);
+		});
+
+		return null;
 	}
 
 //	---------------------------------------UPDATE---------------------------------------

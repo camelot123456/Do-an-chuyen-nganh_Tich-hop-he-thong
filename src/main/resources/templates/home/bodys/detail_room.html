@@ -165,6 +165,9 @@
                     .then(resp => resp.json())
                     .then(rooms => {
                         modalFormRoomList.innerHTML = ''
+                        if (rooms.length <= 0) {
+                            modalFormRoomList.innerHTML = 'Tạm thời hết phòng. Quý khách thông cảm tìm loại phòng khác.'
+                        }
                         rooms.map((room, i) => {
                             modalFormRoomList.innerHTML += `
                             <div class="vstack gap-1 border rounded-3 bg-light shadow p-3">

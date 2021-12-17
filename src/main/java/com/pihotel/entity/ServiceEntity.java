@@ -1,6 +1,6 @@
 package com.pihotel.entity;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,12 +36,12 @@ public class ServiceEntity extends AbstractEntity{
 	
 	@Column(name = "[PRICE]", columnDefinition = "float default 0")
 	private Double price;
-	
-	@Column(name = "[QUANTITY]", columnDefinition = "int default 0")
-	private Integer quantity;
 		
 	@OneToMany(mappedBy = "service")
-	private Set<InvoiceServiceEntity> invoicesServices;
+	private List<InvoiceServiceEntity> invoicesServices;
+	
+	@Transient
+	private Integer quantity;
 	
 	@Transient
 	public String getImage() {

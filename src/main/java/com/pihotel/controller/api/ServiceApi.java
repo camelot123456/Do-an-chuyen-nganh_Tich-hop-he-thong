@@ -17,7 +17,7 @@ import com.pihotel.entity.ServiceEntity;
 import com.pihotel.service.IServiceServ;
 
 @RestController
-@RequestMapping(value = "/api", consumes = "application/json")
+@RequestMapping(value = "/api")
 public class ServiceApi {
 
 	@Autowired

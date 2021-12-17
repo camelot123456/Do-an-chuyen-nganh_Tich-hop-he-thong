@@ -21,6 +21,7 @@ import com.pihotel.entity.enums.EAuthenticationProvider;
 import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.service.IAccountServ;
 import com.pihotel.service.IInvoiceServ;
+import com.pihotel.service.IInvoicesServicesServ;
 import com.pihotel.service.IRoomServ;
 import com.pihotel.service.IRoomTypeServ;
 import com.pihotel.service.IServiceServ;
@@ -44,6 +45,9 @@ public class HomeController {
 
 	@Autowired
 	private IRoomServ roomServ;
+	
+	@Autowired
+	private IInvoicesServicesServ invoicesServicesServ;
 
 //	---------------------------------------GET---------------------------------------	
 
@@ -81,6 +85,7 @@ public class HomeController {
 
 		InvoiceEntity invoice = invoiceServ.findOneById(idInvoice);
 
+		model.addAttribute(SystemConstant.INVOICES_SERVICES, invoicesServicesServ.findAllByIdInvoice(idInvoice));
 		model.addAttribute(SystemConstant.ROOMS, invoice.getRooms());
 		model.addAttribute(SystemConstant.SERVICES, serviceServ.findAll());
 		model.addAttribute(SystemConstant.ROOM_TYPE, roomTypeServ.findOneById(idRoomType));

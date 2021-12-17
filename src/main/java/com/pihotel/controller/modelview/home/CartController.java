@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
+import com.pihotel.entity.InvoiceServiceEntity;
+import com.pihotel.entity.ServiceEntity;
 import com.pihotel.service.IAccountServ;
 import com.pihotel.service.IInvoiceServ;
 
@@ -43,6 +45,13 @@ public class CartController {
 
 //	---------------------------------------POST---------------------------------------
 
+	@RequestMapping(value = "/cart/services", method = RequestMethod.POST, consumes = {"multipart/form-data", "application/json"})
+	public String doSaveServiceCart(@RequestPart("invoice") InvoiceEntity invoice,
+			@RequestPart("service") ServiceEntity service) {
+		invoiceServ.saveWithInvoiceService(invoice, service);
+		return "redirect:/";
+	}
+	
 //	---------------------------------------PUT---------------------------------------
 
 //	---------------------------------------PATCH---------------------------------------

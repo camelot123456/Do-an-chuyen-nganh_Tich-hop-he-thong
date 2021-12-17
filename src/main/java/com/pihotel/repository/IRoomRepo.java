@@ -29,7 +29,7 @@ public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 	
 	public RoomEntity findOneById(String id);
 	
-	@Query(value = "select r from RoomEntity r where r.roomType.id = ?1 and r.customersNum >= ?2 and r.roomState not in ('USING', 'CHECKIN', 'DEPOSIT')")
+	@Query(value = "select r from RoomEntity r where r.roomType.id = ?1 and r.customersNum >= ?2 and r.roomState not in ('USING', 'REPAIR', 'DEPOSIT')")
 	public List<RoomEntity> findAllByIdRoomType(String idRoomType, int customersNum);
 	
 	@Modifying
