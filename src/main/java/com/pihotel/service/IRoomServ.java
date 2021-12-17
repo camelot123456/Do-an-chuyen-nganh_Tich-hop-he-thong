@@ -31,4 +31,6 @@ public interface IRoomServ {
 	
 	public List<RoomEntity> findAllShowRoom();
 	
+	public void setRoomStateEmpty(ERoomState roomState, String verifyRoom, String idRoom);
+	
 }

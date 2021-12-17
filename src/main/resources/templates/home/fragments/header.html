@@ -23,37 +23,37 @@
                 </a>
             </div>
             <div class="hstack gap-3" th:unless="${session.account == null}">
-
-                <a th:href="@{'/cart?idCustomer='+${session.account.id}}" class="">
+                <input type="hidden" id="noti-cart-id-customer" th:value="${session.account.id}">
+                <a th:href="@{'/cart?idCustomer='+${session.account.id}}" class="position-relative">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        id="noti-cart-content">
+
+                    </span>
                 </a>
 
-                <div class="">
-                    <a href="#" class="position-relative">
-                        <i class="fa fa-bell" aria-hidden="true"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            4
-                            <span class="visually-hidden">unread messages</span>
-                        </span>
-                    </a>
-                </div>
+                <a href="#" class="position-relative">
+                    <i class="fa fa-bell" aria-hidden="true"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        4
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                </a>
 
-                <div class="">
-                    <a href="#" class="position-relative">
-                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            4
-                            <span class="visually-hidden">unread messages</span>
-                        </span>
-                    </a>
-                </div>
+                <a href="#" class="position-relative">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        4
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                </a>
 
                 <div class="vr"></div>
 
                 <div class="dropdown hstack gap-2">
                     <a class="nav-link" href="#" th:text="${session.account.name}" style="padding: 0px;"></a>
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" 
-                    data-bs-toggle="dropdown" aria-expanded="false"  style="padding: 0px;">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0px;">
                         <img class="rounded-circle ms-2" style="width: 40px;" th:src="${session.account.avatar}"
                             th:alt="${session.account.name}">
                     </a>
@@ -76,6 +76,21 @@
         var $ = document.querySelector.bind(document)
         var $$ = document.querySelectorAll.bind(document)
 
+        var notiCartIdCustomer = $('#noti-cart-id-customer')
+
+        if (notiCartIdCustomer) {
+            fetch(`http://localhost:8081/api/invoice/${notiCartIdCustomer.value}`)
+                .then(resp => resp.json())
+                .then(notiCart => {
+                    if (notiCart.notiCart) {
+                        var notiCartContent = $('#noti-cart-content')
+                        notiCartContent.innerHTML = `
+                        ${notiCart.notiCart}
+                        <span class="visually-hidden">unread messages</span>
+                        `
+                    }
+                })
+        }
 
     </script>
 </th:block>

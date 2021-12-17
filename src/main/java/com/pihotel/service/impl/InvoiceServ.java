@@ -130,6 +130,16 @@ public class InvoiceServ implements IInvoiceServ {
 		}
 		return invoicesNew;
 	}
+	
+	@Override
+	public InvoiceEntity findOneByVerifyRoom(String verifyRoom) {
+		return invoiceRepo.findObeByVerifyRoom(verifyRoom);
+	}
+	
+	@Override
+	public Integer getSumCartByIdCustomer(String idCustomer) {
+		return invoiceRepo.getSumCartByIdCustomer(idCustomer);
+	}
 
 //	---------------------------------------INSERT---------------------------------------
 

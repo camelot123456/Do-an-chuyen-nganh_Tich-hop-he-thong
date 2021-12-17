@@ -125,6 +125,7 @@
         <div class="mb-3 p-3 border shadow rounded-3">
             <div class="row g-4 mb-3">
                 <th:block th:each="room, state : ${rooms}">
+
                     <div class="col-2">
                         <div class="border rounded-3 vstack gap text-center p-2 room-box"
                             style="font-size: 14px; color: white; min-height: 260px;" th:id="${room.id}">
@@ -146,7 +147,6 @@
                             <p class="end-date"><i class="fa fa-calendar" aria-hidden="true"></i> Chưa có</p>
                             <div class="hstack gap-3 d-flex justify-content-center features"
                                 th:title="${room.roomState}" th:id="${room.id}">
-
                             </div>
                         </div>
                     </div>
@@ -336,17 +336,18 @@
                 var room = { id: element.id }
                 var k = confirm("Bạn có chắc khách hàng muốn trả phòng không?")
                 if (k) {
-                    fetchAPI(`/admin/room-managements/room/tran/handle-cancel`, `PUT`, room)
+                    fetchAPI(`/admin/room-managements/room/tran/handle-using-to-empty`, `PUT`, room)
                 } else return
             })
         })
 
         btnCancel.forEach((element) => {
             element.addEventListener('click', e => {
-                var room = { id: element.id }
+                var room = { id: element.id}
                 var k = confirm("Bạn có muốn hủy phòng này không?")
                 if (k) {
                     fetchAPI(`/admin/room-managements/room/tran/handle-cancel`, `PUT`, room)
+                    console.log(room)
                 } else return
             })
         })

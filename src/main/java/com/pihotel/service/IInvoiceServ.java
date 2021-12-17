@@ -31,4 +31,7 @@ public interface IInvoiceServ {
 	
 	public List<InvoiceEntity> findAllPaidInvoices(Boolean isPaid);
 	
+	public InvoiceEntity findOneByVerifyRoom(String verifyRoom);
+	
+	public Integer getSumCartByIdCustomer(String idCustomer);
 }

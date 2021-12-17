@@ -67,4 +67,15 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			+ "group by i.id,  i.[start_date], i.end_date, i.adults, i.children, rt.id, i.id_account, rt.price, a.id,  a.phone_num, i.verify_room",
 			nativeQuery = true)
 	public List<Object[]> findAllPaidInvoices(Boolean isPaid);
+	
+	public InvoiceEntity findObeByVerifyRoom(String verifyRoom);
+	
+	@Query(value = "select count(i.id)"
+			+ "from room r inner join invoice_room ir "
+			+ "on r.id = ir.id_room inner join invoice i "
+			+ "on ir.id_invoice = i.id inner join account a "
+			+ "on i.id_account = a.id "
+			+ "where i.[enabled] = 0 and i.id_account = ?1",
+			nativeQuery = true)
+	public Integer getSumCartByIdCustomer(String idCustomer);
 }

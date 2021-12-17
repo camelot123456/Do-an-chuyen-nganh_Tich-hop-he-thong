@@ -88,17 +88,7 @@ public class AccountEntity extends AbstractEntity {
 		return "/img/user/" + avatar;
 	}
 
-//	
-//	@Transient
-//	private EMessageType type;
-//	
-//	@Transient
-//	private String content;
-//	
-//	@Transient
-//	private String sender;
-//	
-//	@Transient
-//	private String time;
+	@Transient
+	private Integer notiCart;
 
 }

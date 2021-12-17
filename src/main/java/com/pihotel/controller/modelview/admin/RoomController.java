@@ -109,14 +109,19 @@ public class RoomController {
 	
 	@RequestMapping(value = "/admin/room-managements/room/tran/handle-cancel", method = RequestMethod.PUT, consumes = "application/json")
 	public String doCancelUpdateRoomState(@RequestBody RoomEntity room) {
-		
-		roomServ.updateRoomState(ERoomState.EMPTY, RandomString.make(64), room.getId());
+		roomServ.setRoomStateEmpty(ERoomState.EMPTY, RandomString.make(64), room.getId());
 		return "redirect:/admin/room-managements/room";
 	}
 	
 	@RequestMapping(value = "/admin/room-managements/room/tran/handle-repair", method = RequestMethod.PUT, consumes = "application/json")
 	public String doRepairUpdateRoomState(@RequestBody RoomEntity room) {
 		roomServ.updateRoomState(ERoomState.REPAIR, RandomString.make(64), room.getId());
+		return "redirect:/admin/room-managements/room";
+	}
+	
+	@RequestMapping(value = "/admin/room-managements/room/tran/handle-using-to-empty", method = RequestMethod.PUT, consumes = "application/json")
+	public String doConvertUsingToEmpty(@RequestBody RoomEntity room) {
+		roomServ.updateRoomState(ERoomState.EMPTY, RandomString.make(64), room.getId());
 		return "redirect:/admin/room-managements/room";
 	}
 	
