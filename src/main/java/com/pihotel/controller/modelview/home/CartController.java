@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestPart;
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
-import com.pihotel.entity.InvoiceServiceEntity;
+import com.pihotel.entity.RoomTypeEntity;
 import com.pihotel.entity.ServiceEntity;
 import com.pihotel.service.IAccountServ;
 import com.pihotel.service.IInvoiceServ;
+import com.pihotel.service.IInvoicesServicesServ;
 
 @Controller
 public class CartController {
@@ -26,6 +27,9 @@ public class CartController {
 
 	@Autowired
 	private IAccountServ accountServ;
+	
+	@Autowired
+	private IInvoicesServicesServ invoiceServiceServ;
 
 //	---------------------------------------GET---------------------------------------	
 	
@@ -45,11 +49,12 @@ public class CartController {
 
 //	---------------------------------------POST---------------------------------------
 
-	@RequestMapping(value = "/cart/services", method = RequestMethod.POST, consumes = {"multipart/form-data", "application/json"})
+	@RequestMapping(value = "/home/cart/services", method = RequestMethod.POST, consumes = {"multipart/form-data", "application/json"})
 	public String doSaveServiceCart(@RequestPart("invoice") InvoiceEntity invoice,
-			@RequestPart("service") ServiceEntity service) {
-		invoiceServ.saveWithInvoiceService(invoice, service);
-		return "redirect:/";
+			@RequestPart("service") ServiceEntity service, 
+			@RequestPart("roomType") RoomTypeEntity roomType) {
+		invoiceServiceServ.saveWithInvoiceService(invoice, service);
+		return "redirect:/home/checkin/invoice?idRoomType=" + roomType.getId() + "&idInvoice=" + invoice.getId();
 	}
 	
 //	---------------------------------------PUT---------------------------------------

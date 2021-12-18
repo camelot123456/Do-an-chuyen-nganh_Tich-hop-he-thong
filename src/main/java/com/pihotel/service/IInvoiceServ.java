@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
-import com.pihotel.entity.InvoiceServiceEntity;
-import com.pihotel.entity.ServiceEntity;
 
 public interface IInvoiceServ {
 
@@ -35,6 +33,5 @@ public interface IInvoiceServ {
 	
 	public Integer getSumCartByIdCustomer(String idCustomer);
 	
-	public InvoiceEntity saveWithInvoiceService(InvoiceEntity invoice, ServiceEntity service);
 	
 }

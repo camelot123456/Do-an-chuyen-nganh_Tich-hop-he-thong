@@ -9,6 +9,7 @@
                 <h5>Phòng được chọn</h5>
                 <p>Mã hóa đơn: [[${invoice.id}]]</p>
                 <input type="hidden" th:value="${invoice.id}" name="id-invoice">
+                <input type="hidden" th:value="${room_type.id}" name="id-room-type">
                 <div class="hstack gap-3 mt-4">
                     <div style="width: 40%">
                         <a href="#">
@@ -231,9 +232,8 @@
                             </div>
                         </div>
                     </th:block>
-                    <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary btn-sm" id="btn-save-service"
-                            style="min-width: 100px;">Lưu</button>
+                    <div class="d-flex justify-content-end" id="box-btn-save-service">
+
                     </div>
                 </div>
 
@@ -276,6 +276,16 @@
         } else if (customerGender.value == 'false') {
             formSelectgender.selectedIndex = '2'
         }
+        var customerStore = JSON.parse(window.localStorage.getItem('customer'))
+        
+        if (customerStore) {
+            $('#name').value = customerStore.name
+            $('#address').value = customerStore.address
+            $('#email').value = customerStore.email
+            $('#phoneNum').value = customerStore.phoneNum
+            $('#birthday').value = customerStore.birthday
+            formSelectgender.selectedIndex = customerStore.gender == 'true' ? '1' : '2'
+        }
 
         //Tạo hàm gọi api
         function fetchAPI(url, method, body) {
@@ -301,31 +311,54 @@
 
 
         var btnQuantityService = Array.from($$('.btn-quantity-service'))
-        var btnSaveService = $('#btn-save-service')
 
-        btnSaveService.addEventListener("click", e => {
-            e.preventDefault()
-            var services = []
-            btnQuantityService.forEach((element) => {
-                if (element.value > 0) {
-                    services.push({ id: element.id, quantity: element.value })
-                }
+
+        btnQuantityService.forEach((element) => {
+            element.addEventListener('change', (e) => {
+                var boxBtnSaveServie = $('#box-btn-save-service')
+                boxBtnSaveServie.innerHTML = `
+                <button type="button" class="btn btn-primary btn-sm" id="btn-save-service"
+                            style="min-width: 100px;">Lưu</button>
+                `
+                var btnSaveService = $('#btn-save-service')
+
+                btnSaveService.addEventListener("click", e => {
+                    e.preventDefault()
+                    var services = []
+                    btnQuantityService.forEach((element) => {
+                        if (element.value > 0) {
+                            services.push({ id: element.id, quantity: element.value })
+                        }
+                    })
+                    var formData = new FormData(formInvoice)
+                    formData.append('invoice', new Blob([JSON.stringify({
+                        'id': formData.get('id-invoice')
+                    })], { type: 'application/json' }))
+
+                    formData.append('service', new Blob([JSON.stringify({
+                        'invoicesServices': services
+                    })], { type: 'application/json' }))
+
+                    formData.append('roomType', new Blob([JSON.stringify({
+                        'id': formData.get('id-room-type')
+                    })], { type: 'application/json' }))
+
+                    const customer = {
+                        'name': formData.get('name'),
+                        'address': formData.get('address'),
+                        'email': formData.get('email'),
+                        'phoneNum': formData.get('phoneNum'),
+                        'birthday': formData.get('birthday'),
+                        'gender': formData.get('gender')
+                    }
+
+                    window.localStorage.setItem('customer', JSON.stringify(customer))
+
+                    fetchAPI(`/home/cart/services`, 'POST', formData)
+                })
             })
-            var formData = new FormData(formInvoice)
-            formData.append('invoice', new Blob([JSON.stringify({
-                'id': formData.get('id-invoice')
-            })], { type: 'application/json' }))
-
-            formData.append('service', new Blob([JSON.stringify({
-                'invoicesServices': services
-            })], { type: 'application/json' }))
-
-            formData.append('invoiceService', new Blob([JSON.stringify({
-                'invoicesServices': services
-            })], { type: 'application/json' }))
-            console.log(services)
-            fetchAPI(`/cart/services`, 'POST', formData)
         })
+
 
         // --------------------------------------Xử lý thanh toán hóa đơn-------------------------------------------
 
@@ -389,7 +422,8 @@
                         'gender': formData.get('gender')
 
                     })], { type: 'application/json' }))
-
+                    
+                    window.localStorage.removeItem('customer')
                     fetchAPI(`/home/checkin/handle-invoice-no-account`, 'PUT', formData)
                 })
 

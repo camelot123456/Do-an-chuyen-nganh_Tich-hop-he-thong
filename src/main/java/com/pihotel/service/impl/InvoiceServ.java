@@ -11,15 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
-import com.pihotel.entity.InvoiceServiceEntity;
 import com.pihotel.entity.RoomEntity;
-import com.pihotel.entity.ServiceEntity;
 import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.repository.IAccountRepo;
 import com.pihotel.repository.IInvoiceRepo;
-import com.pihotel.repository.IInvoicesServicesRepo;
 import com.pihotel.repository.IRoomRepo;
-import com.pihotel.repository.IServiceRepo;
 import com.pihotel.service.IInvoiceServ;
 
 import net.bytebuddy.utility.RandomString;
@@ -36,12 +32,6 @@ public class InvoiceServ implements IInvoiceServ {
 
 	@Autowired
 	private IAccountRepo accountRepo;
-
-	@Autowired
-	private IInvoicesServicesRepo invoiceServiceRepo;
-
-	@Autowired
-	private IServiceRepo serviceRepo;
 
 //	---------------------------------------SELECT---------------------------------------
 
@@ -184,25 +174,6 @@ public class InvoiceServ implements IInvoiceServ {
 
 		invoiceNew.setRooms(rooms);
 		invoiceRepo.save(invoiceNew);
-	}
-
-	@Override
-	public InvoiceEntity saveWithInvoiceService(InvoiceEntity invoice, ServiceEntity service) {
-		InvoiceEntity invoiceNew = invoiceRepo.findOneById(invoice.getId());
-		InvoiceServiceEntity invoiceServiceNew = new InvoiceServiceEntity();
-
-		service.getInvoicesServices().forEach(invoicesServices -> {
-			ServiceEntity serviceNew = serviceRepo.findOneById(invoicesServices.getId());
-			invoiceServiceNew.setService(serviceNew);
-			invoiceServiceNew.setQuantity(invoicesServices.getQuantity());
-			invoiceServiceNew.setInvoice(invoiceNew);
-			invoiceServiceNew.setId(RandomString.make(12));
-			invoiceServiceNew.setCreateAt(new Date());
-			invoiceServiceNew.setModifiedAt(new Date());
-			invoiceServiceRepo.save(invoiceServiceNew);
-		});
-
-		return null;
 	}
 
 //	---------------------------------------UPDATE---------------------------------------

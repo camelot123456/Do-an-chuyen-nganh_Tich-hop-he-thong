@@ -55,6 +55,11 @@ public class HomeController {
 	public String home() {
 		return "home/bodys/home";
 	}
+	
+	@RequestMapping(value = { "/home/thanks" })
+	public String showThanks() {
+		return "home/bodys/thanks";
+	}
 
 	@RequestMapping(value = "/home/room")
 	public String showRoomTypeList(Model model) {
@@ -82,7 +87,6 @@ public class HomeController {
 			// TODO: handle exception
 
 		}
-
 		InvoiceEntity invoice = invoiceServ.findOneById(idInvoice);
 
 		model.addAttribute(SystemConstant.INVOICES_SERVICES, invoicesServicesServ.findAllByIdInvoice(idInvoice));
@@ -121,8 +125,8 @@ public class HomeController {
 
 		InvoiceEntity invoice = invoiceServ.findOneById(idInvoice);
 
+		model.addAttribute(SystemConstant.INVOICES_SERVICES, invoicesServicesServ.findAllByIdInvoice(idInvoice));
 		model.addAttribute(SystemConstant.ROOMS, invoice.getRooms());
-		model.addAttribute(SystemConstant.SERVICES, serviceServ.findAll());
 		model.addAttribute(SystemConstant.ROOM_TYPE, roomTypeServ.findOneById(idRoomType));
 		model.addAttribute(SystemConstant.INVOICE, invoice);
 		model.addAttribute("COUNT_ROOM", invoice.getRooms().stream().count());
@@ -179,7 +183,7 @@ public class HomeController {
 				room.setRoomState(ERoomState.USING);
 			});
 			invoiceServ.update(invoiceNew);
-			return "redirect:/cart?idCustomer=" + customerNew.getId();
+			return "redirect:/home/thanks";
 		} else {
 			InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId());
 			invoiceNew.setAccount(accountCustomer);

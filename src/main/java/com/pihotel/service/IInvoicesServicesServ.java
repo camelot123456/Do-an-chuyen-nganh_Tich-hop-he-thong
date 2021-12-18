@@ -2,7 +2,9 @@ package com.pihotel.service;
 
 import java.util.List;
 
+import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.entity.InvoiceServiceEntity;
+import com.pihotel.entity.ServiceEntity;
 
 public interface IInvoicesServicesServ {
 
@@ -19,5 +21,7 @@ public interface IInvoicesServicesServ {
 	public void deleteById(String id);
 	
 	public List<InvoiceServiceEntity> findAllByIdInvoice(String idInvoice);
+	
+	public void saveWithInvoiceService(InvoiceEntity invoice, ServiceEntity service);
 	
 }

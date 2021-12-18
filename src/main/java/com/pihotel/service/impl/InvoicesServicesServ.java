@@ -1,17 +1,30 @@
 package com.pihotel.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.entity.InvoiceServiceEntity;
+import com.pihotel.entity.ServiceEntity;
+import com.pihotel.repository.IInvoiceRepo;
 import com.pihotel.repository.IInvoicesServicesRepo;
+import com.pihotel.repository.IServiceRepo;
 import com.pihotel.service.IInvoicesServicesServ;
+
+import net.bytebuddy.utility.RandomString;
 
 @Service
 public class InvoicesServicesServ implements IInvoicesServicesServ{
 
+	@Autowired
+	private IInvoiceRepo invoiceRepo;
+
+	@Autowired
+	private IServiceRepo serviceRepo;
+	
 	@Autowired
 	private IInvoicesServicesRepo invoicesServicesRepo;
 	
@@ -39,6 +52,30 @@ public class InvoicesServicesServ implements IInvoicesServicesServ{
 			return invoicesServicesRepo.save(entity);
 		}
 		return null;
+	}
+	
+	@Override
+	public void saveWithInvoiceService(InvoiceEntity invoice, ServiceEntity service) {
+		InvoiceEntity invoiceNew = invoiceRepo.findOneById(invoice.getId());
+		
+		if (invoiceNew.getInvoicesServices().size() > 0) {
+			invoiceNew.getInvoicesServices().forEach(invoiceService -> {
+				invoicesServicesRepo.deleteById(invoiceService.getId());
+			});
+		}
+		
+		InvoiceServiceEntity invoiceServiceNew = new InvoiceServiceEntity();
+
+		service.getInvoicesServices().forEach(invoicesServices -> {
+			ServiceEntity serviceNew = serviceRepo.findOneById(invoicesServices.getId());
+			invoiceServiceNew.setService(serviceNew);
+			invoiceServiceNew.setQuantity(invoicesServices.getQuantity());
+			invoiceServiceNew.setInvoice(invoiceNew);
+			invoiceServiceNew.setId(RandomString.make(12));
+			invoiceServiceNew.setCreateAt(new Date());
+			invoiceServiceNew.setModifiedAt(new Date());
+			invoicesServicesRepo.save(invoiceServiceNew);
+		});
 	}
 
 	@Override
