@@ -96,7 +96,7 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 			+ "on r.id_room_type = rt.id inner join invoice i "
 			+ "on ir.id_invoice = i.id inner join account a "
 			+ "on a.id = i.id_account "
-			+ "where r.id = ?1",
+			+ "where r.id = ?1 and r.verify_room = i.verify_room",
 			nativeQuery = true)
 	public AccountEntity findOneByIdForRoom(String idRoom);
 }

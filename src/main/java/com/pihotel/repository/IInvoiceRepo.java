@@ -83,4 +83,44 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 //			+ "group by i.id,  i.[start_date], i.end_date, i.adults, i.children, rt.id, i.id_account, rt.price, a.id,  a.phone_num, i.verify_room",
 //			nativeQuery = true)
 //	public Page<Object[]> search(String keyword , Boolean isPaid, Pageable pageable);
+	
+
 }
+
+/*
+select i.id, i.[start_date], i.end_date, i.adults, i.children,
+a.id as id_custommer, a.name,
+r.id as id_room, r.name, 
+s.id, s.name, iss.id as invoice_service, iss.quantity,
+s.price, (iss.quantity * s.price) as total_price
+from invoice i inner join invoice_service iss 
+on i.id = iss.id_invoice inner join [service] s
+on iss.id_service = s.id inner join account a
+on i.id_account = a.id inner join invoice_room ir 
+on i.id = ir.id_invoice inner join room r
+on r.id = ir.id_room inner join room_type rt
+on rt.id = r.id_room_type
+where i.id = 'ECqsjCM5aD7U' and r.verify_room = i.verify_room
+
+
+select sum(iss.quantity) as quantity_service,
+sum(iss.quantity * s.price) as total_price_service,
+(sum(iss.quantity * s.price) * 0.05) as service_tax_5_percent,
+count(r.id) as quantity_room, 
+DATEDIFF(DAY, i.[start_date], i.end_date) as night,
+rt.price ,
+sum(r.price_incurred) as total_price_incurred,
+((DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price ) + sum(r.price_incurred)) as total_room,
+(sum(iss.quantity * s.price) + (DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price ) + sum(r.price_incurred)) as total_price,
+((sum(iss.quantity * s.price) + (DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price ) + sum(r.price_incurred)) * 0.1) as VAT_tax_10_percent,
+(((sum(iss.quantity * s.price) + (DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price ) + sum(r.price_incurred)) * 0.1) + (sum(iss.quantity * s.price) + (DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price ) + sum(r.price_incurred))) as total_all_price
+from invoice i inner join invoice_service iss 
+on i.id = iss.id_invoice inner join [service] s
+on iss.id_service = s.id inner join account a
+on i.id_account = a.id inner join invoice_room ir 
+on i.id = ir.id_invoice inner join room r
+on r.id = ir.id_room inner join room_type rt
+on rt.id = r.id_room_type
+where i.id = 'ECqsjCM5aD7U' and r.verify_room = i.verify_room
+group by rt.price , i.[start_date], i.end_date
+*/
