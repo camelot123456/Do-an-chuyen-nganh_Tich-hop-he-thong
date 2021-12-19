@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,6 +22,7 @@ import org.springframework.stereotype.Service;
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.RoleEntity;
+import com.pihotel.entity.custom.MyUserCustom;
 import com.pihotel.entity.enums.EAuthenticationProvider;
 import com.pihotel.repository.IAccountRepo;
 import com.pihotel.repository.IRoleRepo;
@@ -72,7 +72,8 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		account.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getCode())));
 
-		UserDetails userDetails = new User(account.getUsername(), account.getPassword(), authorities);
+		MyUserCustom userDetails = new MyUserCustom(account.getUsername(), account.getPassword(), authorities);
+		userDetails.setAccount(account);
 		return userDetails;
 	}
 	

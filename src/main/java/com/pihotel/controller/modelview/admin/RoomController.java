@@ -97,12 +97,9 @@ public class RoomController {
 //	---------------------------------------POST---------------------------------------
 	
 	@RequestMapping(value = "/admin/room-managements/room/tran", method = RequestMethod.POST, consumes = {"multipart/form-data", "application/json"})
-	public String doSaveRoom(@RequestPart("room") RoomEntity room,
-			@RequestPart("roomType") RoomEntity roomType,
-			@RequestPart("invoice") RoomEntity invoice,
-			@RequestPart("account") RoomEntity account) {
+	public String doSaveRoom(@RequestPart("room") RoomEntity room) {
 		roomServ.save(room);
-		return "redirect:/admin/room-managements/room?idRoom="+room.getId()+"&idRoomType="+roomType.getId()+"&idInvoice="+invoice.getId()+"&idAccount="+account.getId();
+		return "redirect:/admin/room-managements/room";
 	}
 	
 //	---------------------------------------PUT---------------------------------------

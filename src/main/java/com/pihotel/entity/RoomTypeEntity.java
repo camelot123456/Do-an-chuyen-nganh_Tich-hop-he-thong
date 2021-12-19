@@ -51,4 +51,7 @@ public class RoomTypeEntity extends AbstractEntity{
 		return "/img/roomtype/" + logo;
 	}
 	
+	@Transient
+	private Integer totalRoom;
+	
 }

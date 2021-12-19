@@ -36,6 +36,15 @@ public interface IRoomTypeRepo extends JpaRepository<RoomTypeEntity, String>{
 			nativeQuery = true)
 	public Page<RoomTypeEntity> search(String keyword, Pageable pageable);
 	
+	@Query(value = "select distinct rt.*, count(r.id) as totalRoom "
+			+ "from room_type rt right join room r  "
+			+ "on rt.id = r.id_room_type "
+			+ "group by rt.id, rt.create_at, rt.create_by, rt.delete_at, "
+			+ "rt.delete_by, rt.deleted, rt.[description], rt.[enabled], "
+			+ "rt.logo, rt.modified_at, rt.modified_by, rt.name, rt.price",
+	nativeQuery = true)
+	public List<Object[]> findAllWithTotalRoom();
+	
 //	new query
 	@Query(value = "select distinct rt.* "
 			+ "from invoice i left join invoice_service iss  "

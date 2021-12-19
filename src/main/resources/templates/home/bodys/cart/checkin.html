@@ -40,7 +40,7 @@
                     </div>
                     <div class="hstack gap-3 d-flex justify-content-between">
                         <p class="fw-bold">Loại phòng</p>
-                        <p>[[${COUNT_ROOM}]] x [[${room_type.name}]]</p>
+                        <p>[[${bill_custom.quantityRoom}]] x [[${room_type.name}]]</p>
                     </div>
 
                     <table class="table table-striped table-hover">
@@ -65,7 +65,7 @@
                         <tfooter>
                             <tr>
                                 <td class="text-start" colspan="3">Tổng</td>
-                                <td class="text-end">[[${TOTAL_PRICE_INCURRED}]] $</td>
+                                <td class="text-end">[[${bill_custom.totalPriceIncurred}]] $</td>
                             </tr>
                         </tfooter>
                     </table>
@@ -79,7 +79,7 @@
 
                     <div class="hstack gap-3 d-flex justify-content-between">
                         <p class="fw-bold">Dịch vụ</p>
-                        <p>15-10-2019</p>
+                        <p>x [[${bill_custom.quantityService}]]</p>
                     </div>
 
                     <table class="table table-striped table-hover" id="table-service">
@@ -88,30 +88,27 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Tên</th>
                                 <th scope="col">Số lượng</th>
-                                <th scope="col" class="text-end">Giá</th>
+                                <th scope="col" >Giá</th>
+                                <th scope="col" class="text-end">Thành tiền</th>
                             </tr>
                         </thead>
                         <tbody id="tbody-service">
-                            <th:block th:each="invoice_service, state : ${invoices_services}">
+                            <th:block th:each="service, state : ${services}">
                                 <tr class="tr-services">
                                     <th scope="row">[[${state.count}]]</th>
-                                    <td>[[${invoice_service.service.name}]]</td>
-                                    <td class="text-center">[[${invoice_service.quantity}]]</td>
-                                    <td class="text-end">
-                                        <p class="lbl-service-price">[[${invoice_service.service.price}]]</p> $
-                                    </td>
+                                    <td>[[${service.name}]]</td>
+                                    <td class="text-center">[[${service.quantity}]]</td>
+                                    <td>[[${service.price}]] $</td>
+                                    <td class="text-end">[[${service.totalPrice}]] $</td>
                                 </tr>
                             </th:block>
                         </tbody>
                         <tfooter>
                             <tr>
                                 <td class="text-start" colspan="2">Tổng</td>
-                                <td class="text-center">
-                                    <p id="lbl-sum-service-quantity"></p>
-                                </td>
-                                <td class="text-end">
-                                    <p id="lbl-sum-service-price"></p> $
-                                </td>
+                                <td class="text-center">[[${bill_custom.quantityService}]]</td>
+                                <td class="text-end"></td>
+                                <td class="text-end">[[${bill_custom.totalPriceService}]] $</td>
                             </tr>
                         </tfooter>
                     </table>
@@ -121,8 +118,9 @@
                     <hr>
                     <div class="hstack gap-3 d-flex justify-content-between">
                         <p class="fw-bold">Số ngày</p>
-                        <p>3</p>
+                        <p>[[${bill_custom.night}]]</p>
                     </div>
+                    
                     <div class="hstack gap-3 d-flex justify-content-between">
                         <p class="fw-bold">Mã giảm giá</p>
                         <p>Không có</p>
@@ -134,19 +132,19 @@
                     <hr>
                     <div class="hstack gap-3 d-flex justify-content-between">
                         <p class="fw-bold">Tổng</p>
-                        <p>[[${TOTAL_PRICE}]] $</p>
+                        <p>[[${bill_custom.totalPriceRoom}]] $</p>
                     </div>
                     <div class="hstack gap-3 d-flex justify-content-between">
                         <p class="fw-bold">Phí dịch vụ: (5%)</p>
-                        <p>[[${PRICE_SERVICE_5P}]] $</p>
+                        <p>[[${bill_custom.serviceTax5Percent}]] $</p>
                     </div>
                     <div class="hstack gap-3 d-flex justify-content-between">
                         <p class="fw-bold">VAT: (10%)</p>
-                        <p>[[${PRICE_VAT_10P}]] $</p>
+                        <p>[[${bill_custom.VATTax10Percent}]] $</p>
                     </div>
                     <div class="hstack gap-3 d-flex justify-content-between">
                         <p class="fw-bold">Tổng tiền</p>
-                        <p>[[${TOTAL_PRICE_ALL}]] $</p>
+                        <p>[[${bill_custom.totalAllPrice}]] $</p>
                     </div>
                 </div>
             </div>

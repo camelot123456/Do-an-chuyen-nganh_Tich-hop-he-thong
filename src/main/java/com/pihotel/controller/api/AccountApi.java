@@ -29,6 +29,11 @@ public class AccountApi {
 		return ResponseEntity.ok().body(accountServ.findAll());
 	}
 
+	@GetMapping(value = "/account/{id}")
+	public ResponseEntity<AccountEntity> findOne(@PathVariable("id") String id){
+		return ResponseEntity.ok().body(accountServ.findOneById(id));
+	}
+	
 	@PostMapping(value = "/account")
 	public ResponseEntity<AccountEntity> insert(@RequestBody AccountEntity account){
 		return ResponseEntity.ok().body(accountServ.save(account));
@@ -45,8 +50,4 @@ public class AccountApi {
 		return new ResponseEntity<String>("Product deleted successfully!", HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/account/{id}")
-	public ResponseEntity<AccountEntity> findOne(@PathVariable("id") String id){
-		return ResponseEntity.ok().body(accountServ.findOneById(id));
-	}
 }

@@ -23,8 +23,8 @@ public interface IServiceRepo extends JpaRepository<ServiceEntity, String>{
 	
 //	new query
 	@Query(value = "select distinct s.id, s.name, s.[image], s.[description], s.price, "
-			+ "iss.id as idInvoiceService, iss.quantity, "
-			+ "(iss.quantity * s.price) as totalPrice "
+			+ "iss.id as idInvoiceService, isnull (iss.quantity ,0) as quantity, "
+			+ "isnull ((iss.quantity * s.price), 0) as totalPrice "
 			+ "from invoice i inner join invoice_service iss "
 			+ "on i.id = iss.id_invoice inner join [service] s "
 			+ "on iss.id_service = s.id inner join account a "

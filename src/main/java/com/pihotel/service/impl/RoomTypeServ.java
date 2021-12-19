@@ -41,6 +41,26 @@ public class RoomTypeServ implements IRoomTypeServ{
 	}
 
 	@Override
+	public List<RoomTypeEntity> findAllWithTotalRoom() {
+		List<Object[]> roomTypeArray = roomTypeRepo.findAllWithTotalRoom();
+		List<RoomTypeEntity> roomTypeArrayNew = null;
+		if (roomTypeArray.size() > 0) {
+			roomTypeArrayNew = new ArrayList<RoomTypeEntity>();
+			for (Object[] record : roomTypeArray) {
+				RoomTypeEntity roomType = new RoomTypeEntity();
+				roomType.setId((String) record[0]);
+				roomType.setDescription((String) record[9]);
+				roomType.setLogo((String) record[10]);
+				roomType.setName((String) record[11]);
+				roomType.setPrice((Double) record[12]);
+				roomType.setTotalRoom((Integer) record[13]);
+				roomTypeArrayNew.add(roomType);
+			}
+		}
+		return roomTypeArrayNew;
+	}
+	
+	@Override
 	public Page<RoomTypeEntity> findAll(int numPage, String sortField, String sortDir, String keyword) {
 		// TODO Auto-generated method stub
 		Sort sort = Sort.by(sortField);

@@ -21,7 +21,6 @@ import com.pihotel.entity.enums.EAuthenticationProvider;
 import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.service.IAccountServ;
 import com.pihotel.service.IInvoiceServ;
-import com.pihotel.service.IInvoicesServicesServ;
 import com.pihotel.service.IRoomServ;
 import com.pihotel.service.IRoomTypeServ;
 import com.pihotel.service.IServiceServ;
@@ -45,9 +44,6 @@ public class HomeController {
 
 	@Autowired
 	private IRoomServ roomServ;
-	
-	@Autowired
-	private IInvoicesServicesServ invoicesServicesServ;
 
 //	---------------------------------------GET---------------------------------------	
 
@@ -63,7 +59,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/home/room")
 	public String showRoomTypeList(Model model) {
-		model.addAttribute(SystemConstant.ROOMS_TYPE, roomTypeServ.findAll());
+		model.addAttribute(SystemConstant.ROOMS_TYPE, roomTypeServ.findAllWithTotalRoom());
 		return "home/bodys/room_list";
 	}
 
@@ -77,7 +73,6 @@ public class HomeController {
 	@RequestMapping(value = "/home/checkin/invoice")
 	public String bookroomInvoice(Model model, @Param("idRoomType") String idRoomType,
 			@Param("idInvoice") String idInvoice, HttpServletRequest request) {
-
 		try {
 			AccountEntity customer = (AccountEntity) request.getSession().getAttribute("account");
 			if (customer != null) {
@@ -89,22 +84,11 @@ public class HomeController {
 		}
 		InvoiceEntity invoice = invoiceServ.findOneById(idInvoice, Boolean.FALSE);
 
-		model.addAttribute(SystemConstant.INVOICES_SERVICES, invoicesServicesServ.findAllByIdInvoice(idInvoice));
 		model.addAttribute(SystemConstant.ROOMS, invoice.getRooms());
-		model.addAttribute(SystemConstant.SERVICES, serviceServ.findAll());
+		model.addAttribute(SystemConstant.SERVICES, serviceServ.findAllByIdInvoice(idInvoice, Boolean.FALSE));
 		model.addAttribute(SystemConstant.ROOM_TYPE, roomTypeServ.findOneById(idRoomType));
 		model.addAttribute(SystemConstant.INVOICE, invoice);
-		model.addAttribute("COUNT_ROOM", invoice.getRooms().stream().count());
-		model.addAttribute("TOTAL_PRICE_INCURRED", invoiceServ.getSumPriceIncurred(idInvoice));
-		model.addAttribute("TOTAL_PRICE", invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType));
-		model.addAttribute("PRICE_SERVICE_5P",
-				invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType) * 0.05);
-		model.addAttribute("PRICE_VAT_10P",
-				invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType) * 0.1);
-		model.addAttribute("TOTAL_PRICE_ALL",
-				invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType)
-						+ invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType) * 0.05
-						+ invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType) * 0.1);
+		model.addAttribute(SystemConstant.BILL_CUSTOM, invoiceServ.findOneBillCustomByIdInvoice(idInvoice, Boolean.FALSE));
 
 		return "home/bodys/cart/checkin";
 	}

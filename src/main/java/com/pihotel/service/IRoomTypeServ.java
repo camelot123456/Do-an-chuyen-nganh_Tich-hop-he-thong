@@ -24,6 +24,7 @@ public interface IRoomTypeServ {
 	
 	public void deleteById(String id);
 	
+	public List<RoomTypeEntity> findAllWithTotalRoom();
 	
 	public RoomTypeEntity findOneByIdInvoice(String idInvoice, Boolean isPaid);
 }
