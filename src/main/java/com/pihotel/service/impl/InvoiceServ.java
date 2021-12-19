@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.entity.RoomEntity;
+import com.pihotel.entity.custom.BillCustom;
 import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.repository.IAccountRepo;
 import com.pihotel.repository.IInvoiceRepo;
@@ -39,12 +40,6 @@ public class InvoiceServ implements IInvoiceServ {
 	public List<InvoiceEntity> findAll() {
 		// TODO Auto-generated method stub
 		return invoiceRepo.findAll();
-	}
-
-	@Override
-	public InvoiceEntity findOneById(String id) {
-		// TODO Auto-generated method stub
-		return invoiceRepo.findOneById(id);
 	}
 
 	@Override
@@ -113,6 +108,38 @@ public class InvoiceServ implements IInvoiceServ {
 			}
 		}
 		return invoiceNew;
+	}
+
+	@Override
+	public InvoiceEntity findOneById(String id, Boolean isPaid) {
+		// TODO Auto-generated method stub
+		return invoiceRepo.findOneById(id, isPaid);
+	}
+	
+	@Override
+	public BillCustom findOneBillCustomByIdInvoice(String idInvoice, Boolean isPaid) {
+		List<Object[]> billsArray = invoiceRepo.findOneBillCustomByIdInvoice(idInvoice, isPaid);
+		List<BillCustom> billsNew = null;
+		if (billsArray.size() > 0) {
+			billsNew = new ArrayList<BillCustom>();
+			for (Object[] record : billsArray) {
+				BillCustom bill = new BillCustom();
+				bill.setIdInvoice((String) record[0]);
+				bill.setQuantityService((Integer) record[1]);
+				bill.setTotalPriceService((Double) record[2]);
+				bill.setServiceTax5Percent((Double) record[3]);
+				bill.setQuantityRoom((Integer) record[4]);
+				bill.setNight((Integer) record[5]);
+				bill.setPriceRoomType((Double) record[6]);
+				bill.setTotalPriceIncurred((Double) record[7]);
+				bill.setTotalPriceRoom((Double) record[8]);
+				bill.setTotalPrice((Double) record[9]);
+				bill.setVATTax10Percent((Double) record[10]);
+				bill.setTotalAllPrice((Double) record[11]);
+				billsNew.add(bill);
+			}
+		}
+		return billsNew.get(0);
 	}
 
 //	---------------------------------------INSERT---------------------------------------

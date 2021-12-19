@@ -56,7 +56,7 @@ public class InvoicesServicesServ implements IInvoicesServicesServ{
 	
 	@Override
 	public void saveWithInvoiceService(InvoiceEntity invoice, ServiceEntity service) {
-		InvoiceEntity invoiceNew = invoiceRepo.findOneById(invoice.getId());
+		InvoiceEntity invoiceNew = invoiceRepo.findOneById(invoice.getId(), Boolean.FALSE);
 		
 		if (invoiceNew.getInvoicesServices().size() > 0) {
 			invoiceNew.getInvoicesServices().forEach(invoiceService -> {

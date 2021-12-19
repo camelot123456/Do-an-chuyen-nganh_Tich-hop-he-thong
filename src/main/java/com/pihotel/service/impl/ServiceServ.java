@@ -1,5 +1,6 @@
 package com.pihotel.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,28 @@ public class ServiceServ implements IServiceServ{
 	public ServiceEntity findOneById(String id) {
 		// TODO Auto-generated method stub
 		return serviceRepo.findOneById(id);
+	}
+	
+	@Override
+	public List<ServiceEntity> findAllByIdInvoice(String idInvoice, Boolean isPaid) {
+		List<Object[]> serviceArray = serviceRepo.findAllByIdInvoice(idInvoice, isPaid);
+		List<ServiceEntity> serviceArrayNew = null;
+		if (serviceArray.size() > 0) {
+			serviceArrayNew = new ArrayList<ServiceEntity>();
+			for (Object[] record : serviceArray) {
+				ServiceEntity service = new ServiceEntity();
+				service.setId((String) record[0]);
+				service.setName((String) record[1]);
+				service.setImage((String) record[2]);
+				service.setDescription((String) record[3]);
+				service.setPrice((Double) record[4]);
+				service.setIdInvoiceService((String) record[5]);
+				service.setQuantity((Integer) record[6]);
+				service.setTotalPrice((Double) record[7]);
+				serviceArrayNew.add(service);
+			}
+		}
+		return serviceArrayNew;
 	}
 
 //	---------------------------------------INSERT---------------------------------------	

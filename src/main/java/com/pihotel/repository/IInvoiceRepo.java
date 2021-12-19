@@ -9,7 +9,6 @@ import com.pihotel.entity.InvoiceEntity;
 
 public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 //	select top 1 rt.name, rt.id, rt.price, rt.logo from invoice i, room r, invoice_room ir, room_type rt where ir.id_room = r.id and ir.id_invoice = i.id and r.id_room_type = rt.id and i.id = 'jFBy0bJAAV7l'
-	public InvoiceEntity findOneById(String id);
 	
 	@Query(value = "select sum(r.price_incurred) + rt.price "
 			+ "from invoice i inner join invoice_room ir "
@@ -85,6 +84,120 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 //	public Page<Object[]> search(String keyword , Boolean isPaid, Pageable pageable);
 	
 
+	
+	
+//	new query
+	@Query(value = "select distinct i.* "
+			+ "from invoice i left join invoice_service iss "
+			+ "on i.id = iss.id_invoice left join [service] s "
+			+ "on iss.id_service = s.id inner join invoice_room ir "
+			+ "on i.id = ir.id_invoice inner join room r "
+			+ "on r.id = ir.id_room inner join room_type rt "
+			+ "on rt.id = r.id_room_type "
+			+ "where i.id = ?1 and i.[enabled] = ?2",
+			nativeQuery = true)
+	public InvoiceEntity findOneById(String id, Boolean isPaid);
+	
+	@Query(value = "select i.id as idInvoice,\n" + 
+			"(select sum(iss.quantity) \n" + 
+			"from invoice_service iss inner join [service] s \n" + 
+			"on iss.id_service = s.id inner join invoice i \n" + 
+			"on i.id = iss.id_invoice \n" + 
+			"where i.id = '9GM9U10LNwvs' ) as quantityService,\n" + 
+			"(select sum(iss.quantity * s.price)  \n" + 
+			"from invoice_service iss inner join [service] s \n" + 
+			"on iss.id_service = s.id inner join invoice i \n" + 
+			"on i.id = iss.id_invoice \n" + 
+			"where i.id = '9GM9U10LNwvs' ) as totalPriceService,\n" + 
+			"(select sum(iss.quantity * s.price) * 0.05 \n" + 
+			"from invoice_service iss inner join [service] s \n" + 
+			"on iss.id_service = s.id inner join invoice i \n" + 
+			"on i.id = iss.id_invoice \n" + 
+			"where i.id = '9GM9U10LNwvs' )as serviceTax5Percent,\n" + 
+			"(select count(r.id) \n" + 
+			"from invoice_room ir inner join room r \n" + 
+			"on ir.id_room = r.id inner join invoice i \n" + 
+			"on i.id = ir.id_invoice \n" + 
+			"where i.id = '9GM9U10LNwvs') as quantityRoom,\n" + 
+			"DATEDIFF(DAY, i.[start_date], i.end_date) as night,\n" + 
+			"rt.price as priceRoomType,\n" + 
+			"(select sum(r.price_incurred) from invoice_room ir right outer join room r \n" + 
+			"on ir.id_room = r.id right outer join invoice i \n" + 
+			"on i.id = ir.id_invoice right outer join room_type rt \n" + 
+			"on rt.id = r.id_room_type \n" + 
+			"where i.id = '9GM9U10LNwvs'\n" + 
+			"group by i.[start_date], i.end_date, rt.price) as totalPriceIncurred,\n" + 
+			"(select DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price  + sum(r.price_incurred)\n" + 
+			"from invoice_room ir right outer join room r \n" + 
+			"on ir.id_room = r.id right outer join invoice i \n" + 
+			"on i.id = ir.id_invoice right outer join room_type rt \n" + 
+			"on rt.id = r.id_room_type \n" + 
+			"where i.id = '9GM9U10LNwvs'\n" + 
+			"group by i.[start_date], i.end_date, rt.price) as totalPriceRoom,\n" + 
+			"((select sum(iss.quantity * s.price)  \n" + 
+			"from invoice_service iss inner join [service] s \n" + 
+			"on iss.id_service = s.id inner join invoice i \n" + 
+			"on i.id = iss.id_invoice \n" + 
+			"where i.id = '9GM9U10LNwvs' ) \n" + 
+			"+\n" + 
+			"(select DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price  + sum(r.price_incurred)\n" + 
+			"from invoice_room ir right outer join room r \n" + 
+			"on ir.id_room = r.id right outer join invoice i \n" + 
+			"on i.id = ir.id_invoice right outer join room_type rt \n" + 
+			"on rt.id = r.id_room_type \n" + 
+			"where i.id = '9GM9U10LNwvs'\n" + 
+			"group by i.[start_date], i.end_date, rt.price)) as totalPrice,\n" + 
+			"(((select sum(iss.quantity * s.price)  \n" + 
+			"from invoice_service iss inner join [service] s \n" + 
+			"on iss.id_service = s.id inner join invoice i \n" + 
+			"on i.id = iss.id_invoice \n" + 
+			"where i.id = '9GM9U10LNwvs' ) \n" + 
+			"+\n" + 
+			"(select DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price  + sum(r.price_incurred)\n" + 
+			"from invoice_room ir right outer join room r \n" + 
+			"on ir.id_room = r.id right outer join invoice i \n" + 
+			"on i.id = ir.id_invoice right outer join room_type rt \n" + 
+			"on rt.id = r.id_room_type \n" + 
+			"where i.id = '9GM9U10LNwvs'\n" + 
+			"group by i.[start_date], i.end_date, rt.price)) * 0.1) as VATTax10Percent,\n" + 
+			"(((((select sum(iss.quantity * s.price)  \n" + 
+			"from invoice_service iss inner join [service] s \n" + 
+			"on iss.id_service = s.id inner join invoice i \n" + 
+			"on i.id = iss.id_invoice \n" + 
+			"where i.id = '9GM9U10LNwvs' ) \n" + 
+			"+\n" + 
+			"(select DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price  + sum(r.price_incurred)\n" + 
+			"from invoice_room ir right outer join room r \n" + 
+			"on ir.id_room = r.id right outer join invoice i \n" + 
+			"on i.id = ir.id_invoice right outer join room_type rt \n" + 
+			"on rt.id = r.id_room_type \n" + 
+			"where i.id = '9GM9U10LNwvs'\n" + 
+			"group by i.[start_date], i.end_date, rt.price)) * 0.1))\n" + 
+			"+\n" + 
+			"(select sum(iss.quantity * s.price)  \n" + 
+			"from invoice_service iss inner join [service] s \n" + 
+			"on iss.id_service = s.id inner join invoice i \n" + 
+			"on i.id = iss.id_invoice \n" + 
+			"where i.id = '9GM9U10LNwvs' ) \n" + 
+			"+\n" + 
+			"(select DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price  + sum(r.price_incurred)\n" + 
+			"from invoice_room ir right outer join room r \n" + 
+			"on ir.id_room = r.id right outer join invoice i \n" + 
+			"on i.id = ir.id_invoice right outer join room_type rt \n" + 
+			"on rt.id = r.id_room_type \n" + 
+			"where i.id = '9GM9U10LNwvs'\n" + 
+			"group by i.[start_date], i.end_date, rt.price)) as totalAllPrice\n" + 
+			"from invoice i inner join invoice_service iss \n" + 
+			"on i.id = iss.id_invoice inner join [service] s\n" + 
+			"on iss.id_service = s.id inner join account a\n" + 
+			"on i.id_account = a.id inner join invoice_room ir \n" + 
+			"on i.id = ir.id_invoice left outer join room r\n" + 
+			"on r.id = ir.id_room inner join room_type rt\n" + 
+			"on rt.id = r.id_room_type\n" + 
+			"where i.id = ?1 and r.verify_room = i.verify_room and i.[enabled] = ?2\n" + 
+			"group by rt.price , i.[start_date], i.end_date, i.id",
+			nativeQuery = true)
+	public List<Object[]> findOneBillCustomByIdInvoice(String idInvoice, Boolean isPaid);
 }
 
 /*
@@ -103,24 +216,116 @@ on rt.id = r.id_room_type
 where i.id = 'ECqsjCM5aD7U' and r.verify_room = i.verify_room
 
 
-select sum(iss.quantity) as quantity_service,
-sum(iss.quantity * s.price) as total_price_service,
-(sum(iss.quantity * s.price) * 0.05) as service_tax_5_percent,
-count(r.id) as quantity_room, 
-DATEDIFF(DAY, i.[start_date], i.end_date) as night,
-rt.price ,
-sum(r.price_incurred) as total_price_incurred,
-((DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price ) + sum(r.price_incurred)) as total_room,
-(sum(iss.quantity * s.price) + (DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price ) + sum(r.price_incurred)) as total_price,
-((sum(iss.quantity * s.price) + (DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price ) + sum(r.price_incurred)) * 0.1) as VAT_tax_10_percent,
-(((sum(iss.quantity * s.price) + (DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price ) + sum(r.price_incurred)) * 0.1) + (sum(iss.quantity * s.price) + (DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price ) + sum(r.price_incurred))) as total_all_price
+
+select 
+--quantityService
+	(select sum(iss.quantity) 
+	from invoice_service iss inner join [service] s 
+	on iss.id_service = s.id inner join invoice i 
+	on i.id = iss.id_invoice 
+	where i.id = '9GM9U10LNwvs' ) as quantityService,
+--totalPriceService
+	(select sum(iss.quantity * s.price)  
+	from invoice_service iss inner join [service] s 
+	on iss.id_service = s.id inner join invoice i 
+	on i.id = iss.id_invoice 
+	where i.id = '9GM9U10LNwvs' ) as totalPriceService,
+--serviceTax5Percent
+	(select sum(iss.quantity * s.price) * 0.05 
+	from invoice_service iss inner join [service] s 
+	on iss.id_service = s.id inner join invoice i 
+	on i.id = iss.id_invoice 
+	where i.id = '9GM9U10LNwvs' )as serviceTax5Percent,
+--quantityRoom
+	(select count(r.id) 
+	from invoice_room ir inner join room r 
+	on ir.id_room = r.id inner join invoice i 
+	on i.id = ir.id_invoice 
+	where i.id = '9GM9U10LNwvs') as quantityRoom,
+--night
+	DATEDIFF(DAY, i.[start_date], i.end_date) as night,
+--priceRoomType
+	rt.price as priceRoomType,
+--totalPriceIncurred
+	(select sum(r.price_incurred) from invoice_room ir right outer join room r 
+	on ir.id_room = r.id right outer join invoice i 
+	on i.id = ir.id_invoice right outer join room_type rt 
+	on rt.id = r.id_room_type 
+	where i.id = '9GM9U10LNwvs'
+	group by i.[start_date], i.end_date, rt.price) as totalPriceIncurred,
+--totalPriceRoom
+	(select DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price  + sum(r.price_incurred)
+	from invoice_room ir right outer join room r 
+	on ir.id_room = r.id right outer join invoice i 
+	on i.id = ir.id_invoice right outer join room_type rt 
+	on rt.id = r.id_room_type 
+	where i.id = '9GM9U10LNwvs'
+	group by i.[start_date], i.end_date, rt.price) as totalPriceRoom,
+--totalPrice
+	((select sum(iss.quantity * s.price)  
+	from invoice_service iss inner join [service] s 
+	on iss.id_service = s.id inner join invoice i 
+	on i.id = iss.id_invoice 
+	where i.id = '9GM9U10LNwvs' ) 
+	+
+	(select DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price  + sum(r.price_incurred)
+	from invoice_room ir right outer join room r 
+	on ir.id_room = r.id right outer join invoice i 
+	on i.id = ir.id_invoice right outer join room_type rt 
+	on rt.id = r.id_room_type 
+	where i.id = '9GM9U10LNwvs'
+	group by i.[start_date], i.end_date, rt.price)) as totalPrice,
+--VATTax10Percent
+	(((select sum(iss.quantity * s.price)  
+	from invoice_service iss inner join [service] s 
+	on iss.id_service = s.id inner join invoice i 
+	on i.id = iss.id_invoice 
+	where i.id = '9GM9U10LNwvs' ) 
+	+
+	(select DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price  + sum(r.price_incurred)
+	from invoice_room ir right outer join room r 
+	on ir.id_room = r.id right outer join invoice i 
+	on i.id = ir.id_invoice right outer join room_type rt 
+	on rt.id = r.id_room_type 
+	where i.id = '9GM9U10LNwvs'
+	group by i.[start_date], i.end_date, rt.price)) * 0.1) as VATTax10Percent,
+--totalAllPrice
+	(((((select sum(iss.quantity * s.price)  
+	from invoice_service iss inner join [service] s 
+	on iss.id_service = s.id inner join invoice i 
+	on i.id = iss.id_invoice 
+	where i.id = '9GM9U10LNwvs' ) 
+	+
+	(select DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price  + sum(r.price_incurred)
+	from invoice_room ir right outer join room r 
+	on ir.id_room = r.id right outer join invoice i 
+	on i.id = ir.id_invoice right outer join room_type rt 
+	on rt.id = r.id_room_type 
+	where i.id = '9GM9U10LNwvs'
+	group by i.[start_date], i.end_date, rt.price)) * 0.1))
+	+
+	(select sum(iss.quantity * s.price)  
+	from invoice_service iss inner join [service] s 
+	on iss.id_service = s.id inner join invoice i 
+	on i.id = iss.id_invoice 
+	where i.id = '9GM9U10LNwvs' ) 
+	+
+	(select DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price  + sum(r.price_incurred)
+	from invoice_room ir right outer join room r 
+	on ir.id_room = r.id right outer join invoice i 
+	on i.id = ir.id_invoice right outer join room_type rt 
+	on rt.id = r.id_room_type 
+	where i.id = '9GM9U10LNwvs'
+	group by i.[start_date], i.end_date, rt.price)) as totalAllPrice
+
 from invoice i inner join invoice_service iss 
 on i.id = iss.id_invoice inner join [service] s
 on iss.id_service = s.id inner join account a
 on i.id_account = a.id inner join invoice_room ir 
-on i.id = ir.id_invoice inner join room r
+on i.id = ir.id_invoice left outer join room r
 on r.id = ir.id_room inner join room_type rt
 on rt.id = r.id_room_type
-where i.id = 'ECqsjCM5aD7U' and r.verify_room = i.verify_room
-group by rt.price , i.[start_date], i.end_date
+where i.id = '9GM9U10LNwvs' and r.verify_room = i.verify_room and i.[enabled] = 1
+group by rt.price , i.[start_date], i.end_date, i.id
+
 */

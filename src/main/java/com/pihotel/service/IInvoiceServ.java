@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
+import com.pihotel.entity.custom.BillCustom;
 
 public interface IInvoiceServ {
 
@@ -19,8 +20,6 @@ public interface IInvoiceServ {
 
 	public void addRoomToInvoice(InvoiceEntity invoice);
 	
-	public InvoiceEntity findOneById(String id);
-	
 	public Double getSumPriceIncurredAndPriceRoomType(String idInvoice, String idRoomType);
 	
 	public Double getSumPriceIncurred(String idInvoice);
@@ -33,5 +32,10 @@ public interface IInvoiceServ {
 	
 	public Integer getSumCartByIdCustomer(String idCustomer);
 	
+	
+
+	public InvoiceEntity findOneById(String id, Boolean isPaid);
+	
+	public BillCustom findOneBillCustomByIdInvoice(String idInvoice, Boolean isPaid);
 	
 }

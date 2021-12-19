@@ -23,4 +23,7 @@ public interface IRoomTypeServ {
 	public Page<RoomTypeEntity> findAll(int numPage, String sortField, String sortDir, String keyword);
 	
 	public void deleteById(String id);
+	
+	
+	public RoomTypeEntity findOneByIdInvoice(String idInvoice, Boolean isPaid);
 }

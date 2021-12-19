@@ -64,4 +64,17 @@ public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 			+ "where i.[enabled] = 0 and i.verify_room = r.verify_room", 
 			nativeQuery = true)
 	public List<Object[]> findAllShowRoom();
+	
+//	new query
+	@Query(value = "select distinct r.* "
+			+ "from invoice i left join invoice_service iss "
+			+ "on i.id = iss.id_invoice left join [service] s "
+			+ "on iss.id_service = s.id inner join account a "
+			+ "on i.id_account = a.id inner join invoice_room ir "
+			+ "on i.id = ir.id_invoice inner join room r "
+			+ "on r.id = ir.id_room inner join room_type rt "
+			+ "on rt.id = r.id_room_type "
+			+ "where i.id = ?1 and i.[enabled] = ?2 ",
+			nativeQuery = true)
+	public List<RoomEntity> findAllByIdInvoice(String idInvoice, Boolean isPaid); 
 }

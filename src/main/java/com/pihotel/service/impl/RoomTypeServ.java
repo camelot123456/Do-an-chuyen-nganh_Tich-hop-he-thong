@@ -1,5 +1,6 @@
 package com.pihotel.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,25 @@ public class RoomTypeServ implements IRoomTypeServ{
 	public void deleteById(String id) {
 		// TODO Auto-generated method stub
 		roomTypeRepo.deleteById(id);
+	}
+	
+	@Override
+	public RoomTypeEntity findOneByIdInvoice(String idInvoice, Boolean isPaid) {
+		List<Object[]> roomTypeArray = roomTypeRepo.findOneByIdInvoice(idInvoice, isPaid);
+		List<RoomTypeEntity> roomTypeArrayNew = null;
+		if (roomTypeArray.size() > 0) {
+			roomTypeArrayNew = new ArrayList<RoomTypeEntity>();
+			for (Object[] record : roomTypeArray) {
+				RoomTypeEntity roomType = new RoomTypeEntity();
+				roomType.setId((String) record[0]);
+				roomType.setDescription((String) record[9]);
+				roomType.setLogo((String) record[10]);
+				roomType.setName((String) record[11]);
+				roomType.setPrice((Double) record[12]);
+				roomTypeArrayNew.add(roomType);
+			}
+		}
+		return roomTypeArrayNew.get(0);
 	}
 	
 //	---------------------------------------INSERT---------------------------------------

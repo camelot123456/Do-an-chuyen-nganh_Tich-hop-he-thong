@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,11 @@ public class RoomTypeApi {
 	@GetMapping(value = "/roomtype")
 	public ResponseEntity<List<RoomTypeEntity>> show(){
 		return ResponseEntity.ok().body(roomTypeServ.findAll());
+	}
+	
+	@GetMapping(value = "/roomtype/{idRoomType}")
+	public ResponseEntity<RoomTypeEntity> showOneRoomType(@PathVariable("idRoomType") String idRoomType){
+		return ResponseEntity.ok().body(roomTypeServ.findOneById(idRoomType));
 	}
 	
 	@PostMapping(value = "/roomtype")

@@ -44,6 +44,12 @@ public class ServiceEntity extends AbstractEntity{
 	private Integer quantity;
 	
 	@Transient
+	private String idInvoiceService;
+	
+	@Transient
+	private Double totalPrice;
+	
+	@Transient
 	public String getImage() {
 		if (image.startsWith("http://") || image.startsWith("https://")) {
 			return image;

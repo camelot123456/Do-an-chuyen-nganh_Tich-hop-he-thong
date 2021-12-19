@@ -1,6 +1,6 @@
 package com.pihotel.repository;
 
-
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,4 +35,16 @@ public interface IRoomTypeRepo extends JpaRepository<RoomTypeEntity, String>{
 			+ "or s.description like %?1%",
 			nativeQuery = true)
 	public Page<RoomTypeEntity> search(String keyword, Pageable pageable);
+	
+//	new query
+	@Query(value = "select distinct rt.* "
+			+ "from invoice i left join invoice_service iss  "
+			+ "on i.id = iss.id_invoice left join [service] s "
+			+ "on iss.id_service = s.id inner join invoice_room ir "
+			+ "on i.id = ir.id_invoice inner join room r "
+			+ "on r.id = ir.id_room inner join room_type rt "
+			+ "on rt.id = r.id_room_type "
+			+ "where i.id = ?1 and i.[enabled] = ?2",
+	nativeQuery = true)
+	public List<Object[]> findOneByIdInvoice(String idInvoice, Boolean isPaid);
 }

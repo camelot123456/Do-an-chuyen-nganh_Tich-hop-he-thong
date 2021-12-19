@@ -99,4 +99,17 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 			+ "where r.id = ?1 and r.verify_room = i.verify_room",
 			nativeQuery = true)
 	public AccountEntity findOneByIdForRoom(String idRoom);
+	
+//	new query
+	@Query(value = "select distinct a.* "
+			+ "from invoice i inner join invoice_service iss "
+			+ "on i.id = iss.id_invoice inner join [service] s "
+			+ "on iss.id_service = s.id inner join account a "
+			+ "on i.id_account = a.id inner join invoice_room ir "
+			+ "on i.id = ir.id_invoice inner join room r "
+			+ "on r.id = ir.id_room inner join room_type rt "
+			+ "on rt.id = r.id_room_type "
+			+ "where i.id = ?1  and i.[enabled] = ?2", 
+			nativeQuery = true)
+	public AccountEntity findOneByIdInvoice(String idInvoice, Boolean isPaid);
 }

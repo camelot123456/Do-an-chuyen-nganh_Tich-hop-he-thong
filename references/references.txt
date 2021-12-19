@@ -72,6 +72,8 @@ check
 
 tài liệu:
 
+references sql server query for list: https://stackoverflow.com/questions/53173470/sql-how-to-group-by-with-two-tables
+
 selecting specific columns: https://www.appsdeveloperblog.com/specific-columns-jpa-native-query/
 
 Booking room: http://booking.muongthanh.com/

@@ -87,7 +87,7 @@ public class HomeController {
 			// TODO: handle exception
 
 		}
-		InvoiceEntity invoice = invoiceServ.findOneById(idInvoice);
+		InvoiceEntity invoice = invoiceServ.findOneById(idInvoice, Boolean.FALSE);
 
 		model.addAttribute(SystemConstant.INVOICES_SERVICES, invoicesServicesServ.findAllByIdInvoice(idInvoice));
 		model.addAttribute(SystemConstant.ROOMS, invoice.getRooms());
@@ -123,24 +123,13 @@ public class HomeController {
 
 		}
 
-		InvoiceEntity invoice = invoiceServ.findOneById(idInvoice);
+		InvoiceEntity invoice = invoiceServ.findOneById(idInvoice, Boolean.TRUE);
 
-		model.addAttribute(SystemConstant.INVOICES_SERVICES, invoicesServicesServ.findAllByIdInvoice(idInvoice));
+		model.addAttribute(SystemConstant.SERVICES, serviceServ.findAllByIdInvoice(idInvoice, Boolean.TRUE));
 		model.addAttribute(SystemConstant.ROOMS, invoice.getRooms());
-		model.addAttribute(SystemConstant.ROOM_TYPE, roomTypeServ.findOneById(idRoomType));
+		model.addAttribute(SystemConstant.ROOM_TYPE, roomTypeServ.findOneByIdInvoice(idInvoice, Boolean.TRUE));
 		model.addAttribute(SystemConstant.INVOICE, invoice);
-		model.addAttribute("COUNT_ROOM", invoice.getRooms().stream().count());
-		model.addAttribute("TOTAL_PRICE_INCURRED", invoiceServ.getSumPriceIncurred(idInvoice));
-		model.addAttribute("TOTAL_PRICE", invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType));
-		model.addAttribute("PRICE_SERVICE_5P",
-				invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType) * 0.05);
-		model.addAttribute("PRICE_VAT_10P",
-				invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType) * 0.1);
-		model.addAttribute("TOTAL_PRICE_ALL",
-				invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType)
-						+ invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType) * 0.05
-						+ invoiceServ.getSumPriceIncurredAndPriceRoomType(idInvoice, idRoomType) * 0.1);
-
+		model.addAttribute(SystemConstant.BILL_CUSTOM, invoiceServ.findOneBillCustomByIdInvoice(idInvoice, Boolean.TRUE));
 		return "home/bodys/cart/cart_history";
 	}
 
@@ -174,7 +163,7 @@ public class HomeController {
 			customer.setAvatar(SystemConstant.AVATAR_ACCOUNT_DEFAULT_LINK);
 			customer.setAuthProvider(EAuthenticationProvider.NO_ACCOUNT);
 			AccountEntity customerNew = accountServ.saveCustomer(customer);
-			InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId());
+			InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId(), Boolean.FALSE);
 			invoiceNew.setVerifyRoom(verify_room);
 			invoiceNew.setAccount(customerNew);
 			invoiceNew.setEnabled(Boolean.TRUE);
@@ -185,7 +174,7 @@ public class HomeController {
 			invoiceServ.update(invoiceNew);
 			return "redirect:/home/thanks";
 		} else {
-			InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId());
+			InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId(), Boolean.FALSE);
 			invoiceNew.setAccount(accountCustomer);
 			invoiceNew.setVerifyRoom(verify_room);
 			invoiceNew.getRooms().forEach(room -> {
@@ -213,7 +202,7 @@ public class HomeController {
 			// TODO: handle exception
 		}
 
-		InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId());
+		InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId(),Boolean.FALSE);
 		invoiceNew.getRooms().forEach(room -> {
 			roomServ.updateRoomState(ERoomState.EMPTY, RandomString.make(64), room.getId());
 		});
