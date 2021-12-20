@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
+import com.pihotel.entity.InvoiceServiceEntity;
 import com.pihotel.entity.RoomEntity;
 import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.service.IAccountServ;
@@ -116,10 +117,11 @@ public class RoomController {
 	
 	@RequestMapping(value = "/admin/room-managements/room/tran/booking", method = RequestMethod.POST, consumes = {"multipart/form-data", "application/json"})
 	public String doSaveinvoiceBooking(@RequestPart("room") RoomEntity room,
+			@RequestPart("invoiceService") InvoiceServiceEntity invoiceService,
 			@RequestPart("invoice") InvoiceEntity invoice,
 			@RequestPart("customer") AccountEntity customer) {
-		roomServ.saveBooking(customer, room, invoice);
-		return "redirect:/admin/room-managements/room/{idRoom}";
+		roomServ.saveBooking(customer, room, invoice, invoiceService);
+		return "redirect:/admin/room-managements/room/";
 	}
 	
 //	---------------------------------------PUT---------------------------------------

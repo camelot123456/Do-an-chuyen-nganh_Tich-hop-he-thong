@@ -22,6 +22,7 @@ import com.pihotel.entity.enums.EAuthenticationProvider;
 import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.repository.IAccountRepo;
 import com.pihotel.repository.IInvoiceRepo;
+import com.pihotel.repository.IInvoicesServicesRepo;
 import com.pihotel.repository.IRoomRepo;
 import com.pihotel.repository.IServiceRepo;
 import com.pihotel.service.IRoomServ;
@@ -42,6 +43,9 @@ public class RoomServ implements IRoomServ {
 	
 	@Autowired
 	private IServiceRepo serviceRepo;
+	
+	@Autowired
+	private IInvoicesServicesRepo invoiceServiceRepo;
 
 //	---------------------------------------SELECT---------------------------------------
 
@@ -162,9 +166,10 @@ public class RoomServ implements IRoomServ {
 
 	@Transactional
 	@Override
-	public void saveBooking(AccountEntity customer, RoomEntity room, InvoiceEntity invoice) {
+	public void saveBooking(AccountEntity customer, RoomEntity room, InvoiceEntity invoice, InvoiceServiceEntity invoiceService) {
 		// TODO Auto-generated method stub
 		AccountEntity account = null;
+		String verifyRoom = RandomString.make(64);
 		
 		if (!accountRepo.existsById(customer.getId())) {
 			customer.setId(RandomString.make(12));
@@ -179,25 +184,29 @@ public class RoomServ implements IRoomServ {
 		List<RoomEntity> rooms = new ArrayList<RoomEntity>();
 		for (String id : room.getIds()) {
 			RoomEntity roomNew = roomRepo.findOneById(id);
+			roomNew.setVerifyRoom(verifyRoom);
+			roomNew.setRoomState(ERoomState.USING);
 			rooms.add(roomNew);
 		}
 		
-		List<InvoiceServiceEntity> invoiceServiceArray = new ArrayList<InvoiceServiceEntity>();
-		invoice.getInvoicesServices().forEach(invoiceService -> {
+		invoice.setEnabled(Boolean.TRUE);
+		invoice.setAccount(account);
+		invoice.setRooms(rooms);
+		invoice.setVerifyRoom(verifyRoom);
+		InvoiceEntity invoiceNew = invoiceRepo.save(invoice);
+		
+		for (ServiceEntity service : invoiceService.getServices()) {
 			InvoiceServiceEntity invoiceServiceNew = new InvoiceServiceEntity();
-			ServiceEntity serviceNew = serviceRepo.findOneById(invoiceService.getService().getId());
-			invoiceServiceNew.setQuantity(invoiceService.getService().getQuantity());
+			ServiceEntity serviceNew = serviceRepo.findOneById(service.getId());
+			invoiceServiceNew.setQuantity(service.getQuantity());
 			invoiceServiceNew.setService(serviceNew);
 			invoiceServiceNew.setId(RandomString.make(12));
 			invoiceServiceNew.setCreateAt(new Date());
 			invoiceServiceNew.setModifiedAt(new Date());
-			invoiceServiceArray.add(invoiceServiceNew);
-		});
+			invoiceServiceNew.setInvoice(invoiceNew);
+			invoiceServiceRepo.save(invoiceServiceNew);
+		}
 		
-		invoice.setAccount(account);
-		invoice.setRooms(rooms);
-		invoice.setInvoicesServices(invoiceServiceArray);
-		invoiceRepo.save(invoice);
 	}
 
 //	---------------------------------------UPDATE---------------------------------------

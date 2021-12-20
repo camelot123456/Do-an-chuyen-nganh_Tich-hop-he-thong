@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
+import com.pihotel.entity.InvoiceServiceEntity;
 import com.pihotel.entity.RoomEntity;
 import com.pihotel.entity.enums.ERoomState;
 
@@ -37,6 +38,6 @@ public interface IRoomServ {
 	
 	public List<RoomEntity> findAllByIdInvoice(String idInvoice, Boolean isPaid);
 	
-	public void saveBooking(AccountEntity customer, RoomEntity room, InvoiceEntity invoice);
+	public void saveBooking(AccountEntity customer, RoomEntity room, InvoiceEntity invoice, InvoiceServiceEntity invoiceService);
 	
 }

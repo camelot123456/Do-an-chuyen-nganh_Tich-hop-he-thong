@@ -402,18 +402,20 @@
 
                     Array.from($$('.edt-quantity-service')).forEach(element => {
                         if (element.value > 0) {
-                            services.push({ service: { id: element.id, quantity: element.value } })
+                            services.push({ id: element.id, quantity: element.value } )
                         }
                     })
 
-
                     formData.append('invoice', new Blob([JSON.stringify({
                         'id': formData.get('id-invoice'),
-                        'startDate': formData.get('startDate'),
-                        'endDate': formData.get('endDate'),
+                        'startDate': formData.get('start-date'),
+                        'endDate': formData.get('end-date'),
                         'adults': formData.get('adults'),
-                        'children': formData.get('children'),
-                        'invoicesServices': services
+                        'children': formData.get('children')
+                    })], { type: 'application/json' }))
+
+                    formData.append('invoiceService', new Blob([JSON.stringify({
+                        'services': services
                     })], { type: 'application/json' }))
 
                     formData.append('service', new Blob([JSON.stringify({
