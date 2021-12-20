@@ -26,6 +26,8 @@ public class RoomApi {
 
 	@Autowired
 	private IRoomServ roomServ;
+
+//	---------------------------------------GET---------------------------------------
 	
 	@GetMapping(value = "/room/page/{currentPage}")
 	public ResponseEntity<List<RoomEntity>> showWithPage(Model model, 
@@ -47,22 +49,6 @@ public class RoomApi {
 		return ResponseEntity.ok().body(roomServ.findAllShowRoom());
 	}
 	
-	@PostMapping(value = "/room")
-	public ResponseEntity<RoomEntity> insert(@RequestBody RoomEntity room){
-		return ResponseEntity.ok().body(roomServ.save(room));
-	}
-	
-	@PutMapping(value = "/room")
-	public ResponseEntity<RoomEntity> update(@RequestBody RoomEntity room){
-		return ResponseEntity.ok().body(roomServ.update(room));
-	}
-	
-	@DeleteMapping(value = "/room")
-	public ResponseEntity<String> delete(@RequestBody RoomEntity room){
-		roomServ.delete(room.getIds());
-		return new ResponseEntity<String>("Product deleted successfully!", HttpStatus.OK);
-	}
-	
 	@GetMapping(value = "/room/{id}")
 	public ResponseEntity<RoomEntity> findById(@PathVariable("id") String id){
 		return ResponseEntity.ok().body(roomServ.findOneById(id));
@@ -72,6 +58,28 @@ public class RoomApi {
 	public ResponseEntity<List<RoomEntity>> findByIdRoomType(@PathVariable("id_room_type") String idRoomType, 
 			@PathVariable("customers_num") int customersNum){
 		return ResponseEntity.ok().body(roomServ.findAllByIdRoomType(idRoomType, customersNum));
+	}
+
+//	---------------------------------------POST---------------------------------------	
+	
+	@PostMapping(value = "/room")
+	public ResponseEntity<RoomEntity> insert(@RequestBody RoomEntity room){
+		return ResponseEntity.ok().body(roomServ.save(room));
+	}
+
+//	---------------------------------------PUT---------------------------------------	
+	
+	@PutMapping(value = "/room")
+	public ResponseEntity<RoomEntity> update(@RequestBody RoomEntity room){
+		return ResponseEntity.ok().body(roomServ.update(room));
+	}
+
+//	---------------------------------------DELETE---------------------------------------	
+	
+	@DeleteMapping(value = "/room")
+	public ResponseEntity<String> delete(@RequestBody RoomEntity room){
+		roomServ.delete(room.getIds());
+		return new ResponseEntity<String>("Product deleted successfully!", HttpStatus.OK);
 	}
 	
 }

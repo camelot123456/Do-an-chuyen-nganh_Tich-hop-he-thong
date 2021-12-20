@@ -123,6 +123,10 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		return accountRepo.findOneByIdForRoom(idRoom);
 	}
 	
+	@Override
+	public AccountEntity findOneByIdInvoice(String idInvoice, Boolean isPaid) {
+		return accountRepo.findOneByIdInvoice(idInvoice, isPaid);
+	}
 	
 //	---------------------------------------INSERT---------------------------------------
 	

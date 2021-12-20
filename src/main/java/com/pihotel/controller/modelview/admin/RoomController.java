@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
 
 import com.pihotel.constant.SystemConstant;
+import com.pihotel.entity.AccountEntity;
+import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.entity.RoomEntity;
 import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.service.IAccountServ;
@@ -86,12 +88,22 @@ public class RoomController {
 	}
 	
 	@RequestMapping(value = "/admin/room-managements/room/{idRoom}")
-	public String showRoomDetail(Model model, Principal principal, @PathVariable("idRoom") String idRoom) {
+	public String showRoomDetail(Model model, @PathVariable("idRoom") String idRoom) {
 		model.addAttribute(SystemConstant.SERVICES, serviceServ.findAll());
 		model.addAttribute(SystemConstant.ROOM, roomServ.findOneById(idRoom));
 		model.addAttribute(SystemConstant.ACCOUNT, accountServ.findOneByIdForRoom(idRoom));
 		model.addAttribute(SystemConstant.ROOM_TYPE, roomTypeServ.findOneByIdRoom(idRoom));
 		return "admin/bodys/room_managements/rm_room_detail";
+	}
+	
+	@RequestMapping(value = "/admin/room-managements/room/booking-room")
+	public String showBookingRoom(Model model) {
+		model.addAttribute("idInvoice", RandomString.make(12));
+		model.addAttribute("idAccountNew", RandomString.make(12));
+		model.addAttribute(SystemConstant.SERVICES, serviceServ.findAll());
+		model.addAttribute(SystemConstant.ROOMS, roomServ.findAll());
+		model.addAttribute(SystemConstant.ROOMS_TYPE, roomTypeServ.findAll());
+		return "admin/bodys/room_managements/rm_room_booking";
 	}
 	
 //	---------------------------------------POST---------------------------------------
@@ -100,6 +112,14 @@ public class RoomController {
 	public String doSaveRoom(@RequestPart("room") RoomEntity room) {
 		roomServ.save(room);
 		return "redirect:/admin/room-managements/room";
+	}
+	
+	@RequestMapping(value = "/admin/room-managements/room/tran/booking", method = RequestMethod.POST, consumes = {"multipart/form-data", "application/json"})
+	public String doSaveinvoiceBooking(@RequestPart("room") RoomEntity room,
+			@RequestPart("invoice") InvoiceEntity invoice,
+			@RequestPart("customer") AccountEntity customer) {
+		roomServ.saveBooking(customer, room, invoice);
+		return "redirect:/admin/room-managements/room/{idRoom}";
 	}
 	
 //	---------------------------------------PUT---------------------------------------

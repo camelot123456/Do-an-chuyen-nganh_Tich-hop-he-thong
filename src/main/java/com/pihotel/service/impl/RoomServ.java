@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,12 +13,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
+import com.pihotel.entity.InvoiceServiceEntity;
 import com.pihotel.entity.RoomEntity;
+import com.pihotel.entity.ServiceEntity;
+import com.pihotel.entity.enums.EAuthenticationProvider;
 import com.pihotel.entity.enums.ERoomState;
+import com.pihotel.repository.IAccountRepo;
 import com.pihotel.repository.IInvoiceRepo;
 import com.pihotel.repository.IRoomRepo;
+import com.pihotel.repository.IServiceRepo;
 import com.pihotel.service.IRoomServ;
+
+import net.bytebuddy.utility.RandomString;
 
 @Service
 public class RoomServ implements IRoomServ {
@@ -26,6 +36,12 @@ public class RoomServ implements IRoomServ {
 	
 	@Autowired
 	private IInvoiceRepo invoiceRepo;
+	
+	@Autowired
+	private IAccountRepo accountRepo;
+	
+	@Autowired
+	private IServiceRepo serviceRepo;
 
 //	---------------------------------------SELECT---------------------------------------
 
@@ -124,6 +140,11 @@ public class RoomServ implements IRoomServ {
 		};
 		roomRepo.updateRoomState(roomState, verifyRoom, idRoom);
 	}
+	
+	@Override
+	public List<RoomEntity> findAllByIdInvoice(String idInvoice, Boolean isPaid) {
+		return roomRepo.findAllByIdInvoice(idInvoice, isPaid);
+	}
 
 //	---------------------------------------INSERT---------------------------------------
 
@@ -137,6 +158,46 @@ public class RoomServ implements IRoomServ {
 			return roomRepo.save(room);
 		} else
 			return null;
+	}
+
+	@Transactional
+	@Override
+	public void saveBooking(AccountEntity customer, RoomEntity room, InvoiceEntity invoice) {
+		// TODO Auto-generated method stub
+		AccountEntity account = null;
+		
+		if (!accountRepo.existsById(customer.getId())) {
+			customer.setId(RandomString.make(12));
+			customer.setAuthProvider(EAuthenticationProvider.NO_ACCOUNT);
+			customer.setCreateAt(new Date());
+			customer.setModifiedAt(new Date());
+			account = accountRepo.save(customer);
+		} else {
+			account = accountRepo.findOneById(customer.getId());
+		}
+		
+		List<RoomEntity> rooms = new ArrayList<RoomEntity>();
+		for (String id : room.getIds()) {
+			RoomEntity roomNew = roomRepo.findOneById(id);
+			rooms.add(roomNew);
+		}
+		
+		List<InvoiceServiceEntity> invoiceServiceArray = new ArrayList<InvoiceServiceEntity>();
+		invoice.getInvoicesServices().forEach(invoiceService -> {
+			InvoiceServiceEntity invoiceServiceNew = new InvoiceServiceEntity();
+			ServiceEntity serviceNew = serviceRepo.findOneById(invoiceService.getService().getId());
+			invoiceServiceNew.setQuantity(invoiceService.getService().getQuantity());
+			invoiceServiceNew.setService(serviceNew);
+			invoiceServiceNew.setId(RandomString.make(12));
+			invoiceServiceNew.setCreateAt(new Date());
+			invoiceServiceNew.setModifiedAt(new Date());
+			invoiceServiceArray.add(invoiceServiceNew);
+		});
+		
+		invoice.setAccount(account);
+		invoice.setRooms(rooms);
+		invoice.setInvoicesServices(invoiceServiceArray);
+		invoiceRepo.save(invoice);
 	}
 
 //	---------------------------------------UPDATE---------------------------------------
