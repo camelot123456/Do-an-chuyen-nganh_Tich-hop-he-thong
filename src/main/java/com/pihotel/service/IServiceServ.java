@@ -23,4 +23,6 @@ public interface IServiceServ {
 	public void deleteById(String id);
 	
 	public List<ServiceEntity> findAllByIdInvoice(String idInvoice, Boolean isPaid);
+	
+	public List<ServiceEntity> findAllByIdRoom(String idRoom);
 }

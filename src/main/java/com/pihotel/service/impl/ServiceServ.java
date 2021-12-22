@@ -67,6 +67,27 @@ public class ServiceServ implements IServiceServ{
 		}
 		return serviceArrayNew;
 	}
+	
+	@Override
+	public List<ServiceEntity> findAllByIdRoom(String idRoom) {
+		List<Object[]> serviceArray = serviceRepo.findAllByIdRoom(idRoom);
+		List<ServiceEntity> serviceArrayNew = null;
+		if (serviceArray.size() > 0) {
+			serviceArrayNew = new ArrayList<ServiceEntity>();
+			for (Object[] record : serviceArray) {
+				ServiceEntity service = new ServiceEntity();
+				service.setId((String) record[0]);
+				service.setName((String) record[1]);
+				service.setImage((String) record[2]);
+				service.setQuantity((Integer) record[3]);
+				service.setPrice((Double) record[4]);
+				service.setDescription((String) record[5]);
+				service.setTotalPrice((Double) record[6]);
+				serviceArrayNew.add(service);
+			}
+		}
+		return serviceArrayNew;
+	}
 
 //	---------------------------------------INSERT---------------------------------------	
 	

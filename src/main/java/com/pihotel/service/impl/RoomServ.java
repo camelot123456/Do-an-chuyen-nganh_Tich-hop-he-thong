@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.entity.InvoiceServiceEntity;
@@ -172,7 +173,7 @@ public class RoomServ implements IRoomServ {
 		String verifyRoom = RandomString.make(64);
 		
 		if (!accountRepo.existsById(customer.getId())) {
-			customer.setId(RandomString.make(12));
+			customer.setAvatar(SystemConstant.AVATAR_ACCOUNT_DEFAULT_LINK);
 			customer.setAuthProvider(EAuthenticationProvider.NO_ACCOUNT);
 			customer.setCreateAt(new Date());
 			customer.setModifiedAt(new Date());

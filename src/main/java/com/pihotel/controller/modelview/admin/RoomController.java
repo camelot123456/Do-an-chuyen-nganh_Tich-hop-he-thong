@@ -90,7 +90,7 @@ public class RoomController {
 	
 	@RequestMapping(value = "/admin/room-managements/room/{idRoom}")
 	public String showRoomDetail(Model model, @PathVariable("idRoom") String idRoom) {
-		model.addAttribute(SystemConstant.SERVICES, serviceServ.findAll());
+		model.addAttribute(SystemConstant.SERVICES, serviceServ.findAllByIdRoom(idRoom));
 		model.addAttribute(SystemConstant.ROOM, roomServ.findOneById(idRoom));
 		model.addAttribute(SystemConstant.ACCOUNT, accountServ.findOneByIdForRoom(idRoom));
 		model.addAttribute(SystemConstant.ROOM_TYPE, roomTypeServ.findOneByIdRoom(idRoom));

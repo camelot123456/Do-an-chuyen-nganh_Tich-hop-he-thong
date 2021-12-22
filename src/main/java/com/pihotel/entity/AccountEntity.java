@@ -3,7 +3,6 @@ package com.pihotel.entity;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -77,7 +76,7 @@ public class AccountEntity extends AbstractEntity {
 	@JsonIgnoreProperties("accounts")
 	private List<RoleEntity> roles;
 
-	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
 	private List<InvoiceEntity> invoices;
 
 	@Transient

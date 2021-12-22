@@ -21,6 +21,16 @@ public interface IServiceRepo extends JpaRepository<ServiceEntity, String>{
 	
 	public ServiceEntity findOneById(String id);
 	
+	@Query(value = "select s.id, s.name, s.[image], isnull (iss.quantity ,0) as quantity, s.price, s.[description] ,isnull ((iss.quantity * s.price), 0) as totalPrice \n" + 
+			"from [service] s inner join invoice_service [iss]\n" + 
+			"on s.id = iss.id_service inner join invoice i\n" + 
+			"on iss.id_invoice = i.id inner join invoice_room ir \n" + 
+			"on ir.id_invoice = i.id inner join room r\n" + 
+			"on r.id = ir.id_room\n" + 
+			"where r.verify_room = i.verify_room and r.id = ?1",
+			nativeQuery = true)
+	public List<Object[]> findAllByIdRoom(String idRoom);
+	
 //	new query
 	@Query(value = "select distinct s.id, s.name, s.[image], s.[description], s.price, "
 			+ "iss.id as idInvoiceService, isnull (iss.quantity ,0) as quantity, "
