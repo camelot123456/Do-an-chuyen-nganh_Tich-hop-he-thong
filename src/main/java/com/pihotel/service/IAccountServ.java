@@ -52,9 +52,11 @@ public interface IAccountServ {
 	public AccountEntity updateCustomer(String id, String name, String email, String address,
 			String phoneNum, Date birthday, Boolean gender);
 	
-	public Page<AccountEntity> findAllCustomer(int numPage, String sortField, String sortDir, String keyword);
+	public Page<AccountEntity> findAllCustomer(int numPage, String sortField, String sortDir, String type, String keyword);
 	
 	public AccountEntity findOneByIdForRoom(String idRoom);
 	
 	public AccountEntity findOneByIdInvoice(String idInvoice, Boolean isPaid);
+	
+	public Page<AccountEntity> findAllAccountInternal(int numPage, String sortField, String sortDir, String keyword);
 }

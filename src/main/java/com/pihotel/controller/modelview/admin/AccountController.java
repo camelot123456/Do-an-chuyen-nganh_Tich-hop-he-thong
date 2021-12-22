@@ -52,7 +52,7 @@ public class AccountController {
 			@Param("sortDir") String sortDir, 
 			@Param("keyword") String keyword) {
 
-		Page<AccountEntity> page = accountServ.findAll(currentPage, sortField, sortDir, keyword);
+		Page<AccountEntity> page = accountServ.findAllAccountInternal(currentPage, sortField, sortDir, keyword);
 		String reverseSort = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("currentPage", (int) currentPage);

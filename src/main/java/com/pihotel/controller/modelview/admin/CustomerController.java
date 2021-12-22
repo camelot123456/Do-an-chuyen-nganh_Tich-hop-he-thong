@@ -41,18 +41,20 @@ public static final String PATH_AVATAR = "src/main/resources/static/img/user/";
 //	---------------------------------------GET---------------------------------------
 	
 	@RequestMapping(value = "/admin/customer-managements/account-customer")
-	public String accountRedirectPagination(Model model) {
-		return this.accountPagination(model, 1, "id", "asc", "");
+	public String customerRedirectPagination(Model model) {
+		return this.customerPagination(model, 1, "id", "asc", "all-customer", "");
 	}
 
 	@RequestMapping(value = "/admin/customer-managements/account-customer/page/{currentPage}")
-	public String accountPagination(Model model, 
+	public String customerPagination(Model model, 
 			@PathVariable("currentPage") int currentPage,
 			@Param("sortField") String sortField, 
 			@Param("sortDir") String sortDir, 
-			@Param("keyword") String keyword) {
+			@Param("type") String type,
+			@Param("keyword") String keyword
+			) {
 
-		Page<AccountEntity> page = accountServ.findAllCustomer(currentPage, sortField, sortDir, keyword);
+		Page<AccountEntity> page = accountServ.findAllCustomer(currentPage, sortField, sortDir, type, keyword);
 		String reverseSort = sortDir.equalsIgnoreCase("asc") ? "desc" : "asc";
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -114,13 +116,13 @@ public static final String PATH_AVATAR = "src/main/resources/static/img/user/";
 	@RequestMapping(value = "/admin/customer-managements/account-customer/tran", method = RequestMethod.DELETE)
 	public String accountDelete(@RequestPart("customer") AccountEntity customer) throws IOException {
 		accountServ.deleteById(customer.getId());
-		return "redirect:/admin/customer-managements/account/customer";
+		return "redirect:/admin/customer-managements/account-customer";
 	}
 
 	@RequestMapping(value = "/admin/customer-managements/account-customers/tran", method = RequestMethod.DELETE)
 	public String accountDeleteMany(@RequestBody AccountEntity customer) {
 		accountServ.delete(customer.getIds());
-		return "redirect:/admin/customer-managements/account/customer";
+		return "redirect:/admin/customer-managements/account-customer";
 	}
 
 }

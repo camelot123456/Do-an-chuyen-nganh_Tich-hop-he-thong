@@ -102,14 +102,31 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		return accountRepo.findAll(pageable);
 	}
 	
-	public Page<AccountEntity> findAllCustomer(int numPage, String sortField, String sortDir, String keyword){
+	public Page<AccountEntity> findAllCustomer(int numPage, String sortField, String sortDir, String type, String keyword){
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		PageRequest pageable = PageRequest.of(numPage - 1, 10, sort);
-		if (keyword != "") {
-			return accountRepo.searchCustomer(keyword, pageable);
-		}
-		return accountRepo.findAllCustomer(pageable);
+		
+		if (type.equalsIgnoreCase("all-customer")) {
+			if (keyword != "") {
+				return accountRepo.searchCustomer(keyword, pageable);
+			}
+			return accountRepo.findAllCustomer(pageable);
+		} 
+		
+		else if (type.equalsIgnoreCase("no-account-customer")) {
+			if (keyword != "") {
+				return accountRepo.searchNoAccountCustomer(keyword, pageable);
+			}
+			return accountRepo.findAllNoAccountCustomer(pageable);
+		} 
+		
+		else {
+			if (keyword != "") {
+				return accountRepo.searchAccountCustomer(keyword, pageable);
+			}
+			return accountRepo.findAllAccountCustomer(pageable);
+		} 
 	}
 	
 	@Override
@@ -126,6 +143,17 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 	@Override
 	public AccountEntity findOneByIdInvoice(String idInvoice, Boolean isPaid) {
 		return accountRepo.findOneByIdInvoice(idInvoice, isPaid);
+	}
+	
+	@Override
+	public Page<AccountEntity> findAllAccountInternal(int numPage, String sortField, String sortDir, String keyword) {
+		Sort sort = Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		PageRequest pageable = PageRequest.of(numPage - 1, 10, sort);
+		if (keyword != "") {
+			return accountRepo.searchAccountInternal(keyword, pageable);
+		}
+		return accountRepo.findAllAccountInternal(pageable);
 	}
 	
 //	---------------------------------------INSERT---------------------------------------

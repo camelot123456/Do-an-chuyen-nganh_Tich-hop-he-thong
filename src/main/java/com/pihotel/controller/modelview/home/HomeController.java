@@ -85,7 +85,7 @@ public class HomeController {
 		InvoiceEntity invoice = invoiceServ.findOneById(idInvoice, Boolean.FALSE);
 
 		model.addAttribute(SystemConstant.ROOMS, invoice.getRooms());
-		model.addAttribute(SystemConstant.SERVICES, serviceServ.findAllByIdInvoice(idInvoice, Boolean.FALSE));
+		model.addAttribute(SystemConstant.SERVICES, serviceServ.findAll());
 		model.addAttribute(SystemConstant.ROOM_TYPE, roomTypeServ.findOneById(idRoomType));
 		model.addAttribute(SystemConstant.INVOICE, invoice);
 		model.addAttribute(SystemConstant.BILL_CUSTOM, invoiceServ.findOneBillCustomByIdInvoice(idInvoice, Boolean.FALSE));
