@@ -109,7 +109,7 @@
                 <p>Id: [[${customer.id}]]</p>
                 <p>Email: [[${customer.email}]]</p>
                 <p>Địa chỉ: [[${customer.address}]]</p>
-                <p th:text="${customer.gender} == 'true' ? 'Giới tính: Name' : 'Giới tính: Nữ'"></p>
+                <p th:text="${customer.gender} == 'true' ? 'Giới tính: Nữ' : 'Giới tính: Nam'"></p>
                 <p th:text="@{'Ngày sinh: ' + ${#dates.format(customer.birthday, 'dd-MM-yyyy')}}"></p>
             </div>
         </form>

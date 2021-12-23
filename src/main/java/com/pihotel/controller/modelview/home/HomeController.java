@@ -1,5 +1,6 @@
 package com.pihotel.controller.modelview.home;
 
+import java.io.IOException;
 import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
@@ -24,6 +26,7 @@ import com.pihotel.service.IInvoiceServ;
 import com.pihotel.service.IRoomServ;
 import com.pihotel.service.IRoomTypeServ;
 import com.pihotel.service.IServiceServ;
+import com.pihotel.utils.UploadFileUtil;
 
 import net.bytebuddy.utility.RandomString;
 
@@ -116,6 +119,12 @@ public class HomeController {
 		model.addAttribute(SystemConstant.BILL_CUSTOM, invoiceServ.findOneBillCustomByIdInvoice(idInvoice, Boolean.TRUE));
 		return "home/bodys/cart/cart_history";
 	}
+	
+	@RequestMapping(value = "/profile")
+	public String showProfile(Model model, @Param("id") String id) {
+		model.addAttribute(SystemConstant.ACCOUNT, accountServ.findOneById(id));
+		return "home/bodys/profile/profile";
+	}
 
 //	---------------------------------------POST---------------------------------------
 //	https://stackjava.com/spring/redirectattributes-chuyen-tiep-trang-voi-tham-trong-spring.html
@@ -136,6 +145,23 @@ public class HomeController {
 
 //	---------------------------------------PUT---------------------------------------
 
+	@RequestMapping(value = "/profile/tran", method = RequestMethod.PUT, consumes = {
+			"multipart/form-data", "application/json" })
+	public String doUpdateProfile(@RequestPart("account") AccountEntity account,
+			@RequestPart("avatar") MultipartFile multipartFile) throws IOException {
+		UploadFileUtil.saveFile(SystemConstant.PATH_IMAGE_ACCOUNT, multipartFile.getOriginalFilename(), multipartFile);
+		accountServ.updateCustomNoUsernameAndPassword(
+				account.getId(), 
+				account.getName(), 
+				account.getEmail(), 
+				account.getAddress(), 
+				account.getPhoneNum(), 
+				account.getBirthday(), 
+				account.getGender(),
+				multipartFile.getOriginalFilename());
+		return "redirect:/profile?id=" + account.getId();
+	}
+	
 	@RequestMapping(value = "/home/checkin/handle-invoice-no-account", method = RequestMethod.PUT, consumes = {
 			"multipart/form-data", "application/json" })
 	public String doSaveInvoiceWithCustomer(@RequestPart("customer") AccountEntity customer,

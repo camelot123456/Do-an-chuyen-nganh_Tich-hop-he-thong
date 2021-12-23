@@ -29,8 +29,6 @@ import net.bytebuddy.utility.RandomString;
 
 @Controller
 public class AccountController {
-
-	public static final String PATH_AVATAR = "src/main/resources/static/img/user/";
 	
 	@Autowired
 	private IAccountServ accountServ;
@@ -93,7 +91,7 @@ public class AccountController {
 	public String doAccountAddRoleToAccount(@RequestPart("account") AccountEntity account,
 			@RequestPart("avatar") MultipartFile multipartFile) throws IOException {
 		account.setAvatar(multipartFile.getOriginalFilename());
-		UploadFileUtil.saveFile(PATH_AVATAR, multipartFile.getOriginalFilename(), multipartFile);
+		UploadFileUtil.saveFile(SystemConstant.PATH_IMAGE_ACCOUNT, multipartFile.getOriginalFilename(), multipartFile);
 		accountServ.saveWithFile(account);
 		return "redirect:/admin/internal-managements/account/" + account.getId();
 	}

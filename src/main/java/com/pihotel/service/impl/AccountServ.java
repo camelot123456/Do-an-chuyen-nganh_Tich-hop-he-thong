@@ -21,11 +21,18 @@ import org.springframework.stereotype.Service;
 
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
+import com.pihotel.entity.InvoiceEntity;
+import com.pihotel.entity.InvoiceServiceEntity;
 import com.pihotel.entity.RoleEntity;
+import com.pihotel.entity.RoomEntity;
 import com.pihotel.entity.custom.MyUserCustom;
 import com.pihotel.entity.enums.EAuthenticationProvider;
+import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.repository.IAccountRepo;
+import com.pihotel.repository.IInvoiceRepo;
+import com.pihotel.repository.IInvoicesServicesRepo;
 import com.pihotel.repository.IRoleRepo;
+import com.pihotel.repository.IRoomRepo;
 import com.pihotel.service.IAccountServ;
 import com.pihotel.service.IJavaSenderService;
 
@@ -47,7 +54,16 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-
+	
+	@Autowired
+	private IInvoiceRepo invoiceRepo;
+	
+	@Autowired
+	private IInvoicesServicesRepo invoiceServiceRepo;
+	
+	@Autowired
+	private IRoomRepo roomRepo;
+	
 //	---------------------------------------SELECT---------------------------------------
 	
 	@Override
@@ -223,6 +239,8 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		account.setRoles(roleArr);
 		account.setCreateAt(new Date());
 		account.setPassword(passwordEncoder.encode(account.getPassword()));
+		account.setAuthProvider(EAuthenticationProvider.LOCAL);
+		account.setEnabled(Boolean.TRUE);
 		accountRepo.save(account);
 	}
 	
@@ -279,7 +297,7 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 	}
 	
 	@Override
-	public int updateCustom(String id, String name, String email, String address,
+	public void updateCustom(String id, String name, String email, String address,
 			String phoneNum, Date birthday, Boolean gender, List<RoleEntity> roles) {
 		// TODO Auto-generated method stub
 		AccountEntity account = accountRepo.findOneById(id);
@@ -297,7 +315,22 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		});
 		account.setRoles(roleArr);
 		accountRepo.save(account);
-		return 1;
+	}
+	
+	@Override
+	public void updateCustomNoUsernameAndPassword(String id, String name, String email, String address, String phoneNum, Date birthday,
+			Boolean gender, String avatar) {
+		AccountEntity account = accountRepo.findOneById(id);
+		account.setId(id);
+		account.setName(name);
+		account.setEmail(email);
+		account.setAddress(address);
+		account.setPhoneNum(phoneNum);
+		account.setBirthday(birthday);
+		account.setGender(gender);
+		account.setModifiedAt(new Date());
+		account.setAvatar(avatar);
+		accountRepo.save(account);
 	}
 	
 	@Override
@@ -326,6 +359,17 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 	public void delete(String[] ids) {
 		// TODO Auto-generated method stub
 		for (String id : ids) {
+			for (InvoiceEntity invoice : accountRepo.findOneById(id).getInvoices()) {
+				invoice.setAccount(null);
+				for(InvoiceServiceEntity invoiceService : invoice.getInvoicesServices()) {
+					invoiceServiceRepo.delete(invoiceService);
+				};
+				for (RoomEntity room : invoice.getRooms()) {
+					roomRepo.updateRoomState(ERoomState.EMPTY, RandomString.make(64), room.getId());
+				}
+				invoice.getRooms().clear();
+				invoiceRepo.deleteById(invoice.getId());
+			}
 			accountRepo.deleteById(id);
 		}
 	}

@@ -1,0 +1,187 @@
+<th:block layout:fragment="content" layout:decorate="~{home/layouts/index}">
+    <div class="container">
+
+        <h3 class="text-primary" style="margin-top: 200px">THÔNG TIN CÁ NHÂN</h3>
+        <hr>
+
+        <form class="hstack gap-3"  name="form-account" enctype="multipart/form-data" id=form-account>
+            <div class="vstack gap-3 p-3 border rounded bg-light" style="width: 65%">
+                <h3 class="text-decoration-underline">CHỈNH SỬA THÔNG TIN</h3>
+
+                <div class="hstack gap-3">
+                    <a href="#" class="me-3">
+                        <img id="account-avatar" style="width: 130px;" class="rounded-circle" th:src="${account.getAvatar()}" alt="">
+                    </a>
+                    <div class="d-flex flex-column">
+                        <label for="form-file" class="form-label">Ảnh đại diện</label>
+                        <input class="form-control" type="file" id="form-file" name="avatar">
+                    </div>
+                </div>
+
+                <div class="hstack gap-3">
+                    <div class="form-floating w-50">
+                        <input type="text" class="form-control" id="_id" placeholder="Mã tài khoản" name="_id" required
+                            th:value="${account != null} ? ${account.id} : ''" disabled>
+                        <label for="_id">Mã tài khoản</label>
+                        <p class="text-danger text-center" id="id-message" style="font-size: 12px"></p>
+                    </div>
+                    <div class="form-floating w-50">
+                        <input type="text" class="form-control" id="username" placeholder="Tên đăng nhập" name="username"
+                            required th:value="${account != null} ? ${account.username} : ''" disabled>
+                        <label for="username">Tên đăng nhập</label>
+                        <p class="text-danger text-center" id="username-message" style="font-size: 12px"></p>
+                    </div>
+                </div>
+
+                <div class="hstack gap-3">
+                    <div class="form-floating w-50">
+                        <input type="text" class="form-control" id="name" placeholder="Họ & tên" name="name" required
+                            th:value="${account != null} ? ${account.name} : ''">
+                        <label for="name">Họ & tên</label>
+                        <p class="text-danger text-center" id="name-message" style="font-size: 12px"></p>
+                    </div>
+                    <div class="form-floating w-50">
+                        <input type="text" class="form-control" id="address" placeholder="Địa chỉ" name="address"
+                            required th:value="${account != null} ? ${account.address} : ''">
+                        <label for="address">Địa chỉ</label>
+                        <p class="text-danger text-center" id="address-message" style="font-size: 12px"></p>
+                    </div>
+                </div>
+
+                <div class="hstack gap-3">
+                    <div class="form-floating w-50">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="name@gmail.com"
+                            required th:value="${account != null} ? ${account.email} : ''">
+                        <label for="email">Email</label>
+                        <p class="text-danger text-center" id="email-message" style="font-size: 12px"></p>
+                    </div>
+                    <div class="form-floating w-50">
+                        <input type="text" class="form-control" id="phoneNum" placeholder="Số điện thoại"
+                            name="phoneNum" required th:value="${account != null} ? ${account.phoneNum} : ''">
+                        <label for="phoneNum">Số điện thoại</label>
+                        <p class="text-danger text-center" id="phoneNum-message" style="font-size: 12px"></p>
+                    </div>
+                </div>
+
+                <div class="hstack gap-3">
+                    <div class="form-floating w-50">
+                        <input type="date" class="form-control" id="birthday" placeholder="Ngày sinh" name="birthday"
+                            th:value="${account != null} ? ${#dates.format(account.birthday, 'yyyy-MM-dd')} : ''">
+                        <label for="birthday">Ngày sinh</label>
+                        <p class="text-danger text-center" id="birthday-message" style="font-size: 12px"></p>
+                    </div>
+                    <div class=" form-floating w-50">
+                        <input id="account-gender" type="hidden"
+                            th:value="${account != null} ? ${account.gender} : ''">
+                        <select class="form-select form-select-gender" id="gender"
+                            aria-label="Floating label select example" name="gender">
+                            <option value="">Chọn giới tính</option>
+                            <option value="true">Nam</option>
+                            <option value="false">Nữ</option>
+                        </select>
+                        <label for="gender">Giới tính</label>
+                        <p class="text-danger text-center" id="gender-message" style="font-size: 12px"></p>
+                    </div>
+                </div>
+
+                <div class="vstack gap-3">
+                    <label for="editor2">Thông tin riêng</label>
+                    <textarea class="form-control" style="height: 100px" name="editor1" id="editor1"></textarea>
+                </div>
+                <div>
+                    <button class="btn btn-primary" id="btn-update">Cập nhập</button>
+                </div>
+            </div>
+            <div class="vstack gap-3 border shadow w-25 p-3">
+                <div class="d-flex justify-content-center p-3">
+                    <a href="#">
+                        <img style="width:140px" class="rounded-circle" th:src="${account.avatar}" alt="">
+                    </a>
+                </div>
+                <input type="hidden" name="id-account" id="id-account" th:value="${account.id}">
+                <p>Tên: [[${account.name}]]</p>
+                <p th:text="${account.createAt} == null ? 'Ngày tạo: Đang cập nhập' : 'Ngày tạo: ' + ${#dates.format(account.createAt, 'dd-MM-yyyy')}"></p>
+                <p>Vai trò: Khách</p>
+                <p>Id: [[${account.id}]]</p>
+                <p>Email: [[${account.email}]]</p>
+                <p>Địa chỉ: [[${account.address}]]</p>
+                <p th:text="${account.gender} == 'true' ? 'Giới tính: Nữ' : 'Giới tính: Nam'"></p>
+                <p th:text="@{'Ngày sinh: ' + ${#dates.format(account.birthday, 'dd-MM-yyyy')}}"></p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        var formSelectgender = $('.form-select-gender')
+        var accountGender = $('#account-gender')
+
+        if (accountGender.value == 'true') {
+            formSelectgender.selectedIndex = '1'
+        } else if (accountGender.value == 'false') {
+            formSelectgender.selectedIndex = '2'
+        }
+
+        var avatar = $('#account-avatar')
+        var formAccount = $('#form-account')
+        var formFile = $('#form-file')
+
+        formFile.addEventListener('change', (e) => {
+            var file = e.target.files[0]
+            avatar.src = window.URL.createObjectURL(new Blob([file], { type: "application/zip" }))
+        })
+
+        //Tạo hàm gọi api
+        function fetchAPI(url, method, body) {
+            fetch(url, {
+                method: method,
+                body: body
+            })
+                .then(resp => {
+                    if (resp.status === 200) {
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
+                    } else {
+                        alert("Fail Validate!")
+                    }
+                })
+                .catch(err => {
+                    alert("Error!")
+                })
+        }
+
+        var btnUpdate = $('#btn-update')
+
+        btnUpdate.addEventListener('click', (e) => {
+            e.preventDefault()
+
+            var formData = new FormData(formAccount)
+
+            formData.append('account', new Blob([
+                JSON.stringify({
+                    'id': formData.get('id-account'),
+                    'name': formData.get('name'),
+                    'email': formData.get('email'),
+                    'address': formData.get('address'),
+                    'phoneNum': formData.get('phoneNum'),
+                    'birthday': formData.get('birthday'),
+                    'gender': formData.get('gender'),
+                    'password': formData.get('password'),
+                    'username': formData.get('username')
+                })
+            ], {
+                type: "application/json"
+            }))
+
+            formData.append('avatar', document.forms['form-account'].avatar.files[0])
+
+            fetchAPI(
+                '/profile/tran',
+                'PUT',
+                formData)
+        })
+    </script>
+</th:block>

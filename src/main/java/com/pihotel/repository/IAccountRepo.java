@@ -193,7 +193,7 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 	@Query(value = "update AccountEntity a set "
 			+ "a.name=?2, a.email=?3, "
 			+ "a.address=?4, a.phoneNum=?5, "
-			+ "a.birthday=?6, a.gender=?7 where a.id=?1")
+			+ "a.birthday=?6, a.gender=?7, a.avatar=?8 where a.id=?1")
 	public int updateCustom(
 			String id,
 			String name,
@@ -201,7 +201,8 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 			String address,
 			String phoneNum,
 			Date birthday,
-			Boolean gender
+			Boolean gender,
+			String avatar
 	);
 	
 }

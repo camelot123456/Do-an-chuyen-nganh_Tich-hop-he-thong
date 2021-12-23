@@ -2,9 +2,9 @@
     <div class="collapsing collapse-horizontal" id="myCollapse" style="border-radius: 0px;">
         <div class="card card-body d-flex flex-column p-3 text-white bg-dark" style="width: 280px; height: 100vh">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-                <img style="width:40px"
-                    src="https://b.thumbs.redditmedia.com/49mRBNOkrrQG87BAMPebUiPNUba44YnOFKxRkBNAMFo.png" alt="">
-                <div class="ms-2 text-light">Pi Network</div>
+                <img style="width:40px" class="rounded-circle"
+                    src="https://thumbs.dreamstime.com/b/modern-black-line-art-mountain-hotel-logo-design-template-modern-black-line-art-mountain-hotel-logo-design-164322233.jpg" alt="">
+                <div class="ms-2 text-light">COTS Hotel</div>
             </a>
             <hr class="text-light">
             <ul class="nav nav-pills flex-column mb-auto">
@@ -72,7 +72,7 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <li><a class="dropdown-item" href="#" th:text="${session.account.name}"></a></li>
-                    <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
+                    <li><a class="dropdown-item" th:href="@{'/profile?id='+${session.account.id}}">Hồ sơ</a></li>
                     <li><a class="dropdown-item" href="#">Cài đặt</a></li>
                     <li><a class="dropdown-item" href="#">Blog</a></li>
                     <li>

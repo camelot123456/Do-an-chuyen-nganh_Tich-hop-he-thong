@@ -106,7 +106,7 @@ public static final String PATH_AVATAR = "src/main/resources/static/img/user/";
 	public String accountUpdate(@RequestPart("customer") AccountEntity customer) {
 		accountServ.updateCustomer(customer.getId(), customer.getName(), customer.getEmail(), customer.getAddress(),
 				customer.getPhoneNum(), customer.getBirthday(), customer.getGender());
-		return "redirect:/admin/customer-managements/account/customer/" + customer.getId();
+		return "redirect:/admin/customer-managements/account-customer/" + customer.getId();
 	}
 	
 //	---------------------------------------PATCH---------------------------------------

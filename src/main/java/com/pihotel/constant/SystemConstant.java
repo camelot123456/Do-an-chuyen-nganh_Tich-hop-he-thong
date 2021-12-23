@@ -13,6 +13,7 @@ public class SystemConstant {
 	
 	public static final String AVATAR_ACCOUNT_DEFAULT_LINK = "https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg";
 	
+	public static final String PATH_IMAGE_ACCOUNT = "src/main/resources/static/img/user/";
 	
 	public static final String ACCOUNTS = "accounts";
 	public static final String ACCOUNT = "account";

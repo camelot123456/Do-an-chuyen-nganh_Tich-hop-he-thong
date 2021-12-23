@@ -1,8 +1,8 @@
 <th:block th:fragment="header">
     <div class="d-flex align-items-center justify-content-between container">
         <img class="" style="width: 80px;"
-            src="https://b.thumbs.redditmedia.com/49mRBNOkrrQG87BAMPebUiPNUba44YnOFKxRkBNAMFo.png" alt="logo">
-        <h3 class="text-uppercase fw-bold text-primary">Chào mừng đến với khách sạn ...</h3>
+            src="https://thumbs.dreamstime.com/b/modern-black-line-art-mountain-hotel-logo-design-template-modern-black-line-art-mountain-hotel-logo-design-164322233.jpg" alt="logo">
+        <h3 class="text-uppercase fw-bold text-primary">Chào mừng đến với COTS Hotel</h3>
         <div>
             <div class="hstack gap-3" th:if="${session.account == null}">
 
@@ -57,7 +57,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#" th:text="${session.account.name}"></a></li>
-                        <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
+                        <li><a class="dropdown-item" th:href="@{'/profile?id='+${session.account.id}}">Hồ sơ</a></li>
                         <li><a class="dropdown-item" href="#">Cài đặt</a></li>
                         <li><a class="dropdown-item" href="#">Blog</a></li>
                         <li>
