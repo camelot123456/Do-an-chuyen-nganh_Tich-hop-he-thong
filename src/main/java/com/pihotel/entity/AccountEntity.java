@@ -80,7 +80,7 @@ public class AccountEntity extends AbstractEntity {
 	private List<InvoiceEntity> invoices;
 
 	@Transient
-	public String getAvatar() {
+	public String getShowAvatar() {
 		if (avatar.startsWith("http://") || avatar.startsWith("https://")) {
 			return avatar;
 		}

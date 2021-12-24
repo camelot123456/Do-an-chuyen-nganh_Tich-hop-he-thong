@@ -10,7 +10,7 @@
 
                 <div class="hstack gap-3">
                     <a href="#" class="me-3">
-                        <img id="account-avatar" style="width: 130px;" class="rounded-circle" th:src="${account.getAvatar()}" alt="">
+                        <img id="account-avatar" style="width: 130px;" class="rounded-circle" th:src="${account.getShowAvatar()}" alt="">
                     </a>
                     <div class="d-flex flex-column">
                         <label for="form-file" class="form-label">Ảnh đại diện</label>
@@ -95,7 +95,7 @@
             <div class="vstack gap-3 border shadow w-25 p-3">
                 <div class="d-flex justify-content-center p-3">
                     <a href="#">
-                        <img style="width:140px" class="rounded-circle" th:src="${account.avatar}" alt="">
+                        <img style="width:140px" class="rounded-circle" th:src="${account.getShowAvatar()}" alt="">
                     </a>
                 </div>
                 <input type="hidden" name="id-account" id="id-account" th:value="${account.id}">

@@ -10,7 +10,7 @@
             <div class="hstack gap-3 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3 border">
                 <div class="hstack gap-3 py-auto">
                     <a href="#" class="me-3">
-                        <img style="width: 100px;" class="rounded-circle" th:src="${account.getAvatar()}" alt="">
+                        <img style="width: 100px;" class="rounded-circle" th:src="${account.getShowAvatar()}" alt="">
                     </a>
                     <div class="d-flex flex-column">
                         <h5 class="text-primary">[[${account.name}]]</h5>
@@ -185,7 +185,7 @@
                     <div class="vstack gap-3  w-100 rounded-3 shadow bg-light p-3 d-flex justify-content-between mb-3">
                         <div class="hstack gap-3 py-auto">
                             <a href="#" class="me-3">
-                                <img style="width: 100px;" class="rounded-circle" th:src="${account.getAvatar()}" alt="">
+                                <img style="width: 100px;" class="rounded-circle" th:src="${account.getShowAvatar()}" alt="">
                             </a>
                             <div class="d-flex flex-column">
                                 <h5 class="text-primary">[[${account.name}]]</h5>

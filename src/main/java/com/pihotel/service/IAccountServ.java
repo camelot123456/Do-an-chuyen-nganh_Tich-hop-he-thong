@@ -1,5 +1,6 @@
 package com.pihotel.service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import javax.mail.MessagingException;
 
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.RoleEntity;
@@ -28,7 +30,7 @@ public interface IAccountServ {
 			Boolean gender, List<RoleEntity> roles);
 	
 	public void updateCustomNoUsernameAndPassword(String id, String name, String email, String address, String phoneNum, Date birthday,
-			Boolean gender, String avatar);
+			Boolean gender, MultipartFile avatar) throws IOException;
 
 	public void saveWithFile(AccountEntity account);
 

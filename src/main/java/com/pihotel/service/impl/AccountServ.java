@@ -1,5 +1,6 @@
 package com.pihotel.service.impl;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
@@ -35,6 +37,7 @@ import com.pihotel.repository.IRoleRepo;
 import com.pihotel.repository.IRoomRepo;
 import com.pihotel.service.IAccountServ;
 import com.pihotel.service.IJavaSenderService;
+import com.pihotel.utils.UploadFileUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.utility.RandomString;
@@ -319,7 +322,7 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 	
 	@Override
 	public void updateCustomNoUsernameAndPassword(String id, String name, String email, String address, String phoneNum, Date birthday,
-			Boolean gender, String avatar) {
+			Boolean gender, MultipartFile avatar) throws IOException {
 		AccountEntity account = accountRepo.findOneById(id);
 		account.setId(id);
 		account.setName(name);
@@ -329,7 +332,13 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		account.setBirthday(birthday);
 		account.setGender(gender);
 		account.setModifiedAt(new Date());
-		account.setAvatar(avatar);
+		try {
+			UploadFileUtil.saveFile(SystemConstant.PATH_IMAGE_ACCOUNT, avatar.getOriginalFilename(), avatar);
+			account.setAvatar(avatar.getOriginalFilename());
+		} catch (IOException e) {
+			// TODO: handle exception
+			account.setAvatar(account.getAvatar());
+		}
 		accountRepo.save(account);
 	}
 	

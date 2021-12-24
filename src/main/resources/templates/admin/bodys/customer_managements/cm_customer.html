@@ -80,7 +80,7 @@
                         <th scope="row">[[${state.count}]]</th>
                         <th scope="row">[[${customer.id}]]</th>
                         <td>
-                            <img class="rounded-circle" style="width: 50px;" th:src="${customer.avatar}" />
+                            <img class="rounded-circle" style="width: 50px;" th:src="${customer.getShowAvatar()}" />
                         </td>
                         <td>[[${customer.name}]]</td>
                         <td>[[${customer.authProvider}]]</td>

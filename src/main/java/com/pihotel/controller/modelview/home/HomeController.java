@@ -26,7 +26,6 @@ import com.pihotel.service.IInvoiceServ;
 import com.pihotel.service.IRoomServ;
 import com.pihotel.service.IRoomTypeServ;
 import com.pihotel.service.IServiceServ;
-import com.pihotel.utils.UploadFileUtil;
 
 import net.bytebuddy.utility.RandomString;
 
@@ -149,7 +148,6 @@ public class HomeController {
 			"multipart/form-data", "application/json" })
 	public String doUpdateProfile(@RequestPart("account") AccountEntity account,
 			@RequestPart("avatar") MultipartFile multipartFile) throws IOException {
-		UploadFileUtil.saveFile(SystemConstant.PATH_IMAGE_ACCOUNT, multipartFile.getOriginalFilename(), multipartFile);
 		accountServ.updateCustomNoUsernameAndPassword(
 				account.getId(), 
 				account.getName(), 
@@ -158,7 +156,7 @@ public class HomeController {
 				account.getPhoneNum(), 
 				account.getBirthday(), 
 				account.getGender(),
-				multipartFile.getOriginalFilename());
+				multipartFile);
 		return "redirect:/profile?id=" + account.getId();
 	}
 	
