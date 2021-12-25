@@ -17,6 +17,10 @@ import com.pihotel.entity.enums.ERoomState;
 @Transactional
 public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 
+//	---------------------------------------SELECT---------------------------------------
+	
+	public RoomEntity findOneById(String id);
+	
 	@Query("select r from RoomEntity r where r.name like %?1% "
 			+ "or r.roomState like %?1% "
 			+ "or concat(r.area, '') like %?1% "
@@ -27,24 +31,8 @@ public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 			+ "or r.roomType.id like %?1%")
 	public Page<RoomEntity> search(String keyword, Pageable pageable);
 	
-	public RoomEntity findOneById(String id);
-	
 	@Query(value = "select r from RoomEntity r where r.roomType.id = ?1 and r.customersNum >= ?2 and r.roomState not in ('USING', 'REPAIR', 'DEPOSIT')")
 	public List<RoomEntity> findAllByIdRoomType(String idRoomType, int customersNum);
-	
-	@Modifying
-	@Transactional
-	@Query(value = "update RoomEntity r set r.roomState = ?1, r.verifyRoom = ?2 where r.id = ?3")
-	public void updateRoomState(ERoomState state, String verifyRoom, String id);
-	
-	@Query(value = "select * from room r where r.floor = ?1 or r.id_room_type = ?2 and r.name like %?3% "
-			+ "or r.room_state like %?3% "
-			+ "or concat(r.area, '') like %?3% "
-			+ "or concat(r.customers_num, '') like %?3% "
-			+ "or concat(r.floor, '') like %?3% "
-			+ "or r.name like %?3% "
-			+ "or concat(r.price_incurred, '') like %?3% ", nativeQuery =  true)
-	public Page<RoomEntity> searchWithFloorAndRoomType(String floor, String roomType, String keyword, Pageable pageable);
 	
 	@Query(value = "select coalesce(max(r.floor), 0) from RoomEntity r")
 	public int maxFloor();
@@ -77,4 +65,27 @@ public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 			+ "where i.id = ?1 and i.[enabled] = ?2 ",
 			nativeQuery = true)
 	public List<RoomEntity> findAllByIdInvoice(String idInvoice, Boolean isPaid); 
+
+//	---------------------------------------INSERT---------------------------------------
+	
+//	---------------------------------------UPDATE---------------------------------------
+	
+	@Modifying
+	@Transactional
+	@Query(value = "update RoomEntity r set r.roomState = ?1, r.verifyRoom = ?2 where r.id = ?3")
+	public void updateRoomState(ERoomState state, String verifyRoom, String id);
+	
+//	---------------------------------------DELETE---------------------------------------
+	
 }
+
+
+
+//@Query(value = "select * from room r where r.floor = ?1 or r.id_room_type = ?2 and r.name like %?3% "
+//		+ "or r.room_state like %?3% "
+//		+ "or concat(r.area, '') like %?3% "
+//		+ "or concat(r.customers_num, '') like %?3% "
+//		+ "or concat(r.floor, '') like %?3% "
+//		+ "or r.name like %?3% "
+//		+ "or concat(r.price_incurred, '') like %?3% ", nativeQuery =  true)
+//public Page<RoomEntity> searchWithFloorAndRoomType(String floor, String roomType, String keyword, Pageable pageable);

@@ -64,4 +64,5 @@ public interface IAccountServ {
 	public AccountEntity findOneByIdInvoice(String idInvoice, Boolean isPaid);
 	
 	public Page<AccountEntity> findAllAccountInternal(int numPage, String sortField, String sortDir, String keyword);
+	
 }

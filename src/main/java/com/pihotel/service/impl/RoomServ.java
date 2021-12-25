@@ -69,19 +69,6 @@ public class RoomServ implements IRoomServ {
 	}
 
 	@Override
-	public Page<RoomEntity> searchWithFloorAndRoomType(String floor, String roomType, int numPage, String sortField,
-			String sortDir, String keyword) {
-		// TODO Auto-generated method stub
-		Sort sort = Sort.by(sortField);
-		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
-		Pageable pageable = PageRequest.of(numPage - 1, 24, sort);
-		if (keyword != null) {
-			return roomRepo.searchWithFloorAndRoomType(floor, roomType, keyword, pageable);
-		}
-		return roomRepo.findAll(pageable);
-	}
-
-	@Override
 	public RoomEntity findOneById(String id) {
 		// TODO Auto-generated method stub
 		return roomRepo.findOneById(id);
@@ -238,3 +225,18 @@ public class RoomServ implements IRoomServ {
 	}
 
 }
+
+
+
+//@Override
+//public Page<RoomEntity> searchWithFloorAndRoomType(String floor, String roomType, int numPage, String sortField,
+//		String sortDir, String keyword) {
+//	// TODO Auto-generated method stub
+//	Sort sort = Sort.by(sortField);
+//	sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+//	Pageable pageable = PageRequest.of(numPage - 1, 24, sort);
+//	if (keyword != null) {
+//		return roomRepo.searchWithFloorAndRoomType(floor, roomType, keyword, pageable);
+//	}
+//	return roomRepo.findAll(pageable);
+//}

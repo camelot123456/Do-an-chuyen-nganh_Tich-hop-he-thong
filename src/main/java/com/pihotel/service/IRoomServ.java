@@ -28,8 +28,6 @@ public interface IRoomServ {
 
 	public void updateRoomState(ERoomState state, String verifyRoom, String id);
 	
-	public Page<RoomEntity> searchWithFloorAndRoomType(String floor, String roomType, int numPage, String sortField, String sortDir, String keyword);
-	
 	public int maxFloor();
 	
 	public List<RoomEntity> findAllShowRoom();
@@ -41,3 +39,5 @@ public interface IRoomServ {
 	public void saveBooking(AccountEntity customer, RoomEntity room, InvoiceEntity invoice, InvoiceServiceEntity invoiceService);
 	
 }
+
+//	public Page<RoomEntity> searchWithFloorAndRoomType(String floor, String roomType, int numPage, String sortField, String sortDir, String keyword);
