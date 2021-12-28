@@ -175,6 +175,11 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 		return accountRepo.findAllAccountInternal(pageable);
 	}
 	
+	@Override
+	public List<AccountEntity> searchAccount(String keyword) {
+		return accountRepo.searchAccount(keyword);
+	}
+	
 //	---------------------------------------INSERT---------------------------------------
 	
 	@Override

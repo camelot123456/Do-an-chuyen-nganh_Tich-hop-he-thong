@@ -97,6 +97,11 @@ public class RoomTypeServ implements IRoomTypeServ{
 		return roomTypeArrayNew.get(0);
 	}
 	
+	@Override
+	public List<RoomTypeEntity> searchRoomType(String keyword) {
+		return roomTypeRepo.searchRoomType(keyword);
+	}
+	
 //	---------------------------------------INSERT---------------------------------------
 	
 	@Override

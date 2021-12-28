@@ -1,6 +1,7 @@
 package com.pihotel.repository;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -155,6 +156,20 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 			+ "where a.auth_provider = 'NO_ACCOUNT'",
 			nativeQuery = true)
 	public Page<AccountEntity> findAllNoAccountCustomer(Pageable pageable);
+	
+	@Query(value = "select * \n" + 
+			"from account a \n" + 
+			"where a.id like %?1% \n" + 
+			"or a.username like %?1% \n" + 
+			"or a.name like %?1% \n" + 
+			"or a.[address] like %?1% \n" + 
+			"or a.auth_provider like %?1% \n" + 
+			"or a.birthday like %?1% \n" + 
+			"or a.email like %?1% \n" + 
+			"or a.gender like %?1% \n" + 
+			"or a.phone_num like %?1% ",
+			nativeQuery = true)
+	public List<AccountEntity> searchAccount(String keyword);
 	
 //	new query
 	@Query(value = "select distinct a.* "

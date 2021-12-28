@@ -32,10 +32,10 @@ public interface IInvoiceServ {
 	
 	public Integer getSumCartByIdCustomer(String idCustomer);
 	
-	
-
 	public InvoiceEntity findOneById(String id, Boolean isPaid);
 	
 	public BillCustom findOneBillCustomByIdInvoice(String idInvoice, Boolean isPaid);
+	
+	public List<InvoiceEntity> searchInvoice(String keyword);
 	
 }

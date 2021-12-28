@@ -27,4 +27,6 @@ public interface IRoomTypeServ {
 	public List<RoomTypeEntity> findAllWithTotalRoom();
 	
 	public RoomTypeEntity findOneByIdInvoice(String idInvoice, Boolean isPaid);
+	
+	public List<RoomTypeEntity> searchRoomType(String keyword);
 }

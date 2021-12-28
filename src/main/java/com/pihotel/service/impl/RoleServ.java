@@ -45,6 +45,11 @@ public class RoleServ implements IRoleServ{
 		return roleRepo.findAll(pageable);
 	}
 	
+	@Override
+	public List<RoleEntity> searchRole(String keyword) {
+		return roleRepo.searchRole(keyword);
+	}
+	
 //	---------------------------------------INSERT---------------------------------------
 	
 	@Override

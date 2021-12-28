@@ -137,6 +137,11 @@ public class RoomServ implements IRoomServ {
 	public List<RoomEntity> findAllByIdInvoice(String idInvoice, Boolean isPaid) {
 		return roomRepo.findAllByIdInvoice(idInvoice, isPaid);
 	}
+	
+	@Override
+	public List<RoomEntity> searchRoom(String keyword) {
+		return roomRepo.searchRoom(keyword);
+	}
 
 //	---------------------------------------INSERT---------------------------------------
 

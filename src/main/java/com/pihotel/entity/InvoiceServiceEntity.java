@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,10 +30,12 @@ public class InvoiceServiceEntity extends AbstractEntity {
 	
 	@ManyToOne()
 	@JoinColumn(name = "id_invoice")
+	@JsonBackReference
 	private InvoiceEntity invoice;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_service")
+	@JsonBackReference
 	private ServiceEntity service;
 	
 	@Column(name = "[QUANTITY]", columnDefinition = "int default 0")

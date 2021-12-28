@@ -65,27 +65,15 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			nativeQuery = true)
 	public Integer getSumCartByIdCustomer(String idCustomer);
 	
-//	@Query(value = "select i.id, i.[start_date], i.end_date, i.adults, i.children, rt.id as idRoomType, "
-//			+ "a.id as idAccount, a.phone_num as phoneNum, (sum(r.price_incurred) + rt.price) as totalPriceAll "
-//			+ "from invoice i inner join invoice_room ir "
-//			+ "on i.id = ir.id_invoice inner join room r "
-//			+ "on ir.id_room = r.id inner join room_type rt "
-//			+ "on r.id_room_type = rt.id inner join account a "
-//			+ "on i.id_account = a.id "
-//			+ "where i.[enabled] = ?2 "
-//			+ "and i.id like '%?1%' "
-//			+ "or concat(i.adults, '') like '%?1%' "
-//			+ "or concat(i.children, '') like '%?1%' "
-//			+ "or rt.id like '%?1%' "
-//			+ "or a.id like '%?1%' "
-//			+ "or a.phone_num like '%?1%' "
-//			+ "group by i.id,  i.[start_date], i.end_date, i.adults, i.children, rt.id, i.id_account, rt.price, a.id,  a.phone_num, i.verify_room",
-//			nativeQuery = true)
-//	public Page<Object[]> search(String keyword , Boolean isPaid, Pageable pageable);
-	
+	@Query(value = "select * \n" + 
+			"from invoice i \n" + 
+			"where i.id like %?1% \n" + 
+			"or i.id_account like %?1% \n" + 
+			"or concat(i.[start_date], '') like %?1% \n" + 
+			"or CONCAT(i.end_date, '') like %?1% ", 
+			nativeQuery = true)
+	public List<InvoiceEntity> searchInvoice(String keyword);
 
-	
-	
 //	new query
 	@Query(value = "select distinct i.* "
 			+ "from invoice i left join invoice_service iss "
@@ -134,6 +122,27 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 }
 
 /*
+
+	
+	@Query(value = "select i.id, i.[start_date], i.end_date, i.adults, i.children, rt.id as idRoomType, "
+			+ "a.id as idAccount, a.phone_num as phoneNum, (sum(r.price_incurred) + rt.price) as totalPriceAll "
+			+ "from invoice i inner join invoice_room ir "
+			+ "on i.id = ir.id_invoice inner join room r "
+			+ "on ir.id_room = r.id inner join room_type rt "
+			+ "on r.id_room_type = rt.id inner join account a "
+			+ "on i.id_account = a.id "
+			+ "where i.[enabled] = ?2 "
+			+ "and i.id like '%?1%' "
+			+ "or concat(i.adults, '') like '%?1%' "
+			+ "or concat(i.children, '') like '%?1%' "
+			+ "or rt.id like '%?1%' "
+			+ "or a.id like '%?1%' "
+			+ "or a.phone_num like '%?1%' "
+			+ "group by i.id,  i.[start_date], i.end_date, i.adults, i.children, rt.id, i.id_account, rt.price, a.id,  a.phone_num, i.verify_room",
+			nativeQuery = true)
+	public Page<Object[]> search(String keyword , Boolean isPaid, Pageable pageable);
+
+
 select i.id, i.[start_date], i.end_date, i.adults, i.children,
 a.id as id_custommer, a.name,
 r.id as id_room, r.name, 

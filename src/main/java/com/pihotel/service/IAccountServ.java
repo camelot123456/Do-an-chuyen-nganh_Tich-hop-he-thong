@@ -65,4 +65,6 @@ public interface IAccountServ {
 	
 	public Page<AccountEntity> findAllAccountInternal(int numPage, String sortField, String sortDir, String keyword);
 	
+	public List<AccountEntity> searchAccount(String keyword);
+	
 }

@@ -1,5 +1,7 @@
 package com.pihotel.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,11 +15,21 @@ public interface IRoleRepo extends JpaRepository<RoleEntity, String>{
 
 	public RoleEntity findOneById(String id);
 	
+	public RoleEntity findOneByCode(String code);
+	
 	@Query("select a from RoleEntity a where a.name like %?1% "
 			+ "or a.code like %?1% "
 			+ "or a.id like %?1%")
 	public Page<RoleEntity> search(String keyword, Pageable pageable);
 
+	@Query(value = "select * \n" + 
+			"from [role] r \n" + 
+			"where r.id like %?1% \n" + 
+			"or r.code like %?1% \n" + 
+			"or r.[description] like %?1% \n" + 
+			"or r.name like %?1% ",
+			nativeQuery = true)
+	public List<RoleEntity> searchRole(String keyword);
 	
 	@Modifying
 	@Transactional
@@ -33,7 +45,5 @@ public interface IRoleRepo extends JpaRepository<RoleEntity, String>{
 			String name,
 			String code
 	);
-	
-	public RoleEntity findOneByCode(String code);
 
 }

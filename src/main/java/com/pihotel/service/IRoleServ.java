@@ -24,4 +24,6 @@ public interface IRoleServ {
 
 	public RoleEntity findOneById(String id);
 	
+	public List<RoleEntity> searchRole(String keyword);
+	
 }

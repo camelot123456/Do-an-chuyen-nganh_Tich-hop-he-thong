@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,6 +50,7 @@ public class InvoiceEntity extends AbstractEntity{
 	private String verifyRoom;
 		
 	@OneToMany(mappedBy = "invoice")
+	@JsonManagedReference
 	private List<InvoiceServiceEntity> invoicesServices;
 	
 	@ManyToMany(fetch = FetchType.EAGER)

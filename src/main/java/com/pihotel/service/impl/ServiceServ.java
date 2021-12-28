@@ -88,6 +88,11 @@ public class ServiceServ implements IServiceServ{
 		}
 		return serviceArrayNew;
 	}
+	
+	@Override
+	public List<ServiceEntity> searchService(String keyword) {
+		return serviceRepo.searchService(keyword);
+	}
 
 //	---------------------------------------INSERT---------------------------------------	
 	

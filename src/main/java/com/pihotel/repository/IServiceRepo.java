@@ -31,6 +31,15 @@ public interface IServiceRepo extends JpaRepository<ServiceEntity, String>{
 			nativeQuery = true)
 	public List<Object[]> findAllByIdRoom(String idRoom);
 	
+	@Query(value = "select * \n" + 
+			"from [service] s \n" + 
+			"where s.id like %?1% \n" + 
+			"or s.name like %?1% \n" + 
+			"or s.[description]  like %?1% \n" + 
+			"or concat(s.price, '') like %?1% ",
+			nativeQuery = true)
+	public List<ServiceEntity> searchService(String keyword);
+	
 //	new query
 	@Query(value = "select distinct s.id, s.name, s.[image], s.[description], s.price, "
 			+ "iss.id as idInvoiceService, isnull (iss.quantity ,0) as quantity, "

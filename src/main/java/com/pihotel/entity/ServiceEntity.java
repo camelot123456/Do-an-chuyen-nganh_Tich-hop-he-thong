@@ -8,6 +8,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,6 +40,7 @@ public class ServiceEntity extends AbstractEntity{
 	private Double price;
 		
 	@OneToMany(mappedBy = "service")
+	@JsonManagedReference
 	private List<InvoiceServiceEntity> invoicesServices;
 	
 	@Transient

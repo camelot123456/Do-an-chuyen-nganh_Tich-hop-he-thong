@@ -53,6 +53,19 @@ public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 			nativeQuery = true)
 	public List<Object[]> findAllShowRoom();
 	
+	@Query(value = "select  *\n" + 
+			"from room r\n" + 
+			"where r.id like %?1% \n" + 
+			"or r.name like %?1% \n" + 
+			"or r.[description] like %?1% \n" + 
+			"or concat(r.price_incurred, '') like %?1% \n" + 
+			"or concat(r.area, '') like %?1% \n" + 
+			"or concat(r.customers_num, '') like %?1% \n" + 
+			"or concat(r.[floor], '') like %?1% \n" + 
+			"or r.room_state like %?1%", 
+			nativeQuery = true)
+	public List<RoomEntity> searchRoom(String keyword);
+	
 //	new query
 	@Query(value = "select distinct r.* "
 			+ "from invoice i left join invoice_service iss "

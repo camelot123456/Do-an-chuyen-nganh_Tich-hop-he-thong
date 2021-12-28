@@ -38,6 +38,8 @@ public interface IRoomServ {
 	
 	public void saveBooking(AccountEntity customer, RoomEntity room, InvoiceEntity invoice, InvoiceServiceEntity invoiceService);
 	
+	public List<RoomEntity> searchRoom(String keyword);
+	
 }
 
 //	public Page<RoomEntity> searchWithFloorAndRoomType(String floor, String roomType, int numPage, String sortField, String sortDir, String keyword);

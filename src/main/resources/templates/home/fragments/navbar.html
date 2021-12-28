@@ -27,10 +27,9 @@
                     </li>
                 </ul>
                 <form class="input-group w-25" id="form-search" required>
-                    <input class="form-control" placeholder="Tìm kiếm ..."
-                        aria-describedby="button-addon2" name="keyword" type="search"
-                        aria-label="Search">
-                    <button class="btn btn-outline-primary btn" type="submit">
+                    <input class="form-control" placeholder="Tìm kiếm ..." aria-describedby="button-addon2"
+                        name="keyword" type="search" id="keyword-search" aria-label="Search">
+                    <button class="btn btn-outline-primary btn" type="button" id="btn-search">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </form>
@@ -49,4 +48,61 @@
 
         </div>
     </nav>
+    <div class="modal fade" id="exampleModal" tabindex="999" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <h3>Tìm kiếm...</h3>
+                    <div class="vstack gap-3">
+                        <h4>Loại phòng</h4>
+                        <hr>
+                        <div class="d-flex position-relative">
+                            <img style="width: 100px;" src="https://thumbs.dreamstime.com/b/modern-black-line-art-mountain-hotel-logo-design-template-modern-black-line-art-mountain-hotel-logo-design-164322233.jpg" class="flex-shrink-0 me-3" alt="...">
+                            <div>
+                                <h5 class="mt-0">Custom component with stretched link</h5>
+                                <p>This is some placeholder content for the custom component. It is intended to mimic
+                                    what some real-world content would look like, and we're using it here to give the
+                                    component a bit of body and size.</p>
+                                <a href="#" class="stretched-link">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            var $ = document.querySelector.bind(document)
+            var $$ = document.querySelectorAll.bind(document)
+
+            var keywordSearch = $('#keyword-search')
+            var btnSearch = $('#btn-search')
+
+            var myModal = new bootstrap.Modal($('#exampleModal'), {
+                keyboard: false
+            })
+
+            btnSearch.addEventListener('click', (e) => {
+                e.preventDefault()
+
+                if (!keywordSearch.value) {
+                    return
+                } else {
+                    myModal.show()
+                }
+            })
+        })
+    </script>
 </th:block>

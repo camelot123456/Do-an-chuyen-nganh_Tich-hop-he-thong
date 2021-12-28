@@ -141,6 +141,11 @@ public class InvoiceServ implements IInvoiceServ {
 		}
 		return billsNew.get(0);
 	}
+	
+	@Override
+	public List<InvoiceEntity> searchInvoice(String keyword) {
+		return invoiceRepo.searchInvoice(keyword);
+	}
 
 //	---------------------------------------INSERT---------------------------------------
 

@@ -25,4 +25,6 @@ public interface IServiceServ {
 	public List<ServiceEntity> findAllByIdInvoice(String idInvoice, Boolean isPaid);
 	
 	public List<ServiceEntity> findAllByIdRoom(String idRoom);
+	
+	public List<ServiceEntity> searchService(String keyword);
 }
