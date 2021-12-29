@@ -2,6 +2,8 @@ package com.pihotel.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.entity.custom.BillCustom;
@@ -37,5 +39,7 @@ public interface IInvoiceServ {
 	public BillCustom findOneBillCustomByIdInvoice(String idInvoice, Boolean isPaid);
 	
 	public List<InvoiceEntity> searchInvoice(String keyword);
+	
+	public String handleInvoicePaid(AccountEntity customer, InvoiceEntity invoice, HttpServletRequest request);
 	
 }

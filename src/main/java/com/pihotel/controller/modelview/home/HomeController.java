@@ -19,7 +19,6 @@ import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.entity.RoomTypeEntity;
-import com.pihotel.entity.enums.EAuthenticationProvider;
 import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.service.IAccountServ;
 import com.pihotel.service.IInvoiceServ;
@@ -163,35 +162,7 @@ public class HomeController {
 			"multipart/form-data", "application/json" })
 	public String doSaveInvoiceWithCustomer(@RequestPart("customer") AccountEntity customer,
 			@RequestPart("invoice") InvoiceEntity invoice, HttpServletRequest request) {
-		AccountEntity accountCustomer = (AccountEntity) request.getSession().getAttribute("account");
-		String verify_room = RandomString.make(64);
-		if (accountCustomer == null) {
-			customer.setId(RandomString.make(12));
-			customer.setAvatar(SystemConstant.AVATAR_ACCOUNT_DEFAULT_LINK);
-			customer.setAuthProvider(EAuthenticationProvider.NO_ACCOUNT);
-			AccountEntity customerNew = accountServ.saveCustomer(customer);
-			InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId(), Boolean.FALSE);
-			invoiceNew.setVerifyRoom(verify_room);
-			invoiceNew.setAccount(customerNew);
-			invoiceNew.setEnabled(Boolean.TRUE);
-			invoiceNew.getRooms().forEach(room -> {
-				room.setVerifyRoom(verify_room);
-				room.setRoomState(ERoomState.USING);
-			});
-			invoiceServ.update(invoiceNew);
-			return "redirect:/home/thanks";
-		} else {
-			InvoiceEntity invoiceNew = invoiceServ.findOneById(invoice.getId(), Boolean.FALSE);
-			invoiceNew.setAccount(accountCustomer);
-			invoiceNew.setVerifyRoom(verify_room);
-			invoiceNew.getRooms().forEach(room -> {
-				room.setVerifyRoom(verify_room);
-				room.setRoomState(ERoomState.USING);
-			});
-			invoiceNew.setEnabled(Boolean.TRUE);
-			invoiceServ.update(invoiceNew);
-			return "redirect:/cart?idCustomer=" + accountCustomer.getId();
-		}
+		return invoiceServ.handleInvoicePaid(customer, invoice, request);
 	}
 
 //	---------------------------------------PATCH---------------------------------------

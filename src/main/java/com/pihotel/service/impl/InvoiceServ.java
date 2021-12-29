@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
+import com.pihotel.entity.CommentEntity;
 import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.entity.RoomEntity;
 import com.pihotel.entity.custom.BillCustom;
+import com.pihotel.entity.enums.EAuthenticationProvider;
 import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.repository.IAccountRepo;
+import com.pihotel.repository.ICommentRepo;
 import com.pihotel.repository.IInvoiceRepo;
 import com.pihotel.repository.IRoomRepo;
 import com.pihotel.service.IInvoiceServ;
@@ -33,6 +38,9 @@ public class InvoiceServ implements IInvoiceServ {
 
 	@Autowired
 	private IAccountRepo accountRepo;
+	
+	@Autowired
+	private ICommentRepo commentRepo;
 
 //	---------------------------------------SELECT---------------------------------------
 
@@ -115,7 +123,7 @@ public class InvoiceServ implements IInvoiceServ {
 		// TODO Auto-generated method stub
 		return invoiceRepo.findOneById(id, isPaid);
 	}
-	
+
 	@Override
 	public BillCustom findOneBillCustomByIdInvoice(String idInvoice, Boolean isPaid) {
 		List<Object[]> billsArray = invoiceRepo.findOneBillCustomByIdInvoice(idInvoice, isPaid);
@@ -141,7 +149,7 @@ public class InvoiceServ implements IInvoiceServ {
 		}
 		return billsNew.get(0);
 	}
-	
+
 	@Override
 	public List<InvoiceEntity> searchInvoice(String keyword) {
 		return invoiceRepo.searchInvoice(keyword);
@@ -217,6 +225,73 @@ public class InvoiceServ implements IInvoiceServ {
 			return invoiceRepo.save(invoice);
 		} else
 			return null;
+	}
+
+	@Override
+	public String handleInvoicePaid(AccountEntity customer, InvoiceEntity invoice, HttpServletRequest request) {
+		AccountEntity accountCustomer = (AccountEntity) request.getSession().getAttribute("account");
+		String verify_room = RandomString.make(64);
+		
+		if (accountCustomer == null) {
+			AccountEntity customerNew = null;
+			customer.setId(RandomString.make(12));
+			customer.setCreateAt(new Date());
+			customer.setModifiedAt(new Date());
+			customer.setAvatar(SystemConstant.AVATAR_ACCOUNT_DEFAULT_LINK);
+			customer.setAuthProvider(EAuthenticationProvider.NO_ACCOUNT);
+			
+			if (!accountRepo.existsById(customer.getId())) {
+				customerNew = accountRepo.save(customer);
+			}
+			
+			InvoiceEntity invoiceNew = this.findOneById(invoice.getId(), Boolean.FALSE);
+			invoiceNew.setVerifyRoom(verify_room);
+			invoiceNew.setAccount(customerNew);
+			invoiceNew.setEnabled(Boolean.TRUE);
+			invoiceNew.getRooms().forEach(room -> {
+				room.setVerifyRoom(verify_room);
+				room.setRoomState(ERoomState.USING);
+			});
+			this.update(invoiceNew);
+			
+			// Handle comments
+			for(RoomEntity room : invoiceNew.getRooms()) {
+				CommentEntity comment = new CommentEntity();
+				comment.setId(RandomString.make(12));
+				comment.setCreateAt(new Date());
+				comment.setModifiedAt(new Date());
+				comment.setCommented(Boolean.FALSE);
+				comment.setRoom(roomRepo.findOneById(room.getId()));
+				comment.setAccount(accountRepo.findOneById(customerNew.getId()));
+				commentRepo.save(comment);
+			}
+			
+			return "redirect:/home/thanks";
+		} else {
+			InvoiceEntity invoiceNew = this.findOneById(invoice.getId(), Boolean.FALSE);
+			invoiceNew.setAccount(accountCustomer);
+			invoiceNew.setVerifyRoom(verify_room);
+			invoiceNew.getRooms().forEach(room -> {
+				room.setVerifyRoom(verify_room);
+				room.setRoomState(ERoomState.USING);
+			});
+			invoiceNew.setEnabled(Boolean.TRUE);
+			this.update(invoiceNew);
+			
+			// Handle comments
+			for(RoomEntity room : invoiceNew.getRooms()) {
+				CommentEntity comment = new CommentEntity();
+				comment.setId(RandomString.make(12));
+				comment.setCreateAt(new Date());
+				comment.setModifiedAt(new Date());
+				comment.setCommented(Boolean.FALSE);
+				comment.setRoom(roomRepo.findOneById(room.getId()));
+				comment.setAccount(accountRepo.findOneById(accountCustomer.getId()));
+				commentRepo.save(comment);
+			}
+			
+			return "redirect:/cart?idCustomer=" + accountCustomer.getId();
+		}
 	}
 
 //	---------------------------------------DELETE---------------------------------------

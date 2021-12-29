@@ -81,6 +81,10 @@ public class AccountEntity extends AbstractEntity {
 	@JsonManagedReference("invoice-account")
 	private List<InvoiceEntity> invoices;
 
+	@OneToMany(mappedBy = "account")
+	@JsonManagedReference("comment-account")
+	private List<CommentEntity> comments;
+	
 	@Transient
 	public String getShowAvatar() {
 		if (avatar.startsWith("http://") || avatar.startsWith("https://")) {
