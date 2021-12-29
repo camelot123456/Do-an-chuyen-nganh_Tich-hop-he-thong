@@ -128,8 +128,7 @@ public class HomeController {
 //	---------------------------------------POST---------------------------------------
 //	https://stackjava.com/spring/redirectattributes-chuyen-tiep-trang-voi-tham-trong-spring.html
 
-	@RequestMapping(value = "/home/checkin", method = RequestMethod.POST, consumes = { "multipart/form-data",
-			"application/json" })
+	@RequestMapping(value = "/home/checkin", method = RequestMethod.POST, consumes = { "multipart/form-data", "application/json" })
 	public String doSaveInvoice(@RequestPart("invoice") InvoiceEntity invoice,
 			@RequestPart("roomType") RoomTypeEntity roomType, HttpServletRequest request) {
 		try {

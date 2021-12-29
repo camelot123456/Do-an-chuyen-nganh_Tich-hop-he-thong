@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pihotel.entity.enums.EAuthenticationProvider;
 
 import lombok.AllArgsConstructor;
@@ -77,6 +78,7 @@ public class AccountEntity extends AbstractEntity {
 	private List<RoleEntity> roles;
 
 	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+	@JsonManagedReference("invoice-account")
 	private List<InvoiceEntity> invoices;
 
 	@Transient

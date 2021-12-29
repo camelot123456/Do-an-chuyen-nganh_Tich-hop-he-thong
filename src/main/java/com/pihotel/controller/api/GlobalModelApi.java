@@ -1,8 +1,5 @@
 package com.pihotel.controller.api;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,18 +35,26 @@ public class GlobalModelApi {
 	
 	
 	@GetMapping(value = "/seo/public")
-	public List<Object[]> doSearch(@Param("keywordSearch") String keywordSearch) {
-		List<Object[]> listAll = new ArrayList<Object[]>();
+	public Object[] doSearchPublic(@Param("keywordSearch") String keywordSearch) {
 		Object[] record = new Object[] {
-//				accountServ.searchAccount(keywordSearch), 
-//				invoiceServ.searchInvoice(keywordSearch),
-//				roleServ.searchRole(keywordSearch),
 				roomServ.searchRoom(keywordSearch),
 				roomTypeServ.searchRoomType(keywordSearch),
 				serviceServ.searchService(keywordSearch)
 				};
-		listAll.add(record);
-		return listAll;
+		return record;
+	}
+	
+	@GetMapping(value = "/admin/seo/public")
+	public Object[] doSearchAdmin(@Param("keywordSearch") String keywordSearch) {
+		Object[] record = new Object[] {
+				accountServ.searchAccount(keywordSearch), 
+				invoiceServ.searchInvoice(keywordSearch),
+				roleServ.searchRole(keywordSearch),
+				roomServ.searchRoom(keywordSearch),
+				roomTypeServ.searchRoomType(keywordSearch),
+				serviceServ.searchService(keywordSearch)
+				};
+		return record;
 	}
 	
 }

@@ -207,8 +207,16 @@ public class RoomServ implements IRoomServ {
 	@Override
 	public RoomEntity update(RoomEntity room) {
 		// TODO Auto-generated method stub
-		if (!roomRepo.existsById(room.getId())) {
-			return roomRepo.save(room);
+		if (roomRepo.existsById(room.getId())) {
+			RoomEntity roomNew = roomRepo.findOneById(room.getId()); 
+			roomNew.setName(room.getName());
+			roomNew.setArea(room.getArea());
+			roomNew.setPriceIncurred(room.getPriceIncurred());
+			roomNew.setCustomersNum(room.getCustomersNum());
+			roomNew.setFloor(room.getFloor());
+			roomNew.setDescription(room.getDescription());
+			roomNew.setModifiedAt(new Date());
+			return roomRepo.save(roomNew);
 		} else
 			return null;
 	}

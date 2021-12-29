@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -50,7 +51,7 @@ public class InvoiceEntity extends AbstractEntity{
 	private String verifyRoom;
 		
 	@OneToMany(mappedBy = "invoice")
-	@JsonManagedReference
+	@JsonManagedReference("invoice-invoiceService")
 	private List<InvoiceServiceEntity> invoicesServices;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -68,6 +69,7 @@ public class InvoiceEntity extends AbstractEntity{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "[ID_ACCOUNT]")
+	@JsonBackReference("invoice-account")
 	private AccountEntity account;
 	
 	@Transient

@@ -40,7 +40,7 @@ public class ServiceEntity extends AbstractEntity{
 	private Double price;
 		
 	@OneToMany(mappedBy = "service")
-	@JsonManagedReference
+	@JsonManagedReference("service-invoiceService")
 	private List<InvoiceServiceEntity> invoicesServices;
 	
 	@Transient

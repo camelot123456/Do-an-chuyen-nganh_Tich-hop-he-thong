@@ -1,12 +1,20 @@
 <th:block layout:fragment="content" layout:decorate="~{admin/layouts/index}">
-    <div id="news"></div>
+    <div id="box-content"></div>
 
     <script>
-        var news = document.querySelector('#news');
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        var boxContent = $('#box-content');
         var content = "<h3>Đây là trang tin tức</h3><br>"
         for (let index = 0; index < 100; index++) {
             content += "<h3>Đây là trang tin tức</h3><br>";
         }
         news.innerHTML = content
+
+        var keywordNavbarSearch = $('#keyword-navbar-search')
+        var btnSearch = $('#btn-search')
+
+        
     </script>
 </th:block>

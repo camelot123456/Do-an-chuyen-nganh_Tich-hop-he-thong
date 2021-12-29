@@ -221,6 +221,11 @@ public class AccountServ implements IAccountServ, UserDetailsService {
 			account.setAuthProvider(EAuthenticationProvider.LOCAL);
 			account.setCreateAt(new Date());
 			account.setAvatar(SystemConstant.AVATAR_ACCOUNT_DEFAULT_LINK);
+			
+			List<RoleEntity> roles = new ArrayList<RoleEntity>();
+			RoleEntity role = roleRepo.findOneByCode("MEMBER");
+			roles.add(role);
+			account.setRoles(roles);
 
 			save(account);
 			senderService.sendVerificationEmail(account, siteURL);

@@ -30,12 +30,12 @@ public class InvoiceServiceEntity extends AbstractEntity {
 	
 	@ManyToOne()
 	@JoinColumn(name = "id_invoice")
-	@JsonBackReference
+	@JsonBackReference("invoice-invoiceService")
 	private InvoiceEntity invoice;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_service")
-	@JsonBackReference
+	@JsonBackReference("service-invoiceService")
 	private ServiceEntity service;
 	
 	@Column(name = "[QUANTITY]", columnDefinition = "int default 0")

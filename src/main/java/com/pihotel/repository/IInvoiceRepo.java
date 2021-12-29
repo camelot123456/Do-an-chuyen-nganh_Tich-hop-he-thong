@@ -110,7 +110,7 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			"ISNULL ((select DATEDIFF(DAY, i.[start_date], i.end_date) * rt.price  + sum(r.price_incurred) from invoice_room ir right outer join room r on ir.id_room = r.id right outer join invoice i on i.id = ir.id_invoice right outer join room_type rt on rt.id = r.id_room_type where i.id = ?1 group by i.[start_date], i.end_date, rt.price),0)) as totalAllPrice \n" + 
 			"from invoice i left join invoice_service iss \n" + 
 			"on i.id = iss.id_invoice left join [service] s \n" + 
-			"on iss.id_service = s.id inner join account a \n" + 
+			"on iss.id_service = s.id left join account a \n" + 
 			"on i.id_account = a.id inner join invoice_room ir \n" + 
 			"on i.id = ir.id_invoice left outer join room r \n" + 
 			"on r.id = ir.id_room inner join room_type rt \n" + 

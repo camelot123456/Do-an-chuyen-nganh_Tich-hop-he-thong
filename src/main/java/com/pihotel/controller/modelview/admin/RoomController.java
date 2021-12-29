@@ -126,6 +126,12 @@ public class RoomController {
 	
 //	---------------------------------------PUT---------------------------------------
 	
+	@RequestMapping(value = "/admin/room-managements/room/tran", method = RequestMethod.PUT, consumes = {"multipart/form-data", "application/json"})
+	public String doUpdateRoom(@RequestPart("room") RoomEntity room) {
+		roomServ.update(room);
+		return "redirect:/admin/room-managements/room/" + room.getId();
+	}
+	
 	@RequestMapping(value = "/admin/room-managements/room/tran/handle-cancel", method = RequestMethod.PUT, consumes = "application/json")
 	public String doCancelUpdateRoomState(@RequestBody RoomEntity room) {
 		roomServ.setRoomStateEmpty(ERoomState.EMPTY, RandomString.make(64), room.getId());

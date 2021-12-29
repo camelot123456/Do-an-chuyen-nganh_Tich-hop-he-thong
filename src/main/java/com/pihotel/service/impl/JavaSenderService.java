@@ -75,7 +75,7 @@ public class JavaSenderService implements IJavaSenderService{
 		String htmlContent = ""
 				+ "<h2 style='color: red;'>Xin chào, [[name]]</h2>"
 				+ "<br />"
-				+ "<p>Chúng tôi cần bạn xác minh email trước khi sử dụng My Account Pi Network</p>"
+				+ "<p>Chúng tôi cần bạn xác minh email trước khi sử dụng My Account COTS Hotel</p>"
 				+ "<br />"
 				+ "<p>Vui lòng nhấp vào liên kết bên dưới để xác minh đăng ký của bạn</p>"
 				+ "<a href='[[url]]' target='_self'>Xác minh</a>"
@@ -88,7 +88,6 @@ public class JavaSenderService implements IJavaSenderService{
 		helper.setFrom("nguyensybao1403@gmail.com", "Khách sạn COTS");
 		helper.setTo(account.getEmail());
 		helper.setSubject("Please verify your registration");
-		
 		String verifyURL = siteURL + "/register/verify?code=" + account.getVerificationCode();
 		
 		htmlContent = htmlContent.replace("[[name]]", account.getName());
@@ -96,7 +95,6 @@ public class JavaSenderService implements IJavaSenderService{
 		
 		message.setContent(htmlContent, "text/html; charset=UTF-8");
 		
-		mailSender.send(message);		
-		System.out.println("Mail send");
+		mailSender.send(message);
 	}
 }

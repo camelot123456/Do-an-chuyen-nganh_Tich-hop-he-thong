@@ -16,13 +16,13 @@
                     <p>[[${room_type.price}]] $</p>
                     <p>[[${room_type.description}]]</p>
                 </div>
-                <div class="vstack gap-1 w-50 d-flex align-items-start border rounded-3 shadow bg-light p-3">
+                <form class="vstack gap-1 w-50 d-flex align-items-start border rounded-3 shadow bg-light p-3" id="form-room" enctype="multipart/form-data">
                     <h5 class="text-primary text-uppercase">Thông tin phòng</h5>
                     <hr>
                     <div class="vstack gap-3">
                         <div class="hstack gap-3">
                             <div class="form-floating w-50 ">
-                                <input type="hidden" name="idRoom" id="idRoom">
+                                <input type="hidden" name="idRoom" id="idRoom" th:value="${room.id}">
                                 <input type="text" class="form-control" id="id" placeholder="Mã phòng"
                                     th:value="${room.id}" name="id" disabled>
                                 <label for="id">Mã phòng</label>
@@ -61,16 +61,16 @@
                         <div class="hstack gap-3">
                             <div class="vstack gap-3 p-3 border rounded-3 bg-light">
                                 <label for="description">Mô tả</label>
-                                <textarea class="form-control" style="height: 100px" name="description" id="description"
-                                    th:value="${room.description}"></textarea>
+                                <textarea class="form-control" style="height: 100px" name="description" id="description" 
+                                    th:text="${room.description}"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="hstack gap-3 d-flex justify-content-end mt-auto">
-                        <button class="btn btn-danger">Xóa</button>
-                        <button class="btn btn-success">Lưu</button>
+                        <button class="btn btn-danger" id="btn-delele">Xóa</button>
+                        <button class="btn btn-success" id="btn-update">Cập nhập</button>
                     </div>
-                </div>
+                </form>
             </div>
             <div class="hstack gap-3">
                 <div class="vstack gap-1 w-50  border rounded-3 shadow bg-light p-3">
@@ -176,6 +176,54 @@
     <script>
         var $ = document.querySelector.bind(document)
         var $$ = document.querySelectorAll.bind(document)
+
+        var btnUpdate = $('#btn-update')
+        var btnDelete = $('#btn-delete')
+        var formRoom = $('#form-room')
+
+        //Tạo hàm gọi api
+        function fetchAPI(url, method, body) {
+            fetch(url, {
+                method: method,
+                body: body
+            })
+                .then(resp => {
+                    if (resp.status === 200) {
+                        if (resp.redirected) {
+                            window.location.href = resp.url;
+                        }
+                    } else {
+                        alert("Fail Validate!")
+                    }
+                })
+                .catch(err => {
+                    alert("Error!")
+                })
+        }
+
+        btnUpdate.addEventListener('click', (e) => {
+            e.preventDefault();
+            var formData = new FormData(formRoom)
+
+            formData.append('room', new Blob([
+                JSON.stringify({
+                    'id': formData.get('idRoom'),
+                    'name': formData.get('name'),
+                    'area': formData.get('area'),
+                    'priceIncurred': formData.get('priceIncurred'),
+                    'floor': formData.get('floor'),
+                    'customersNum': formData.get('customersNum'),
+                    'description': formData.get('description')
+                })
+            ], {
+                type: "application/json"
+            }))
+
+            fetchAPI(
+                '/admin/room-managements/room/tran',
+                'PUT',
+                formData)
+        })
 
     </script>
 </th:block>
