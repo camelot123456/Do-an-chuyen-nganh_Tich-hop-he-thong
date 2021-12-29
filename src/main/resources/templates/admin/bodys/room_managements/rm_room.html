@@ -260,7 +260,6 @@
 
         var countEmpty = countRepair = countUsing = countCheckin = countCheckout = countDeposit = 0
         features.forEach((element) => {
-            console.log(element.id)
             if (element.title == 'EMPTY') {
                 element.parentElement.style.backgroundColor = '#0d6efd'
                 countEmpty++
@@ -351,7 +350,6 @@
                 var k = confirm("Bạn có muốn hủy phòng này không?")
                 if (k) {
                     fetchAPI(`/admin/room-managements/room/tran/handle-cancel`, `PUT`, room)
-                    console.log(room)
                 } else return
             })
         })

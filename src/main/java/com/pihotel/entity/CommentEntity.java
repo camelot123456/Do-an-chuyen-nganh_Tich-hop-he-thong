@@ -6,6 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -44,5 +45,14 @@ public class CommentEntity extends AbstractEntity{
 	@JoinColumn(name = "[ID_ROOM]")
 	@JsonBackReference("comment-room")
 	private RoomEntity room;
+	
+	@Transient
+	private String idAccount;
+	
+	@Transient
+	private String idRoom;
+	
+	@Column(name = "verify_comment", columnDefinition = "varchar(64)")
+	private String verifyComment;
 	
 }

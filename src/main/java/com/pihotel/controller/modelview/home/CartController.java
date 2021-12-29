@@ -43,7 +43,7 @@ public class CartController {
 	public String showCart(Model model, @Param("idCustomer") String idCustomer) {
 		model.addAttribute(SystemConstant.CUSTOMER, accountServ.findOneById(idCustomer));		
 		model.addAttribute(SystemConstant.CARTS, invoiceServ.findAllByIdCustomerRoomState(idCustomer, "CHECKIN"));
-		model.addAttribute(SystemConstant.CARTS_HISTORY, invoiceServ.findAllByIdCustomerRoomState(idCustomer, "USING"));
+		model.addAttribute(SystemConstant.CARTS_HISTORY, invoiceServ.findAllByIdCustomer(idCustomer));
 		return "home/bodys/cart/cart";
 	}
 

@@ -14,6 +14,7 @@ import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.CommentEntity;
 import com.pihotel.entity.InvoiceEntity;
+import com.pihotel.entity.InvoiceServiceEntity;
 import com.pihotel.entity.RoomEntity;
 import com.pihotel.entity.custom.BillCustom;
 import com.pihotel.entity.enums.EAuthenticationProvider;
@@ -21,6 +22,7 @@ import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.repository.IAccountRepo;
 import com.pihotel.repository.ICommentRepo;
 import com.pihotel.repository.IInvoiceRepo;
+import com.pihotel.repository.IInvoicesServicesRepo;
 import com.pihotel.repository.IRoomRepo;
 import com.pihotel.service.IInvoiceServ;
 
@@ -41,6 +43,9 @@ public class InvoiceServ implements IInvoiceServ {
 	
 	@Autowired
 	private ICommentRepo commentRepo;
+	
+	@Autowired
+	private IInvoicesServicesRepo invoiceServiceRepo;
 
 //	---------------------------------------SELECT---------------------------------------
 
@@ -97,6 +102,27 @@ public class InvoiceServ implements IInvoiceServ {
 	}
 
 	@Override
+	public List<InvoiceEntity> findAllByIdCustomer(String idCustomer) {
+		List<Object[]> invoiceArray = invoiceRepo.findAllByIdCustomer(idCustomer);
+		List<InvoiceEntity> invoiceNew = null;
+		if (invoiceArray.size() > 0) {
+			invoiceNew = new ArrayList<InvoiceEntity>();
+			for (Object[] invoiceDetail : invoiceArray) {
+				InvoiceEntity invoice = new InvoiceEntity();
+				invoice.setId((String) invoiceDetail[0]);
+				invoice.setAdults((Integer) invoiceDetail[9]);
+				invoice.setChildren((Integer) invoiceDetail[10]);
+				invoice.setEndDate((Date) invoiceDetail[11]);
+				invoice.setStartDate((Date) invoiceDetail[12]);
+				invoice.setIdRoomType((String) invoiceDetail[16]);
+				invoice.setTotalPriceIncurred((Double) invoiceDetail[17]);
+				invoice.setTotalPriceAll((Double) invoiceDetail[18]);
+				invoiceNew.add(invoice);
+			}
+		}
+		return invoiceNew;
+	}
+	
 	public List<InvoiceEntity> findAllByIdCustomerRoomState(String idCustomer, String roomState) {
 		List<Object[]> invoiceArray = invoiceRepo.findAllByIdCustomerRoomState(idCustomer, roomState);
 		List<InvoiceEntity> invoiceNew = null;
@@ -109,9 +135,9 @@ public class InvoiceServ implements IInvoiceServ {
 				invoice.setChildren((Integer) invoiceDetail[10]);
 				invoice.setEndDate((Date) invoiceDetail[11]);
 				invoice.setStartDate((Date) invoiceDetail[12]);
-				invoice.setIdRoomType((String) invoiceDetail[15]);
-				invoice.setTotalPriceIncurred((Double) invoiceDetail[16]);
-				invoice.setTotalPriceAll((Double) invoiceDetail[17]);
+				invoice.setIdRoomType((String) invoiceDetail[16]);
+				invoice.setTotalPriceIncurred((Double) invoiceDetail[17]);
+				invoice.setTotalPriceAll((Double) invoiceDetail[18]);
 				invoiceNew.add(invoice);
 			}
 		}
@@ -231,6 +257,7 @@ public class InvoiceServ implements IInvoiceServ {
 	public String handleInvoicePaid(AccountEntity customer, InvoiceEntity invoice, HttpServletRequest request) {
 		AccountEntity accountCustomer = (AccountEntity) request.getSession().getAttribute("account");
 		String verify_room = RandomString.make(64);
+		String verify_comment = RandomString.make(64);
 		
 		if (accountCustomer == null) {
 			AccountEntity customerNew = null;
@@ -253,24 +280,12 @@ public class InvoiceServ implements IInvoiceServ {
 				room.setRoomState(ERoomState.USING);
 			});
 			this.update(invoiceNew);
-			
-			// Handle comments
-			for(RoomEntity room : invoiceNew.getRooms()) {
-				CommentEntity comment = new CommentEntity();
-				comment.setId(RandomString.make(12));
-				comment.setCreateAt(new Date());
-				comment.setModifiedAt(new Date());
-				comment.setCommented(Boolean.FALSE);
-				comment.setRoom(roomRepo.findOneById(room.getId()));
-				comment.setAccount(accountRepo.findOneById(customerNew.getId()));
-				commentRepo.save(comment);
-			}
-			
 			return "redirect:/home/thanks";
 		} else {
 			InvoiceEntity invoiceNew = this.findOneById(invoice.getId(), Boolean.FALSE);
 			invoiceNew.setAccount(accountCustomer);
 			invoiceNew.setVerifyRoom(verify_room);
+			invoiceNew.setVerifyComment(verify_comment);
 			invoiceNew.getRooms().forEach(room -> {
 				room.setVerifyRoom(verify_room);
 				room.setRoomState(ERoomState.USING);
@@ -282,6 +297,7 @@ public class InvoiceServ implements IInvoiceServ {
 			for(RoomEntity room : invoiceNew.getRooms()) {
 				CommentEntity comment = new CommentEntity();
 				comment.setId(RandomString.make(12));
+				comment.setVerifyComment(verify_comment);
 				comment.setCreateAt(new Date());
 				comment.setModifiedAt(new Date());
 				comment.setCommented(Boolean.FALSE);
@@ -300,6 +316,12 @@ public class InvoiceServ implements IInvoiceServ {
 	public void delete(String[] ids) {
 		// TODO Auto-generated method stub
 		for (String id : ids) {
+			InvoiceEntity invoice = invoiceRepo.findOneById(id, Boolean.TRUE);
+			invoice.setAccount(null);
+			for (InvoiceServiceEntity invoiceSerivce : invoice.getInvoicesServices()) {
+				invoiceServiceRepo.deleteById(invoiceSerivce.getId());
+			}
+			invoice.getRooms().clear();
 			invoiceRepo.deleteById(id);
 		}
 	}

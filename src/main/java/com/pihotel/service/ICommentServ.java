@@ -18,4 +18,10 @@ public interface ICommentServ {
 	
 	public void deleteById(String id);
 	
+	public List<CommentEntity> findAllByIdInvoice(String idInvoice);
+	
+	public List<CommentEntity> findAllByIdRoomTypeAndVerify(String idRoomType);
+	
+	public List<CommentEntity> findAllByIdRoomType(String idRoomType);
+	
 }

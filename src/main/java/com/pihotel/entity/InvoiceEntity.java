@@ -87,6 +87,9 @@ public class InvoiceEntity extends AbstractEntity{
 	@Transient
 	private Double totalPriceIncurred;
 	
+	@Column(name = "verify_comment", columnDefinition = "varchar(64)")
+	private String verifyComment;
+	
 }
 
 //	@ManyToMany(fetch = FetchType.LAZY)

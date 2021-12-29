@@ -173,8 +173,8 @@ public interface IAccountRepo extends JpaRepository<AccountEntity, String>{
 	
 //	new query
 	@Query(value = "select distinct a.* "
-			+ "from invoice i inner join invoice_service iss "
-			+ "on i.id = iss.id_invoice inner join [service] s "
+			+ "from invoice i left join invoice_service iss "
+			+ "on i.id = iss.id_invoice left join [service] s "
 			+ "on iss.id_service = s.id inner join account a "
 			+ "on i.id_account = a.id inner join invoice_room ir "
 			+ "on i.id = ir.id_invoice inner join room r "

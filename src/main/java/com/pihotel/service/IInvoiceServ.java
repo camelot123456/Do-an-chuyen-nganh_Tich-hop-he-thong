@@ -28,6 +28,8 @@ public interface IInvoiceServ {
 	
 	public List<InvoiceEntity> findAllPaidInvoices(Boolean isPaid);
 	
+	public List<InvoiceEntity> findAllByIdCustomer(String idCustomer);
+	
 	public List<InvoiceEntity> findAllByIdCustomerRoomState(String idCustomer, String roomState);
 	
 	public InvoiceEntity findOneByVerifyRoom(String verifyRoom);

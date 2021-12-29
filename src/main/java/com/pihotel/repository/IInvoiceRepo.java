@@ -38,9 +38,22 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			+ "where i.id_account = ?1 and r.room_state = ?2 "
 			+ "group by rt.price, i.id, i.create_at, i.create_by, i.delete_at, i.delete_by, "
 			+ "i.deleted, i.[enabled], i.modified_at, i.modified_by, i.adults, i.children, "
-			+ "i.end_date, i.[start_date], i.id_account, rt.id, i.verify_room",
+			+ "i.end_date, i.[start_date], i.id_account, rt.id, i.verify_room, i.verify_comment",
 			nativeQuery = true)
-	public List<Object[]> findAllByIdCustomerRoomState(String idCustomer, String roomstate);
+	public List<Object[]> findAllByIdCustomerRoomState(String idCustomer, String roomState);
+	
+	@Query(value = "select distinct i.*, rt.id as idRoomType, "
+			+ "sum(r.price_incurred) as totalPriceIncurred, (sum(r.price_incurred) + rt.price) as totalPriceAll "
+			+ "from invoice i inner join invoice_room ir "
+			+ "on i.id = ir.id_invoice inner join room r "
+			+ "on ir.id_room = r.id inner join room_type rt "
+			+ "on r.id_room_type = rt.id "
+			+ "where i.id_account = ?1 "
+			+ "group by rt.price, i.id, i.create_at, i.create_by, i.delete_at, i.delete_by, "
+			+ "i.deleted, i.[enabled], i.modified_at, i.modified_by, i.adults, i.children, "
+			+ "i.end_date, i.[start_date], i.id_account, rt.id, i.verify_room, i.verify_comment",
+			nativeQuery = true)
+	public List<Object[]> findAllByIdCustomer(String idCustomer);
 	
 	@Query(value = "select i.id, i.[start_date], i.end_date, i.adults, i.children, rt.id as idRoomType, "
 			+ "a.id as idAccount, a.phone_num as phoneNum, (sum(r.price_incurred) + rt.price) as totalPriceAll "
@@ -50,7 +63,7 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			+ "on r.id_room_type = rt.id inner join account a "
 			+ "on i.id_account = a.id "
 			+ "where i.[enabled] = ?1 "
-			+ "group by i.id,  i.[start_date], i.end_date, i.adults, i.children, rt.id, i.id_account, rt.price, a.id,  a.phone_num, i.verify_room",
+			+ "group by i.id,  i.[start_date], i.end_date, i.adults, i.children, rt.id, i.id_account, rt.price, a.id,  a.phone_num, i.verify_room, i.verify_comment",
 			nativeQuery = true)
 	public List<Object[]> findAllPaidInvoices(Boolean isPaid);
 	
@@ -115,7 +128,7 @@ public interface IInvoiceRepo extends JpaRepository<InvoiceEntity, String>{
 			"on i.id = ir.id_invoice left outer join room r \n" + 
 			"on r.id = ir.id_room inner join room_type rt \n" + 
 			"on rt.id = r.id_room_type \n" + 
-			"where i.id = ?1 and r.verify_room = i.verify_room and i.[enabled] = ?2 \n" + 
+			"where i.id = ?1 and i.[enabled] = ?2 \n" + 
 			"group by rt.price , i.[start_date], i.end_date, i.id",
 			nativeQuery = true)
 	public List<Object[]> findOneBillCustomByIdInvoice(String idInvoice, Boolean isPaid);

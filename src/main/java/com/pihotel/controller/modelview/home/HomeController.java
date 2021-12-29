@@ -17,10 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.entity.AccountEntity;
+import com.pihotel.entity.CommentEntity;
 import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.entity.RoomTypeEntity;
 import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.service.IAccountServ;
+import com.pihotel.service.ICommentServ;
 import com.pihotel.service.IInvoiceServ;
 import com.pihotel.service.IRoomServ;
 import com.pihotel.service.IRoomTypeServ;
@@ -45,6 +47,9 @@ public class HomeController {
 
 	@Autowired
 	private IRoomServ roomServ;
+	
+	@Autowired
+	private ICommentServ commentServ;
 
 //	---------------------------------------GET---------------------------------------	
 
@@ -68,6 +73,7 @@ public class HomeController {
 	public String showDetailRoom(Model model, @PathVariable("id") String id) {
 		model.addAttribute(SystemConstant.ROOM_TYPE, roomTypeServ.findOneById(id));
 		model.addAttribute("ID_INVOICE", RandomString.make(12));
+		model.addAttribute(SystemConstant.COMMENTS, commentServ.findAllByIdRoomType(id));
 		return "home/bodys/detail_room";
 	}
 
@@ -142,6 +148,16 @@ public class HomeController {
 
 //	---------------------------------------PUT---------------------------------------
 
+	@RequestMapping(value = "/home/comment/tran", method = RequestMethod.PUT, consumes = {
+			"multipart/form-data", "application/json" })
+	public String doUpdateComment(@RequestPart("invoice") InvoiceEntity invoice,
+			@RequestPart("roomType") RoomTypeEntity roomType,
+			@RequestPart("comment") CommentEntity comment) {
+		comment.setCommented(Boolean.TRUE);
+		commentServ.update(comment);
+		return "redirect:/home/checkin/invoice/history?idRoomType=" + roomType.getId() + "&idInvoice=" + invoice.getId();
+	}
+	
 	@RequestMapping(value = "/profile/tran", method = RequestMethod.PUT, consumes = {
 			"multipart/form-data", "application/json" })
 	public String doUpdateProfile(@RequestPart("account") AccountEntity account,

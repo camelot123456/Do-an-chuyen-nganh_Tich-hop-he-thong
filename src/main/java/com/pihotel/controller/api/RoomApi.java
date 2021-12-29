@@ -45,8 +45,8 @@ public class RoomApi {
 	}
 	
 	@GetMapping(value = "/room/room-show-admin")
-	public ResponseEntity<List<RoomEntity>> showAdmin(){
-		return ResponseEntity.ok().body(roomServ.findAllShowRoom());
+	public List<RoomEntity> showAdmin(){
+		return roomServ.findAllShowRoom();
 	}
 	
 	@GetMapping(value = "/room/{id}")

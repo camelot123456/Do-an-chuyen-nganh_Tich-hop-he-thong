@@ -8,7 +8,7 @@
                 <h3 class="text-decoration-underline">CHI TIẾT HÓA ĐƠN</h3>
                 <h5>Phòng được chọn</h5>
                 <p>Mã hóa đơn: [[${invoice.id}]]</p>
-                <input type="hidden" th:value="${invoice.id}" name="id-invoice">
+                <input type="hidden" th:value="${invoice.id}" name="id-invoice" id="id-invoice">
                 <input type="hidden" th:value="${room_type.id}" name="id-room-type">
                 <div class="hstack gap-3 mt-4">
                     <div style="width: 40%">
@@ -138,7 +138,7 @@
             <div class="vstack gap-3 p-3 border rounded bg-light" style="width: 65%">
                 <h3 class="text-decoration-underline">THÔNG TIN CÁ NHÂN</h3>
                 <h5 class="mt-4">Đơn đặt phòng</h5>
-
+                <input type="hidden" id="avatar" th:value="${customer.getShowAvatar()}">
                 <div class="hstack gap-3">
                     <div class="form-floating w-50">
                         <input type="text" class="form-control" id="name" placeholder="Họ & tên" name="name" required
@@ -199,30 +199,9 @@
 
 
                 <div>
-                    <h3 class="text-decoration-underline mb-4">ĐÁNH GIÁ</h3>
-
-                    <div class="overflow-auto" style="height: 400px;">
-                        <th:block th:each="i : ${#numbers.sequence(1, 5)}">
-                            <div class="list-group">
-                                <div class="list-group-item list-group-item-action hstack gap-3" aria-current="true">
-                                    <img class="rounded-circle" style="width: 80px;"
-                                        src="https://hoc24.vn/images/avt/avt6384329_256by256.jpg" alt="">
-                                    <div class=" w-100">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h5 class="mb-1">Lee Min Hoo</h5>
-                                            <small>3 days ago</small>
-                                        </div>
-                                        <p class="mb-1">Phòng rộng sạch đẹp Thoáng mát, xứng đáng 5 sao nhé :))</p>
-                                        <div class="text-warning">
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                        </th:block>
+                    <h3 class="text-decoration-underline mt-4">NHẬN XÉT</h3>
+                    <div class="vstack gap-3" id="box-comment">
+                        <!-- code javascript side -->
                     </div>
                 </div>
             </div>
@@ -237,7 +216,7 @@
         var numServices = Array.from($$('#num-service'))
 
         var formSelectgender = $('.form-select-gender')
-        var accountGender = $('#account-gender')
+        var accountGender = $('#customer-gender')
 
         if (accountGender.value == 'true') {
             formSelectgender.selectedIndex = '1'
@@ -266,25 +245,42 @@
         }
 
         var formInvoice = $('#form-invoice')
-        var btnDeleteInvoice = $('#btn-delete-invoice')
 
-        btnDeleteInvoice.addEventListener('click', (e) => {
-            e.preventDefault()
-            var k = confirm('Bạn muốn xóa hóa đơn này không?')
-            if (k) {
-                var formData = new FormData(formInvoice);
-                var ids = [];
+        // Show comment
+        var boxComment = $('#box-comment')
 
-                ids.push(formData.get('id-invoice'))
+        fetch(`/api/comment?idInvoice=${$('#id-invoice').value}`)
+            .then(resp => resp.json())
+            .then(comments => {
+                comments.map((comment, i) => {
+                    if (comment.commented) {
+                        boxComment.innerHTML += `
+                    <div class="list-group overflow-auto">
+                        <div class="list-group-item list-group-item-action hstack gap-3" aria-current="true">
+                            <img class="rounded-circle" style="width: 80px;"
+                                src="${$('#avatar').value}" alt="">
+                            <div class=" w-100">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">${$('#name').value}</h5>
+                                    <div class="text-warning">
+                                        ${comment.rate / 2} <i class="fa fa-star" aria-hidden="true"></i> / 5 <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>    
+                                </div>
+                                <p class="mb-1">${comment.comment}</p>
+                                <div class="d-flex justify-content-between">
+                                    <span class="badge bg-secondary">${comment.idRoom}</span>
+                                    <small>${comment.modifiedAt}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+                    } 
+                    if(comments.length == 0) {
+                        boxComment.innerHTML += `Chưa có nhận xét`
+                    }
 
-                formData.append('invoice', new Blob([JSON.stringify({
-                    'ids': ids,
-                    'idAccount': formData.get('id-customer'),
-                })], { type: 'application/json' }))
-
-                fetchAPI(`/home/checkin/handle-del-invoice`, 'DELETE', formData)
-            } else return
-        })
+                })
+            })
 
     </script>
 </th:block>

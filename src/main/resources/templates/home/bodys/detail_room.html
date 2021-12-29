@@ -53,10 +53,6 @@
                         aria-selected="true">Mô tả</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="result-tab" data-bs-toggle="tab" data-bs-target="#result" type="button"
-                        role="tab" aria-controls="result" aria-selected="false">Nhận xét</button>
-                </li>
-                <li class="nav-item" role="presentation">
                     <button class="nav-link" id="other-tab" data-bs-toggle="tab" data-bs-target="#other" type="button"
                         role="tab" aria-controls="other" aria-selected="false">Phòng khác</button>
                 </li>
@@ -64,31 +60,31 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="description" role="tabpanel"
                     aria-labelledby="description-tab">
+                    <h5>Mô tả</h5>
                     <p>[[${room_type.description}]]</p>
-                </div>
-
-                <div class="tab-pane fade" id="result" role="tabpanel" aria-labelledby="result-tab">
-                    <div class="list-group overflow-auto">
-                        <div class="list-group-item list-group-item-action hstack gap-3" aria-current="true">
-                            <img class="rounded-circle" style="width: 80px;"
-                                src="https://hoc24.vn/images/avt/avt6384329_256by256.jpg" alt="">
-                            <div class=" w-100">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">Lee Min Hoo</h5>
-                                    <small>3 days ago</small>
-                                </div>
-                                <p class="mb-1">Phòng rộng sạch đẹp Thoáng mát, xứng đáng 5 sao nhé :))</p>
-                                <div class="text-warning">
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                    <hr>
+                    <h5>Nhận xét</h5>
+                    <div class="list-group overflow-auto" style="height: 600px">
+                        <th:block th:each="comment, state : ${comments}">
+                            <div class="list-group-item list-group-item-action hstack gap-3" aria-current="true">
+                                <img class="rounded-circle" style="width: 80px;"
+                                    th:src="${comment.account.getShowAvatar()}" alt="">
+                                <div class=" w-100">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">[[${comment.account.name}]]</h5>
+                                        <div class="text-warning">
+                                            [[${comment.rate} / 2]] <i class="fa fa-star" aria-hidden="true"></i> / 5 <i class="fa fa-star" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <p class="mb-1">[[${comment.comment}]]</p>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="badge bg-secondary">[[${comment.room.id}]]</span>
+                                        <small>[[${comment.modifiedAt}]]</small>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </th:block>
                     </div>
-
                 </div>
 
                 <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">...</div>

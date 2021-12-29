@@ -8,7 +8,7 @@
                 <h3 class="text-decoration-underline">CHI TIẾT HÓA ĐƠN</h3>
                 <h5>Phòng được chọn</h5>
                 <p>Mã hóa đơn: [[${invoice.id}]]</p>
-                <input type="hidden" th:value="${invoice.id}" name="id-invoice">
+                <input type="hidden" th:value="${invoice.id}" name="id-invoice" id="id-invoice">
                 <input type="hidden" th:value="${room_type.id}" name="id-room-type">
                 <div class="hstack gap-3 mt-4">
                     <div style="width: 40%">
@@ -83,7 +83,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Tên</th>
                                 <th scope="col">Số lượng</th>
-                                <th scope="col" >Giá</th>
+                                <th scope="col">Giá</th>
                                 <th scope="col" class="text-end">Thành tiền</th>
                             </tr>
                         </thead>
@@ -138,7 +138,7 @@
             <div class="vstack gap-3 p-3 border rounded bg-light" style="width: 65%">
                 <h3 class="text-decoration-underline">THÔNG TIN CÁ NHÂN</h3>
                 <h5 class="mt-4">Đơn đặt phòng</h5>
-
+                <input type="hidden" id="avatar" th:value="${customer.avatar}">
                 <div class="hstack gap-3">
                     <div class="form-floating w-50">
                         <input type="text" class="form-control" id="name" placeholder="Họ & tên" name="name" required
@@ -204,24 +204,9 @@
                         Bạn đã thanh toán hóa đơn này
                     </div>
 
-                    <div class="vstack gap-3">
-                        <div></div>
-                        <div class="hstack gap-3">
-                            <a href="#">
-                                <img style="width:50px;" class="rounded-circle" th:src="${customer.avatar}" alt="">
-                            </a>
-                            <textarea type="text" class="form-control form-control-sm"></textarea>
-                            <input type="number" class="form-control form-control-sm"> <i class="fa fa-star" aria-hidden="true"></i>
-                            <!-- <div class="text-warning" style="min-width: 100px;">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div> -->
-                            <button type="button" style="min-width: 100px;" class="btn btn-primary btn-sm">Đánh
-                                giá</button>
-                        </div>
+                    <h3 class="text-decoration-underline mt-4">NHẬN XÉT</h3>
+                    <div class="vstack gap-3" id="box-comment">
+                        <!-- code javascript side -->
                     </div>
 
                     <div class="hstack gap-3 d-flex justify-content-end mt-4">
@@ -289,6 +274,92 @@
                 fetchAPI(`/home/checkin/handle-del-invoice`, 'DELETE', formData)
             } else return
         })
+
+        var boxComment = $('#box-comment')
+
+        fetch(`/api/comment?idInvoice=${$('#id-invoice').value}`)
+            .then(resp => resp.json())
+            .then(comments => {
+                comments.map((comment, i) => {
+                    if (comment.commented) {
+                        boxComment.innerHTML += `
+                    <div class="list-group overflow-auto">
+                        <div class="list-group-item list-group-item-action hstack gap-3" aria-current="true">
+                            <img class="rounded-circle" style="width: 80px;"
+                                src="${$('#avatar').value}" alt="">
+                            <div class=" w-100">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">${$('#name').value}</h5>
+                                    <div class="text-warning">
+                                        ${comment.rate / 2} <i class="fa fa-star" aria-hidden="true"></i> / 5 <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>    
+                                </div>
+                                <p class="mb-1">${comment.comment}</p>
+                                <div class="d-flex justify-content-between">
+                                    <span class="badge bg-secondary">${comment.idRoom}</span>
+                                    <small>${comment.modifiedAt}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+                    } else {
+                        boxComment.innerHTML += `
+                    <div class="list-group overflow-auto">
+                        <div class="list-group-item list-group-item-action hstack gap-3" aria-current="true">
+                            <img class="rounded-circle" style="width: 80px;"
+                                src="${$('#avatar').value}" alt="">
+                            <div class=" w-100 vstack gap-1">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">${$('#name').value}</h5>
+                                    <small>${comment.createAt}</small>
+                                </div>
+                                <div class="d-flex justify-content-between hstack gap-3">
+                                    <textarea type="text" class="form-control form-control-sm me-auto edt-comment" style="height: 30px; width: 75%"></textarea>
+                                    <div class="text-warning hstack gap-1" style="width: 25%">
+                                        <input type="number" class="form-control form-control-sm edt-rate" max="10" min="0" style="max-width: 50px;">  <i class="fa fa-star" aria-hidden="true"></i> / 5 <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>     
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="badge bg-secondary">${comment.idRoom}</span>
+                                    <button type="button" style="min-width: 100px;" class="btn btn-primary btn-sm btn-comment" id="${comment.id}">Đánh giá</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+
+
+                    }
+
+                })
+
+                var btnComments = Array.from($$('.btn-comment'))
+                var edtComments = Array.from($$('.edt-comment'))
+                var edtRates = Array.from($$('.edt-rate'))
+
+                btnComments.forEach((element, i) => {
+                    element.addEventListener('click', (e) => {
+                        e.preventDefault()
+
+                        var formData = new FormData(formInvoice)
+
+                        formData.append('invoice', new Blob([JSON.stringify({
+                            'id': formData.get('id-invoice')
+                        })], {type: 'application/json'}))
+
+                        formData.append('roomType', new Blob([JSON.stringify({
+                            'id': formData.get('id-room-type')
+                        })], {type: 'application/json'}))
+
+                        formData.append('comment', new Blob([JSON.stringify({
+                            'id': element.id,
+                            'comment': edtComments[i].value,
+                            'rate': edtRates[i].value
+                        })], {type: 'application/json'}))
+
+                        fetchAPI(`/home/comment/tran`, `PUT`, formData)
+                    })
+                })
+            })
 
     </script>
 </th:block>

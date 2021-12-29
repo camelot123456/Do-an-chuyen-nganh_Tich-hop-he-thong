@@ -214,7 +214,7 @@
                 <h5 class="mt-4">Danh sách các dịch vụ hỗ trợ khách hàng</h5>
 
                 <div class="vstack gap-1">
-                    <div class="overflow-scroll" style="height: 360px;">
+                    <div class="overflow-scroll" style="height: 600px;">
                         <th:block th:each="service, state : ${services}">
                             <div class="hstack gap-1 border p-2 service-box">
                                 <a href="#" style="width: 25%" class="align-self-start">
@@ -242,6 +242,10 @@
                 <div>
                     <h3 class="text-decoration-underline">PHƯƠNG THỨC THANH TOÁN</h3>
                     <h5 class="mt-4">Lựa chọn hình thức thanh toán</h5>
+
+                    <div class="alert alert-danger mt-4" role="alert">
+                        Bạn chưa thanh toán hóa đơn này
+                    </div>
 
                     <select class="form-select form-select-sm" id="form-select-paypal"
                         aria-label="Default select example">

@@ -42,6 +42,9 @@ public class SystemConstant {
 	public static final String CARTS_HISTORY = "carts_history";
 	public static final String CARTS = "carts";
 	
+	public static final String COMMENTS = "comments";
+	public static final String COMMENT = "comment";
+	
 	public static final String BILL_CUSTOM = "bill_custom";
 	
 }

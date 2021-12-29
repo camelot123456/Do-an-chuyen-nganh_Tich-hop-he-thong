@@ -17,6 +17,7 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pihotel.entity.enums.ERoomState;
 
 import lombok.AllArgsConstructor;
@@ -71,6 +72,7 @@ public class RoomEntity extends AbstractEntity{
 	private List<InvoiceEntity> invoices;
 	
 	@OneToMany(mappedBy = "room")
+	@JsonManagedReference("comment-room")
 	private List<CommentEntity> comments;
 	
 	@Transient

@@ -90,7 +90,7 @@ public class RoomServ implements IRoomServ {
 	public List<RoomEntity> findAllShowRoom() {
 		List<Object[]> rooms = roomRepo.findAllShowRoom();
 		List<RoomEntity> roomsNew = null;
-		if (rooms.size() > 1) {
+		if (rooms.size() > 0) {
 			roomsNew = new ArrayList<RoomEntity>();
 			for (Object[] col : rooms) {
 				RoomEntity room = new RoomEntity();

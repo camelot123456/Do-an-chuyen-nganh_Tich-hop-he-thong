@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.pihotel.constant.SystemConstant;
 import com.pihotel.service.IAccountServ;
+import com.pihotel.service.ICommentServ;
 import com.pihotel.service.IInvoiceServ;
 import com.pihotel.service.IRoomServ;
 import com.pihotel.service.IRoomTypeServ;
@@ -30,6 +31,9 @@ public class InvoiceController {
 	
 	@Autowired
 	private IRoomServ roomServ;
+	
+	@Autowired
+	private ICommentServ commentServ;
 
 //	---------------------------------------GET---------------------------------------		
 	
@@ -50,6 +54,7 @@ public class InvoiceController {
 		model.addAttribute(SystemConstant.ROOM_TYPE, roomTypeServ.findOneByIdInvoice(idInvoice, Boolean.TRUE));
 		model.addAttribute(SystemConstant.SERVICES, serviceServ.findAllByIdInvoice(idInvoice, Boolean.TRUE));
 		model.addAttribute(SystemConstant.ROOMS, roomServ.findAllByIdInvoice(idInvoice, Boolean.TRUE));
+		model.addAttribute(SystemConstant.COMMENTS, commentServ.findAllByIdRoomTypeAndVerify(idInvoice));
 		return "admin/bodys/invoice_managements/im_detail_invoice";
 	}
 	
