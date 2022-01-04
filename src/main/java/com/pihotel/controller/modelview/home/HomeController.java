@@ -2,6 +2,8 @@ package com.pihotel.controller.modelview.home;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -67,6 +69,12 @@ public class HomeController {
 	public String showRoomTypeList(Model model) {
 		model.addAttribute(SystemConstant.ROOMS_TYPE, roomTypeServ.findAllWithTotalRoom());
 		return "home/bodys/room_list";
+	}
+	
+	@RequestMapping(value = "/monitor")
+	public String showMonitor(@Param("id") String id, Model model) {
+		model.addAttribute("NOW_DATE", new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+		return "home/bodys/monitor/monitor";
 	}
 
 	@RequestMapping(value = "/home/room/detail/{id}")

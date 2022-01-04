@@ -58,8 +58,8 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#" th:text="${session.account.name}"></a></li>
                         <li><a class="dropdown-item" th:href="@{'/profile?id='+${session.account.id}}">Hồ sơ</a></li>
+                        <li><a class="dropdown-item" th:href="@{'/monitor?id='+${session.account.id}}">Giám sát</a></li>
                         <li><a class="dropdown-item" href="#">Cài đặt</a></li>
-                        <li><a class="dropdown-item" href="#">Blog</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
