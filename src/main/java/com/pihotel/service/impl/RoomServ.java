@@ -19,6 +19,7 @@ import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.entity.InvoiceServiceEntity;
 import com.pihotel.entity.RoomEntity;
 import com.pihotel.entity.ServiceEntity;
+import com.pihotel.entity.custom.RoomMonitorCustom;
 import com.pihotel.entity.enums.EAuthenticationProvider;
 import com.pihotel.entity.enums.ERoomState;
 import com.pihotel.repository.IAccountRepo;
@@ -142,7 +143,39 @@ public class RoomServ implements IRoomServ {
 	public List<RoomEntity> searchRoom(String keyword) {
 		return roomRepo.searchRoom(keyword);
 	}
-
+	
+	@Override
+	public List<RoomMonitorCustom> findAllByIdAccount(String idAccount) {
+		List<Object[]> rooms = roomRepo.findAllByIdAccount(idAccount);
+		List<RoomMonitorCustom> roomMonitorCustoms = null;
+		if (rooms.size() > 0) {
+			roomMonitorCustoms = new ArrayList<RoomMonitorCustom>();
+			for (Object[] record : rooms) {
+				RoomMonitorCustom custom = new RoomMonitorCustom();
+				custom.setIdRoom((String) record[0]);
+				custom.setName((String) record[1]);
+				custom.setArea((Integer) record[2]);
+				custom.setCustomersNum((Integer) record[3]);
+				custom.setRoomDescription((String) record[4]);
+				custom.setFloor((Integer) record[5]);
+				custom.setPriceIncurred((Double) record[6]);
+				custom.setRoomState((String) record[7]);
+				custom.setIdInvoice((String) record[8]);
+				custom.setCreateAt((Date) record[9]);
+				custom.setStartDate((Date) record[10]);
+				custom.setEndDate((Date) record[11]);
+				custom.setAdults((Integer) record[12]);
+				custom.setChildren((Integer) record[13]);
+				custom.setIdRoomType((String) record[14]);
+				custom.setNameRoomType((String) record[15]);
+				custom.setLogo((String) record[16]);
+				custom.setDescription((String) record[17]);
+				roomMonitorCustoms.add(custom);
+			}
+		}
+		return roomMonitorCustoms;
+	}
+	
 //	---------------------------------------INSERT---------------------------------------
 
 	@Override

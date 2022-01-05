@@ -8,24 +8,24 @@
                     <img th:src="${room_type.logo}" alt="" style="width: 100%; min-height: 450px">
                 </a>
 
-                <form class="vstack gap-2 border bg-light shadow p-3" id="form-checkin" style="width: 30%; min-height: 450px"
-                    enctype='multipart/form-data'>
+                <form class="vstack gap-2 border bg-light shadow p-3" id="form-checkin"
+                    style="width: 30%; min-height: 450px" enctype='multipart/form-data'>
                     <input type="hidden" id="id_room_type" th:value="${room_type.id}">
                     <input type="hidden" id="id-invoice" th:value="${ID_INVOICE}">
                     <h2 class="text-center text-primary">[[${room_type.name}]]</h2>
                     <h1 class="text-center fs-1">$[[${room_type.price}]]/Đêm</h1>
                     <div class="vstack gap-1">
                         <div class="form-floating w-100">
-                            <input type="date" class="form-control" id="start-date" placeholder="Ngày đặt"
-                                name="start-date" required>
+                            <input type="date" class="form-control" id="_start-date" placeholder="Ngày đặt"
+                                name="start-date" required autofocus>
                             <label for="start-date">Ngày đặt</label>
-                            <p class="text-danger text-center" id="start-date-message" style="font-size: 12px"></p>
+                            <p class="text-danger text-center" id="_start-date-message" style="font-size: 12px"></p>
                         </div>
                         <div class="form-floating w-100">
-                            <input type="date" class="form-control" id="end-date" placeholder="Ngày trả" name="end-date"
+                            <input type="date" class="form-control" id="_end-date" placeholder="Ngày trả" name="end-date"
                                 required>
                             <label for="end-date">Ngày trả</label>
-                            <p class="text-danger text-center" id="end-date-message" style="font-size: 12px"></p>
+                            <p class="text-danger text-center" id="_end-date-message" style="font-size: 12px"></p>
                         </div>
                         <div class="hstack gap-3">
                             <div class="form-floating w-50">
@@ -73,13 +73,14 @@
                                     <div class="d-flex w-100 justify-content-between">
                                         <h5 class="mb-1">[[${comment.account.name}]]</h5>
                                         <div class="text-warning">
-                                            [[${comment.rate} / 2]] <i class="fa fa-star" aria-hidden="true"></i> / 5 <i class="fa fa-star" aria-hidden="true"></i>
+                                            [[${comment.rate} / 2]] <i class="fa fa-star" aria-hidden="true"></i> / 5 <i
+                                                class="fa fa-star" aria-hidden="true"></i>
                                         </div>
                                     </div>
                                     <p class="mb-1">[[${comment.comment}]]</p>
                                     <div class="d-flex justify-content-between">
                                         <span class="badge bg-secondary">[[${comment.room.id}]]</span>
-                                        <small>[[${comment.modifiedAt}]]</small>
+                                        <small class="comment-time">[[${comment.modifiedAt}]]</small>
                                     </div>
                                 </div>
                             </div>
@@ -117,6 +118,9 @@
 
 
     <script>
+
+        
+
         document.addEventListener("DOMContentLoaded", () => {
             var $ = document.querySelector.bind(document)
             var $$ = document.querySelectorAll.bind(document)
@@ -133,7 +137,7 @@
 
             //Tạo hàm gọi api
             function fetchAPI(url, method, body) {
-                
+
                 fetch(url, {
                     method: method,
                     body: body
@@ -153,104 +157,168 @@
             }
 
             btnBookNow.addEventListener('click', (e) => {
-                myModal.show()
-                var formData = new FormData($('#form-checkin'))
+                if (!$('#_start-date-message').innerText && !$('#_end-date-message').innerText) {
+                    myModal.show()
+                    var formData = new FormData($('#form-checkin'))
 
-                fetch(`http://localhost:8081/api/room/${$('#id_room_type').value}
-                    /${Number(formData.get('adults')) + Number(formData.get('children'))}`)
-                    .then(resp => resp.json())
-                    .then(rooms => {
-                        modalFormRoomList.innerHTML = ''
-                        if (rooms.length <= 0) {
-                            modalFormRoomList.innerHTML = 'Tạm thời hết phòng. Quý khách thông cảm tìm loại phòng khác.'
-                        }
-                        rooms.map((room, i) => {
-                            modalFormRoomList.innerHTML += `
-                            <div class="vstack gap-1 border rounded-3 bg-light shadow p-3">
-                                <div class="hstack gap-3 d-flex justify-content-between">
-                                    <div>
-                                        <p>(${i}) Phòng ${room.name} - ${room.id}</p>
-                                        <div class='hstack gap-3'>
-                                            <p>Chi phí riêng: ${room.priceIncurred}$ </p>
-                                            <p>Tầng: ${room.floor}</p>
-                                            <p>Diện tích: ${room.area} m2</p>
-                                            <p>Tối đa: ${room.customersNum} người</p>
+                    fetch(`http://localhost:8081/api/room/${$('#id_room_type').value}
+                        /${Number(formData.get('adults')) + Number(formData.get('children'))}`)
+                        .then(resp => resp.json())
+                        .then(rooms => {
+                            modalFormRoomList.innerHTML = ''
+                            if (rooms.length <= 0) {
+                                modalFormRoomList.innerHTML = 'Tạm thời hết phòng. Quý khách thông cảm tìm loại phòng khác.'
+                            }
+                            rooms.map((room, i) => {
+                                modalFormRoomList.innerHTML += `
+                                <div class="vstack gap-1 border rounded-3 bg-light shadow p-3">
+                                    <div class="hstack gap-3 d-flex justify-content-between">
+                                        <div>
+                                            <p>(${i}) Phòng ${room.name} - ${room.id}</p>
+                                            <div class='hstack gap-3'>
+                                                <p>Chi phí riêng: ${room.priceIncurred}$ </p>
+                                                <p>Tầng: ${room.floor}</p>
+                                                <p>Diện tích: ${room.area} m2</p>
+                                                <p>Tối đa: ${room.customersNum} người</p>
+                                            </div>
+                                            <p>${room.description}</p>
+                                            <div class="hstack gap-3">
+                                                <a href="/home/deposit/${$('#room_type_id').value}" class="btn btn-primary">Đặt cọc</a>
+                                                <a href="/home/checkin/${$('#room_type_id').value}" class="btn btn-primary">Đặt ngay</a>
+                                            </div>    
                                         </div>
-                                        <p>${room.description}</p>
-                                        <div class="hstack gap-3">
-                                            <a href="/home/deposit/${$('#room_type_id').value}" class="btn btn-primary">Đặt cọc</a>
-                                            <a href="/home/checkin/${$('#room_type_id').value}" class="btn btn-primary">Đặt ngay</a>
-                                        </div>    
+                                        <span class="badge rounded-pill bg-primary">${room.roomState}</span>
+                                        <div class="form-check">
+                                            <input class="form-check-input checkbox-all" type="checkbox" id="${room.id}" name="${room.id}">
+                                            <label class="form-check-label" for="${room.id}">
+                                                Đặt
+                                            </label>
+                                        </div>
                                     </div>
-                                    <span class="badge rounded-pill bg-primary">${room.roomState}</span>
-                                    <div class="form-check">
-                                        <input class="form-check-input checkbox-all" type="checkbox" id="${room.id}" name="${room.id}">
-                                        <label class="form-check-label" for="${room.id}">
-                                            Đặt
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>`
+                                </div>`
 
-                            var checkboxAll = Array.from($$('.checkbox-all'))
-                            var modalBtnBox = $('#modal-btn-box')
+                                var checkboxAll = Array.from($$('.checkbox-all'))
+                                var modalBtnBox = $('#modal-btn-box')
 
 
-                            checkboxAll.forEach(element => {
-                                element.addEventListener('change', e => {
-                                    if (element.checked) {
-                                        modalBtnBox.innerHTML = `
-                                        <button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                        <button id="btn-deposit" class="btn btn-info">Đặt cọc</a>
-                                        <button id="btn-checkin-now" class="btn btn-success">Đặt ngay</button>`
+                                checkboxAll.forEach(element => {
+                                    element.addEventListener('change', e => {
+                                        if (element.checked) {
+                                            modalBtnBox.innerHTML = `
+                                            <button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                            <button id="btn-deposit" class="btn btn-info">Đặt cọc</a>
+                                            <button id="btn-checkin-now" class="btn btn-success">Đặt ngay</button>`
 
-                                        var btnCheckinNow = $('#btn-checkin-now')
-                                        var btnDeposit = $('#btn-deposit')
+                                            var btnCheckinNow = $('#btn-checkin-now')
+                                            var btnDeposit = $('#btn-deposit')
 
-                                        btnCheckinNow.addEventListener('click', e => {
-                                            var formData = new FormData(formCheckin);
+                                            btnCheckinNow.addEventListener('click', e => {
+                                                e.preventDefault()
+                                                
+                                                var formData = new FormData(formCheckin);
 
-                                            var rooms = []
-                                            var room = {}
+                                                var rooms = []
+                                                var room = {}
 
-                                            checkboxAll.forEach(element => {
-                                                if (element.checked) {
-                                                    room = { id: element.id }
-                                                    rooms.push(room)
-                                                }
+                                                checkboxAll.forEach(element => {
+                                                    if (element.checked) {
+                                                        room = { id: element.id }
+                                                        rooms.push(room)
+                                                    }
+                                                })
+
+
+                                                formData.append('roomType', new Blob([JSON.stringify({
+                                                    'id': $('#room_type_id').value
+                                                })], {
+                                                    type: 'application/json'
+                                                }))
+
+                                                formData.append('invoice', new Blob([JSON.stringify({
+                                                    'id': $('#id-invoice').value,
+                                                    'startDate': formData.get('start-date'),
+                                                    'endDate': formData.get('end-date'),
+                                                    'adults': formData.get('adults'),
+                                                    'children': formData.get('children'),
+                                                    'rooms': rooms
+                                                })], {
+                                                    type: 'application/json'
+                                                }))
+
+                                                fetchAPI(`/home/checkin`, 'POST', formData)
                                             })
+                                        }
 
-
-                                            formData.append('roomType', new Blob([JSON.stringify({
-                                                'id': $('#room_type_id').value
-                                            })], {
-                                                type: 'application/json'
-                                            }))
-
-                                            formData.append('invoice', new Blob([JSON.stringify({
-                                                'id': $('#id-invoice').value,
-                                                'startDate': formData.get('start-date'),
-                                                'endDate': formData.get('end-date'),
-                                                'adults': formData.get('adults'),
-                                                'children': formData.get('children'),
-                                                'rooms': rooms
-                                            })], {
-                                                type: 'application/json'
-                                            }))
-
-                                            fetchAPI(`/home/checkin`, 'POST', formData)
-                                        })
-                                    }
-
-                                    if (checkboxAll.every(element => { return !element.checked })) {
-                                        modalBtnBox.innerHTML = `
-                                        <button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>`
-                                    }
-                                })
-                            });
+                                        if (checkboxAll.every(element => { return !element.checked })) {
+                                            modalBtnBox.innerHTML = `
+                                            <button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>`
+                                        }
+                                    })
+                                });
+                            })
                         })
-                    })
-            })
+                    } else return
+                })
+        })
+    </script>
+
+    <script>
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        var DateDiff = {
+
+            inDays: function (d1, d2) {
+                var t2 = d2.getTime();
+                var t1 = d1.getTime();
+
+                return Math.floor((t2 - t1) / (24 * 3600 * 1000));
+            },
+
+            inWeeks: function (d1, d2) {
+                var t2 = d2.getTime();
+                var t1 = d1.getTime();
+
+                return parseInt((t2 - t1) / (24 * 3600 * 1000 * 7));
+            },
+
+            inMonths: function (d1, d2) {
+                var d1Y = d1.getFullYear();
+                var d2Y = d2.getFullYear();
+                var d1M = d1.getMonth();
+                var d2M = d2.getMonth();
+
+                return (d2M + 12 * d2Y) - (d1M + 12 * d1Y);
+            },
+
+            inYears: function (d1, d2) {
+                return d2.getFullYear() - d1.getFullYear();
+            }
+        }
+
+        // validate form
+        var startDateMessage = $('#_start-date-message')
+        var endDateMessage = $('#_end-date-message')
+        var startDate = $('#_start-date')
+        var endDate = $('#_end-date')
+        var commentTime = $$('.comment-time')
+
+        commentTime.forEach(element => {
+            var dateNow = new Date()
+            element.innerText = `${DateDiff.inDays(new Date(element.innerText), dateNow)} ngày trước.`
+        })
+
+
+        
+        startDate.addEventListener('change', (e) => {
+            var dateNow = new Date()
+            var resultCheckStartDate = DateDiff.inDays(dateNow, new Date(startDate.value))
+            startDateMessage.innerText = (resultCheckStartDate < -1) ? `Ngày đặt không hợp lệ` : ''
+        })
+
+        endDate.addEventListener('change', (e) => {
+            var resultCheckEndDate = DateDiff.inDays(new Date(startDate.value), new Date(endDate.value))
+            endDateMessage.innerText = (resultCheckEndDate < 0 || resultCheckEndDate > 20) ? `Ngày trả không hợp lệ` : ''
         })
     </script>
 

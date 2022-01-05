@@ -8,6 +8,7 @@ import com.pihotel.entity.AccountEntity;
 import com.pihotel.entity.InvoiceEntity;
 import com.pihotel.entity.InvoiceServiceEntity;
 import com.pihotel.entity.RoomEntity;
+import com.pihotel.entity.custom.RoomMonitorCustom;
 import com.pihotel.entity.enums.ERoomState;
 
 public interface IRoomServ {
@@ -39,6 +40,8 @@ public interface IRoomServ {
 	public void saveBooking(AccountEntity customer, RoomEntity room, InvoiceEntity invoice, InvoiceServiceEntity invoiceService);
 	
 	public List<RoomEntity> searchRoom(String keyword);
+	
+	public List<RoomMonitorCustom> findAllByIdAccount(String idAccount);
 	
 }
 

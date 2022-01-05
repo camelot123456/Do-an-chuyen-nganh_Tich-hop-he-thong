@@ -6,25 +6,102 @@
 
         <div class="vstack gap-3">
 
-
-            <div class="card mb-3">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                        additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="hstack gap-3 ">
-                        <p>[[${NOW_DATE}]]</p>
-                        <p></p>
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+            <th:block th:each="monitor, state : ${MONITORS}">
+                <div class="card mb-3">
+                    <img th:src="${monitor.logo}" class="card-img-top" th:alt="${monitor.nameRoomType}"
+                        style="height: 80%">
+                    <div class="card-body">
+                        <div class="hstack gap-3">
+                            <h5 class="card-title" style="margin-bottom: 1px;">[[${monitor.nameRoomType}]]</h5>
+                            <span class="badge bg-secondary">[[${monitor.idRoom}]]</span>
+                            <span class="badge bg-secondary">[[${monitor.name}]]</span>
+                            <span class="badge bg-secondary">[[${monitor.roomState}]]</span>
+                            <span class="badge bg-secondary">Tối đa: [[${monitor.customersNum}]] người</span>
+                            <span class="badge bg-secondary">Diện tích: [[${monitor.area}]]m2</span>
+                            <span class="badge bg-secondary">Giá phát sinh: [[${monitor.priceIncurred}]]$</span>
+                            <span class="badge bg-secondary">Tầng: [[${monitor.floor}]]</span>
+                        </div>
+                        <p class="card-text">[[${monitor.description}]].</p>
+                        <p class="card-text"><small class="text-muted lbl-create-at"
+                                th:text="${#dates.format(monitor.createAt, 'MM/dd/yyyy')}"></small></p>
+                        <div class="hstack gap-3 d-flex justify-content-between">
+                            <p class="lbl-start" th:text="${#dates.format(monitor.startDate, 'MM/dd/yyyy')}"></p>
+                            <p class="lbl-now"></p>
+                            <p class="lbl-end" th:text="${#dates.format(monitor.endDate, 'MM/dd/yyyy')}"></p>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar-value progress-bar progress-bar-striped progress-bar-animated"
+                                role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                style="width: 100%"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </th:block>
         </div>
     </div>
+
+    <script>
+        var $ = document.querySelector.bind(document)
+        var $$ = document.querySelectorAll.bind(document)
+
+        var DateDiff = {
+
+            inDays: function (d1, d2) {
+                var t2 = d2.getTime();
+                var t1 = d1.getTime();
+
+                return Math.floor((t2 - t1) / (24 * 3600 * 1000));
+            },
+
+            inWeeks: function (d1, d2) {
+                var t2 = d2.getTime();
+                var t1 = d1.getTime();
+
+                return parseInt((t2 - t1) / (24 * 3600 * 1000 * 7));
+            },
+
+            inMonths: function (d1, d2) {
+                var d1Y = d1.getFullYear();
+                var d2Y = d2.getFullYear();
+                var d1M = d1.getMonth();
+                var d2M = d2.getMonth();
+
+                return (d2M + 12 * d2Y) - (d1M + 12 * d1Y);
+            },
+
+            inYears: function (d1, d2) {
+                return d2.getFullYear() - d1.getFullYear();
+            }
+        }
+
+        var lblStart = Array.from($$('.lbl-start'))
+        var lblNow = Array.from($$('.lbl-now'))
+        var lblEnd = Array.from($$('.lbl-end'))
+        var lblCreateAt = Array.from($$('.lbl-create-at'))
+        var progressBarValue = Array.from($$('.progress-bar-value'))
+
+        lblCreateAt.forEach(element => {
+            //element.innerText = DateDiff.inDays(new Date(element.innerText), new Date().toLocaleDateString("en-US"))
+        })
+
+        lblNow.forEach(element => {
+            element.innerText = new Date().toLocaleDateString("en-US")
+        })
+
+        for (var i = 0; i < lblStart.length; i++) {
+            var detailProgressBar = {
+                start: lblStart[i].innerText,
+                now: lblNow[i].innerText,
+                end: lblEnd[i].innerText,
+                dateExpected: DateDiff.inDays(new Date(lblStart[i].innerText), new Date(lblEnd[i].innerText)),
+                dateNow: DateDiff.inDays(new Date(lblNow[i].innerText), new Date(lblEnd[i].innerText)) <= 0 ? 0 : DateDiff.inDays(new Date(lblNow[i].innerText), new Date(lblEnd[i].innerText))
+            }
+
+            progressBarValue[i].style.width = `${Math.floor(detailProgressBar.dateNow * 100 / detailProgressBar.dateExpected)}%`
+
+        }
+
+
+    </script>
 
 </th:block>

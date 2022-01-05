@@ -21,6 +21,18 @@ public interface IRoomRepo extends JpaRepository<RoomEntity, String>{
 	
 	public RoomEntity findOneById(String id);
 	
+	@Query(value = "select r.id as idRoom, r.name, r.area, r.customers_num, r.[description] as roomDescription, r.[floor], \n" + 
+			"r.price_incurred, r.room_state, i.id as idInvoice, i.create_at, i.[start_date], i.end_date, i.adults, i.children, \n" + 
+			"rt.id as idRoomtype, rt.name as nameRoomType, rt.logo, rt.[description] \n" +
+			"from account a inner join invoice i  \n" + 
+			"on a.id = i.id_account inner join invoice_room ir \n" + 
+			"on i.id = ir.id_invoice inner join room r \n" + 
+			"on ir.id_room = r.id inner join room_type rt \n" + 
+			"on r.id_room_type = rt.id \n" + 
+			"where a.id = ?1",
+			nativeQuery = true)
+	public List<Object[]> findAllByIdAccount(String idAccount);
+	
 	@Query("select r from RoomEntity r where r.name like %?1% "
 			+ "or r.roomState like %?1% "
 			+ "or concat(r.area, '') like %?1% "

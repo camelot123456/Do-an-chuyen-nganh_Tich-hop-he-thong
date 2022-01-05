@@ -73,7 +73,8 @@ public class HomeController {
 	
 	@RequestMapping(value = "/monitor")
 	public String showMonitor(@Param("id") String id, Model model) {
-		model.addAttribute("NOW_DATE", new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+//		model.addAttribute("NOW_DATE", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		model.addAttribute("MONITORS", roomServ.findAllByIdAccount(id));
 		return "home/bodys/monitor/monitor";
 	}
 
